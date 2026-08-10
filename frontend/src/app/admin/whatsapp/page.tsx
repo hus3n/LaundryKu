@@ -1,0 +1,398 @@
+'use client';
+
+import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
+import DashboardLayout from '@/components/layouts/DashboardLayout';
+import { api } from '@/lib/api';
+import { 
+  QrCode, 
+  Wifi, 
+  WifiOff, 
+  RefreshCw, 
+  MessageSquare, 
+  Send, 
+  Save, 
+  CheckCircle2, 
+  AlertCircle,
+  Clock,
+  Code
+} from 'lucide-react';
+
+export default function WhatsAppPairingPage() {
+  const [status, setStatus] = useState<'DISCONNECTED' | 'CONNECTING' | 'CONNECTED'>('DISCONNECTED');
+  const [phoneConnected, setPhoneConnected] = useState<string | null>(null);
+  const [qrCode, setQrCode] = useState<string | null>(null);
+  const [loadingStatus, setLoadingStatus] = useState(true);
+
+  const [templates, setTemplates] = useState<any[]>([]);
+  const [selectedTemplateId, setSelectedTemplateId] = useState<string | null>(null);
+  const [templateContent, setTemplateContent] = useState('');
+  const [savingTemplate, setSavingTemplate] = useState(false);
+
+  // Custom Message Form
+  const [customPhone, setCustomPhone] = useState('');
+  const [customName, setCustomName] = useState('');
+  const [customMsg, setCustomMsg] = useState('');
+  const [sendingMsg, setSendingMsg] = useState(false);
+  const [customSuccess, setCustomSuccess] = useState<string | null>(null);
+
+  const [pendingQueueCount, setPendingQueueCount] = useState<number>(0);
+
+  const loadWAStatus = async () => {
+    try {
+      const res = await api.get('/whatsapp/status');
+      const data = res.data.data;
+      if (data) {
+        setStatus(data.status);
+        setPhoneConnected(data.phoneConnected || null);
+        setQrCode(data.qrCode || null);
+        if (typeof data.pendingQueueCount === 'number') {
+          setPendingQueueCount(data.pendingQueueCount);
+        }
+      }
+    } catch (err) {
+      console.error('Failed to load WA status', err);
+    } finally {
+      setLoadingStatus(false);
+    }
+  };
+
+  const loadTemplates = async () => {
+    try {
+      const res = await api.get('/whatsapp/templates');
+      const list = res.data.data || [];
+      setTemplates(list);
+      if (list.length > 0) {
+        setSelectedTemplateId(list[0]._id);
+        setTemplateContent(list[0].content);
+      }
+    } catch (err) {
+      console.error('Failed to load templates', err);
+    }
+  };
+
+  useEffect(() => {
+    loadWAStatus();
+    loadTemplates();
+
+    // Auto-poll WA status every 4s continuously so refresh and status changes are instant
+    const interval = setInterval(() => {
+      loadWAStatus();
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const handleConnect = async () => {
+    setLoadingStatus(true);
+    try {
+      const res = await api.post('/whatsapp/connect');
+      setStatus(res.data.data.status);
+      setQrCode(res.data.data.qrCode);
+    } catch (err: any) {
+      alert(err.response?.data?.error || 'Gagal memulai pairing WhatsApp');
+    } finally {
+      setLoadingStatus(false);
+    }
+  };
+
+  const handleSimulatePairing = async () => {
+    try {
+      const testPhone = prompt('Masukkan nomor WhatsApp toko (contoh: 081234567890):', '081234567890');
+      if (testPhone) {
+        await api.post('/whatsapp/confirm-simulated', { phone: testPhone });
+        loadWAStatus();
+      }
+    } catch (err: any) {
+      alert(err.response?.data?.error || 'Gagal pairing');
+    }
+  };
+
+  const handleDisconnect = async () => {
+    if (confirm('Putuskan koneksi WhatsApp toko ini? Notifikasi otomatis akan tertunda.')) {
+      try {
+        await api.post('/whatsapp/disconnect');
+        loadWAStatus();
+      } catch (err: any) {
+        alert(err.response?.data?.error || 'Gagal memutuskan WA');
+      }
+    }
+  };
+
+  const handleSelectTemplate = (id: string) => {
+    setSelectedTemplateId(id);
+    const tmpl = templates.find((t) => t._id === id);
+    if (tmpl) {
+      setTemplateContent(tmpl.content);
+    }
+  };
+
+  const handleSaveTemplate = async () => {
+    if (!selectedTemplateId) return;
+    setSavingTemplate(true);
+    try {
+      await api.put(`/whatsapp/templates/${selectedTemplateId}`, { content: templateContent });
+      alert('Template pesan berhasil disimpan!');
+      loadTemplates();
+    } catch (err: any) {
+      alert(err.response?.data?.error || 'Gagal menyimpan template');
+    } finally {
+      setSavingTemplate(false);
+    }
+  };
+
+  const handleSendCustom = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSendingMsg(true);
+    setCustomSuccess(null);
+
+    try {
+      await api.post('/whatsapp/send-custom', {
+        recipientPhone: customPhone,
+        recipientName: customName,
+        message: customMsg,
+      });
+
+      setCustomSuccess('Pesan telah dimasukkan ke antrian pengiriman (jeda 10 detik).');
+      setCustomPhone('');
+      setCustomName('');
+      setCustomMsg('');
+    } catch (err: any) {
+      alert(err.response?.data?.error || 'Gagal mengirim pesan custom');
+    } finally {
+      setSendingMsg(false);
+    }
+  };
+
+  return (
+    <DashboardLayout>
+      <div className="space-y-8">
+        <div>
+          <h1 className="text-2xl font-bold text-white">Integrasi WhatsApp Toko</h1>
+          <p className="text-xs text-slate-400 mt-1">Pairing perangkat WhatsApp gateway, atur template pesan, dan pengiriman notifikasi</p>
+        </div>
+
+        {/* Pairing Status Card */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="md:col-span-1 glass-card-dark p-6 rounded-3xl border border-slate-800 space-y-6 text-center">
+            <div className="flex justify-between items-center text-xs">
+              <span className="text-slate-400">Status Koneksi WA:</span>
+              <span
+                className={`px-3 py-1 rounded-full font-bold flex items-center gap-1.5 ${
+                  status === 'CONNECTED'
+                    ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
+                    : status === 'CONNECTING'
+                    ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
+                    : 'bg-rose-500/20 text-rose-300 border border-rose-500/30'
+                }`}
+              >
+                {status === 'CONNECTED' ? (
+                  <>
+                    <Wifi className="w-3.5 h-3.5" /> Terhubung
+                  </>
+                ) : status === 'CONNECTING' ? (
+                  <>
+                    <RefreshCw className="w-3.5 h-3.5 animate-spin" /> Pairing...
+                  </>
+                ) : (
+                  <>
+                    <WifiOff className="w-3.5 h-3.5" /> Terputus
+                  </>
+                )}
+              </span>
+            </div>
+
+            {/* Pending Queue Count Badge if WA is offline and messages are waiting */}
+            {pendingQueueCount > 0 && (
+              <div className="p-3 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs flex items-center justify-between">
+                <span className="flex items-center gap-1.5 font-medium">
+                  <Clock className="w-3.5 h-3.5 text-amber-400" /> Antrean Pesan (Tertahan):
+                </span>
+                <span className="font-bold text-amber-200 bg-amber-500/20 px-2.5 py-0.5 rounded-full border border-amber-500/40">
+                  {pendingQueueCount} Pesan
+                </span>
+              </div>
+            )}
+
+            {/* QR Container */}
+            <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 flex flex-col items-center justify-center min-h-[220px]">
+              {status === 'CONNECTED' ? (
+                <div className="space-y-3 py-4">
+                  <div className="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto border border-emerald-500/30">
+                    <CheckCircle2 className="w-10 h-10" />
+                  </div>
+                  <h4 className="font-bold text-white text-sm">WA Toko Aktif</h4>
+                  <p className="text-xs text-slate-400">{phoneConnected || '0812-3456-7890'}</p>
+                </div>
+              ) : qrCode ? (
+                <div className="space-y-3">
+                  <div className="relative w-48 h-48 mx-auto bg-white p-2 rounded-xl border">
+                    <img src={qrCode} alt="WhatsApp QR Code" className="w-full h-full object-contain" />
+                  </div>
+                  <p className="text-[11px] text-amber-300">Scan QR Code dengan WhatsApp HP Toko</p>
+                  <button
+                    onClick={handleSimulatePairing}
+                    className="px-3 py-1.5 rounded-lg bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 text-[11px] font-semibold hover:bg-emerald-500/30"
+                  >
+                    Simulasi Pairing Berhasil
+                  </button>
+                </div>
+              ) : (
+                <div className="space-y-3 py-6">
+                  <QrCode className="w-12 h-12 text-slate-600 mx-auto" />
+                  <p className="text-xs text-slate-400">Klik "Hubungkan WA" untuk generate QR Code</p>
+                </div>
+              )}
+            </div>
+
+            <div className="flex gap-3">
+              {status === 'CONNECTED' ? (
+                <button
+                  onClick={handleDisconnect}
+                  className="w-full py-2.5 rounded-xl bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 text-xs font-semibold border border-rose-500/30 transition-all"
+                >
+                  Putuskan Koneksi WA
+                </button>
+              ) : (
+                <button
+                  onClick={handleConnect}
+                  disabled={loadingStatus}
+                  className="w-full py-2.5 rounded-xl bg-brand-500 hover:bg-brand-400 text-white text-xs font-semibold shadow-lg shadow-brand-500/20 transition-all flex items-center justify-center gap-2"
+                >
+                  <RefreshCw className={`w-4 h-4 ${loadingStatus ? 'animate-spin' : ''}`} />
+                  Hubungkan WA Toko
+                </button>
+              )}
+            </div>
+          </div>
+
+          {/* Template Editor */}
+          <div className="md:col-span-2 glass-card-dark p-6 rounded-3xl border border-slate-800 space-y-6">
+            <div className="flex items-center justify-between">
+              <h3 className="text-base font-bold text-white flex items-center gap-2">
+                <Code className="w-4 h-4 text-brand-400" /> Editor Template Pesan WA
+              </h3>
+              <button
+                onClick={handleSaveTemplate}
+                disabled={savingTemplate}
+                className="px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-white text-xs font-semibold shadow-lg shadow-emerald-500/20 transition-all flex items-center gap-1.5 disabled:opacity-50"
+              >
+                <Save className="w-4 h-4" /> Simpan Template
+              </button>
+            </div>
+
+            {/* Template Selector */}
+            <div className="flex gap-2 overflow-x-auto pb-2">
+              {templates.map((tmpl) => (
+                <button
+                  key={tmpl._id}
+                  onClick={() => handleSelectTemplate(tmpl._id)}
+                  className={`px-3 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all border ${
+                    selectedTemplateId === tmpl._id
+                      ? 'bg-brand-500 text-white border-brand-400 shadow-md'
+                      : 'bg-slate-900 text-slate-400 border-slate-800 hover:text-white'
+                  }`}
+                >
+                  {tmpl.name}
+                </button>
+              ))}
+            </div>
+
+            {/* Editor Area */}
+            <div className="space-y-3">
+              <textarea
+                rows={7}
+                value={templateContent}
+                onChange={(e) => setTemplateContent(e.target.value)}
+                className="w-full p-4 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-brand-500 font-mono leading-relaxed"
+              />
+
+              {/* Dynamic Variables Guide */}
+              <div className="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800 text-[11px] text-slate-400 space-y-1">
+                <p className="font-semibold text-slate-300">Variabel Dinamis yang Tersedia:</p>
+                <div className="flex flex-wrap gap-2 text-[10px]">
+                  <span className="px-2 py-0.5 rounded bg-slate-800 text-brand-300 font-mono">&#123;&#123;nama_pelanggan&#125;&#125;</span>
+                  <span className="px-2 py-0.5 rounded bg-slate-800 text-brand-300 font-mono">&#123;&#123;no_nota&#125;&#125;</span>
+                  <span className="px-2 py-0.5 rounded bg-slate-800 text-brand-300 font-mono">&#123;&#123;detail_item&#125;&#125;</span>
+                  <span className="px-2 py-0.5 rounded bg-slate-800 text-brand-300 font-mono">&#123;&#123;total_harga&#125;&#125;</span>
+                  <span className="px-2 py-0.5 rounded bg-slate-800 text-brand-300 font-mono">&#123;&#123;status_bayar&#125;&#125;</span>
+                  <span className="px-2 py-0.5 rounded bg-slate-800 text-brand-300 font-mono">&#123;&#123;estimasi_selesai&#125;&#125;</span>
+                  <span className="px-2 py-0.5 rounded bg-slate-800 text-brand-300 font-mono">&#123;&#123;nama_toko&#125;&#125;</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Custom Message Sender */}
+        <div className="glass-card-dark p-6 rounded-3xl border border-slate-800 space-y-4">
+          <div className="flex items-center justify-between">
+            <h3 className="text-base font-bold text-white flex items-center gap-2">
+              <MessageSquare className="w-4 h-4 text-brand-400" /> Kirim Pesan Custom via WA Toko
+            </h3>
+            <span className="text-[11px] text-amber-300 flex items-center gap-1">
+              <Clock className="w-3.5 h-3.5" /> Jeda 10 detik per pengiriman pesan
+            </span>
+          </div>
+
+          {customSuccess && (
+            <div className="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs flex items-center gap-2">
+              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+              {customSuccess}
+            </div>
+          )}
+
+          <form onSubmit={handleSendCustom} className="space-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-semibold text-slate-300 mb-1">Nama Penerima</label>
+                <input
+                  type="text"
+                  required
+                  value={customName}
+                  onChange={(e) => setCustomName(e.target.value)}
+                  placeholder="Contoh: Ibu Rina"
+                  className="w-full px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-brand-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-slate-300 mb-1">Nomor WA Penerima</label>
+                <input
+                  type="text"
+                  required
+                  value={customPhone}
+                  onChange={(e) => setCustomPhone(e.target.value)}
+                  placeholder="081234567890"
+                  className="w-full px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-brand-500"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold text-slate-300 mb-1">Isi Pesan Custom</label>
+              <textarea
+                rows={3}
+                required
+                value={customMsg}
+                onChange={(e) => setCustomMsg(e.target.value)}
+                placeholder="Masukkan isi pesan yang ingin dikirim..."
+                className="w-full p-3.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-brand-500"
+              />
+            </div>
+
+            <div className="flex justify-end">
+              <button
+                type="submit"
+                disabled={sendingMsg}
+                className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-brand-500 to-brand-600 hover:from-brand-400 hover:to-brand-500 text-white font-semibold text-xs shadow-lg shadow-brand-500/20 transition-all flex items-center gap-2 disabled:opacity-50"
+              >
+                <Send className="w-4 h-4" /> Masukkan Antrian Kirim
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </DashboardLayout>
+  );
+}

@@ -1,0 +1,169 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  SUPERADMIN
+  ADMIN
+  EMPLOYEE
+}
+
+enum OrderStatus {
+  RECEIVED
+  IN_PROGRESS
+  DONE
+  PICKED_UP
+}
+
+enum PaymentStatus {
+  UNPAID
+  PAID
+}
+
+model User {
+  id            String    @id @default(uuid())
+  email         String    @unique
+  password      String
+  name          String
+  phone         String?
+  role          Role      @default(EMPLOYEE)
+  isActive      Boolean   @default(true)
+  adminId       String?
+  adminRef      Admin?    @relation("AdminUser")
+  adminOwner    Admin?    @relation("AdminEmployees", fields: [adminId], references: [id], onDelete: Cascade)
+  resetToken    String?
+  resetExpires  DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  ordersTaken   LaundryOrder[] @relation("EmployeeOrders")
+  activityLogs  ActivityLog[]
+  notifications Notification[]
+}
+
+model Admin {
+  id              String    @id @default(uuid())
+  userId          String    @unique
+  user            User      @relation("AdminUser", fields: [userId], references: [id], onDelete: Cascade)
+  storeName       String
+  storeAddress    String?
+  storeLogo       String?
+  storePhone      String?
+  operatingHours  Json?
+  subscriptionEnd DateTime
+  isActive        Boolean   @default(true)
+  isTrial         Boolean   @default(false)
+  trialDays       Int?
+  isDeleted       Boolean   @default(false)
+  deletedAt       DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  employees       User[]          @relation("AdminEmployees")
+  packages        Package[]
+  categories      Category[]
+  customers       Customer[]
+  orders          LaundryOrder[]
+}
+
+model LaundryOrder {
+  id            String        @id @default(uuid())
+  orderNumber   String        @unique
+  customerId    String
+  customer      Customer      @relation(fields: [customerId], references: [id], onDelete: Restrict)
+  employeeId    String
+  employee      User          @relation("EmployeeOrders", fields: [employeeId], references: [id], onDelete: Restrict)
+  adminId       String
+  admin         Admin         @relation(fields: [adminId], references: [id], onDelete: Cascade)
+  status        OrderStatus   @default(RECEIVED)
+  paymentStatus PaymentStatus @default(UNPAID)
+  totalPrice    Decimal       @db.Decimal(12, 2)
+  notes         String?
+  dateIn        DateTime      @default(now())
+  estimatedDone DateTime?
+  dateOut       DateTime?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  items         LaundryItem[]
+}
+
+model LaundryItem {
+  id          String       @id @default(uuid())
+  orderId     String
+  order       LaundryOrder @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  packageId   String
+  package     Package      @relation(fields: [packageId], references: [id], onDelete: Restrict)
+  categoryId  String
+  category    Category     @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  quantity    Decimal      @db.Decimal(8, 2)
+  price       Decimal      @db.Decimal(12, 2)
+  subtotal    Decimal      @db.Decimal(12, 2)
+}
+
+model Package {
+  id                String   @id @default(uuid())
+  adminId           String
+  admin             Admin    @relation(fields: [adminId], references: [id], onDelete: Cascade)
+  name              String
+  unit              String   // kg, pcs, meter, pasang, dll
+  price             Decimal  @db.Decimal(12, 2)
+  estimatedDuration Int      @default(24) // dalam jam
+  isActive          Boolean  @default(true)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  items             LaundryItem[]
+}
+
+model Category {
+  id        String   @id @default(uuid())
+  adminId   String
+  admin     Admin    @relation(fields: [adminId], references: [id], onDelete: Cascade)
+  name      String   // Kiloan, Satuan, Bed Cover, Karpet, dll
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  items     LaundryItem[]
+}
+
+model Customer {
+  id        String   @id @default(uuid())
+  adminId   String
+  admin     Admin    @relation(fields: [adminId], references: [id], onDelete: Cascade)
+  name      String
+  phone     String   // Nomor WhatsApp
+  address   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  orders    LaundryOrder[]
+}
+
+model ActivityLog {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  action    String
+  entity    String
+  entityId  String?
+  details   Json?
+  createdAt DateTime @default(now())
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String
+  message   String
+  isRead    Boolean  @default(false)
+  type      String   @default("INFO")
+  createdAt DateTime @default(now())
+}

@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    container_name: laundryku-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: laundryku
+      POSTGRES_PASSWORD: laundryku_secret_2026
+      POSTGRES_DB: laundryku
+    ports:
+      - '5433:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U laundryku']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # MongoDB (WhatsApp data)
+  mongodb:
+    image: mongo:7
+    container_name: laundryku-mongodb
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_DATABASE: laundryku_wa
+    ports:
+      - '27018:27017'
+    volumes:
+      - mongodata:/data/db
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: laundryku-redis
+    restart: unless-stopped
+    ports:
+      - '6380:6379'
+    volumes:
+      - redisdata:/data
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  pgdata:
+  mongodata:
+  redisdata:

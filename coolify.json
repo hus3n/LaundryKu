@@ -1,0 +1,29 @@
+{
+  "$schema": "https://coolify.io/docs/coolify.json",
+  "name": "LaundryKu v1.0",
+  "description": "Deployment configuration for LaundryKu v1.0 on Coolify Self-Hosted Server",
+  "type": "docker-compose",
+  "composeFile": "docker-compose.prod.yml",
+  "env": [
+    {
+      "key": "POSTGRES_PASSWORD",
+      "value": "generate_secret",
+      "description": "PostgreSQL database password"
+    },
+    {
+      "key": "JWT_SECRET",
+      "value": "generate_secret",
+      "description": "JSON Web Token Secret Key"
+    },
+    {
+      "key": "FRONTEND_URL",
+      "value": "https://laundryku.yourdomain.com",
+      "description": "Public domain URL of the Next.js frontend"
+    },
+    {
+      "key": "NEXT_PUBLIC_API_URL",
+      "value": "https://api.laundryku.yourdomain.com/api",
+      "description": "Public API gateway URL"
+    }
+  ]
+}
