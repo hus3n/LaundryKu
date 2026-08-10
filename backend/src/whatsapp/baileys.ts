@@ -222,7 +222,7 @@ export async function initiateWAPairing(adminId: string) {
           order = await prisma.laundryOrder.findFirst({
             where: {
               adminId,
-              orderNumber: { contains: searchStr, mode: 'insensitive' },
+              orderNumber: { contains: searchStr, mode: 'insensitive' } as any,
             },
             include: { customer: true, items: { include: { package: true, category: true } } },
             orderBy: { createdAt: 'desc' },
@@ -238,7 +238,7 @@ export async function initiateWAPairing(adminId: string) {
               OR: [
                 { orderNumber: { endsWith: digitsOnly } },
                 { orderNumber: { endsWith: paddedDigits } },
-                { orderNumber: { contains: digitsOnly, mode: 'insensitive' } },
+                { orderNumber: { contains: digitsOnly, mode: 'insensitive' } as any },
               ],
             },
             include: { customer: true, items: { include: { package: true, category: true } } },
@@ -315,7 +315,9 @@ ${order.notes ? `📝 *CATATAN*: ${order.notes}\n` : ''}
 
 Terima kasih telah mempercayakan pakaian Anda kepada kami! Jika ada pertanyaan lebih lanjut, silakan balas pesan ini. 🙏😊`;
 
-          await sock.sendMessage(msg.key.remoteJid, { text: replyMessage });
+          if (msg.key.remoteJid) {
+            await sock.sendMessage(msg.key.remoteJid, { text: replyMessage });
+          }
         }
       }
     } catch (err: any) {
@@ -447,4 +449,27 @@ export async function sendOrderWANotification(
   } catch (e) {
     // Fail-safe wrapper
   }
+}
+
+export async function confirmWAPairingSimulated(adminId: string, phone: string) {
+  activeSessions[adminId] = {
+    status: 'CONNECTED',
+    phoneConnected: phone,
+    qrCode: undefined,
+  };
+
+  try {
+    if (isMongoConnected()) {
+      await WASession.findOneAndUpdate(
+        { adminId },
+        { status: 'CONNECTED', phoneConnected: phone, qrCode: null as any },
+        { upsert: true }
+      );
+    }
+  } catch (e) {}
+
+  return {
+    status: 'CONNECTED',
+    phoneConnected: phone,
+  };
 }

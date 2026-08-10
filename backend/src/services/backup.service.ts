@@ -92,10 +92,10 @@ export async function createBackupArchive(): Promise<{
     // Create ZIP archive
     await new Promise<void>((resolve, reject) => {
       const output = fs.createWriteStream(zipPath);
-      const archive = archiver('zip', { zlib: { level: 9 } });
+      const archive = (archiver as any)('zip', { zlib: { level: 9 } });
 
       output.on('close', () => resolve());
-      archive.on('error', (err) => reject(err));
+      archive.on('error', (err: any) => reject(err));
 
       archive.pipe(output);
       archive.directory(tempDir, false);
@@ -189,6 +189,7 @@ export async function restoreFromBackup(zipFilePath: string): Promise<{
   stats: Record<string, number>;
   message: string;
 }> {
+  // @ts-ignore
   const unzipper = (await import('unzipper')).default;
   const extractDir = path.join(BACKUP_DIR, `restore-${Date.now()}`);
   const stats: Record<string, number> = {};

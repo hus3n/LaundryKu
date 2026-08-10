@@ -43,7 +43,7 @@ export async function editPackage(req: AuthenticatedRequest, res: Response, next
       res.status(400).json({ success: false, error: 'ID Toko tidak ditemukan.' });
       return;
     }
-    const updated = await updatePackage(id, adminId, req.body);
+    const updated = await updatePackage(id as string, adminId as string, req.body);
     res.json({ success: true, message: 'Paket berhasil diperbarui.', data: updated });
   } catch (error: any) {
     res.status(400).json({ success: false, error: error.message });
@@ -58,7 +58,7 @@ export async function removePackage(req: AuthenticatedRequest, res: Response, ne
       res.status(400).json({ success: false, error: 'ID Toko tidak ditemukan.' });
       return;
     }
-    await deletePackage(id, adminId);
+    await deletePackage(id as string, adminId as string);
     res.json({ success: true, message: 'Paket berhasil dihapus.' });
   } catch (error: any) {
     res.status(400).json({ success: false, error: error.message });

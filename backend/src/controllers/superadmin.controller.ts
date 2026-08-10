@@ -48,7 +48,7 @@ export async function extendSubscription(req: AuthenticatedRequest, res: Respons
     const { id } = req.params;
     const { additionalMonths } = req.body;
 
-    const updated = await extendAdminSubscription(id, additionalMonths || 1);
+    const updated = await extendAdminSubscription(id as string, additionalMonths || 1);
     res.json({
       success: true,
       message: `Masa aktif berhasil diperpanjang ${additionalMonths} bulan.`,
@@ -64,7 +64,7 @@ export async function toggleStatus(req: AuthenticatedRequest, res: Response, nex
     const { id } = req.params;
     const { isActive } = req.body;
 
-    const updated = await toggleAdminStatus(id, isActive);
+    const updated = await toggleAdminStatus(id as string, isActive);
     res.json({
       success: true,
       message: `Status akun Admin diubah menjadi ${isActive ? 'Aktif' : 'Non-Aktif'}.`,
@@ -78,7 +78,7 @@ export async function toggleStatus(req: AuthenticatedRequest, res: Response, nex
 export async function removeAdmin(req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> {
   try {
     const { id } = req.params;
-    await deleteAdmin(id);
+    await deleteAdmin(id as string);
     res.json({ success: true, message: 'Akun Admin berhasil dihapus.' });
   } catch (error: any) {
     res.status(400).json({ success: false, error: error.message });

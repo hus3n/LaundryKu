@@ -54,7 +54,7 @@ export async function changeOrderStatus(req: AuthenticatedRequest, res: Response
       return;
     }
 
-    const updated = await updateOrderStatus(id, adminId, status);
+    const updated = await updateOrderStatus(id as string, adminId as string, status);
     res.json({
       success: true,
       message: `Status cucian diperbarui menjadi ${status}.`,
@@ -76,7 +76,7 @@ export async function changePaymentStatus(req: AuthenticatedRequest, res: Respon
       return;
     }
 
-    const updated = await updatePaymentStatus(id, adminId, paymentStatus);
+    const updated = await updatePaymentStatus(id as string, adminId as string, paymentStatus);
     res.json({
       success: true,
       message: `Status pembayaran diperbarui menjadi ${paymentStatus}.`,

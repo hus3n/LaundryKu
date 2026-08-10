@@ -49,7 +49,7 @@ export async function editCustomer(req: AuthenticatedRequest, res: Response, nex
       return;
     }
 
-    const updated = await updateCustomer(id, adminId, req.body);
+    const updated = await updateCustomer(id as string, adminId as string, req.body);
     res.json({ success: true, message: 'Data pelanggan diperbarui.', data: updated });
   } catch (error: any) {
     res.status(400).json({ success: false, error: error.message });
@@ -66,7 +66,7 @@ export async function removeCustomer(req: AuthenticatedRequest, res: Response, n
       return;
     }
 
-    await deleteCustomer(id, adminId);
+    await deleteCustomer(id as string, adminId as string);
     res.json({ success: true, message: 'Data pelanggan dihapus.' });
   } catch (error: any) {
     res.status(400).json({ success: false, error: error.message });

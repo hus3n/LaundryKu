@@ -43,7 +43,7 @@ export async function editCategory(req: AuthenticatedRequest, res: Response, nex
       res.status(400).json({ success: false, error: 'ID Toko tidak ditemukan.' });
       return;
     }
-    const updated = await updateCategory(id, adminId, req.body);
+    const updated = await updateCategory(id as string, adminId as string, req.body);
     res.json({ success: true, message: 'Kategori berhasil diperbarui.', data: updated });
   } catch (error: any) {
     res.status(400).json({ success: false, error: error.message });
@@ -58,7 +58,7 @@ export async function removeCategory(req: AuthenticatedRequest, res: Response, n
       res.status(400).json({ success: false, error: 'ID Toko tidak ditemukan.' });
       return;
     }
-    await deleteCategory(id, adminId);
+    await deleteCategory(id as string, adminId as string);
     res.json({ success: true, message: 'Kategori berhasil dihapus.' });
   } catch (error: any) {
     res.status(400).json({ success: false, error: error.message });

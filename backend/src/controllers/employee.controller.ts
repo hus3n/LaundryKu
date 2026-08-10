@@ -46,7 +46,7 @@ export async function editEmployee(req: AuthenticatedRequest, res: Response, nex
       return;
     }
 
-    const updated = await updateEmployee(id, adminId, req.body);
+    const updated = await updateEmployee(id as string, adminId as string, req.body);
     res.json({ success: true, message: 'Data karyawan diperbarui.', data: updated });
   } catch (error: any) {
     res.status(400).json({ success: false, error: error.message });
@@ -63,7 +63,7 @@ export async function removeEmployee(req: AuthenticatedRequest, res: Response, n
       return;
     }
 
-    await deleteEmployee(id, adminId);
+    await deleteEmployee(id as string, adminId as string);
     res.json({ success: true, message: 'Karyawan berhasil dinonaktifkan.' });
   } catch (error: any) {
     res.status(400).json({ success: false, error: error.message });

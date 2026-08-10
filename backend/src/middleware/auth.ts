@@ -78,7 +78,7 @@ export async function authenticate(
       id: user.id,
       email: user.email,
       name: user.name,
-      role: user.role,
+      role: user.role as 'SUPERADMIN' | 'ADMIN' | 'EMPLOYEE',
       adminId: user.adminId || (user.adminRef ? user.adminRef.id : user.role === 'SUPERADMIN' ? 'SUPERADMIN' : null),
     };
 
