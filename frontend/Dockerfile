@@ -21,7 +21,7 @@ WORKDIR /app
 
 ENV NODE_ENV production
 ENV NEXT_TELEMETRY_DISABLED 1
-ENV PORT 3000
+ENV PORT 3001
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
@@ -33,6 +33,6 @@ COPY --from=builder /app/package.json ./package.json
 
 USER nextjs
 
-EXPOSE 3000
+EXPOSE 3001
 
 CMD ["npm", "start"]

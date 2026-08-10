@@ -22,7 +22,7 @@ FROM node:20-alpine AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production
-ENV PORT=4000
+ENV PORT=4001
 
 COPY package*.json ./
 RUN npm ci --only=production
@@ -31,6 +31,6 @@ COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/prisma ./prisma
 COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
 
-EXPOSE 4000
+EXPOSE 4001
 
 CMD ["node", "dist/app.js"]
