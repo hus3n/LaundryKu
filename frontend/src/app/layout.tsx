@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
-import { Outfit } from 'next/font/google';
+import { Inter } from 'next/font/google';
 import './globals.css';
 import { AuthProvider } from '@/contexts/AuthContext';
 
-const outfit = Outfit({ subsets: ['latin'] });
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'LaundryKu v1.0 — Aplikasi Pencatatan Laundry Modern',
@@ -18,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="id" className="scroll-smooth">
-      <body className={outfit.className}>
+      <body className={inter.className}>
         <AuthProvider>{children}</AuthProvider>
       </body>
     </html>

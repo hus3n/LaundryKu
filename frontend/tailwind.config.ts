@@ -10,33 +10,34 @@ const config: Config = {
     extend: {
       colors: {
         brand: {
-          50: '#f4f4f5',
-          100: '#e4e4e7',
-          200: '#d4d4d8',
-          300: '#a1a1aa',
-          400: '#71717a',
-          500: '#52525b', // Muted neutral for secondary
-          600: '#3f3f46',
-          700: '#27272a',
-          800: '#18181b',
-          900: '#09090b', // Deep off-black background
-          950: '#040405',
+          50: '#f0f7ff',
+          100: '#e0effe',
+          200: '#bae0fd',
+          300: '#7cc8fc',
+          400: '#36a9f8',
+          500: '#0c8de9',
+          600: '#026fc7',
+          700: '#0358a1',
+          800: '#074b85',
+          900: '#0c3f6e',
+          950: '#082849',
         },
         accent: {
-          light: '#cbd5e1',
-          DEFAULT: '#3b82f6', // Elegant, slightly desaturated blue
-          dark: '#1d4ed8',
-        }
+          teal: '#14b8a6',
+          purple: '#8b5cf6',
+          pink: '#ec4899',
+          amber: '#f59e0b',
+        },
       },
       boxShadow: {
-        glass: '0 8px 32px 0 rgba(0, 0, 0, 0.3)',
-        'glass-hover': '0 12px 40px 0 rgba(0, 0, 0, 0.4)',
-        floating: '0 20px 40px -15px rgba(0, 0, 0, 0.5)',
+        glass: '0 8px 32px 0 rgba(31, 38, 135, 0.07)',
+        'glass-hover': '0 12px 40px 0 rgba(31, 38, 135, 0.15)',
+        floating: '0 20px 40px -15px rgba(12, 141, 233, 0.25)',
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'glass-gradient': 'linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%)',
-        'glass-dark': 'linear-gradient(135deg, rgba(9, 9, 11, 0.8) 0%, rgba(9, 9, 11, 0.4) 100%)',
+        'glass-gradient': 'linear-gradient(135deg, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.3) 100%)',
+        'glass-dark': 'linear-gradient(135deg, rgba(15, 23, 42, 0.7) 0%, rgba(15, 23, 42, 0.4) 100%)',
       },
     },
   },
