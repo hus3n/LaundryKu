@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import DashboardLayout from '@/components/layouts/DashboardLayout';
 import { api } from '@/lib/api';
 import { Package as PackageIcon, Plus, Edit, Trash2, CheckCircle2, Clock, DollarSign } from 'lucide-react';
+import { formatDuration } from '@/lib/utils';
 
 export default function PackageManagementPage() {
   const [packages, setPackages] = useState<any[]>([]);
@@ -15,7 +16,8 @@ export default function PackageManagementPage() {
   const [name, setName] = useState('');
   const [unit, setUnit] = useState('kg');
   const [price, setPrice] = useState('');
-  const [estimatedDuration, setEstimatedDuration] = useState('24');
+  const [durationValue, setDurationValue] = useState('24');
+  const [durationUnit, setDurationUnit] = useState('jam');
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -40,7 +42,8 @@ export default function PackageManagementPage() {
     setName('');
     setUnit('kg');
     setPrice('');
-    setEstimatedDuration('24');
+    setDurationValue('24');
+    setDurationUnit('jam');
     setModalOpen(true);
   };
 
@@ -49,7 +52,13 @@ export default function PackageManagementPage() {
     setName(pkg.name);
     setUnit(pkg.unit);
     setPrice(String(pkg.price));
-    setEstimatedDuration(String(pkg.estimatedDuration));
+    if (pkg.estimatedDuration >= 24 && pkg.estimatedDuration % 24 === 0) {
+      setDurationValue(String(pkg.estimatedDuration / 24));
+      setDurationUnit('hari');
+    } else {
+      setDurationValue(String(pkg.estimatedDuration));
+      setDurationUnit('jam');
+    }
     setModalOpen(true);
   };
 
@@ -58,11 +67,15 @@ export default function PackageManagementPage() {
     setIsSubmitting(true);
 
     try {
+      const estimatedDuration = durationUnit === 'hari' 
+        ? parseInt(durationValue, 10) * 24 
+        : parseInt(durationValue, 10);
+
       const payload = {
         name,
         unit,
         price: parseFloat(price),
-        estimatedDuration: parseInt(estimatedDuration, 10),
+        estimatedDuration,
       };
 
       if (editingId) {
@@ -152,7 +165,7 @@ export default function PackageManagementPage() {
 
                 <div className="text-[11px] text-slate-400 flex items-center gap-1.5">
                   <Clock className="w-3.5 h-3.5 text-amber-400" />
-                  Estimasi pengerjaan: {pkg.estimatedDuration} Jam
+                  Estimasi pengerjaan: {formatDuration(pkg.estimatedDuration)}
                 </div>
               </div>
             ))
@@ -208,16 +221,27 @@ export default function PackageManagementPage() {
 
                 <div>
                   <label className="block text-xs font-semibold text-slate-300 mb-1">
-                    Estimasi Pengerjaan (Jam)
+                    Estimasi Pengerjaan
                   </label>
-                  <input
-                    type="number"
-                    required
-                    value={estimatedDuration}
-                    onChange={(e) => setEstimatedDuration(e.target.value)}
-                    placeholder="24"
-                    className="w-full px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-brand-500"
-                  />
+                  <div className="flex gap-2">
+                    <input
+                      type="number"
+                      required
+                      min={1}
+                      value={durationValue}
+                      onChange={(e) => setDurationValue(e.target.value)}
+                      placeholder="24"
+                      className="w-full px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-brand-500"
+                    />
+                    <select
+                      value={durationUnit}
+                      onChange={(e) => setDurationUnit(e.target.value)}
+                      className="px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-brand-500 w-24 shrink-0"
+                    >
+                      <option value="jam">Jam</option>
+                      <option value="hari">Hari</option>
+                    </select>
+                  </div>
                 </div>
 
                 <div className="pt-4 flex justify-end gap-3">

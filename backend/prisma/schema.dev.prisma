@@ -51,6 +51,21 @@ model Admin {
   categories      Category[]
   customers       Customer[]
   orders          LaundryOrder[]
+  outlets         Outlet[]
+}
+
+model Outlet {
+  id          String   @id @default(uuid())
+  adminId     String
+  admin       Admin    @relation(fields: [adminId], references: [id], onDelete: Cascade)
+  name        String
+  address     String?
+  phone       String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  orders      LaundryOrder[]
 }
 
 model LaundryOrder {
@@ -62,10 +77,14 @@ model LaundryOrder {
   employee      User          @relation("EmployeeOrders", fields: [employeeId], references: [id], onDelete: Restrict)
   adminId       String
   admin         Admin         @relation(fields: [adminId], references: [id], onDelete: Cascade)
-  status        String        @default("RECEIVED") // RECEIVED, IN_PROGRESS, DONE, PICKED_UP
-  paymentStatus String        @default("UNPAID")   // UNPAID, PAID
+  outletId      String?
+  outlet        Outlet?       @relation(fields: [outletId], references: [id], onDelete: SetNull)
+  status        String        @default("RECEIVED")    // RECEIVED, IN_PROGRESS, DONE, PICKED_UP
+  paymentStatus String        @default("UNPAID")      // UNPAID, PAID
+  paymentMethod String?                               // CASH, QRIS
   totalPrice    Float
   notes         String?
+  fragrance     String?
   dateIn        DateTime      @default(now())
   estimatedDone DateTime?
   dateOut       DateTime?

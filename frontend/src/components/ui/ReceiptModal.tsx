@@ -53,8 +53,15 @@ export default function ReceiptModal({ order, store, onClose }: ReceiptModalProp
                 <Shirt className="w-4 h-4" />
               </div>
               <h2 className="font-extrabold text-sm uppercase tracking-wider">{store?.storeName || 'LAUNDRYKU'}</h2>
-              <p className="text-[10px] text-slate-600">{store?.storeAddress || 'Alamat Toko Laundry'}</p>
-              <p className="text-[10px] text-slate-600">WA: {store?.storePhone || '-'}</p>
+              {order?.outlet && (
+                <p className="text-[10px] text-slate-700 font-bold uppercase pb-0.5">{order.outlet.name}</p>
+              )}
+              <p className="text-[10px] text-slate-600">
+                {order?.outlet?.address || store?.storeAddress || 'Alamat Toko Laundry'}
+              </p>
+              <p className="text-[10px] text-slate-600">
+                WA: {order?.outlet?.phone || store?.storePhone || '-'}
+              </p>
             </div>
 
             <div className="border-t border-b border-dashed border-slate-400 py-2 space-y-1">
@@ -107,7 +114,7 @@ export default function ReceiptModal({ order, store, onClose }: ReceiptModalProp
               <div className="flex justify-between text-[10px]">
                 <span>Status Pembayaran:</span>
                 <span className="font-extrabold uppercase">
-                  [{order?.paymentStatus === 'PAID' ? 'LUNAS' : 'BELUM BAYAR'}]
+                  [{order?.paymentStatus === 'PAID' ? `LUNAS${order.paymentMethod ? ' - ' + order.paymentMethod : ''}` : 'BELUM BAYAR'}]
                 </span>
               </div>
               {order?.estimatedDone && (
@@ -119,6 +126,11 @@ export default function ReceiptModal({ order, store, onClose }: ReceiptModalProp
               {order?.notes && (
                 <div className="text-[10px] text-slate-600 italic pt-1">
                   Catatan: {order.notes}
+                </div>
+              )}
+              {order?.fragrance && (
+                <div className="text-[10px] text-slate-600 italic pt-1">
+                  Parfum: {order.fragrance}
                 </div>
               )}
             </div>

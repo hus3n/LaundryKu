@@ -16,6 +16,9 @@ export async function createLaundryOrder(
     }>;
     notes?: string;
     paymentStatus?: 'UNPAID' | 'PAID';
+    outletId?: string;
+    fragrance?: string;
+    paymentMethod?: 'CASH' | 'QRIS';
   }
 ) {
   // 1. Ensure/create customer
@@ -104,10 +107,13 @@ export async function createLaundryOrder(
       adminId,
       employeeId,
       customerId: customer.id,
+      outletId: data.outletId || null,
       status: 'RECEIVED' as any,
       paymentStatus: (data.paymentStatus === 'PAID' ? 'PAID' : 'UNPAID') as any,
+      paymentMethod: data.paymentStatus === 'PAID' ? (data.paymentMethod as any || 'CASH') : null,
       totalPrice,
       notes: data.notes,
+      fragrance: data.fragrance?.trim() || null,
       dateIn: new Date(),
       estimatedDone,
       items: {
@@ -130,6 +136,21 @@ export async function createLaundryOrder(
   sendOrderWANotification(adminId, order, 'ORDER_RECEIVED').catch((e) =>
     console.error('WA Notify Error:', e)
   );
+
+  await prisma.activityLog.create({
+    data: {
+      userId: employeeId,
+      action: 'CREATE_ORDER',
+      entity: 'LaundryOrder',
+      entityId: order.id,
+      details: JSON.stringify({
+        orderNumber: order.orderNumber,
+        customerName: data.customerName,
+        totalPrice: String(order.totalPrice),
+        itemCount: itemData.length,
+      }),
+    },
+  });
 
   return order;
 }
@@ -173,6 +194,7 @@ export async function getLaundryOrders(
     where,
     include: {
       customer: true,
+      outlet: { select: { id: true, name: true } },
       employee: { select: { id: true, name: true } },
       items: {
         include: {
@@ -185,7 +207,12 @@ export async function getLaundryOrders(
   });
 }
 
-export async function updateOrderStatus(orderId: string, adminId: string, status: string) {
+export async function updateOrderStatus(
+  orderId: string, 
+  adminId: string, 
+  status: string,
+  changedByUserId: string
+) {
   const existing = await prisma.laundryOrder.findFirst({
     where: { id: orderId, adminId },
   });
@@ -222,10 +249,29 @@ export async function updateOrderStatus(orderId: string, adminId: string, status
     );
   }
 
+  await prisma.activityLog.create({
+    data: {
+      userId: changedByUserId,
+      action: 'UPDATE_STATUS',
+      entity: 'LaundryOrder',
+      entityId: orderId,
+      details: JSON.stringify({
+        newStatus: status,
+        orderNumber: updatedOrder.orderNumber,
+      }),
+    },
+  });
+
   return updatedOrder;
 }
 
-export async function updatePaymentStatus(orderId: string, adminId: string, paymentStatus: string) {
+export async function updatePaymentStatus(
+  orderId: string, 
+  adminId: string, 
+  paymentStatus: string,
+  changedByUserId: string,
+  paymentMethod?: 'CASH' | 'QRIS'
+) {
   const existing = await prisma.laundryOrder.findFirst({
     where: { id: orderId, adminId },
   });
@@ -234,9 +280,27 @@ export async function updatePaymentStatus(orderId: string, adminId: string, paym
     throw new Error('Cucian tidak ditemukan.');
   }
 
-  return prisma.laundryOrder.update({
+  const updatedOrder = await prisma.laundryOrder.update({
     where: { id: orderId },
-    data: { paymentStatus: paymentStatus as any },
+    data: { 
+      paymentStatus: paymentStatus as any,
+      paymentMethod: paymentStatus === 'PAID' ? (paymentMethod as any || 'CASH') : null,
+    },
     include: { customer: true },
   });
+
+  await prisma.activityLog.create({
+    data: {
+      userId: changedByUserId,
+      action: 'UPDATE_PAYMENT',
+      entity: 'LaundryOrder',
+      entityId: orderId,
+      details: JSON.stringify({
+        newPaymentStatus: paymentStatus,
+        paymentMethod: paymentMethod || null,
+      }),
+    },
+  });
+
+  return updatedOrder;
 }

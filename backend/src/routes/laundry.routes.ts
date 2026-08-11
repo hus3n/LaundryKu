@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { z } from 'zod';
-import { createOrder, getOrders, changeOrderStatus, changePaymentStatus } from '../controllers/laundry.controller.js';
+import { createOrder, getOrders, changeOrderStatus, changePaymentStatus, getOrderLogs, exportOrders } from '../controllers/laundry.controller.js';
 import { authenticate } from '../middleware/auth.js';
 import { authorize } from '../middleware/rbac.js';
 import { validate } from '../middleware/validation.js';
@@ -33,6 +33,7 @@ const statusSchema = z.object({
 const paymentSchema = z.object({
   body: z.object({
     paymentStatus: z.enum(['UNPAID', 'PAID']),
+    paymentMethod: z.enum(['CASH', 'QRIS']).optional(),
   }),
 });
 
@@ -42,5 +43,7 @@ router.get('/', authorize('ADMIN', 'EMPLOYEE'), getOrders);
 router.post('/', authorize('ADMIN', 'EMPLOYEE'), validate(createOrderSchema), createOrder);
 router.patch('/:id/status', authorize('ADMIN', 'EMPLOYEE'), validate(statusSchema), changeOrderStatus);
 router.patch('/:id/payment', authorize('ADMIN', 'EMPLOYEE'), validate(paymentSchema), changePaymentStatus);
+router.get('/export/all', authorize('ADMIN', 'SUPERADMIN'), exportOrders);
+router.get('/:id/logs', authorize('ADMIN', 'EMPLOYEE'), getOrderLogs);
 
 export default router;

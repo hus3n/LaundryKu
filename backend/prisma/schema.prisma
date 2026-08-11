@@ -25,6 +25,11 @@ enum PaymentStatus {
   PAID
 }
 
+enum PaymentMethod {
+  CASH
+  QRIS
+}
+
 model User {
   id            String    @id @default(uuid())
   email         String    @unique
@@ -69,26 +74,45 @@ model Admin {
   categories      Category[]
   customers       Customer[]
   orders          LaundryOrder[]
+  outlets         Outlet[]
+}
+
+model Outlet {
+  id          String   @id @default(uuid())
+  adminId     String
+  admin       Admin    @relation(fields: [adminId], references: [id], onDelete: Cascade)
+  name        String
+  address     String?
+  phone       String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  orders      LaundryOrder[]
 }
 
 model LaundryOrder {
-  id            String        @id @default(uuid())
-  orderNumber   String        @unique
+  id            String         @id @default(uuid())
+  orderNumber   String         @unique
   customerId    String
-  customer      Customer      @relation(fields: [customerId], references: [id], onDelete: Restrict)
+  customer      Customer       @relation(fields: [customerId], references: [id], onDelete: Restrict)
   employeeId    String
-  employee      User          @relation("EmployeeOrders", fields: [employeeId], references: [id], onDelete: Restrict)
+  employee      User           @relation("EmployeeOrders", fields: [employeeId], references: [id], onDelete: Restrict)
   adminId       String
-  admin         Admin         @relation(fields: [adminId], references: [id], onDelete: Cascade)
-  status        OrderStatus   @default(RECEIVED)
-  paymentStatus PaymentStatus @default(UNPAID)
-  totalPrice    Decimal       @db.Decimal(12, 2)
+  admin         Admin          @relation(fields: [adminId], references: [id], onDelete: Cascade)
+  outletId      String?
+  outlet        Outlet?        @relation(fields: [outletId], references: [id], onDelete: SetNull)
+  status        OrderStatus    @default(RECEIVED)
+  paymentStatus PaymentStatus  @default(UNPAID)
+  paymentMethod PaymentMethod?
+  totalPrice    Decimal        @db.Decimal(12, 2)
   notes         String?
-  dateIn        DateTime      @default(now())
+  fragrance     String?
+  dateIn        DateTime       @default(now())
   estimatedDone DateTime?
   dateOut       DateTime?
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
 
   items         LaundryItem[]
 }

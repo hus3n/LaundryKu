@@ -19,6 +19,7 @@ import whatsappRoutes from './routes/whatsapp.routes.js';
 import superadminRoutes from './routes/superadmin.routes.js';
 import analyticsRoutes from './routes/analytics.routes.js';
 import backupRoutes from './routes/backup.routes.js';
+import outletRoutes from './routes/outlet.routes.js';
 
 const app = express();
 
@@ -53,6 +54,7 @@ app.use('/api/whatsapp', whatsappRoutes);
 app.use('/api/superadmin', superadminRoutes);
 app.use('/api/analytics', analyticsRoutes);
 app.use('/api/backup', backupRoutes);
+app.use('/api/outlets', outletRoutes);
 
 // Global Error Handler
 app.use(errorHandler);
