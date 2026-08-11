@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   Shirt,
   LayoutDashboard,
@@ -81,7 +82,7 @@ export default function DashboardLayout({ children, role }: { children: React.Re
         </div>
 
         {/* Nav Links */}
-        <nav className="flex-1 space-y-1.5 overflow-y-auto pr-1">
+        <nav className="flex-1 space-y-1.5 overflow-y-auto pr-1 relative">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = pathname === item.href;
@@ -89,14 +90,24 @@ export default function DashboardLayout({ children, role }: { children: React.Re
               <Link
                 key={item.href}
                 href={item.href}
-                className={`flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-semibold transition-all ${
-                  isActive
-                    ? 'bg-gradient-to-r from-brand-500 to-brand-600 text-white shadow-lg shadow-brand-500/25'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
+                className={`relative flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-semibold transition-colors group ${
+                  isActive ? 'text-white' : 'text-slate-400 hover:text-slate-200'
                 }`}
               >
-                <Icon className="w-4 h-4 shrink-0" />
-                {item.label}
+                {isActive && (
+                  <motion.div
+                    layoutId="sidebar-active-indicator"
+                    className="absolute inset-0 rounded-xl bg-gradient-to-r from-brand-500 to-brand-600 shadow-lg shadow-brand-500/25"
+                    transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                  />
+                )}
+                {!isActive && (
+                  <div className="absolute inset-0 rounded-xl bg-slate-800/60 opacity-0 group-hover:opacity-100 transition-opacity" />
+                )}
+                <span className="relative z-10 flex items-center gap-3">
+                  <Icon className="w-4 h-4 shrink-0" />
+                  {item.label}
+                </span>
               </Link>
             );
           })}
@@ -114,13 +125,15 @@ export default function DashboardLayout({ children, role }: { children: React.Re
             </div>
           </div>
 
-          <button
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
             onClick={logout}
             title="Keluar / Logout"
             className="p-2 rounded-lg text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors"
           >
             <LogOut className="w-4 h-4" />
-          </button>
+          </motion.button>
         </div>
       </aside>
 
@@ -130,7 +143,7 @@ export default function DashboardLayout({ children, role }: { children: React.Re
         <header className="h-16 border-b border-slate-800/80 bg-slate-900/40 backdrop-blur-xl sticky top-0 z-20 px-6 flex items-center justify-between">
           <button
             onClick={() => setMobileOpen(true)}
-            className="md:hidden p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800"
+            className="md:hidden p-2 flex items-center justify-center rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
           >
             <Menu className="w-5 h-5" />
           </button>
@@ -147,52 +160,80 @@ export default function DashboardLayout({ children, role }: { children: React.Re
         </header>
 
         {/* Mobile Navigation Drawer */}
-        {mobileOpen && (
-          <div className="fixed inset-0 z-50 flex md:hidden">
-            <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm" onClick={() => setMobileOpen(false)} />
-            <div className="relative flex-1 max-w-xs bg-slate-900 border-r border-slate-800 p-6 flex flex-col">
-              <div className="flex items-center justify-between pb-4 mb-4 border-b border-slate-800">
-                <div className="flex items-center gap-2">
-                  <Shirt className="w-6 h-6 text-brand-400" />
-                  <span className="font-bold text-white text-base">LaundryKu</span>
-                </div>
-                <button onClick={() => setMobileOpen(false)} className="text-slate-400 hover:text-white">
-                  <X className="w-5 h-5" />
-                </button>
-              </div>
-
-              <nav className="flex-1 space-y-1.5 overflow-y-auto">
-                {navItems.map((item) => {
-                  const Icon = item.icon;
-                  const isActive = pathname === item.href;
-                  return (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      onClick={() => setMobileOpen(false)}
-                      className={`flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-semibold ${
-                        isActive
-                          ? 'bg-brand-500 text-white'
-                          : 'text-slate-400 hover:text-white hover:bg-slate-800'
-                      }`}
-                    >
-                      <Icon className="w-4 h-4" />
-                      {item.label}
-                    </Link>
-                  );
-                })}
-              </nav>
-
-              <button
-                onClick={logout}
-                className="mt-6 flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-rose-500/10 text-rose-400 text-xs font-semibold border border-rose-500/20"
+        <AnimatePresence>
+          {mobileOpen && (
+            <div className="fixed inset-0 z-50 flex md:hidden">
+              <motion.div 
+                key="mobile-overlay"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm" 
+                onClick={() => setMobileOpen(false)} 
+              />
+              <motion.aside 
+                key="mobile-sidebar"
+                initial={{ x: '-100%' }}
+                animate={{ x: 0 }}
+                exit={{ x: '-100%' }}
+                transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                className="relative flex-1 max-w-xs bg-slate-900 border-r border-slate-800 p-6 flex flex-col"
               >
-                <LogOut className="w-4 h-4" />
-                Keluar Aplikasi
-              </button>
+                <div className="flex items-center justify-between pb-4 mb-4 border-b border-slate-800">
+                  <div className="flex items-center gap-2">
+                    <Shirt className="w-6 h-6 text-brand-400" />
+                    <span className="font-bold text-white text-base">LaundryKu</span>
+                  </div>
+                  <button onClick={() => setMobileOpen(false)} className="p-2 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 transition-colors">
+                    <AnimatePresence mode="wait">
+                      <motion.div 
+                        key="close" 
+                        initial={{ rotate: -90, opacity: 0 }} 
+                        animate={{ rotate: 0, opacity: 1 }} 
+                        exit={{ rotate: 90, opacity: 0 }} 
+                        transition={{ duration: 0.15 }}
+                      >
+                        <X className="w-5 h-5" />
+                      </motion.div>
+                    </AnimatePresence>
+                  </button>
+                </div>
+
+                <nav className="flex-1 space-y-1.5 overflow-y-auto">
+                  {navItems.map((item) => {
+                    const Icon = item.icon;
+                    const isActive = pathname === item.href;
+                    return (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        onClick={() => setMobileOpen(false)}
+                        className={`flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-semibold transition-colors ${
+                          isActive
+                            ? 'bg-brand-500 text-white shadow-md shadow-brand-500/20'
+                            : 'text-slate-400 hover:text-white hover:bg-slate-800'
+                        }`}
+                      >
+                        <Icon className="w-4 h-4" />
+                        {item.label}
+                      </Link>
+                    );
+                  })}
+                </nav>
+
+                <motion.button
+                  whileTap={{ scale: 0.96 }}
+                  onClick={logout}
+                  className="mt-6 flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-rose-500/10 text-rose-400 hover:bg-rose-500/20 text-xs font-semibold border border-rose-500/20 transition-colors"
+                >
+                  <LogOut className="w-4 h-4" />
+                  Keluar Aplikasi
+                </motion.button>
+              </motion.aside>
             </div>
-          </div>
-        )}
+          )}
+        </AnimatePresence>
 
         {/* Dynamic Page Content */}
         <main className="p-6 md:p-8 flex-1 overflow-y-auto">{children}</main>

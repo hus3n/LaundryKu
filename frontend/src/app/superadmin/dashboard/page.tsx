@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import DashboardLayout from '@/components/layouts/DashboardLayout';
 import ExtendSubscriptionModal from '@/components/ui/ExtendSubscriptionModal';
+import { motion, AnimatePresence } from 'framer-motion';
 import { api } from '@/lib/api';
 import { 
   Users, 
@@ -69,8 +70,16 @@ export default function SuperAdminDashboardPage() {
         </div>
 
         {/* Summary Metric Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="glass-card-dark p-6 rounded-2xl border border-slate-800 relative overflow-hidden">
+        <motion.div 
+          variants={{ visible: { transition: { staggerChildren: 0.08 } }, hidden: {} }}
+          initial="hidden" animate="visible"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+        >
+          <motion.div 
+            variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
+            whileHover={{ y: -4, transition: { type: 'spring', stiffness: 400, damping: 20 } }}
+            className="glass-card-dark p-6 rounded-2xl border border-slate-800 relative overflow-hidden"
+          >
             <div className="flex justify-between items-start">
               <div>
                 <p className="text-xs text-slate-400 font-medium">Total Toko Admin</p>
@@ -83,9 +92,13 @@ export default function SuperAdminDashboardPage() {
             <p className="text-[11px] text-brand-300 mt-4 flex items-center gap-1">
               <ArrowUpRight className="w-3.5 h-3.5" /> Terdaftar di platform
             </p>
-          </div>
+          </motion.div>
 
-          <div className="glass-card-dark p-6 rounded-2xl border border-slate-800 relative overflow-hidden">
+          <motion.div 
+            variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
+            whileHover={{ y: -4, transition: { type: 'spring', stiffness: 400, damping: 20 } }}
+            className="glass-card-dark p-6 rounded-2xl border border-slate-800 relative overflow-hidden"
+          >
             <div className="flex justify-between items-start">
               <div>
                 <p className="text-xs text-slate-400 font-medium">Toko Masa Aktif</p>
@@ -96,34 +109,44 @@ export default function SuperAdminDashboardPage() {
               </div>
             </div>
             <p className="text-[11px] text-emerald-400 mt-4">Status aktif & beroperasi</p>
-          </div>
+          </motion.div>
 
-          <div className="glass-card-dark p-6 rounded-2xl border border-slate-800 relative overflow-hidden">
+          <motion.div 
+            variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
+            whileHover={{ y: -4, transition: { type: 'spring', stiffness: 400, damping: 20 } }}
+            className="glass-card-dark p-6 rounded-2xl border border-slate-800 relative overflow-hidden"
+          >
             <div className="flex justify-between items-start">
               <div>
-                <p className="text-xs text-slate-400 font-medium">Hampir Expired (&le;7 Hari)</p>
+                <p className="text-xs text-slate-400 font-medium">Toko Akan Kedaluwarsa</p>
                 <h3 className="text-2xl font-bold text-amber-400 mt-2">{data?.expiringSoon || 0}</h3>
               </div>
               <div className="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400">
-                <AlertTriangle className="w-5 h-5" />
+                <Clock className="w-5 h-5" />
               </div>
             </div>
-            <p className="text-[11px] text-amber-300 mt-4">Perlu reminder perpanjangan</p>
-          </div>
+            <p className="text-[11px] text-amber-300 mt-4 flex items-center gap-1">
+              <AlertTriangle className="w-3.5 h-3.5" /> {'<'} 7 hari tersisa
+            </p>
+          </motion.div>
 
-          <div className="glass-card-dark p-6 rounded-2xl border border-slate-800 relative overflow-hidden">
+          <motion.div 
+            variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
+            whileHover={{ y: -4, transition: { type: 'spring', stiffness: 400, damping: 20 } }}
+            className="glass-card-dark p-6 rounded-2xl border border-slate-800 relative overflow-hidden"
+          >
             <div className="flex justify-between items-start">
               <div>
-                <p className="text-xs text-slate-400 font-medium">Total Transaksi Platform</p>
-                <h3 className="text-2xl font-bold text-accent-purple mt-2">{data?.totalOrdersCount || 0}</h3>
+                <p className="text-xs text-slate-400 font-medium">Toko Tidak Aktif</p>
+                <h3 className="text-2xl font-bold text-rose-400 mt-2">{data?.inactiveAdmins || 0}</h3>
               </div>
-              <div className="w-10 h-10 rounded-xl bg-accent-purple/20 border border-accent-purple/30 flex items-center justify-center text-accent-purple">
-                <Shirt className="w-5 h-5" />
+              <div className="w-10 h-10 rounded-xl bg-rose-500/20 border border-rose-500/30 flex items-center justify-center text-rose-400">
+                <XCircle className="w-5 h-5" />
               </div>
             </div>
-            <p className="text-[11px] text-accent-purple mt-4">Seluruh transaksi laundry</p>
-          </div>
-        </div>
+            <p className="text-[11px] text-rose-400 mt-4">Masa aktif telah habis</p>
+          </motion.div>
+        </motion.div>
 
         {/* Admins Overview Table */}
         <div className="glass-card-dark p-6 rounded-2xl border border-slate-800">
@@ -203,17 +226,21 @@ export default function SuperAdminDashboardPage() {
         </div>
 
         {/* Modal Perpanjang Masa Aktif */}
-        <ExtendSubscriptionModal
-          admin={selectedAdminForExtend}
-          isOpen={isExtendModalOpen}
-          onClose={() => {
-            setIsExtendModalOpen(false);
-            setSelectedAdminForExtend(null);
-          }}
-          onSuccess={() => {
-            loadData();
-          }}
-        />
+        <AnimatePresence>
+          {isExtendModalOpen && (
+            <ExtendSubscriptionModal
+              admin={selectedAdminForExtend}
+              isOpen={isExtendModalOpen}
+              onClose={() => {
+                setIsExtendModalOpen(false);
+                setSelectedAdminForExtend(null);
+              }}
+              onSuccess={() => {
+                loadData();
+              }}
+            />
+          )}
+        </AnimatePresence>
       </div>
     </DashboardLayout>
   );

@@ -3,6 +3,7 @@
 import React, { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Shirt, Lock, Mail, ArrowRight, AlertCircle } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 
@@ -59,34 +60,63 @@ function LoginForm() {
   return (
     <div className="w-full max-w-md relative z-10">
       {/* Logo & Header */}
-      <div className="text-center mb-8">
+      <motion.div 
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+        className="text-center mb-8"
+      >
         <Link href="/" className="inline-flex items-center gap-3 group">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-brand-600 to-brand-400 flex items-center justify-center shadow-lg shadow-brand-500/30 group-hover:scale-105 transition-transform">
+          <motion.div 
+            whileHover={{ scale: 1.05, transition: { type: 'spring', stiffness: 400, damping: 15 } }}
+            className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-brand-600 to-brand-400 flex items-center justify-center shadow-lg shadow-brand-500/30 transition-transform"
+          >
             <Shirt className="w-7 h-7 text-white" />
-          </div>
+          </motion.div>
           <span className="text-2xl font-bold bg-gradient-to-r from-white via-slate-200 to-brand-300 bg-clip-text text-transparent">
             LaundryKu <span className="text-xs px-2 py-0.5 rounded-full bg-brand-500/20 border border-brand-500/30 text-brand-300 ml-1">v1.0</span>
           </span>
         </Link>
         <h1 className="text-xl font-bold text-white mt-6">Masuk ke Akun Anda</h1>
         <p className="text-xs text-slate-400 mt-1">SuperAdmin, Owner (Admin), atau Staf Karyawan</p>
-      </div>
+      </motion.div>
 
       {/* Card Form */}
-      <div className="glass-card-dark p-8 rounded-3xl border border-slate-800 shadow-2xl backdrop-blur-2xl">
-        {expiredMsg && (
-          <div className="mb-6 p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs flex items-center gap-2.5">
-            <AlertCircle className="w-4 h-4 shrink-0 text-amber-400" />
-            Sesi Anda telah berakhir. Silakan login kembali.
-          </div>
-        )}
+      <motion.div 
+        initial={{ opacity: 0, scale: 0.96, y: 16 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ type: 'spring', stiffness: 280, damping: 22 }}
+        className="glass-card-dark p-8 rounded-3xl border border-slate-800 shadow-2xl backdrop-blur-2xl"
+      >
+        <AnimatePresence>
+          {expiredMsg && (
+            <motion.div 
+              key="expired-msg"
+              initial={{ opacity: 0, height: 0, y: -8 }}
+              animate={{ opacity: 1, height: 'auto', y: 0 }}
+              exit={{ opacity: 0, height: 0, y: -8 }}
+              transition={{ duration: 0.25 }}
+              className="mb-6 p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs flex items-center gap-2.5 overflow-hidden"
+            >
+              <AlertCircle className="w-4 h-4 shrink-0 text-amber-400" />
+              Sesi Anda telah berakhir. Silakan login kembali.
+            </motion.div>
+          )}
 
-        {error && (
-          <div className="mb-6 p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs flex items-start gap-2.5">
-            <AlertCircle className="w-4 h-4 shrink-0 text-rose-400 mt-0.5" />
-            <span>{error}</span>
-          </div>
-        )}
+          {error && (
+            <motion.div 
+              key="login-error"
+              initial={{ opacity: 0, height: 0, y: -8 }}
+              animate={{ opacity: 1, height: 'auto', y: 0 }}
+              exit={{ opacity: 0, height: 0, y: -8 }}
+              transition={{ duration: 0.25 }}
+              className="mb-6 p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs flex items-start gap-2.5 overflow-hidden"
+            >
+              <AlertCircle className="w-4 h-4 shrink-0 text-rose-400 mt-0.5" />
+              <span>{error}</span>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
@@ -95,7 +125,9 @@ function LoginForm() {
             </label>
             <div className="relative">
               <Mail className="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
-              <input
+              <motion.input
+                whileFocus={{ scale: 1.01 }}
+                transition={{ type: 'spring', stiffness: 400, damping: 25 }}
                 type="email"
                 required
                 value={email}
@@ -120,7 +152,9 @@ function LoginForm() {
             </div>
             <div className="relative">
               <Lock className="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
-              <input
+              <motion.input
+                whileFocus={{ scale: 1.01 }}
+                transition={{ type: 'spring', stiffness: 400, damping: 25 }}
                 type="password"
                 required
                 value={password}
@@ -131,20 +165,23 @@ function LoginForm() {
             </div>
           </div>
 
-          <button
+          <motion.button
             type="submit"
             disabled={isSubmitting}
-            className="w-full py-3.5 rounded-xl bg-gradient-to-r from-brand-500 to-brand-600 hover:from-brand-400 hover:to-brand-500 text-white font-semibold text-sm shadow-lg shadow-brand-500/25 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+            whileTap={{ scale: 0.97 }}
+            whileHover={{ scale: 1.02, transition: { type: 'spring', stiffness: 400, damping: 15 } }}
+            transition={{ type: 'spring', stiffness: 200, damping: 20 }}
+            className="w-full py-3.5 rounded-xl bg-gradient-to-r from-brand-500 to-brand-600 text-white font-semibold text-sm shadow-lg shadow-brand-500/25 flex items-center justify-center gap-2 disabled:opacity-50"
           >
             {isSubmitting ? (
-              <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+              <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 0.8, ease: 'linear' }} className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full" />
             ) : (
               <>
                 Masuk Sekarang
-                <ArrowRight className="w-4 h-4" />
+                <motion.span whileHover={{ x: 4 }}><ArrowRight className="w-4 h-4" /></motion.span>
               </>
             )}
-          </button>
+          </motion.button>
         </form>
 
         <div className="mt-8 pt-6 border-t border-slate-800 text-center">
@@ -160,7 +197,7 @@ function LoginForm() {
             </a>
           </p>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }

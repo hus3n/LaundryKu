@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import DashboardLayout from '@/components/layouts/DashboardLayout';
 import ReceiptModal from '@/components/ui/ReceiptModal';
+import { motion, AnimatePresence } from 'framer-motion';
 import { api } from '@/lib/api';
 import { 
   Shirt, 
@@ -156,9 +157,18 @@ export default function GlobalLaundryListPage() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-800/60">
-                  {orders.map((order) => (
-                    <tr key={order.id} className="hover:bg-slate-900/50 transition-colors">
-                      <td className="py-4 px-4 font-bold text-brand-300">
+                  <AnimatePresence>
+                    {orders.map((order) => (
+                      <motion.tr 
+                        key={order.id} 
+                        initial={{ opacity: 0, x: -16 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: 16 }}
+                        transition={{ duration: 0.2 }}
+                        layout
+                        className="hover:bg-slate-900/50 transition-colors"
+                      >
+                        <td className="py-4 px-4 font-bold text-brand-300">
                         #{order.orderNumber}
                         {order.notes && (
                           <div className="text-[10px] text-amber-400/90 mt-1 italic font-normal">
@@ -237,8 +247,9 @@ export default function GlobalLaundryListPage() {
                           <Printer className="w-3 h-3" /> Struk
                         </button>
                       </td>
-                    </tr>
-                  ))}
+                      </motion.tr>
+                    ))}
+                  </AnimatePresence>
                 </tbody>
               </table>
             </div>
@@ -246,13 +257,15 @@ export default function GlobalLaundryListPage() {
         </div>
 
         {/* Thermal Receipt Printable Modal */}
-        {selectedReceiptOrder && (
-          <ReceiptModal
-            order={selectedReceiptOrder}
-            store={store}
-            onClose={() => setSelectedReceiptOrder(null)}
-          />
-        )}
+        <AnimatePresence>
+          {selectedReceiptOrder && (
+            <ReceiptModal
+              order={selectedReceiptOrder}
+              store={store}
+              onClose={() => setSelectedReceiptOrder(null)}
+            />
+          )}
+        </AnimatePresence>
       </div>
     </DashboardLayout>
   );

@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import DashboardLayout from '@/components/layouts/DashboardLayout';
+import { motion } from 'framer-motion';
 import { api } from '@/lib/api';
 import { 
   Shirt, 
@@ -61,8 +62,16 @@ export default function AdminDashboardPage() {
         </div>
 
         {/* Summary Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="glass-card-dark p-6 rounded-2xl border border-slate-800 relative overflow-hidden">
+        <motion.div 
+          variants={{ visible: { transition: { staggerChildren: 0.08 } }, hidden: {} }}
+          initial="hidden" animate="visible"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+        >
+          <motion.div 
+            variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
+            whileHover={{ y: -4, transition: { type: 'spring', stiffness: 400, damping: 20 } }}
+            className="glass-card-dark p-6 rounded-2xl border border-slate-800 relative overflow-hidden"
+          >
             <div className="flex justify-between items-start">
               <div>
                 <p className="text-xs text-slate-400 font-medium">Total Cucian Masuk</p>
@@ -75,9 +84,13 @@ export default function AdminDashboardPage() {
             <p className="text-[11px] text-brand-300 mt-4 flex items-center gap-1">
               <ArrowUpRight className="w-3.5 h-3.5" /> Terdaftar di sistem
             </p>
-          </div>
+          </motion.div>
 
-          <div className="glass-card-dark p-6 rounded-2xl border border-slate-800 relative overflow-hidden">
+          <motion.div 
+            variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
+            whileHover={{ y: -4, transition: { type: 'spring', stiffness: 400, damping: 20 } }}
+            className="glass-card-dark p-6 rounded-2xl border border-slate-800 relative overflow-hidden"
+          >
             <div className="flex justify-between items-start">
               <div>
                 <p className="text-xs text-slate-400 font-medium">Total Pendapatan</p>
@@ -92,9 +105,13 @@ export default function AdminDashboardPage() {
             <p className="text-[11px] text-emerald-400 mt-4 flex items-center gap-1">
               <TrendingUp className="w-3.5 h-3.5" /> Akumulasi pendapatan
             </p>
-          </div>
+          </motion.div>
 
-          <div className="glass-card-dark p-6 rounded-2xl border border-slate-800 relative overflow-hidden">
+          <motion.div 
+            variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
+            whileHover={{ y: -4, transition: { type: 'spring', stiffness: 400, damping: 20 } }}
+            className="glass-card-dark p-6 rounded-2xl border border-slate-800 relative overflow-hidden"
+          >
             <div className="flex justify-between items-start">
               <div>
                 <p className="text-xs text-slate-400 font-medium">Cucian Masuk Hari Ini</p>
@@ -105,9 +122,13 @@ export default function AdminDashboardPage() {
               </div>
             </div>
             <p className="text-[11px] text-amber-300 mt-4">Tanggal: {new Date().toLocaleDateString('id-ID')}</p>
-          </div>
+          </motion.div>
 
-          <div className="glass-card-dark p-6 rounded-2xl border border-slate-800 relative overflow-hidden">
+          <motion.div 
+            variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
+            whileHover={{ y: -4, transition: { type: 'spring', stiffness: 400, damping: 20 } }}
+            className="glass-card-dark p-6 rounded-2xl border border-slate-800 relative overflow-hidden"
+          >
             <div className="flex justify-between items-start">
               <div>
                 <p className="text-xs text-slate-400 font-medium">Siap Diambil</p>
@@ -118,8 +139,8 @@ export default function AdminDashboardPage() {
               </div>
             </div>
             <p className="text-[11px] text-accent-teal mt-4">Menunggu diambil pelanggan</p>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
         {/* Recent Orders Section */}
         <div className="glass-card-dark p-6 rounded-2xl border border-slate-800">

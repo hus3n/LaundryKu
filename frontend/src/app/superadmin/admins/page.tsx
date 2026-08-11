@@ -6,6 +6,7 @@ import ExtendSubscriptionModal from '@/components/ui/ExtendSubscriptionModal';
 import ConfirmModal from '@/components/ui/ConfirmModal';
 import CreateTrialModal from '@/components/ui/CreateTrialModal';
 import { api } from '@/lib/api';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Users, Plus, Edit, Trash2, Calendar, Phone, Mail, CheckCircle2, XCircle, RefreshCw, Zap } from 'lucide-react';
 
 export default function AdminStoreManagementPage() {
@@ -270,153 +271,167 @@ export default function AdminStoreManagementPage() {
         </div>
 
         {/* Modal Create Admin */}
-        {modalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm">
-            <div className="glass-card-dark p-6 rounded-3xl border border-slate-800 max-w-md w-full space-y-4">
-              <h3 className="text-base font-bold text-white">Daftarkan Admin Toko Baru</h3>
+        <AnimatePresence>
+          {modalOpen && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm">
+              <div className="glass-card-dark p-6 rounded-3xl border border-slate-800 max-w-md w-full space-y-4">
+                <h3 className="text-base font-bold text-white">Daftarkan Admin Toko Baru</h3>
 
-              {createErrorMsg && (
-                <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-400 text-xs">
-                  {createErrorMsg}
-                </div>
-              )}
+                {createErrorMsg && (
+                  <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-400 text-xs">
+                    {createErrorMsg}
+                  </div>
+                )}
 
-              <form onSubmit={handleCreateSubmit} className="space-y-3">
-                <div>
-                  <label className="block text-xs font-semibold text-slate-300 mb-1">Nama Toko Laundry</label>
-                  <input
-                    type="text"
-                    required
-                    value={storeName}
-                    onChange={(e) => setStoreName(e.target.value)}
-                    placeholder="Contoh: FreshClean Laundry"
-                    className="w-full px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-brand-500"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-semibold text-slate-300 mb-1">Nama Pemilik / Admin</label>
-                  <input
-                    type="text"
-                    required
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder="Contoh: Bpk. Ahmad"
-                    className="w-full px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-brand-500"
-                  />
-                </div>
-
-                <div className="grid grid-cols-2 gap-3">
+                <form onSubmit={handleCreateSubmit} className="space-y-3">
                   <div>
-                    <label className="block text-xs font-semibold text-slate-300 mb-1">Email Login</label>
+                    <label className="block text-xs font-semibold text-slate-300 mb-1">Nama Toko Laundry</label>
                     <input
-                      type="email"
+                      type="text"
                       required
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      placeholder="ahmad@laundry.com"
+                      value={storeName}
+                      onChange={(e) => setStoreName(e.target.value)}
+                      placeholder="Contoh: FreshClean Laundry"
+                      className="w-full px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-brand-500"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-300 mb-1">Nama Pemilik / Admin</label>
+                    <input
+                      type="text"
+                      required
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      placeholder="Contoh: Bpk. Ahmad"
+                      className="w-full px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-brand-500"
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs font-semibold text-slate-300 mb-1">Email Login</label>
+                      <input
+                        type="email"
+                        required
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="ahmad@laundry.com"
+                        className="w-full px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-brand-500"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-semibold text-slate-300 mb-1">Password</label>
+                      <input
+                        type="password"
+                        required
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        placeholder="••••••••"
+                        className="w-full px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-brand-500"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-300 mb-1">No. WhatsApp Pemilik</label>
+                    <input
+                      type="text"
+                      required
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                      placeholder="081234567890"
                       className="w-full px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-brand-500"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-xs font-semibold text-slate-300 mb-1">Password</label>
-                    <input
-                      type="password"
-                      required
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      placeholder="••••••••"
+                    <label className="block text-xs font-semibold text-slate-300 mb-1">Durasi Awal Berlangganan</label>
+                    <select
+                      value={durationMonths}
+                      onChange={(e) => setDurationMonths(parseInt(e.target.value, 10))}
                       className="w-full px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-brand-500"
-                    />
+                    >
+                      <option value={1}>1 Bulan</option>
+                      <option value={3}>3 Bulan</option>
+                      <option value={6}>6 Bulan</option>
+                      <option value={12}>12 Bulan (1 Tahun)</option>
+                    </select>
                   </div>
-                </div>
 
-                <div>
-                  <label className="block text-xs font-semibold text-slate-300 mb-1">No. WhatsApp Pemilik</label>
-                  <input
-                    type="text"
-                    required
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    placeholder="081234567890"
-                    className="w-full px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-brand-500"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-semibold text-slate-300 mb-1">Durasi Awal Berlangganan</label>
-                  <select
-                    value={durationMonths}
-                    onChange={(e) => setDurationMonths(parseInt(e.target.value, 10))}
-                    className="w-full px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-brand-500"
-                  >
-                    <option value={1}>1 Bulan</option>
-                    <option value={3}>3 Bulan</option>
-                    <option value={6}>6 Bulan</option>
-                    <option value={12}>12 Bulan (1 Tahun)</option>
-                  </select>
-                </div>
-
-                <div className="pt-4 flex justify-end gap-3">
-                  <button
-                    type="button"
-                    onClick={() => setModalOpen(false)}
-                    className="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 text-xs font-semibold hover:bg-slate-700"
-                  >
-                    Batal
-                  </button>
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="px-5 py-2 rounded-xl bg-brand-500 hover:bg-brand-400 text-white text-xs font-semibold disabled:opacity-50"
-                  >
-                    Daftarkan Admin Toko
-                  </button>
-                </div>
-              </form>
+                  <div className="pt-4 flex justify-end gap-3">
+                    <button
+                      type="button"
+                      onClick={() => setModalOpen(false)}
+                      className="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 text-xs font-semibold hover:bg-slate-700"
+                    >
+                      Batal
+                    </button>
+                    <button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="px-5 py-2 rounded-xl bg-brand-500 hover:bg-brand-400 text-white text-xs font-semibold disabled:opacity-50"
+                    >
+                      Daftarkan Admin Toko
+                    </button>
+                  </div>
+                </form>
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </AnimatePresence>
 
         {/* Modal Perpanjang Masa Aktif */}
-        <ExtendSubscriptionModal
-          admin={selectedAdminForExtend}
-          isOpen={isExtendModalOpen}
-          onClose={() => {
-            setIsExtendModalOpen(false);
-            setSelectedAdminForExtend(null);
-          }}
-          onSuccess={() => {
-            loadAdmins();
-          }}
-        />
+        <AnimatePresence>
+          {isExtendModalOpen && (
+            <ExtendSubscriptionModal
+              admin={selectedAdminForExtend}
+              isOpen={isExtendModalOpen}
+              onClose={() => {
+                setIsExtendModalOpen(false);
+                setSelectedAdminForExtend(null);
+              }}
+              onSuccess={() => {
+                loadAdmins();
+              }}
+            />
+          )}
+        </AnimatePresence>
 
         {/* Modal Hapus Admin Confirm */}
-        <ConfirmModal
-          isOpen={isDeleteModalOpen}
-          title="Hapus Akun Admin Toko"
-          message={`Apakah Anda yakin ingin menghapus akun Admin toko "${adminToDelete?.storeName}" beserta seluruh datanya? Tindakan ini tidak dapat dibatalkan.`}
-          confirmText="Hapus Akun Toko"
-          cancelText="Batal"
-          type="danger"
-          isSubmitting={isDeleting}
-          onClose={() => {
-            setIsDeleteModalOpen(false);
-            setAdminToDelete(null);
-          }}
-          onConfirm={handleConfirmDelete}
-        />
+        <AnimatePresence>
+          {isDeleteModalOpen && (
+            <ConfirmModal
+              isOpen={isDeleteModalOpen}
+              title="Hapus Akun Admin Toko"
+              message={`Apakah Anda yakin ingin menghapus akun Admin toko "${adminToDelete?.storeName}" beserta seluruh datanya? Tindakan ini tidak dapat dibatalkan.`}
+              confirmText="Hapus Akun Toko"
+              cancelText="Batal"
+              type="danger"
+              isSubmitting={isDeleting}
+              onClose={() => {
+                setIsDeleteModalOpen(false);
+                setAdminToDelete(null);
+              }}
+              onConfirm={handleConfirmDelete}
+            />
+          )}
+        </AnimatePresence>
 
         {/* Modal Buat Akun Trial */}
-        <CreateTrialModal
-          isOpen={isTrialModalOpen}
-          onClose={() => setIsTrialModalOpen(false)}
-          onSuccess={() => {
-            setIsTrialModalOpen(false);
-            loadAdmins();
-          }}
-        />
+        <AnimatePresence>
+          {isTrialModalOpen && (
+            <CreateTrialModal
+              isOpen={isTrialModalOpen}
+              onClose={() => setIsTrialModalOpen(false)}
+              onSuccess={() => {
+                setIsTrialModalOpen(false);
+                loadAdmins();
+              }}
+            />
+          )}
+        </AnimatePresence>
       </div>
     </DashboardLayout>
   );
