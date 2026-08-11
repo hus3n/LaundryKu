@@ -1,4 +1,4 @@
-# PRD — LaundryKu v1.0: Webapp Pencatatan Laundry
+ PRD — LaundryKu v1.0: Webapp Pencatatan Laundry
 
 > **Status**: ✅ Disetujui — Siap Implementasi
 > **Tanggal**: 7 Agustus 2026

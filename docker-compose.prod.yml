@@ -24,6 +24,7 @@ services:
     restart: always
     ports:
       - '4001:4001'
+    command: sh -c "npx prisma db push && npm install tsx && npx tsx prisma/seed.ts && node dist/app.js"
     environment:
       - NODE_ENV=production
       - PORT=4001

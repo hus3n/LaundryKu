@@ -172,7 +172,7 @@ NEXT_PUBLIC_API_URL=https://api-laundryku.domainanda.com/api
 
 2. Pada service **Backend** di Coolify:
    - Set **FQDN / Custom Domain**: `https://api-laundryku.domainanda.com`
-   - Port: `4000`
+   - Port: `4001`
 
 *Coolify akan otomatis menerbitkan sertifikat **SSL Let's Encrypt (HTTPS)** gratis dan memperbaruinya secara otomatis.*
 
