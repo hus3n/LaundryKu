@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import DashboardLayout from '@/components/layouts/DashboardLayout';
 import ConfirmModal from '@/components/ui/ConfirmModal';
+import { motion, AnimatePresence } from 'framer-motion';
 import { api } from '@/lib/api';
 import {
   Bot,
@@ -464,22 +465,26 @@ export default function BackupRestorePage() {
         </div>
 
         {/* Modal Confirm Actions */}
-        <ConfirmModal
-          isOpen={confirmModal.isOpen}
-          title={confirmModal.title}
-          message={confirmModal.message}
-          type={confirmModal.type || 'danger'}
-          isSubmitting={isConfirming}
-          onClose={() => setConfirmModal({ ...confirmModal, isOpen: false })}
-          onConfirm={async () => {
-            if (confirmModal.action) {
-              setIsConfirming(true);
-              await confirmModal.action();
-              setIsConfirming(false);
-            }
-            setConfirmModal({ ...confirmModal, isOpen: false });
-          }}
-        />
+        <AnimatePresence>
+          {confirmModal.isOpen && (
+            <ConfirmModal
+              isOpen={confirmModal.isOpen}
+              title={confirmModal.title}
+              message={confirmModal.message}
+              type={confirmModal.type || 'danger'}
+              isSubmitting={isConfirming}
+              onClose={() => setConfirmModal({ ...confirmModal, isOpen: false })}
+              onConfirm={async () => {
+                if (confirmModal.action) {
+                  setIsConfirming(true);
+                  await confirmModal.action();
+                  setIsConfirming(false);
+                }
+                setConfirmModal({ ...confirmModal, isOpen: false });
+              }}
+            />
+          )}
+        </AnimatePresence>
       </div>
     </DashboardLayout>
   );
