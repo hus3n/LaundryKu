@@ -20,6 +20,11 @@ export default function ReportsAndAnalyticsPage() {
   const [employeeStats, setEmployeeStats] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
+  // States for Combined Financial Report Download
+  const [reportMonth, setReportMonth] = useState<number>(new Date().getMonth() + 1);
+  const [reportYear, setReportYear] = useState<number>(new Date().getFullYear());
+  const [isDownloading, setIsDownloading] = useState(false);
+
   const loadAnalytics = async () => {
     setLoading(true);
     try {
@@ -61,6 +66,27 @@ export default function ReportsAndAnalyticsPage() {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+  };
+
+  const downloadLaporanGabungan = async () => {
+    try {
+      setIsDownloading(true);
+      const token = localStorage.getItem('token');
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4001';
+      const url = `${apiUrl}/api/expenses/export/combined?month=${reportMonth}&year=${reportYear}`;
+      const response = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
+      if (!response.ok) throw new Error('Gagal mendownload laporan');
+      const blob = await response.blob();
+      const bulanNama = new Date(reportYear, reportMonth - 1, 1).toLocaleString('id-ID', { month: 'long' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = `laporan-keuangan-${bulanNama}-${reportYear}.csv`;
+      link.click();
+    } catch {
+      alert('Gagal mendownload laporan. Coba lagi.');
+    } finally {
+      setIsDownloading(false);
+    }
   };
 
   const maxRevenueVal = revenueData?.data?.length ? Math.max(...revenueData.data, 1) : 1;
@@ -202,6 +228,69 @@ export default function ReportsAndAnalyticsPage() {
               </div>
             )}
           </div>
+        </div>
+
+        {/* Section Download Laporan Keuangan */}
+        <div className="glass-card-dark p-6 rounded-3xl border border-slate-800">
+          <div className="flex items-center gap-2 mb-1">
+            <Download className="w-5 h-5 text-emerald-400" />
+            <h2 className="text-base font-bold text-white">Download Laporan Keuangan</h2>
+          </div>
+          <p className="text-xs text-slate-400 mb-5">
+            Download rekap pemasukan dan pengeluaran dalam <strong className="text-slate-300">1 file CSV gabungan</strong> berdasarkan bulan & tahun. File dapat dibuka langsung di Microsoft Excel atau Google Sheets.
+          </p>
+
+          <div className="flex flex-col sm:flex-row gap-4 items-end">
+            <div>
+              <label className="block text-[10px] font-semibold text-slate-400 mb-1.5 uppercase tracking-wide">Bulan</label>
+              <select
+                value={reportMonth}
+                onChange={(e) => setReportMonth(parseInt(e.target.value))}
+                className="bg-slate-900 border border-slate-700 text-white text-xs rounded-xl px-3 py-2 focus:outline-none focus:border-brand-500 min-w-[140px]"
+              >
+                {Array.from({ length: 12 }, (_, i) => (
+                  <option key={i + 1} value={i + 1}>
+                    {new Date(0, i).toLocaleString('id-ID', { month: 'long' })}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-[10px] font-semibold text-slate-400 mb-1.5 uppercase tracking-wide">Tahun</label>
+              <select
+                value={reportYear}
+                onChange={(e) => setReportYear(parseInt(e.target.value))}
+                className="bg-slate-900 border border-slate-700 text-white text-xs rounded-xl px-3 py-2 focus:outline-none focus:border-brand-500 min-w-[100px]"
+              >
+                {[2024, 2025, 2026, 2027].map((y) => (
+                  <option key={y} value={y}>{y}</option>
+                ))}
+              </select>
+            </div>
+
+            <button
+              onClick={downloadLaporanGabungan}
+              disabled={isDownloading}
+              className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-semibold text-xs transition-all inline-flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-emerald-500/20"
+            >
+              {isDownloading ? (
+                <>
+                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  Memproses...
+                </>
+              ) : (
+                <>
+                  <Download className="w-4 h-4" />
+                  Download Laporan Gabungan (CSV)
+                </>
+              )}
+            </button>
+          </div>
+
+          <p className="text-[10px] text-slate-500 mt-3">
+            💡 File berisi 3 section: Pemasukan · Pengeluaran · Ringkasan Keuangan
+          </p>
         </div>
       </div>
     </DashboardLayout>

@@ -13,6 +13,7 @@ services:
       - '3001:3001'
     environment:
       - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-http://localhost:4001/api}
+      - TZ=Asia/Jakarta
     depends_on:
       - backend
 
@@ -27,6 +28,7 @@ services:
     command: sh -c "npx prisma db push && npm install tsx && npx tsx prisma/seed.ts && node dist/app.js"
     environment:
       - NODE_ENV=production
+      - TZ=Asia/Jakarta
       - PORT=4001
       - DATABASE_URL=postgresql://laundryku:${POSTGRES_PASSWORD:-laundryku_secret_2026}@postgres:5432/laundryku
       - MONGODB_URI=mongodb://mongodb:27017/laundryku_wa

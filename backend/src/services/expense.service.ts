@@ -121,12 +121,22 @@ export async function getIncomeSummary(
 
   const orders = await prisma.laundryOrder.findMany({
     where,
-    select: { totalPrice: true, dateIn: true },
+    select: {
+      orderNumber: true,
+      totalPrice: true,
+      dateIn: true,
+      paymentMethod: true,
+      customer: { select: { name: true, phone: true } },
+    },
     orderBy: { dateIn: 'desc' },
   });
 
   return orders.map((o) => ({
+    orderNumber: o.orderNumber,
+    customerName: o.customer?.name || '-',
+    customerPhone: o.customer?.phone || '-',
     amount: Number(o.totalPrice),
+    paymentMethod: o.paymentMethod || 'CASH',
     date: o.dateIn.toISOString().slice(0, 10),
   }));
 }

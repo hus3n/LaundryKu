@@ -25,15 +25,26 @@ export async function updateBotConfig(
   data: {
     greetingMessage?: string;
     isGreetingActive?: boolean;
-    aiApiKey?: string;
-    aiProvider?: 'openai' | 'gemini' | null;
+    aiApiKey?: string | null;
+    aiProvider?: string | null;
+    aiBaseUrl?: string | null;
+    aiModel?: string | null;
+    aiSystemPrompt?: string | null;
     isAiActive?: boolean;
   }
 ) {
   requireMongo();
+  // Filter out undefined fields to avoid wiping existing values if not provided
+  const updateData: Record<string, any> = {};
+  for (const [key, value] of Object.entries(data)) {
+    if (value !== undefined) {
+      updateData[key] = value;
+    }
+  }
+
   return BotConfig.findOneAndUpdate(
     { adminId },
-    { $set: data },
+    { $set: updateData },
     { new: true, upsert: true }
   );
 }

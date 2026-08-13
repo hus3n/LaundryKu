@@ -13,6 +13,12 @@ import { renderTemplate, ensureDefaultTemplates, DEFAULT_TEMPLATES } from './tem
 import { waQueue } from './messageQueue.js';
 import { prisma } from '../config/database.js';
 import { isMongoConnected } from '../config/mongodb.js';
+import { generateNotaImage } from '../utils/generateNotaImage.js';
+import { formatOrderForNota } from '../utils/formatOrderForNota.js';
+import { AutoReply } from '../models-nosql/autoReply.model.js';
+import { BotConfig } from '../models-nosql/botConfig.model.js';
+import { queryAiAssistant } from '../services/ai.service.js';
+import os from 'os';
 
 interface ActiveSession {
   socket?: WASocket;
@@ -318,6 +324,56 @@ Terima kasih telah mempercayakan pakaian Anda kepada kami! Jika ada pertanyaan l
           if (msg.key.remoteJid) {
             await sock.sendMessage(msg.key.remoteJid, { text: replyMessage });
           }
+        } else if (isMongoConnected()) {
+          // Check keyword auto-replies first
+          const autoReplies = await AutoReply.find({ adminId, isActive: true });
+          let keywordReplied = false;
+
+          for (const ar of autoReplies) {
+            if (rawText.toLowerCase().includes(ar.keyword.toLowerCase())) {
+              if (msg.key.remoteJid) {
+                await sock.sendMessage(msg.key.remoteJid, { text: ar.reply });
+              }
+              keywordReplied = true;
+              break;
+            }
+          }
+
+          if (!keywordReplied) {
+            const botConfig = await BotConfig.findOne({ adminId });
+
+            // AI Fallback
+            if (botConfig?.isAiActive && botConfig.aiApiKey) {
+              const aiRes = await queryAiAssistant({
+                apiKey: botConfig.aiApiKey,
+                provider: botConfig.aiProvider,
+                baseUrl: botConfig.aiBaseUrl,
+                model: botConfig.aiModel,
+                systemPrompt: botConfig.aiSystemPrompt,
+                userMessage: rawText,
+              });
+
+              if (aiRes.success && aiRes.reply && msg.key.remoteJid) {
+                await sock.sendMessage(msg.key.remoteJid, { text: aiRes.reply });
+                console.log(`🤖 AI replied via ${aiRes.providerUsed || 'custom'} (${aiRes.modelUsed}) to ${msg.key.remoteJid}`);
+              }
+            } else if (
+              botConfig?.isGreetingActive &&
+              botConfig.greetingMessage &&
+              (textLower.includes('halo') ||
+                textLower.includes('hai') ||
+                textLower.includes('selamat') ||
+                textLower.includes('pagi') ||
+                textLower.includes('siang') ||
+                textLower.includes('malam') ||
+                textLower === 'p')
+            ) {
+              // Greeting fallback
+              if (msg.key.remoteJid) {
+                await sock.sendMessage(msg.key.remoteJid, { text: botConfig.greetingMessage });
+              }
+            }
+          }
         }
       }
     } catch (err: any) {
@@ -472,4 +528,60 @@ export async function confirmWAPairingSimulated(adminId: string, phone: string) 
     status: 'CONNECTED',
     phoneConnected: phone,
   };
+}
+
+export async function sendOrderWANotificationWithImage(
+  adminId: string,
+  order: any,
+  type: 'ORDER_RECEIVED' | 'ORDER_IN_PROGRESS' | 'ORDER_DONE' | 'ORDER_PICKED_UP'
+): Promise<boolean> {
+  try {
+    const active = activeSessions[adminId];
+    if (!active?.socket || active.status !== 'CONNECTED') {
+      console.log(`ℹ️ WA socket not connected for ${adminId}, cannot send nota image.`);
+      return false;
+    }
+
+    const adminStore = await prisma.admin.findUnique({ where: { id: adminId } });
+    const notaData = formatOrderForNota(order, adminStore);
+    const imageBuffer = await generateNotaImage(notaData);
+
+    const tempPath = path.join(os.tmpdir(), `nota-${order.orderNumber}-${Date.now()}.png`);
+    fs.writeFileSync(tempPath, imageBuffer);
+
+    let formattedPhone = (order.customer?.phone || '').replace(/[^0-9]/g, '');
+    if (formattedPhone.startsWith('0')) {
+      formattedPhone = '62' + formattedPhone.slice(1);
+    }
+    if (!formattedPhone) {
+      console.warn(`⚠️ No phone number for order ${order.orderNumber}, skipping WA image send.`);
+      return false;
+    }
+
+    const jid = `${formattedPhone}@s.whatsapp.net`;
+
+    const captions: Record<string, string> = {
+      ORDER_RECEIVED: `🧺 Cucian Anda telah diterima!\nNota #${order.orderNumber} — lihat detail di gambar.`,
+      ORDER_IN_PROGRESS: `🧼 Cucian Anda sedang diproses!\nNota #${order.orderNumber} — lihat detail di gambar.`,
+      ORDER_DONE: `🎉 Cucian Anda SELESAI dan siap diambil!\nNota #${order.orderNumber} — lihat detail di gambar.`,
+      ORDER_PICKED_UP: `✅ Terima kasih telah mengambil cucian!\nNota #${order.orderNumber}`,
+    };
+
+    await active.socket.sendMessage(jid, {
+      image: { url: tempPath },
+      caption: captions[type] || `Nota #${order.orderNumber}`,
+      mimetype: 'image/png',
+    });
+
+    console.log(`🖼️ Nota image sent via WA to ${formattedPhone} for order #${order.orderNumber}`);
+
+    try {
+      fs.unlinkSync(tempPath);
+    } catch {}
+
+    return true;
+  } catch (error: any) {
+    console.error(`❌ Failed to send nota image for ${order.orderNumber}:`, error.message);
+    return false;
+  }
 }

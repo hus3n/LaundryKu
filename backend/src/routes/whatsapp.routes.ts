@@ -9,6 +9,7 @@ import {
   updateTemplate,
   sendCustomMessage,
   getMessageLogs,
+  sendNotaImage,
 } from '../controllers/whatsapp.controller.js';
 import { authenticate } from '../middleware/auth.js';
 import { authorize } from '../middleware/rbac.js';
@@ -55,6 +56,7 @@ router.get('/templates', authorize('ADMIN', 'SUPERADMIN'), getTemplates);
 router.put('/templates/:id', authorize('ADMIN', 'SUPERADMIN'), validate(updateTemplateSchema), updateTemplate);
 
 router.post('/send-custom', authorize('ADMIN'), validate(sendCustomMessageSchema), sendCustomMessage);
+router.post('/send-nota-image', authorize('ADMIN'), sendNotaImage);
 router.get('/logs', authorize('ADMIN', 'SUPERADMIN'), getMessageLogs);
 
 export default router;

@@ -5,7 +5,9 @@ import {
   initiateWAPairing,
   disconnectWASession,
   confirmWAPairingSimulated,
+  sendOrderWANotificationWithImage,
 } from '../whatsapp/baileys.js';
+import { prisma } from '../config/database.js';
 import { WATemplate } from '../models-nosql/waTemplate.model.js';
 import { isMongoConnected } from '../config/mongodb.js';
 import { WAMessageLog } from '../models-nosql/waMessageLog.model.js';
@@ -165,6 +167,61 @@ export async function getMessageLogs(req: AuthenticatedRequest, res: Response, n
 
     const logs = await WAMessageLog.find({ adminId }).sort({ createdAt: -1 }).limit(50);
     res.json({ success: true, data: logs });
+  } catch (error: any) {
+    next(error);
+  }
+}
+
+export async function sendNotaImage(req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> {
+  try {
+    const adminId = getTargetAdminId(req);
+    const { orderId } = req.body;
+
+    if (!adminId) {
+      res.status(400).json({ success: false, error: 'ID Toko tidak ditemukan.' });
+      return;
+    }
+    if (!orderId) {
+      res.status(400).json({ success: false, error: 'orderId wajib diisi.' });
+      return;
+    }
+
+    const order = await prisma.laundryOrder.findFirst({
+      where: { id: orderId, adminId },
+      include: {
+        customer: true,
+        items: {
+          include: { package: true, category: true },
+        },
+      },
+    });
+
+    if (!order) {
+      res.status(404).json({ success: false, error: 'Order tidak ditemukan.' });
+      return;
+    }
+
+    const typeMap: Record<string, any> = {
+      RECEIVED: 'ORDER_RECEIVED',
+      IN_PROGRESS: 'ORDER_IN_PROGRESS',
+      DONE: 'ORDER_DONE',
+      PICKED_UP: 'ORDER_PICKED_UP',
+    };
+
+    const sent = await sendOrderWANotificationWithImage(
+      adminId,
+      order,
+      typeMap[order.status] || 'ORDER_RECEIVED'
+    );
+
+    if (sent) {
+      res.json({ success: true, message: 'Gambar nota berhasil dikirim ke WhatsApp pelanggan.' });
+    } else {
+      res.status(500).json({
+        success: false,
+        error: 'Gagal mengirim gambar nota. Pastikan WhatsApp sudah terhubung dan pelanggan memiliki nomor HP.',
+      });
+    }
   } catch (error: any) {
     next(error);
   }

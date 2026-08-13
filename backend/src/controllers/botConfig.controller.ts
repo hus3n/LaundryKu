@@ -8,6 +8,7 @@ import {
   toggleAutoReply,
   deleteAutoReply,
 } from '../services/botConfig.service.js';
+import { testAiConnection } from '../services/ai.service.js';
 
 // Helper: ambil adminId (superadmin menggunakan ID khusus 'SUPERADMIN')
 function getAdminId(req: AuthenticatedRequest): string | null {
@@ -20,7 +21,7 @@ export async function getConfig(req: AuthenticatedRequest, res: Response, next: 
     if (!adminId) { res.status(400).json({ success: false, error: 'ID tidak ditemukan.' }); return; }
 
     const config = await getBotConfig(adminId);
-    // Jangan kirim aiApiKey ke frontend (keamanan) — sensor sebagian
+    // Jangan kirim aiApiKey penuh ke frontend (keamanan) — sensor sebagian
     const safeConfig = {
       ...config.toObject(),
       aiApiKey: config.aiApiKey ? '••••••••' + config.aiApiKey.slice(-4) : null,
@@ -36,15 +37,68 @@ export async function saveConfig(req: AuthenticatedRequest, res: Response, next:
     const adminId = getAdminId(req);
     if (!adminId) { res.status(400).json({ success: false, error: 'ID tidak ditemukan.' }); return; }
 
-    const { greetingMessage, isGreetingActive, aiApiKey, aiProvider, isAiActive } = req.body;
-    const updated = await updateBotConfig(adminId, {
+    const {
       greetingMessage,
       isGreetingActive,
       aiApiKey,
       aiProvider,
+      aiBaseUrl,
+      aiModel,
+      aiSystemPrompt,
       isAiActive,
-    });
+    } = req.body;
+
+    const dataToUpdate: any = {
+      greetingMessage,
+      isGreetingActive,
+      aiProvider,
+      aiBaseUrl,
+      aiModel,
+      aiSystemPrompt,
+      isAiActive,
+    };
+
+    // Only update aiApiKey if user actually provided a new unmasked key
+    if (aiApiKey && !aiApiKey.startsWith('••••••••')) {
+      dataToUpdate.aiApiKey = aiApiKey.trim();
+    } else if (aiApiKey === '') {
+      dataToUpdate.aiApiKey = null;
+    }
+
+    const updated = await updateBotConfig(adminId, dataToUpdate);
     res.json({ success: true, message: 'Konfigurasi bot disimpan.', data: updated });
+  } catch (error: any) {
+    next(error);
+  }
+}
+
+export async function testAi(req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> {
+  try {
+    const adminId = getAdminId(req);
+    if (!adminId) { res.status(400).json({ success: false, error: 'ID tidak ditemukan.' }); return; }
+
+    const { apiKey, provider, baseUrl, model, systemPrompt } = req.body;
+    let keyToUse = apiKey;
+
+    if (!keyToUse || keyToUse.startsWith('••••••••')) {
+      const savedConfig = await getBotConfig(adminId);
+      keyToUse = savedConfig?.aiApiKey;
+    }
+
+    if (!keyToUse) {
+      res.status(400).json({ success: false, error: 'API Key wajib diisi untuk melakukan test koneksi.' });
+      return;
+    }
+
+    const testResult = await testAiConnection({
+      apiKey: keyToUse,
+      provider,
+      baseUrl,
+      model,
+      systemPrompt,
+    });
+
+    res.json(testResult);
   } catch (error: any) {
     next(error);
   }

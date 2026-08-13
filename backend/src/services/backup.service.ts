@@ -137,7 +137,7 @@ export async function performBackupAndSendToTelegram(): Promise<{
 
   try {
     await sendMessageToTelegram(
-      `⏳ *Memulai Backup Database LaundryKu...*\n📅 ${new Date().toLocaleString('id-ID')}`
+      `⏳ *Memulai Backup Database LaundryKu...*\n📅 ${new Date().toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' })}`
     );
 
     const { filePath, fileName, stats } = await createBackupArchive();
@@ -145,7 +145,7 @@ export async function performBackupAndSendToTelegram(): Promise<{
 
     const caption =
       `📦 *Backup LaundryKu Berhasil!*\n\n` +
-      `📅 Waktu: ${new Date().toLocaleString('id-ID')}\n` +
+      `📅 Waktu: ${new Date().toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' })}\n` +
       `📊 Total Record: ${totalRecords}\n\n` +
       `Detail:\n` +
       Object.entries(stats)
@@ -436,7 +436,7 @@ export async function restoreFromBackup(zipFilePath: string): Promise<{
     // Notify via Telegram
     await sendMessageToTelegram(
       `🔄 *Restore Database Berhasil!*\n\n` +
-      `📅 Waktu: ${new Date().toLocaleString('id-ID')}\n` +
+      `📅 Waktu: ${new Date().toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' })}\n` +
       `📊 Total Record: ${totalRecords}\n\n` +
       Object.entries(stats).map(([k, v]) => `• ${k}: ${v}`).join('\n')
     );

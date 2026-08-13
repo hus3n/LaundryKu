@@ -4,19 +4,106 @@ import React, { useEffect, useState } from 'react';
 import DashboardLayout from '@/components/layouts/DashboardLayout';
 import { api } from '@/lib/api';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Settings, Save, Plus, Trash2, Edit2, Bot, AlertTriangle, Key } from 'lucide-react';
+import {
+  Settings,
+  Save,
+  Plus,
+  Trash2,
+  Edit2,
+  Bot,
+  AlertTriangle,
+  Key,
+  Globe,
+  Cpu,
+  Sparkles,
+  CheckCircle2,
+  XCircle,
+  Eye,
+  EyeOff,
+  Radio,
+  RefreshCw,
+  MessageSquare,
+} from 'lucide-react';
+
+const AI_PRESETS: Record<
+  string,
+  { label: string; baseUrl: string; defaultModel: string; placeholderKey: string }
+> = {
+  openai: {
+    label: 'OpenAI (ChatGPT)',
+    baseUrl: 'https://api.openai.com/v1',
+    defaultModel: 'gpt-4o-mini',
+    placeholderKey: 'sk-...',
+  },
+  deepseek: {
+    label: 'DeepSeek AI',
+    baseUrl: 'https://api.deepseek.com/v1',
+    defaultModel: 'deepseek-chat',
+    placeholderKey: 'sk-...',
+  },
+  groq: {
+    label: 'Groq (Ultra-fast LLM)',
+    baseUrl: 'https://api.groq.com/openai/v1',
+    defaultModel: 'llama-3.3-70b-versatile',
+    placeholderKey: 'gsk_...',
+  },
+  gemini: {
+    label: 'Google Gemini',
+    baseUrl: 'https://generativelanguage.googleapis.com/v1beta',
+    defaultModel: 'gemini-1.5-flash',
+    placeholderKey: 'AIzaSy...',
+  },
+  openrouter: {
+    label: 'OpenRouter (Multi-Model Hub)',
+    baseUrl: 'https://openrouter.ai/api/v1',
+    defaultModel: 'openai/gpt-4o-mini',
+    placeholderKey: 'sk-or-v1-...',
+  },
+  anthropic: {
+    label: 'Anthropic Claude',
+    baseUrl: 'https://api.anthropic.com/v1',
+    defaultModel: 'claude-3-5-sonnet-20241022',
+    placeholderKey: 'sk-ant-...',
+  },
+  ollama: {
+    label: 'Ollama (Local AI / Self-Hosted)',
+    baseUrl: 'http://localhost:11434/v1',
+    defaultModel: 'llama3',
+    placeholderKey: 'ollama (kosongkan / ketik bebas)',
+  },
+  custom: {
+    label: 'Custom (Semua Endpoint OpenAI-Compatible / Proxy)',
+    baseUrl: '',
+    defaultModel: 'gpt-4o-mini',
+    placeholderKey: 'API key penyedia Anda...',
+  },
+};
 
 export default function BotSettingsPage() {
   const [config, setConfig] = useState<any>({
     greetingMessage: '',
     isGreetingActive: false,
     aiApiKey: '',
-    aiProvider: null,
+    aiProvider: 'openai',
+    aiBaseUrl: '',
+    aiModel: '',
+    aiSystemPrompt: '',
     isAiActive: false,
   });
   const [autoReplies, setAutoReplies] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [savingConfig, setSavingConfig] = useState(false);
+  const [showApiKey, setShowApiKey] = useState(false);
+
+  // Test AI Connection States
+  const [isTestingAi, setIsTestingAi] = useState(false);
+  const [testResult, setTestResult] = useState<{
+    success: boolean;
+    reply?: string;
+    modelUsed?: string;
+    providerUsed?: string;
+    error?: string;
+  } | null>(null);
 
   // Form State
   const [newKeyword, setNewKeyword] = useState('');
@@ -30,8 +117,17 @@ export default function BotSettingsPage() {
         api.get('/bot/config'),
         api.get('/bot/auto-replies'),
       ]);
-      setConfig(confRes.data.data);
-      setAutoReplies(replyRes.data.data);
+      const loaded = confRes.data.data || {};
+      setConfig({
+        ...loaded,
+        aiProvider: loaded.aiProvider || 'openai',
+        aiBaseUrl: loaded.aiBaseUrl || '',
+        aiModel: loaded.aiModel || '',
+        aiSystemPrompt:
+          loaded.aiSystemPrompt ||
+          'Anda adalah asisten AI ramah dan profesional untuk layanan LaundryKu. Jawab pertanyaan pelanggan dengan sopan, jelas, dan informatif.',
+      });
+      setAutoReplies(replyRes.data.data || []);
     } catch (err: any) {
       if (err.response?.status !== 403) {
         console.error('Failed to load bot settings', err);
@@ -45,6 +141,16 @@ export default function BotSettingsPage() {
     loadData();
   }, []);
 
+  const handleProviderChange = (newProvider: string) => {
+    const preset = AI_PRESETS[newProvider];
+    setConfig((prev: any) => ({
+      ...prev,
+      aiProvider: newProvider,
+      aiBaseUrl: preset ? preset.baseUrl : prev.aiBaseUrl,
+      aiModel: preset ? preset.defaultModel : prev.aiModel,
+    }));
+  };
+
   const handleSaveConfig = async () => {
     setSavingConfig(true);
     try {
@@ -54,6 +160,28 @@ export default function BotSettingsPage() {
       alert(err.response?.data?.error || 'Gagal menyimpan konfigurasi');
     } finally {
       setSavingConfig(false);
+    }
+  };
+
+  const handleTestAi = async () => {
+    setIsTestingAi(true);
+    setTestResult(null);
+    try {
+      const res = await api.post('/bot/test-ai', {
+        apiKey: config.aiApiKey,
+        provider: config.aiProvider,
+        baseUrl: config.aiBaseUrl,
+        model: config.aiModel,
+        systemPrompt: config.aiSystemPrompt,
+      });
+      setTestResult(res.data);
+    } catch (err: any) {
+      setTestResult({
+        success: false,
+        error: err.response?.data?.error || err.message || 'Gagal menguji koneksi AI',
+      });
+    } finally {
+      setIsTestingAi(false);
     }
   };
 
@@ -106,17 +234,19 @@ export default function BotSettingsPage() {
       <div className="space-y-6">
         <div>
           <h1 className="text-2xl font-bold text-white flex items-center gap-2">
-            <Bot className="w-6 h-6 text-brand-400" /> Pengaturan Bot WhatsApp
+            <Bot className="w-6 h-6 text-brand-400" /> Pengaturan Bot WhatsApp & AI Universal
           </h1>
-          <p className="text-xs text-slate-400 mt-1">Konfigurasi balasan otomatis dan integrasi AI</p>
+          <p className="text-xs text-slate-400 mt-1">
+            Konfigurasi balasan otomatis, pesan sapaan, dan integrasi kecerdasan buatan (AI) dari berbagai penyedia dan custom endpoint.
+          </p>
         </div>
 
-        <div className="p-4 rounded-xl border border-amber-500/30 bg-amber-500/10 flex items-start gap-3">
-          <AlertTriangle className="w-5 h-5 text-amber-500 mt-0.5" />
+        <div className="p-4 rounded-xl border border-brand-500/30 bg-brand-500/10 flex items-start gap-3">
+          <Sparkles className="w-5 h-5 text-brand-400 mt-0.5 shrink-0" />
           <div>
-            <h3 className="font-semibold text-amber-400">Mode Testing (SuperAdmin Only)</h3>
-            <p className="text-xs text-amber-300 mt-1">
-              Fitur ini saat ini hanya tersedia untuk SuperAdmin guna keperluan testing internal.
+            <h3 className="font-semibold text-brand-300 text-xs sm:text-sm">Universal AI Connector Aktif</h3>
+            <p className="text-xs text-slate-300 mt-0.5">
+              Anda dapat menghubungkan <strong>semua jenis AI</strong>: OpenAI, DeepSeek, Groq, Google Gemini, OpenRouter, Claude, Ollama lokal, hingga custom base URL / proxy API key pihak ketiga.
             </p>
           </div>
         </div>
@@ -126,7 +256,9 @@ export default function BotSettingsPage() {
             {/* Section 1: Greeting */}
             <section className="glass-card-dark p-6 rounded-2xl border border-slate-800 space-y-4">
               <div className="flex items-center justify-between">
-                <h2 className="font-bold text-white">Pesan Sapaan Otomatis</h2>
+                <h2 className="font-bold text-white flex items-center gap-2">
+                  <MessageSquare className="w-4 h-4 text-brand-400" /> Pesan Sapaan Otomatis
+                </h2>
                 <label className="relative inline-flex items-center cursor-pointer">
                   <input
                     type="checkbox"
@@ -137,9 +269,9 @@ export default function BotSettingsPage() {
                   <div className="w-9 h-5 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-brand-500"></div>
                 </label>
               </div>
-              <p className="text-xs text-slate-400">Pesan yang dikirim otomatis saat pelanggan pertama kali chat.</p>
+              <p className="text-xs text-slate-400">Pesan yang dikirim otomatis saat pelanggan pertama kali menyapa.</p>
               <textarea
-                rows={4}
+                rows={3}
                 value={config?.greetingMessage || ''}
                 onChange={(e) => setConfig({ ...config, greetingMessage: e.target.value })}
                 className="w-full p-3 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-brand-500"
@@ -150,15 +282,15 @@ export default function BotSettingsPage() {
                 disabled={savingConfig}
                 className="px-4 py-2 rounded-xl bg-brand-500 hover:bg-brand-400 text-white font-semibold text-xs shadow-lg transition-all flex items-center gap-2 disabled:opacity-50"
               >
-                <Save className="w-4 h-4" /> Simpan Konfigurasi
+                <Save className="w-4 h-4" /> Simpan Pesan Sapaan
               </button>
             </section>
 
-            {/* Section 3: AI Integration */}
+            {/* Section 2: Universal AI Integration */}
             <section className="glass-card-dark p-6 rounded-2xl border border-slate-800 space-y-4">
               <div className="flex items-center justify-between">
                 <h2 className="font-bold text-white flex items-center gap-2">
-                  <Key className="w-4 h-4 text-emerald-400" /> Integrasi AI (Fallback)
+                  <Sparkles className="w-4 h-4 text-emerald-400" /> Integrasi AI Universal (Fallback)
                 </h2>
                 <label className="relative inline-flex items-center cursor-pointer">
                   <input
@@ -171,51 +303,191 @@ export default function BotSettingsPage() {
                 </label>
               </div>
               <p className="text-xs text-slate-400">
-                AI akan secara otomatis menjawab pesan yang tidak ada di dalam kata kunci Auto-Reply.
+                AI akan secara cerdas membalas pertanyaan pelanggan jika pesan tidak cocok dengan nomor nota ataupun kata kunci Auto-Reply.
               </p>
 
               <div className="space-y-4 pt-2">
+                {/* Provider Selector */}
                 <div>
-                  <label className="block text-xs font-semibold text-slate-300 mb-1">Provider AI</label>
+                  <label className="block text-xs font-semibold text-slate-300 mb-1 flex items-center gap-1.5">
+                    <Radio className="w-3.5 h-3.5 text-brand-400" /> Provider AI
+                  </label>
                   <select
-                    value={config?.aiProvider || ''}
-                    onChange={(e) => setConfig({ ...config, aiProvider: e.target.value || null })}
+                    value={config?.aiProvider || 'custom'}
+                    onChange={(e) => handleProviderChange(e.target.value)}
                     className="w-full px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-brand-500"
                   >
-                    <option value="">-- Pilih Provider --</option>
-                    <option value="openai">OpenAI (ChatGPT)</option>
-                    <option value="gemini">Google Gemini</option>
+                    {Object.entries(AI_PRESETS).map(([key, item]) => (
+                      <option key={key} value={key}>
+                        {item.label}
+                      </option>
+                    ))}
                   </select>
                 </div>
 
+                {/* Base URL Input */}
                 <div>
-                  <label className="block text-xs font-semibold text-slate-300 mb-1">API Key</label>
+                  <div className="flex items-center justify-between mb-1">
+                    <label className="block text-xs font-semibold text-slate-300 flex items-center gap-1.5">
+                      <Globe className="w-3.5 h-3.5 text-emerald-400" /> Base URL Endpoint
+                    </label>
+                    <span className="text-[10px] text-slate-500 font-mono">Dapat disesuaikan bebas</span>
+                  </div>
                   <input
-                    type="password"
-                    value={config?.aiApiKey || ''}
-                    onChange={(e) => setConfig({ ...config, aiApiKey: e.target.value })}
-                    placeholder="Masukkan API Key (cth: sk-...)"
-                    className="w-full px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-brand-500"
+                    type="text"
+                    value={config?.aiBaseUrl || ''}
+                    onChange={(e) => setConfig({ ...config, aiBaseUrl: e.target.value })}
+                    placeholder="https://api.openai.com/v1 atau https://api.deepseek.com/v1"
+                    className="w-full px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white font-mono placeholder:font-sans placeholder-slate-600 focus:outline-none focus:border-brand-500"
                   />
-                  <p className="text-[10px] text-slate-500 mt-1">Kosongkan jika tidak ingin mengubah kunci saat ini.</p>
+                  <p className="text-[10px] text-slate-500 mt-1">
+                    Mendukung semua endpoint REST OpenAI-compatible, cloud proxy, Ollama lokal (<code className="text-slate-400">http://localhost:11434/v1</code>), atau gateway API lainnya.
+                  </p>
                 </div>
 
-                <button
-                  onClick={handleSaveConfig}
-                  disabled={savingConfig}
-                  className="px-4 py-2 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/30 font-semibold text-xs transition-all flex items-center gap-2 disabled:opacity-50"
-                >
-                  <Save className="w-4 h-4" /> Simpan Konfigurasi AI
-                </button>
+                {/* Model Name Input */}
+                <div>
+                  <label className="block text-xs font-semibold text-slate-300 mb-1 flex items-center gap-1.5">
+                    <Cpu className="w-3.5 h-3.5 text-purple-400" /> Model Name
+                  </label>
+                  <input
+                    type="text"
+                    value={config?.aiModel || ''}
+                    onChange={(e) => setConfig({ ...config, aiModel: e.target.value })}
+                    placeholder="cth: gpt-4o-mini, deepseek-chat, llama-3.3-70b-versatile, gemini-1.5-flash"
+                    className="w-full px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white font-mono placeholder:font-sans placeholder-slate-600 focus:outline-none focus:border-brand-500"
+                  />
+                </div>
+
+                {/* API Key Input */}
+                <div>
+                  <div className="flex items-center justify-between mb-1">
+                    <label className="block text-xs font-semibold text-slate-300 flex items-center gap-1.5">
+                      <Key className="w-3.5 h-3.5 text-amber-400" /> API Key
+                    </label>
+                    <button
+                      type="button"
+                      onClick={() => setShowApiKey(!showApiKey)}
+                      className="text-[10px] text-slate-400 hover:text-white inline-flex items-center gap-1"
+                    >
+                      {showApiKey ? <EyeOff className="w-3 h-3" /> : <Eye className="w-3 h-3" />}
+                      {showApiKey ? 'Sembunyikan' : 'Lihat'}
+                    </button>
+                  </div>
+                  <input
+                    type={showApiKey ? 'text' : 'password'}
+                    value={config?.aiApiKey || ''}
+                    onChange={(e) => setConfig({ ...config, aiApiKey: e.target.value })}
+                    placeholder={AI_PRESETS[config?.aiProvider]?.placeholderKey || 'Masukkan API Key Anda...'}
+                    className="w-full px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white font-mono placeholder:font-sans placeholder-slate-600 focus:outline-none focus:border-brand-500"
+                  />
+                  <p className="text-[10px] text-slate-500 mt-1">
+                    {config?.aiApiKey?.startsWith('••••••••')
+                      ? 'Kunci saat ini tersimpan aman di server. Kosongkan jika tidak ingin mengubah.'
+                      : 'Kunci akan dienkripsi dan disimpan dengan aman.'}
+                  </p>
+                </div>
+
+                {/* System Prompt Input */}
+                <div>
+                  <label className="block text-xs font-semibold text-slate-300 mb-1">
+                    Instruksi Karakter & Pengetahuan AI (System Prompt)
+                  </label>
+                  <textarea
+                    rows={3}
+                    value={config?.aiSystemPrompt || ''}
+                    onChange={(e) => setConfig({ ...config, aiSystemPrompt: e.target.value })}
+                    placeholder="Instruksi kepribadian dan aturan menjawab untuk asisten AI..."
+                    className="w-full p-3 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-brand-500"
+                  />
+                </div>
+
+                {/* Test AI Result Badge */}
+                {testResult && (
+                  <div
+                    className={`p-3.5 rounded-xl text-xs border ${
+                      testResult.success
+                        ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-300'
+                        : 'bg-rose-500/10 border-rose-500/30 text-rose-300'
+                    }`}
+                  >
+                    <div className="flex items-center gap-1.5 font-bold mb-1">
+                      {testResult.success ? (
+                        <>
+                          <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                          <span>Koneksi AI Berhasil!</span>
+                        </>
+                      ) : (
+                        <>
+                          <XCircle className="w-4 h-4 text-rose-400" />
+                          <span>Koneksi AI Gagal:</span>
+                        </>
+                      )}
+                    </div>
+                    <div className="text-[11px] opacity-90 break-words">
+                      {testResult.success ? (
+                        <>
+                          <span className="font-semibold text-white">Respon AI:</span> "{testResult.reply}"
+                          {testResult.modelUsed && (
+                            <div className="mt-1 text-[10px] text-slate-400">
+                              Model: {testResult.modelUsed} · Provider: {testResult.providerUsed}
+                            </div>
+                          )}
+                        </>
+                      ) : (
+                        testResult.error
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                {/* Actions */}
+                <div className="flex flex-wrap items-center gap-3 pt-2">
+                  <button
+                    type="button"
+                    onClick={handleTestAi}
+                    disabled={isTestingAi}
+                    className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-semibold text-xs transition-all inline-flex items-center gap-2 disabled:opacity-50"
+                  >
+                    {isTestingAi ? (
+                      <>
+                        <RefreshCw className="w-4 h-4 animate-spin text-brand-400" />
+                        Menguji Koneksi...
+                      </>
+                    ) : (
+                      <>
+                        <Sparkles className="w-4 h-4 text-brand-400" />
+                        Test Koneksi AI
+                      </>
+                    )}
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={handleSaveConfig}
+                    disabled={savingConfig}
+                    className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs transition-all inline-flex items-center gap-2 disabled:opacity-50 shadow-lg shadow-emerald-500/20"
+                  >
+                    <Save className="w-4 h-4" /> Simpan Konfigurasi AI
+                  </button>
+                </div>
               </div>
             </section>
           </div>
 
-          {/* Section 2: Auto Reply */}
+          {/* Section 3: Auto Reply Keywords */}
           <section className="glass-card-dark p-6 rounded-2xl border border-slate-800 space-y-6">
-            <h2 className="font-bold text-white">Pesan Otomatis (Auto-Reply)</h2>
-            
-            <form onSubmit={handleAddAutoReply} className="p-4 rounded-xl bg-slate-900/50 border border-slate-800 space-y-3">
+            <div>
+              <h2 className="font-bold text-white">Pesan Otomatis Kata Kunci (Auto-Reply)</h2>
+              <p className="text-xs text-slate-400 mt-0.5">
+                Balasan instan berdasarkan kata kunci spesifik sebelum dilempar ke AI.
+              </p>
+            </div>
+
+            <form
+              onSubmit={handleAddAutoReply}
+              className="p-4 rounded-xl bg-slate-900/50 border border-slate-800 space-y-3"
+            >
               <h3 className="text-xs font-semibold text-brand-400">Tambah Aturan Baru</h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                 <input
@@ -223,7 +495,7 @@ export default function BotSettingsPage() {
                   required
                   value={newKeyword}
                   onChange={(e) => setNewKeyword(e.target.value)}
-                  placeholder="Kata Kunci (cth: promo)"
+                  placeholder="Kata Kunci (cth: harga)"
                   className="w-full px-3 py-2 rounded-lg bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-brand-500"
                 />
                 <input
@@ -231,7 +503,7 @@ export default function BotSettingsPage() {
                   required
                   value={newReply}
                   onChange={(e) => setNewReply(e.target.value)}
-                  placeholder="Balasan..."
+                  placeholder="Balasan otomatis..."
                   className="w-full px-3 py-2 rounded-lg bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-brand-500 md:col-span-2"
                 />
               </div>
@@ -241,7 +513,7 @@ export default function BotSettingsPage() {
                   disabled={isAddingReply}
                   className="px-4 py-2 rounded-xl bg-brand-500 hover:bg-brand-400 text-white font-semibold text-xs transition-all flex items-center gap-2 disabled:opacity-50"
                 >
-                  <Plus className="w-4 h-4" /> Tambah
+                  <Plus className="w-4 h-4" /> Tambah Kata Kunci
                 </button>
               </div>
             </form>
@@ -259,7 +531,9 @@ export default function BotSettingsPage() {
                 <tbody className="divide-y divide-slate-800/60">
                   {autoReplies.length === 0 ? (
                     <tr>
-                      <td colSpan={4} className="py-8 text-center text-slate-500">Belum ada aturan auto-reply</td>
+                      <td colSpan={4} className="py-8 text-center text-slate-500">
+                        Belum ada aturan kata kunci auto-reply
+                      </td>
                     </tr>
                   ) : (
                     autoReplies.map((reply) => (
@@ -299,3 +573,4 @@ export default function BotSettingsPage() {
     </DashboardLayout>
   );
 }
+

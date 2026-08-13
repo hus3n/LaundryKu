@@ -41,6 +41,7 @@ export default function GlobalLaundryListPage() {
   const [selectedReceiptOrder, setSelectedReceiptOrder] = useState<LaundryOrder | null>(null);
   const [selectedLogOrder, setSelectedLogOrder] = useState<LaundryOrder | null>(null);
   const [isExporting, setIsExporting] = useState(false);
+  const [isSendingNota, setIsSendingNota] = useState<string | null>(null);
 
   const loadOrders = async () => {
     setLoading(true);
@@ -96,6 +97,27 @@ export default function GlobalLaundryListPage() {
       loadOrders();
     } catch (err: unknown) {
       alert(getApiErrorMessage(err, 'Gagal mengubah status pembayaran'));
+    }
+  };
+
+  const handleSendNotaImage = async (e: React.MouseEvent, order: LaundryOrder) => {
+    e.stopPropagation();
+    const phone = order.customer?.phone;
+    const name = order.customer?.name || 'Pelanggan';
+    if (!phone) {
+      alert('Pelanggan tidak memiliki nomor HP. Tidak bisa mengirim WA.');
+      return;
+    }
+    if (!confirm(`Kirim gambar nota ke WhatsApp ${name} (${phone})?`)) return;
+
+    try {
+      setIsSendingNota(order.id);
+      const res = await api.post('/whatsapp/send-nota-image', { orderId: order.id });
+      alert(res.data.message || 'Gambar nota berhasil dikirim!');
+    } catch (err: unknown) {
+      alert(getApiErrorMessage(err, 'Gagal mengirim gambar nota'));
+    } finally {
+      setIsSendingNota(null);
     }
   };
 
@@ -292,12 +314,29 @@ export default function GlobalLaundryListPage() {
                       <span className="text-[9px] text-slate-500">
                         Masuk: {new Date(order.dateIn).toLocaleDateString('id-ID')}
                       </span>
-                      <button
-                        onClick={(e) => handleReceiptClickWithStop(e, order)}
-                        className="px-2.5 py-1 rounded-lg bg-slate-800 text-brand-300 text-[10px] font-semibold border border-slate-700 inline-flex items-center gap-1"
-                      >
-                        <Printer className="w-3 h-3" /> Struk
-                      </button>
+                      <div className="flex items-center gap-1.5">
+                        {order.customer?.phone && (
+                          <button
+                            id={`btn-send-nota-image-mob-${order.id}`}
+                            onClick={(e) => handleSendNotaImage(e, order)}
+                            disabled={isSendingNota === order.id}
+                            className="px-2 py-1 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 text-[10px] font-semibold border border-emerald-500/30 inline-flex items-center gap-1 transition-colors disabled:opacity-50"
+                            title="Kirim Nota sebagai Gambar WA"
+                          >
+                            {isSendingNota === order.id ? (
+                              <div className="w-3 h-3 border-2 border-emerald-400/30 border-t-emerald-400 rounded-full animate-spin" />
+                            ) : (
+                              <>📷 WA</>
+                            )}
+                          </button>
+                        )}
+                        <button
+                          onClick={(e) => handleReceiptClickWithStop(e, order)}
+                          className="px-2.5 py-1 rounded-lg bg-slate-800 text-brand-300 text-[10px] font-semibold border border-slate-700 inline-flex items-center gap-1"
+                        >
+                          <Printer className="w-3 h-3" /> Struk
+                        </button>
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -406,12 +445,29 @@ export default function GlobalLaundryListPage() {
                         <div className="font-bold text-white">
                           Rp {Number(order.totalPrice).toLocaleString('id-ID')}
                         </div>
-                        <button
-                          onClick={(e) => handleReceiptClickWithStop(e, order)}
-                          className="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-brand-300 text-[10px] font-semibold inline-flex items-center gap-1 border border-slate-700"
-                        >
-                          <Printer className="w-3 h-3" /> Struk
-                        </button>
+                        <div className="flex items-center justify-end gap-1.5">
+                          {order.customer?.phone && (
+                            <button
+                              id={`btn-send-nota-image-${order.id}`}
+                              onClick={(e) => handleSendNotaImage(e, order)}
+                              disabled={isSendingNota === order.id}
+                              className="px-2 py-1 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 text-[10px] font-semibold inline-flex items-center gap-1 border border-emerald-500/30 transition-colors disabled:opacity-50"
+                              title="Kirim Nota sebagai Gambar WA"
+                            >
+                              {isSendingNota === order.id ? (
+                                <div className="w-3 h-3 border-2 border-emerald-400/30 border-t-emerald-400 rounded-full animate-spin" />
+                              ) : (
+                                <>📷 WA</>
+                              )}
+                            </button>
+                          )}
+                          <button
+                            onClick={(e) => handleReceiptClickWithStop(e, order)}
+                            className="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-brand-300 text-[10px] font-semibold inline-flex items-center gap-1 border border-slate-700"
+                          >
+                            <Printer className="w-3 h-3" /> Struk
+                          </button>
+                        </div>
                       </td>
                       </motion.tr>
                     ))}

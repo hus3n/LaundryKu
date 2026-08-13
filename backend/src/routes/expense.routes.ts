@@ -8,6 +8,7 @@ import {
   getChartData,
   exportExpensesCSV,
   exportIncomeCSV,
+  exportCombinedCSV,
 } from '../controllers/expense.controller.js';
 import { authenticate } from '../middleware/auth.js';
 import { authorize } from '../middleware/rbac.js';
@@ -40,5 +41,6 @@ router.get('/chart', getChartData);
 // Export CSV
 router.get('/export/expenses', exportExpensesCSV);
 router.get('/export/income', exportIncomeCSV);
+router.get('/export/combined', exportCombinedCSV);
 
 export default router;

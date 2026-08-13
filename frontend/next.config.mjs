@@ -1,3 +1,5 @@
+process.env.TZ = 'Asia/Jakarta';
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,

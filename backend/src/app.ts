@@ -1,3 +1,4 @@
+process.env.TZ = 'Asia/Jakarta';
 import express from 'express';
 import path from 'path';
 import cors from 'cors';

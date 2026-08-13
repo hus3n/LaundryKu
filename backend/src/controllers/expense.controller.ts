@@ -120,9 +120,13 @@ export async function exportIncomeCSV(req: AuthenticatedRequest, res: Response, 
 
     const income = await getIncomeSummary(adminId, { month, year });
 
-    const headers = ['Tanggal', 'Jumlah (Rp)'];
+    const headers = ['No. Nota', 'Tanggal', 'Nama Pelanggan', 'No. HP Pelanggan', 'Metode Bayar', 'Jumlah (Rp)'];
     const rows = income.map((i) => [
-      new Date(i.date).toLocaleDateString('id-ID'),
+      i.orderNumber,
+      new Date(i.date).toLocaleDateString('id-ID', { timeZone: 'Asia/Jakarta' }),
+      i.customerName,
+      i.customerPhone,
+      i.paymentMethod,
       i.amount.toFixed(0),
     ]);
 
@@ -130,9 +134,94 @@ export async function exportIncomeCSV(req: AuthenticatedRequest, res: Response, 
       .map((row) => row.map((cell) => `"${String(cell).replace(/"/g, '""')}"`).join(','))
       .join('\n');
 
+    const label = month ? `${month}-${year || 'semua'}` : `${year || 'semua'}`;
     res.setHeader('Content-Type', 'text/csv; charset=utf-8');
-    res.setHeader('Content-Disposition', `attachment; filename="pemasukan-${year || 'semua'}-${month || 'semua'}.csv"`);
+    res.setHeader('Content-Disposition', `attachment; filename="pemasukan-${label}.csv"`);
     res.send('\uFEFF' + csvContent);
+  } catch (error: any) {
+    next(error);
+  }
+}
+
+// Export CSV Gabungan: Pemasukan + Pengeluaran dalam 1 file
+export async function exportCombinedCSV(req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> {
+  try {
+    const adminId = req.user?.adminId;
+    if (!adminId) { res.status(400).json({ success: false, error: 'ID Toko tidak ditemukan.' }); return; }
+
+    const month = req.query.month ? parseInt(req.query.month as string) : undefined;
+    const year = req.query.year ? parseInt(req.query.year as string) : undefined;
+
+    const [income, expenses] = await Promise.all([
+      getIncomeSummary(adminId, { month, year }),
+      getExpenses(adminId, { month, year }),
+    ]);
+
+    const totalIncome = income.reduce((sum, i) => sum + i.amount, 0);
+    const totalExpense = expenses.reduce((sum, e) => sum + Number(e.amount), 0);
+    const selisih = totalIncome - totalExpense;
+
+    const escapeCell = (val: string) => `"${String(val).replace(/"/g, '""')}"`;
+    const row = (cells: string[]) => cells.map(escapeCell).join(',');
+
+    const lines: string[] = [];
+
+    // === SECTION 1: PEMASUKAN ===
+    lines.push(row(['=== LAPORAN PEMASUKAN ===', '', '', '', '', '']));
+    lines.push(row(['No. Nota', 'Tanggal', 'Nama Pelanggan', 'No. HP', 'Metode Bayar', 'Jumlah (Rp)']));
+    if (income.length === 0) {
+      lines.push(row(['(Tidak ada data)', '', '', '', '', '']));
+    } else {
+      income.forEach((i) => {
+        lines.push(row([
+          i.orderNumber,
+          new Date(i.date).toLocaleDateString('id-ID', { timeZone: 'Asia/Jakarta' }),
+          i.customerName,
+          i.customerPhone,
+          i.paymentMethod,
+          i.amount.toFixed(0),
+        ]));
+      });
+    }
+    lines.push(row(['', '', '', '', 'TOTAL PEMASUKAN', totalIncome.toFixed(0)]));
+    lines.push(row(['', '', '', '', '', ''])); // baris kosong pemisah
+
+    // === SECTION 2: PENGELUARAN ===
+    lines.push(row(['=== LAPORAN PENGELUARAN ===', '', '', '', '', '']));
+    lines.push(row(['Tanggal', 'Kategori', 'Keterangan', 'Jumlah (Rp)', '', '']));
+    if (expenses.length === 0) {
+      lines.push(row(['(Tidak ada data)', '', '', '', '', '']));
+    } else {
+      expenses.forEach((e) => {
+        lines.push(row([
+          new Date(e.date).toLocaleDateString('id-ID', { timeZone: 'Asia/Jakarta' }),
+          e.category,
+          e.description || '-',
+          Number(e.amount).toFixed(0),
+          '',
+          '',
+        ]));
+      });
+    }
+    lines.push(row(['', '', 'TOTAL PENGELUARAN', totalExpense.toFixed(0), '', '']));
+    lines.push(row(['', '', '', '', '', ''])); // baris kosong pemisah
+
+    // === SECTION 3: RINGKASAN ===
+    lines.push(row(['=== RINGKASAN KEUANGAN ===', '', '', '', '', '']));
+    lines.push(row(['Total Pemasukan', `Rp ${totalIncome.toLocaleString('id-ID')}`, '', '', '', '']));
+    lines.push(row(['Total Pengeluaran', `Rp ${totalExpense.toLocaleString('id-ID')}`, '', '', '', '']));
+    lines.push(row([selisih >= 0 ? 'Keuntungan Bersih' : 'Defisit', `Rp ${Math.abs(selisih).toLocaleString('id-ID')}`, '', '', '', '']));
+
+    const csvContent = '\uFEFF' + lines.join('\n'); // BOM untuk Excel encoding
+
+    const bulanNama = month
+      ? new Date(year || new Date().getFullYear(), month - 1, 1).toLocaleString('id-ID', { month: 'long', timeZone: 'Asia/Jakarta' })
+      : 'semua-bulan';
+    const labelTahun = year || new Date().getFullYear();
+
+    res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+    res.setHeader('Content-Disposition', `attachment; filename="laporan-keuangan-${bulanNama}-${labelTahun}.csv"`);
+    res.send(csvContent);
   } catch (error: any) {
     next(error);
   }
