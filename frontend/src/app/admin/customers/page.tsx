@@ -4,11 +4,14 @@ import React, { useEffect, useState } from 'react';
 import DashboardLayout from '@/components/layouts/DashboardLayout';
 import { motion, AnimatePresence } from 'framer-motion';
 import { api } from '@/lib/api';
-import { Users, Search, Plus, Edit, Trash2, Phone, MapPin, MessageSquare } from 'lucide-react';
+import { Users, Search, Plus, Edit, Trash2, Phone, MapPin, MessageSquare, Download } from 'lucide-react';
+import type { Customer } from '@/types';
+import { getApiErrorMessage } from '@/lib/utils';
 
 export default function CustomerManagementPage() {
-  const [customers, setCustomers] = useState<any[]>([]);
+  const [customers, setCustomers] = useState<Customer[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [search, setSearch] = useState('');
 
   const [modalOpen, setModalOpen] = useState(false);
@@ -26,7 +29,9 @@ export default function CustomerManagementPage() {
       const res = await api.get('/customers', { params: { q: search } });
       setCustomers(res.data.data || []);
     } catch (err) {
-      console.error('Failed to load customers', err);
+      const message = err instanceof Error ? err.message : 'Terjadi kesalahan. Silakan refresh halaman.';
+      setError(message);
+      console.error('[CustomerPage] Failed to load customers:', err);
     } finally {
       setLoading(false);
     }
@@ -49,7 +54,7 @@ export default function CustomerManagementPage() {
     setModalOpen(true);
   };
 
-  const handleOpenEdit = (cust: any) => {
+  const handleOpenEdit = (cust: Customer) => {
     setEditingId(cust.id);
     setName(cust.name);
     setPhone(cust.phone);
@@ -71,8 +76,8 @@ export default function CustomerManagementPage() {
 
       setModalOpen(false);
       loadCustomers();
-    } catch (err: any) {
-      alert(err.response?.data?.error || 'Gagal menyimpan data pelanggan');
+    } catch (err: unknown) {
+      alert(getApiErrorMessage(err, 'Gagal menyimpan data pelanggan'));
     } finally {
       setIsSubmitting(false);
     }
@@ -83,9 +88,42 @@ export default function CustomerManagementPage() {
       try {
         await api.delete(`/customers/${id}`);
         loadCustomers();
-      } catch (err: any) {
-        alert(err.response?.data?.error || 'Gagal menghapus pelanggan');
+      } catch (err: unknown) {
+        alert(getApiErrorMessage(err, 'Gagal menghapus pelanggan'));
       }
+    }
+  };
+
+  const handleDownloadCustomers = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4001';
+      
+      const response = await fetch(`${apiUrl}/api/customers/export`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        alert(`Gagal download: ${error.error}`);
+        return;
+      }
+
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `data-pelanggan-${new Date().toISOString().slice(0, 10)}.csv`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      alert('Terjadi kesalahan saat mengunduh data pelanggan.');
+      console.error(err);
     }
   };
 
@@ -97,13 +135,22 @@ export default function CustomerManagementPage() {
             <h1 className="text-2xl font-bold text-white">Kelola Data Pelanggan</h1>
             <p className="text-xs text-slate-400 mt-1">Database kontak pelanggan toko dan nomor WhatsApp terdaftar</p>
           </div>
-          <button
-            onClick={handleOpenCreate}
-            className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-brand-500 to-brand-600 hover:from-brand-400 hover:to-brand-500 text-white font-semibold text-xs shadow-lg shadow-brand-500/20 transition-all inline-flex items-center gap-2"
-          >
-            <Plus className="w-4 h-4" />
-            Tambah Pelanggan
-          </button>
+          <div className="flex gap-3">
+            <button
+              onClick={handleDownloadCustomers}
+              className="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-semibold text-xs shadow-lg transition-all inline-flex items-center gap-2"
+            >
+              <Download className="w-4 h-4" />
+              Download CSV
+            </button>
+            <button
+              onClick={handleOpenCreate}
+              className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-brand-500 to-brand-600 hover:from-brand-400 hover:to-brand-500 text-white font-semibold text-xs shadow-lg shadow-brand-500/20 transition-all inline-flex items-center gap-2"
+            >
+              <Plus className="w-4 h-4" />
+              Tambah Pelanggan
+            </button>
+          </div>
         </div>
 
         {/* Search */}
@@ -122,7 +169,9 @@ export default function CustomerManagementPage() {
 
         {/* Customer Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {loading ? (
+          {error ? (
+            <div className="col-span-3 text-center py-12 text-xs text-rose-400">⚠️ {error}</div>
+          ) : loading ? (
             <div className="col-span-3 text-center py-12 text-xs text-slate-400">Memuat data pelanggan...</div>
           ) : customers.length === 0 ? (
             <div className="col-span-3 glass-card-dark p-12 rounded-2xl text-center text-xs text-slate-400 space-y-3">

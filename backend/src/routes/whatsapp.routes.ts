@@ -13,6 +13,7 @@ import {
 import { authenticate } from '../middleware/auth.js';
 import { authorize } from '../middleware/rbac.js';
 import { validate } from '../middleware/validation.js';
+import { requirePaidSubscription } from '../middleware/subscriptionGuard.js';
 
 const router = Router();
 
@@ -32,10 +33,23 @@ const sendCustomMessageSchema = z.object({
 
 router.use(authenticate);
 
+// Status dan disconnect TIDAK memerlukan pengecekan langganan
 router.get('/status', authorize('ADMIN', 'SUPERADMIN'), getStatus);
-router.post('/connect', authorize('ADMIN', 'SUPERADMIN'), connect);
-router.post('/confirm-simulated', authorize('ADMIN', 'SUPERADMIN'), confirmSimulated);
 router.post('/disconnect', authorize('ADMIN', 'SUPERADMIN'), disconnect);
+
+// Connect dan confirm-simulated MEMERLUKAN pengecekan langganan berbayar
+router.post(
+  '/connect',
+  authorize('ADMIN', 'SUPERADMIN'),
+  requirePaidSubscription,
+  connect
+);
+router.post(
+  '/confirm-simulated',
+  authorize('ADMIN', 'SUPERADMIN'),
+  requirePaidSubscription,
+  confirmSimulated
+);
 
 router.get('/templates', authorize('ADMIN', 'SUPERADMIN'), getTemplates);
 router.put('/templates/:id', authorize('ADMIN', 'SUPERADMIN'), validate(updateTemplateSchema), updateTemplate);

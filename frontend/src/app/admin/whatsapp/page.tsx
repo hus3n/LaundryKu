@@ -17,6 +17,8 @@ import {
   Clock,
   Code
 } from 'lucide-react';
+import type { WATemplate } from '@/types';
+import { getApiErrorMessage } from '@/lib/utils';
 
 export default function WhatsAppPairingPage() {
   const [status, setStatus] = useState<'DISCONNECTED' | 'CONNECTING' | 'CONNECTED'>('DISCONNECTED');
@@ -24,7 +26,10 @@ export default function WhatsAppPairingPage() {
   const [qrCode, setQrCode] = useState<string | null>(null);
   const [loadingStatus, setLoadingStatus] = useState(true);
 
-  const [templates, setTemplates] = useState<any[]>([]);
+  const [subscriptionError, setSubscriptionError] = useState<string | null>(null);
+  const [subscriptionCode, setSubscriptionCode] = useState<string | null>(null);
+
+  const [templates, setTemplates] = useState<WATemplate[]>([]);
   const [selectedTemplateId, setSelectedTemplateId] = useState<string | null>(null);
   const [templateContent, setTemplateContent] = useState('');
   const [savingTemplate, setSavingTemplate] = useState(false);
@@ -85,12 +90,19 @@ export default function WhatsAppPairingPage() {
 
   const handleConnect = async () => {
     setLoadingStatus(true);
+    setSubscriptionError(null);
     try {
       const res = await api.post('/whatsapp/connect');
       setStatus(res.data.data.status);
       setQrCode(res.data.data.qrCode);
     } catch (err: any) {
-      alert(err.response?.data?.error || 'Gagal memulai pairing WhatsApp');
+      const errorData = err.response?.data;
+      if (errorData?.code && ['TRIAL_ACCOUNT', 'SUBSCRIPTION_EXPIRED', 'ACCOUNT_INACTIVE'].includes(errorData.code)) {
+        setSubscriptionError(errorData.error);
+        setSubscriptionCode(errorData.code);
+      } else {
+        alert(getApiErrorMessage(err, 'Gagal memulai pairing WhatsApp'));
+      }
     } finally {
       setLoadingStatus(false);
     }
@@ -103,8 +115,8 @@ export default function WhatsAppPairingPage() {
         await api.post('/whatsapp/confirm-simulated', { phone: testPhone });
         loadWAStatus();
       }
-    } catch (err: any) {
-      alert(err.response?.data?.error || 'Gagal pairing');
+    } catch (err: unknown) {
+      alert(getApiErrorMessage(err, 'Gagal pairing'));
     }
   };
 
@@ -113,8 +125,8 @@ export default function WhatsAppPairingPage() {
       try {
         await api.post('/whatsapp/disconnect');
         loadWAStatus();
-      } catch (err: any) {
-        alert(err.response?.data?.error || 'Gagal memutuskan WA');
+      } catch (err: unknown) {
+        alert(getApiErrorMessage(err, 'Gagal memutuskan WA'));
       }
     }
   };
@@ -134,8 +146,8 @@ export default function WhatsAppPairingPage() {
       await api.put(`/whatsapp/templates/${selectedTemplateId}`, { content: templateContent });
       alert('Template pesan berhasil disimpan!');
       loadTemplates();
-    } catch (err: any) {
-      alert(err.response?.data?.error || 'Gagal menyimpan template');
+    } catch (err: unknown) {
+      alert(getApiErrorMessage(err, 'Gagal menyimpan template'));
     } finally {
       setSavingTemplate(false);
     }
@@ -157,8 +169,8 @@ export default function WhatsAppPairingPage() {
       setCustomPhone('');
       setCustomName('');
       setCustomMsg('');
-    } catch (err: any) {
-      alert(err.response?.data?.error || 'Gagal mengirim pesan custom');
+    } catch (err: unknown) {
+      alert(getApiErrorMessage(err, 'Gagal mengirim pesan custom'));
     } finally {
       setSendingMsg(false);
     }
@@ -171,6 +183,29 @@ export default function WhatsAppPairingPage() {
           <h1 className="text-2xl font-bold text-white">Integrasi WhatsApp Toko</h1>
           <p className="text-xs text-slate-400 mt-1">Pairing perangkat WhatsApp gateway, atur template pesan, dan pengiriman notifikasi</p>
         </div>
+
+        {subscriptionError && (
+          <div className="p-4 rounded-xl border border-amber-500/30 bg-amber-500/10 mb-6">
+            <div className="flex items-start gap-3">
+              <AlertCircle className="w-5 h-5 text-amber-500 mt-0.5 flex-shrink-0" />
+              <div>
+                <h3 className="font-medium text-amber-400">
+                  {subscriptionCode === 'TRIAL_ACCOUNT'
+                    ? 'Fitur Tidak Tersedia untuk Akun Trial'
+                    : subscriptionCode === 'SUBSCRIPTION_EXPIRED'
+                    ? 'Masa Langganan Telah Berakhir'
+                    : 'Akun Tidak Aktif'}
+                </h3>
+                <p className="text-sm text-amber-300 mt-1">{subscriptionError}</p>
+                {subscriptionCode !== 'ACCOUNT_INACTIVE' && (
+                  <p className="text-sm text-amber-500 mt-2">
+                    Hubungi administrator LaundryKu untuk upgrade atau memperpanjang langganan.
+                  </p>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Pairing Status Card */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -256,8 +291,8 @@ export default function WhatsAppPairingPage() {
               ) : (
                 <button
                   onClick={handleConnect}
-                  disabled={loadingStatus}
-                  className="w-full py-2.5 rounded-xl bg-brand-500 hover:bg-brand-400 text-white text-xs font-semibold shadow-lg shadow-brand-500/20 transition-all flex items-center justify-center gap-2"
+                  disabled={loadingStatus || !!subscriptionError}
+                  className="w-full py-2.5 rounded-xl bg-brand-500 hover:bg-brand-400 text-white text-xs font-semibold shadow-lg shadow-brand-500/20 transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <RefreshCw className={`w-4 h-4 ${loadingStatus ? 'animate-spin' : ''}`} />
                   Hubungkan WA Toko

@@ -30,7 +30,9 @@ export async function updateOutlet(
   data: { name?: string; address?: string; phone?: string; isActive?: boolean }
 ) {
   const existing = await prisma.outlet.findFirst({ where: { id: outletId, adminId } });
-  if (!existing) throw new Error('Outlet tidak ditemukan.');
+  if (!existing) {
+    throw new Error('Outlet tidak ditemukan.');
+  }
   return prisma.outlet.update({
     where: { id: outletId },
     data: {
@@ -44,7 +46,9 @@ export async function updateOutlet(
 
 export async function deleteOutlet(outletId: string, adminId: string) {
   const existing = await prisma.outlet.findFirst({ where: { id: outletId, adminId } });
-  if (!existing) throw new Error('Outlet tidak ditemukan.');
+  if (!existing) {
+    throw new Error('Outlet tidak ditemukan.');
+  }
   // Soft delete agar pesanan lama tidak orphan
   return prisma.outlet.update({
     where: { id: outletId },

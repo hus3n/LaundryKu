@@ -8,17 +8,20 @@ import CreateTrialModal from '@/components/ui/CreateTrialModal';
 import { api } from '@/lib/api';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Users, Plus, Edit, Trash2, Calendar, Phone, Mail, CheckCircle2, XCircle, RefreshCw, Zap } from 'lucide-react';
+import type { AdminUser } from '@/types';
+import { getApiErrorMessage } from '@/lib/utils';
 
 export default function AdminStoreManagementPage() {
-  const [admins, setAdmins] = useState<any[]>([]);
+  const [admins, setAdmins] = useState<AdminUser[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   // Modal Extend Subscription
-  const [selectedAdminForExtend, setSelectedAdminForExtend] = useState<any>(null);
+  const [selectedAdminForExtend, setSelectedAdminForExtend] = useState<AdminUser | null>(null);
   const [isExtendModalOpen, setIsExtendModalOpen] = useState(false);
 
   // Modal Delete Confirmation
-  const [adminToDelete, setAdminToDelete] = useState<any>(null);
+  const [adminToDelete, setAdminToDelete] = useState<AdminUser | null>(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [createErrorMsg, setCreateErrorMsg] = useState<string | null>(null);
@@ -41,7 +44,9 @@ export default function AdminStoreManagementPage() {
       const res = await api.get('/superadmin/admins');
       setAdmins(res.data.data || []);
     } catch (err) {
-      console.error('Failed to load admins', err);
+      const message = err instanceof Error ? err.message : 'Terjadi kesalahan. Silakan refresh halaman.';
+      setError(message);
+      console.error('[AdminStorePage] Failed to load admins:', err);
     } finally {
       setLoading(false);
     }
@@ -81,15 +86,14 @@ export default function AdminStoreManagementPage() {
 
       setModalOpen(false);
       loadAdmins();
-    } catch (err: any) {
-      const errMsg = err.response?.data?.error || err.message || 'Gagal mendaftarkan Admin toko baru';
-      setCreateErrorMsg(errMsg);
+    } catch (err: unknown) {
+      setCreateErrorMsg(getApiErrorMessage(err, 'Gagal mendaftarkan Admin toko baru'));
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const handleOpenExtend = (admin: any) => {
+  const handleOpenExtend = (admin: AdminUser) => {
     setSelectedAdminForExtend(admin);
     setIsExtendModalOpen(true);
   };
@@ -98,12 +102,12 @@ export default function AdminStoreManagementPage() {
     try {
       await api.patch(`/superadmin/admins/${adminId}/toggle-status`, { isActive: !currentStatus });
       loadAdmins();
-    } catch (err: any) {
-      console.error('Gagal mengubah status akun', err);
+    } catch (err: unknown) {
+      alert(getApiErrorMessage(err, 'Gagal mengubah status akun'));
     }
   };
 
-  const handleOpenDelete = (admin: any) => {
+  const handleOpenDelete = (admin: AdminUser) => {
     setAdminToDelete(admin);
     setIsDeleteModalOpen(true);
   };
@@ -116,8 +120,8 @@ export default function AdminStoreManagementPage() {
       setIsDeleteModalOpen(false);
       setAdminToDelete(null);
       loadAdmins();
-    } catch (err: any) {
-      console.error('Gagal menghapus Admin toko', err);
+    } catch (err: unknown) {
+      alert(getApiErrorMessage(err, 'Gagal menghapus Admin toko'));
     } finally {
       setIsDeleting(false);
     }
@@ -151,7 +155,9 @@ export default function AdminStoreManagementPage() {
 
         {/* Admins Table */}
         <div className="glass-card-dark rounded-2xl border border-slate-800 overflow-hidden">
-          {loading ? (
+          {error ? (
+            <div className="text-center py-12 text-xs text-rose-400">⚠️ {error}</div>
+          ) : loading ? (
             <div className="text-center py-12 text-xs text-slate-400">Memuat data Admin toko...</div>
           ) : admins.length === 0 ? (
             <div className="text-center py-16 text-xs text-slate-400 space-y-3">

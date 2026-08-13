@@ -1,4 +1,5 @@
 import express from 'express';
+import path from 'path';
 import cors from 'cors';
 import { env } from './config/env.js';
 import { connectMongoDB } from './config/mongodb.js';
@@ -20,6 +21,8 @@ import superadminRoutes from './routes/superadmin.routes.js';
 import analyticsRoutes from './routes/analytics.routes.js';
 import backupRoutes from './routes/backup.routes.js';
 import outletRoutes from './routes/outlet.routes.js';
+import expenseRoutes from './routes/expense.routes.js';
+import botConfigRoutes from './routes/botConfig.routes.js';
 
 const app = express();
 
@@ -30,6 +33,9 @@ app.use(cors({
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Serve uploaded files as static assets
+app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 app.use('/api', apiLimiter);
 
 // Health check
@@ -55,6 +61,8 @@ app.use('/api/superadmin', superadminRoutes);
 app.use('/api/analytics', analyticsRoutes);
 app.use('/api/backup', backupRoutes);
 app.use('/api/outlets', outletRoutes);
+app.use('/api/expenses', expenseRoutes);
+app.use('/api/bot', botConfigRoutes);
 
 // Global Error Handler
 app.use(errorHandler);

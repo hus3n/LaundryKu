@@ -6,8 +6,11 @@ import { AuthProvider } from '@/contexts/AuthContext';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'LaundryKu v1.0 — Aplikasi Pencatatan Laundry Modern',
-  description: 'Solusi pencatatan laundry modern dengan notifikasi WhatsApp otomatis, analitik pendapatan, dan manajemen multi-toko.',
+  title: 'LaundryKu - Manajemen Laundry Digital',
+  description: 'Sistem manajemen laundry digital cerdas, kelola pesanan dan pelanggan dengan mudah.',
+  icons: {
+    icon: '/logo/icon-option-a.svg',
+  },
   keywords: ['laundry', 'pencatatan laundry', 'whatsapp laundry', 'manajemen laundry', 'laundryku'],
 };
 

@@ -1,11 +1,12 @@
 import bcrypt from 'bcryptjs';
+import { Role, Prisma } from '@prisma/client';
 import { prisma } from '../config/database.js';
 
 export async function getEmployeesByAdmin(adminId: string) {
   return prisma.user.findMany({
     where: {
       adminId,
-      role: 'EMPLOYEE' as any,
+      role: Role.EMPLOYEE,
     },
     select: {
       id: true,
@@ -44,7 +45,7 @@ export async function createEmployee(adminId: string, data: {
       email: data.email,
       password: hashedPassword,
       phone: data.phone,
-      role: 'EMPLOYEE' as any,
+      role: Role.EMPLOYEE,
       adminId,
       isActive: true,
     },
@@ -66,17 +67,17 @@ export async function updateEmployee(employeeId: string, adminId: string, data: 
   isActive?: boolean;
 }) {
   const existing = await prisma.user.findFirst({
-    where: { id: employeeId, adminId, role: 'EMPLOYEE' as any },
+    where: { id: employeeId, adminId, role: Role.EMPLOYEE },
   });
 
   if (!existing) {
     throw new Error('Karyawan tidak ditemukan.');
   }
 
-  const updateData: any = {
-    name: data.name,
-    phone: data.phone,
-    isActive: data.isActive,
+  const updateData: Prisma.UserUpdateInput = {
+    ...(data.name !== undefined && { name: data.name }),
+    ...(data.phone !== undefined && { phone: data.phone }),
+    ...(data.isActive !== undefined && { isActive: data.isActive }),
   };
 
   if (data.password) {
@@ -98,7 +99,7 @@ export async function updateEmployee(employeeId: string, adminId: string, data: 
 
 export async function deleteEmployee(employeeId: string, adminId: string) {
   const existing = await prisma.user.findFirst({
-    where: { id: employeeId, adminId, role: 'EMPLOYEE' as any },
+    where: { id: employeeId, adminId, role: Role.EMPLOYEE },
   });
 
   if (!existing) {

@@ -4,10 +4,13 @@ import React, { useEffect, useState } from 'react';
 import DashboardLayout from '@/components/layouts/DashboardLayout';
 import { api } from '@/lib/api';
 import { UserCheck, Plus, Edit, Trash2, Mail, Phone, Lock } from 'lucide-react';
+import type { Employee } from '@/types';
+import { getApiErrorMessage } from '@/lib/utils';
 
 export default function EmployeeManagementPage() {
-  const [employees, setEmployees] = useState<any[]>([]);
+  const [employees, setEmployees] = useState<Employee[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const [modalOpen, setModalOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -25,7 +28,9 @@ export default function EmployeeManagementPage() {
       const res = await api.get('/employees');
       setEmployees(res.data.data || []);
     } catch (err) {
-      console.error('Failed to load employees', err);
+      const message = err instanceof Error ? err.message : 'Terjadi kesalahan. Silakan refresh halaman.';
+      setError(message);
+      console.error('[EmployeePage] Failed to load employees:', err);
     } finally {
       setLoading(false);
     }
@@ -44,7 +49,7 @@ export default function EmployeeManagementPage() {
     setModalOpen(true);
   };
 
-  const handleOpenEdit = (emp: any) => {
+  const handleOpenEdit = (emp: Employee) => {
     setEditingId(emp.id);
     setName(emp.name);
     setEmail(emp.email);
@@ -75,8 +80,8 @@ export default function EmployeeManagementPage() {
 
       setModalOpen(false);
       loadEmployees();
-    } catch (err: any) {
-      alert(err.response?.data?.error || 'Gagal menyimpan data karyawan');
+    } catch (err: unknown) {
+      alert(getApiErrorMessage(err, 'Gagal menyimpan data karyawan'));
     } finally {
       setIsSubmitting(false);
     }
@@ -87,8 +92,8 @@ export default function EmployeeManagementPage() {
       try {
         await api.delete(`/employees/${id}`);
         loadEmployees();
-      } catch (err: any) {
-        alert(err.response?.data?.error || 'Gagal menonaktifkan karyawan');
+      } catch (err: unknown) {
+        alert(getApiErrorMessage(err, 'Gagal menonaktifkan karyawan'));
       }
     }
   };
@@ -112,7 +117,9 @@ export default function EmployeeManagementPage() {
 
         {/* Employee Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {loading ? (
+          {error ? (
+            <div className="col-span-3 text-center py-12 text-xs text-rose-400">⚠️ {error}</div>
+          ) : loading ? (
             <div className="col-span-3 text-center py-12 text-xs text-slate-400">Memuat data karyawan...</div>
           ) : employees.length === 0 ? (
             <div className="col-span-3 glass-card-dark p-12 rounded-2xl text-center text-xs text-slate-400 space-y-3">

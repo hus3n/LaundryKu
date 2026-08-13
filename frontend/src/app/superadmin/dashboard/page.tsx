@@ -17,11 +17,13 @@ import {
   ArrowUpRight,
   RefreshCw
 } from 'lucide-react';
+import type { AdminUser } from '@/types';
 
 export default function SuperAdminDashboardPage() {
   const [data, setData] = useState<any>(null);
-  const [admins, setAdmins] = useState<any[]>([]);
+  const [admins, setAdmins] = useState<AdminUser[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   // Extend Subscription Modal state
   const [selectedAdminForExtend, setSelectedAdminForExtend] = useState<any>(null);
@@ -37,7 +39,9 @@ export default function SuperAdminDashboardPage() {
       setData(dashRes.data.data);
       setAdmins(adminRes.data.data || []);
     } catch (err) {
-      console.error('Failed to load SuperAdmin dashboard', err);
+      const message = err instanceof Error ? err.message : 'Terjadi kesalahan. Silakan refresh halaman.';
+      setError(message);
+      console.error('[SuperAdminDashboard] Failed to load dashboard:', err);
     } finally {
       setLoading(false);
     }
@@ -47,7 +51,7 @@ export default function SuperAdminDashboardPage() {
     loadData();
   }, []);
 
-  const handleOpenExtend = (admin: any) => {
+  const handleOpenExtend = (admin: AdminUser) => {
     setSelectedAdminForExtend(admin);
     setIsExtendModalOpen(true);
   };
@@ -157,7 +161,9 @@ export default function SuperAdminDashboardPage() {
             </Link>
           </div>
 
-          {loading ? (
+          {error ? (
+            <div className="text-center py-8 text-xs text-rose-400">⚠️ {error}</div>
+          ) : loading ? (
             <div className="text-center py-8 text-xs text-slate-400">Memuat data Admin...</div>
           ) : (
             <div className="overflow-x-auto">

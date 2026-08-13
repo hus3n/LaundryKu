@@ -2,6 +2,9 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { 
+  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer 
+} from 'recharts';
 import DashboardLayout from '@/components/layouts/DashboardLayout';
 import { motion } from 'framer-motion';
 import { api } from '@/lib/api';
@@ -17,9 +20,20 @@ import {
   DollarSign
 } from 'lucide-react';
 
+import type { LaundryOrder } from '@/types';
+import { 
+  getOrderStatusBadgeClass, 
+  getOrderStatusLabel, 
+  getPaymentStatusBadgeClass, 
+  getPaymentStatusLabel 
+} from '@/lib/orderUtils';
+
 export default function AdminDashboardPage() {
-  const [orders, setOrders] = useState<any[]>([]);
+  const [orders, setOrders] = useState<LaundryOrder[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [chartData, setChartData] = useState<any[]>([]);
+  const [chartYear, setChartYear] = useState(new Date().getFullYear());
 
   useEffect(() => {
     async function loadData() {
@@ -27,13 +41,35 @@ export default function AdminDashboardPage() {
         const res = await api.get('/laundry');
         setOrders(res.data.data || []);
       } catch (err) {
-        console.error('Failed to load orders', err);
+        const message = err instanceof Error ? err.message : 'Terjadi kesalahan. Silakan refresh halaman.';
+        setError(message);
+        console.error('[AdminDashboard] Failed to load orders:', err);
       } finally {
         setLoading(false);
       }
     }
     loadData();
   }, []);
+
+  useEffect(() => {
+    async function fetchChart() {
+      try {
+        const chartRes = await api.get(`/expenses/chart?year=${chartYear}`);
+        if (chartRes.data.success) {
+          const { labels, expenseData, incomeData } = chartRes.data.data;
+          const formatted = labels.map((label: string, index: number) => ({
+            name: label,
+            Pemasukan: incomeData[index],
+            Pengeluaran: expenseData[index],
+          }));
+          setChartData(formatted);
+        }
+      } catch (err) {
+        console.error('[AdminDashboard] Failed to load chart:', err);
+      }
+    }
+    fetchChart();
+  }, [chartYear]);
 
   const totalOrders = orders.length;
   const totalRevenue = orders.reduce((sum, item) => sum + Number(item.totalPrice || 0), 0);
@@ -142,6 +178,39 @@ export default function AdminDashboardPage() {
           </motion.div>
         </motion.div>
 
+        {/* Chart Section */}
+        <div className="glass-card-dark p-6 rounded-2xl border border-slate-800">
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="text-base font-bold text-white">Grafik Keuangan</h3>
+            <select 
+              value={chartYear} 
+              onChange={(e) => setChartYear(parseInt(e.target.value))}
+              className="bg-slate-900 border border-slate-700 text-white text-xs rounded-xl px-3 py-1.5 focus:outline-none focus:border-brand-500"
+            >
+              {[2024, 2025, 2026, 2027].map((y) => (
+                <option key={y} value={y}>{y}</option>
+              ))}
+            </select>
+          </div>
+          <div className="h-72 w-full text-xs">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={chartData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" vertical={false} />
+                <XAxis dataKey="name" stroke="#64748b" fontSize={10} tickLine={false} axisLine={false} />
+                <YAxis stroke="#64748b" fontSize={10} tickLine={false} axisLine={false} width={80} tickFormatter={(val) => `Rp ${(val/1000)}k`} />
+                <Tooltip 
+                  cursor={{ fill: '#1e293b' }} 
+                  contentStyle={{ backgroundColor: '#0f172a', borderColor: '#1e293b', borderRadius: '12px', fontSize: '12px', color: '#f8fafc' }} 
+                  formatter={(value: any) => new Intl.NumberFormat('id-ID').format(value)}
+                />
+                <Legend iconType="circle" wrapperStyle={{ fontSize: '11px', paddingTop: '10px' }} />
+                <Bar dataKey="Pemasukan" fill="#34d399" radius={[4, 4, 0, 0]} barSize={20} />
+                <Bar dataKey="Pengeluaran" fill="#fb7185" radius={[4, 4, 0, 0]} barSize={20} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+
         {/* Recent Orders Section */}
         <div className="glass-card-dark p-6 rounded-2xl border border-slate-800">
           <div className="flex items-center justify-between mb-6">
@@ -151,7 +220,11 @@ export default function AdminDashboardPage() {
             </Link>
           </div>
 
-          {loading ? (
+          {error ? (
+            <div className="text-center py-8 text-xs text-rose-400">
+              ⚠️ {error}
+            </div>
+          ) : loading ? (
             <div className="text-center py-8 text-xs text-slate-400">Memuat data cucian...</div>
           ) : orders.length === 0 ? (
             <div className="text-center py-12 text-xs text-slate-400 space-y-3">
@@ -189,35 +262,13 @@ export default function AdminDashboardPage() {
                         {new Date(order.dateIn).toLocaleDateString('id-ID')}
                       </td>
                       <td className="py-3.5 px-4">
-                        <span
-                          className={`px-2.5 py-1 rounded-full text-[10px] font-semibold border ${
-                            order.status === 'RECEIVED'
-                              ? 'bg-slate-800 text-slate-300 border-slate-700'
-                              : order.status === 'IN_PROGRESS'
-                              ? 'bg-amber-500/20 text-amber-300 border-amber-500/30'
-                              : order.status === 'DONE'
-                              ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30'
-                              : 'bg-brand-500/20 text-brand-300 border-brand-500/30'
-                          }`}
-                        >
-                          {order.status === 'RECEIVED'
-                            ? 'Masuk'
-                            : order.status === 'IN_PROGRESS'
-                            ? 'Diproses'
-                            : order.status === 'DONE'
-                            ? 'Selesai'
-                            : 'Diambil'}
+                        <span className={`px-2.5 py-1 rounded-full text-[10px] font-semibold border ${getOrderStatusBadgeClass(order.status)}`}>
+                          {getOrderStatusLabel(order.status)}
                         </span>
                       </td>
                       <td className="py-3.5 px-4">
-                        <span
-                          className={`px-2.5 py-1 rounded-full text-[10px] font-semibold border ${
-                            order.paymentStatus === 'PAID'
-                              ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30'
-                              : 'bg-rose-500/20 text-rose-300 border-rose-500/30'
-                          }`}
-                        >
-                          {order.paymentStatus === 'PAID' ? 'Lunas' : 'Belum Bayar'}
+                        <span className={`px-2.5 py-1 rounded-full text-[10px] font-semibold border ${getPaymentStatusBadgeClass(order.paymentStatus)}`}>
+                          {getPaymentStatusLabel(order.paymentStatus)}
                         </span>
                       </td>
                       <td className="py-3.5 px-4 text-right font-bold text-white">

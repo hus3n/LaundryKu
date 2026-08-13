@@ -22,6 +22,7 @@ import {
   FileText,
   User,
   Database,
+  Bot,
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 
@@ -43,6 +44,7 @@ export default function DashboardLayout({ children, role }: { children: React.Re
       { label: 'Dashboard', href: '/superadmin/dashboard', icon: LayoutDashboard },
       { label: 'Kelola Admin', href: '/superadmin/admins', icon: Users },
       { label: 'Pairing WA', href: '/superadmin/whatsapp', icon: QrCode },
+      { label: 'Pengaturan Bot WA', href: '/superadmin/bot-settings', icon: Bot },
       { label: 'Backup & Restore', href: '/superadmin/backup', icon: Database },
     ];
   } else if (user?.role === 'ADMIN') {
@@ -53,6 +55,7 @@ export default function DashboardLayout({ children, role }: { children: React.Re
       { label: 'Kelola Paket', href: '/admin/packages', icon: Package },
       { label: 'Kategori Cucian', href: '/admin/categories', icon: Layers },
       { label: 'Kelola Outlet', href: '/admin/outlets', icon: Building2 },
+      { label: 'Catatan Pengeluaran', href: '/admin/expenses', icon: FileText },
       { label: 'Data Pelanggan', href: '/admin/customers', icon: Users },
       { label: 'Data Karyawan', href: '/admin/employees', icon: UserCheck },
       { label: 'Pairing WA Toko', href: '/admin/whatsapp', icon: QrCode },

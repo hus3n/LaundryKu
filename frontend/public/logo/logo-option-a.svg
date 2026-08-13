@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 60">
+  <defs>
+    <linearGradient id="grad-a" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2563eb;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0ea5e9;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Ikon: Mesin Cuci Stilasi -->
+  <rect x="4" y="8" width="44" height="44" rx="8" fill="url(#grad-a)" />
+  <!-- Pintu mesin cuci (lingkaran) -->
+  <circle cx="26" cy="30" r="14" fill="none" stroke="white" stroke-width="2.5" />
+  <circle cx="26" cy="30" r="9" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2" />
+  <!-- Tombol-tombol kecil di atas -->
+  <circle cx="14" cy="15" r="2.5" fill="white" />
+  <circle cx="21" cy="15" r="2.5" fill="rgba(255,255,255,0.5)" />
+  <!-- Gelembung kecil di dalam pintu -->
+  <circle cx="22" cy="27" r="3" fill="rgba(255,255,255,0.3)" />
+  <circle cx="30" cy="33" r="2" fill="rgba(255,255,255,0.25)" />
+
+  <!-- Teks: LaundryKu -->
+  <text x="58" y="28" font-family="Arial, sans-serif" font-size="20" font-weight="700" fill="#1e3a5f">
+    Laundry
+  </text>
+  <text x="58" y="50" font-family="Arial, sans-serif" font-size="20" font-weight="700" fill="url(#grad-a)">
+    Ku
+  </text>
+  <!-- Tagline -->
+  <text x="60" y="58" font-family="Arial, sans-serif" font-size="8" fill="#94a3b8" letter-spacing="1">
+    LAUNDRY DIGITAL
+  </text>
+</svg>

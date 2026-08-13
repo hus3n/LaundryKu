@@ -30,9 +30,13 @@ export async function addEmployee(req: AuthenticatedRequest, res: Response, next
     }
 
     const newEmployee = await createEmployee(adminId, req.body);
-    res.status(201).json({ success: true, message: 'Karyawan berhasil ditambahkan.', data: newEmployee });
+    res.status(201).json({
+      success: true,
+      message: 'Karyawan berhasil ditambahkan.',
+      data: newEmployee,
+    });
   } catch (error: any) {
-    res.status(400).json({ success: false, error: error.message });
+    next(error);
   }
 }
 
@@ -47,9 +51,13 @@ export async function editEmployee(req: AuthenticatedRequest, res: Response, nex
     }
 
     const updated = await updateEmployee(id as string, adminId as string, req.body);
-    res.json({ success: true, message: 'Data karyawan diperbarui.', data: updated });
+    res.json({
+      success: true,
+      message: 'Data karyawan diperbarui.',
+      data: updated,
+    });
   } catch (error: any) {
-    res.status(400).json({ success: false, error: error.message });
+    next(error);
   }
 }
 
@@ -66,6 +74,6 @@ export async function removeEmployee(req: AuthenticatedRequest, res: Response, n
     await deleteEmployee(id as string, adminId as string);
     res.json({ success: true, message: 'Karyawan berhasil dinonaktifkan.' });
   } catch (error: any) {
-    res.status(400).json({ success: false, error: error.message });
+    next(error);
   }
 }

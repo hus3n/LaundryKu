@@ -21,6 +21,7 @@ interface DraftData {
   customerAddress: string;
   notes: string;
   fragrance: string;
+  clothesCount?: number;
   paymentStatus: 'UNPAID' | 'PAID';
   paymentMethod: 'CASH' | 'QRIS';
   selectedOutletId: string;
@@ -49,6 +50,7 @@ export default function NewLaundryOrderPage() {
   const [paymentStatus, setPaymentStatus] = useState<'UNPAID' | 'PAID'>('UNPAID');
   const [paymentMethod, setPaymentMethod] = useState<'CASH' | 'QRIS'>('CASH');
   const [fragrance, setFragrance] = useState('');
+  const [clothesCount, setClothesCount] = useState<number | undefined>(undefined);
   const [outlets, setOutlets] = useState<Array<{id: string; name: string; address?: string}>>([]);
   const [selectedOutletId, setSelectedOutletId] = useState<string>('');
 
@@ -138,6 +140,7 @@ export default function NewLaundryOrderPage() {
     customerAddress,
     notes,
     fragrance,
+    clothesCount,
     paymentStatus,
     paymentMethod,
     selectedOutletId,
@@ -152,6 +155,7 @@ export default function NewLaundryOrderPage() {
     setCustomerAddress(saved.customerAddress ?? '');
     setNotes(saved.notes ?? '');
     setFragrance(saved.fragrance ?? '');
+    setClothesCount(saved.clothesCount);
     setPaymentStatus(saved.paymentStatus ?? 'UNPAID');
     setPaymentMethod(saved.paymentMethod ?? 'CASH');
     setSelectedOutletId(saved.selectedOutletId ?? '');
@@ -195,6 +199,7 @@ export default function NewLaundryOrderPage() {
         notes,
         outletId: selectedOutletId || undefined,
         fragrance: fragrance.trim() || undefined,
+        clothesCount,
         paymentStatus,
         paymentMethod: paymentStatus === 'PAID' ? paymentMethod : undefined,
       });
@@ -449,9 +454,22 @@ export default function NewLaundryOrderPage() {
                   placeholder="Contoh: Molto Lavender, Downy Sunrise Fresh"
                   className="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-brand-500"
                 />
-                <p className="text-[10px] text-slate-500 mt-1">
+                <p className="text-[10px] text-slate-500 mt-1 mb-3">
                   Tulis nama parfum secara manual sesuai stok yang tersedia
                 </p>
+
+                <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+                  Jumlah Baju (helai) <span className="text-slate-500 font-normal">(opsional)</span>
+                </label>
+                <input
+                  type="number"
+                  min={0}
+                  step={1}
+                  value={clothesCount ?? ''}
+                  onChange={(e) => setClothesCount(e.target.value ? parseInt(e.target.value) : undefined)}
+                  placeholder="Contoh: 10"
+                  className="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-brand-500"
+                />
               </div>
 
               <div>

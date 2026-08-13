@@ -20,6 +20,7 @@ const createOrderSchema = z.object({
       })
     ).min(1, 'Minimal 1 item cucian'),
     notes: z.string().optional(),
+    clothesCount: z.number().int().min(0).optional(),
     paymentStatus: z.enum(['UNPAID', 'PAID']).optional(),
   }),
 });

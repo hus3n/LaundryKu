@@ -4,9 +4,11 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { X, Printer, Shirt } from 'lucide-react';
 
+import type { LaundryOrder, StoreSettings } from '@/types';
+
 interface ReceiptModalProps {
-  order: any;
-  store: any;
+  order: LaundryOrder;
+  store: StoreSettings | null;
   onClose: () => void;
 }
 
@@ -14,6 +16,10 @@ export default function ReceiptModal({ order, store, onClose }: ReceiptModalProp
   const handlePrint = () => {
     window.print();
   };
+
+  const paymentLabel = order?.paymentStatus === 'PAID'
+    ? `LUNAS${order.paymentMethod ? ` - ${order.paymentMethod}` : ''}`
+    : 'BELUM BAYAR';
 
   return (
     <>
@@ -47,21 +53,62 @@ export default function ReceiptModal({ order, store, onClose }: ReceiptModalProp
 
           {/* Thermal Struk Area */}
           <div id="receipt-print-area" className="font-mono text-[11px] space-y-3 leading-tight text-slate-800">
-            {/* Store Logo & Title */}
-            <div className="text-center space-y-1">
-              <div className="w-8 h-8 rounded-full bg-slate-900 text-white flex items-center justify-center mx-auto mb-1">
-                <Shirt className="w-4 h-4" />
-              </div>
-              <h2 className="font-extrabold text-sm uppercase tracking-wider">{store?.storeName || 'LAUNDRYKU'}</h2>
-              {order?.outlet && (
-                <p className="text-[10px] text-slate-700 font-bold uppercase pb-0.5">{order.outlet.name}</p>
+            {/* Header Nota dengan Logo */}
+            <div style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              textAlign: 'center',
+              marginBottom: '12px',
+              borderBottom: '1px dashed #94a3b8',
+              paddingBottom: '12px',
+            }}>
+              {/* Logo Toko atau Logo Default */}
+              {store?.storeLogo ? (
+                <img
+                  src={`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4001'}/${store.storeLogo}`}
+                  alt={`Logo ${store.storeName}`}
+                  style={{
+                    width: '64px',
+                    height: '64px',
+                    objectFit: 'contain',
+                    marginBottom: '8px',
+                  }}
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).style.display = 'none';
+                  }}
+                />
+              ) : (
+                <div style={{
+                  fontSize: '24px',
+                  fontWeight: 'bold',
+                  color: '#1e40af',
+                  marginBottom: '4px',
+                }}>
+                  🧺 LaundryKu
+                </div>
               )}
-              <p className="text-[10px] text-slate-600">
+
+              {/* Nama Toko */}
+              <div style={{ fontSize: '16px', fontWeight: 'bold', color: '#111827', textTransform: 'uppercase' }}>
+                {store?.storeName || 'LAUNDRYKU'}
+              </div>
+
+              {order?.outlet && (
+                <div style={{ fontSize: '12px', fontWeight: 'bold', color: '#334155', marginTop: '2px', textTransform: 'uppercase' }}>
+                  {order.outlet.name}
+                </div>
+              )}
+
+              {/* Alamat Toko */}
+              <div style={{ fontSize: '11px', color: '#475569', marginTop: '2px' }}>
                 {order?.outlet?.address || store?.storeAddress || 'Alamat Toko Laundry'}
-              </p>
-              <p className="text-[10px] text-slate-600">
+              </div>
+
+              {/* Telepon Toko */}
+              <div style={{ fontSize: '11px', color: '#475569' }}>
                 WA: {order?.outlet?.phone || store?.storePhone || '-'}
-              </p>
+              </div>
             </div>
 
             <div className="border-t border-b border-dashed border-slate-400 py-2 space-y-1">
@@ -93,7 +140,7 @@ export default function ReceiptModal({ order, store, onClose }: ReceiptModalProp
                 <span>Item & Paket</span>
                 <span>Subtotal</span>
               </div>
-              {order?.items?.map((item: any, idx: number) => (
+              {order?.items?.map((item, idx) => (
                 <div key={idx} className="flex justify-between text-[10px]">
                   <div>
                     <div>{item.package?.name} ({item.category?.name})</div>
@@ -114,7 +161,7 @@ export default function ReceiptModal({ order, store, onClose }: ReceiptModalProp
               <div className="flex justify-between text-[10px]">
                 <span>Status Pembayaran:</span>
                 <span className="font-extrabold uppercase">
-                  [{order?.paymentStatus === 'PAID' ? `LUNAS${order.paymentMethod ? ' - ' + order.paymentMethod : ''}` : 'BELUM BAYAR'}]
+                  [{paymentLabel}]
                 </span>
               </div>
               {order?.estimatedDone && (
@@ -131,6 +178,12 @@ export default function ReceiptModal({ order, store, onClose }: ReceiptModalProp
               {order?.fragrance && (
                 <div className="text-[10px] text-slate-600 italic pt-1">
                   Parfum: {order.fragrance}
+                </div>
+              )}
+              {order?.clothesCount !== null && order?.clothesCount !== undefined && (
+                <div className="flex justify-between text-[10px] pt-1">
+                  <span className="text-slate-600">Jumlah Baju:</span>
+                  <span className="font-bold">{order.clothesCount} helai</span>
                 </div>
               )}
             </div>

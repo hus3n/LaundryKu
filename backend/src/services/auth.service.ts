@@ -67,7 +67,17 @@ export async function registerAdminRequestService(data: {
   email: string;
 }) {
   // Generate WhatsApp template message to SuperAdmin
-  const message = `Halo SuperAdmin LaundryKu,\n\nSaya ingin mendaftar sebagai Admin LaundryKu:\n- Nama Toko: ${data.storeName}\n- Penanggung Jawab: ${data.name}\n- No WA: ${data.phone}\n- Email: ${data.email}\n\nMohon bantuannya untuk pembuatan akun. Terima kasih!`;
+  const message = [
+    'Halo SuperAdmin LaundryKu,',
+    '',
+    'Saya ingin mendaftar sebagai Admin LaundryKu:',
+    `- Nama Toko: ${data.storeName}`,
+    `- Penanggung Jawab: ${data.name}`,
+    `- No WA: ${data.phone}`,
+    `- Email: ${data.email}`,
+    '',
+    'Mohon bantuannya untuk pembuatan akun. Terima kasih!',
+  ].join('\n');
   
   const encodedMessage = encodeURIComponent(message);
   const waUrl = `https://wa.me/?text=${encodedMessage}`;
@@ -96,8 +106,10 @@ export async function forgotPasswordService(email: string) {
     },
   });
 
-  // In production, send email here via nodemailer
-  console.log(`🔑 Password Reset Link for ${email}: ${env.FRONTEND_URL}/reset-password/${resetToken}`);
+  // TODO: Implementasi pengiriman email reset password via nodemailer atau service email
+  // Sementara, link disimpan di log dengan level WARN agar bisa difilter
+  console.warn('[AUTH] Password reset token generated for:', email);
+  // JANGAN log token atau URL lengkap ke production log
   return true;
 }
 

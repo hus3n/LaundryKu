@@ -19,24 +19,33 @@ import {
   Download
 } from 'lucide-react';
 import { exportToCSV } from '@/lib/export';
+import type { LaundryOrder, StoreSettings } from '@/types';
+import { 
+  getOrderStatusBadgeClass, 
+  getOrderStatusLabel, 
+  getPaymentStatusBadgeClass, 
+  getPaymentStatusLabel 
+} from '@/lib/orderUtils';
+import { getApiErrorMessage } from '@/lib/utils';
 
 export default function GlobalLaundryListPage() {
-  const [orders, setOrders] = useState<any[]>([]);
-  const [store, setStore] = useState<any>(null);
+  const [orders, setOrders] = useState<LaundryOrder[]>([]);
+  const [store, setStore] = useState<StoreSettings | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('');
   const [paymentFilter, setPaymentFilter] = useState('');
 
-  const [selectedReceiptOrder, setSelectedReceiptOrder] = useState<any | null>(null);
-  const [selectedLogOrder, setSelectedLogOrder] = useState<any | null>(null);
+  const [selectedReceiptOrder, setSelectedReceiptOrder] = useState<LaundryOrder | null>(null);
+  const [selectedLogOrder, setSelectedLogOrder] = useState<LaundryOrder | null>(null);
   const [isExporting, setIsExporting] = useState(false);
 
   const loadOrders = async () => {
     setLoading(true);
     try {
-      const params: any = {};
+      const params: Record<string, string> = {};
       if (search) params.search = search;
       if (statusFilter) params.status = statusFilter;
       if (paymentFilter) params.paymentStatus = paymentFilter;
@@ -49,7 +58,9 @@ export default function GlobalLaundryListPage() {
       setOrders(orderRes.data.data || []);
       setStore(storeRes.data.data || null);
     } catch (err) {
-      console.error('Failed to load orders', err);
+      const message = err instanceof Error ? err.message : 'Terjadi kesalahan. Silakan refresh halaman.';
+      setError(message);
+      console.error('[LaundryPage] Failed to load orders:', err);
     } finally {
       setLoading(false);
     }
@@ -68,9 +79,14 @@ export default function GlobalLaundryListPage() {
     try {
       await api.patch(`/laundry/${orderId}/status`, { status: newStatus });
       loadOrders();
-    } catch (err: any) {
-      alert(err.response?.data?.error || 'Gagal mengubah status cucian');
+    } catch (err: unknown) {
+      alert(getApiErrorMessage(err, 'Gagal mengubah status cucian'));
     }
+  };
+
+  const handleStatusChangeWithStop = (e: React.ChangeEvent<HTMLSelectElement>, orderId: string) => {
+    e.stopPropagation();
+    handleUpdateStatus(orderId, e.target.value);
   };
 
   const handleUpdatePayment = async (orderId: string, currentStatus: string) => {
@@ -78,9 +94,19 @@ export default function GlobalLaundryListPage() {
     try {
       await api.patch(`/laundry/${orderId}/payment`, { paymentStatus: newPayment });
       loadOrders();
-    } catch (err: any) {
-      alert(err.response?.data?.error || 'Gagal mengubah status pembayaran');
+    } catch (err: unknown) {
+      alert(getApiErrorMessage(err, 'Gagal mengubah status pembayaran'));
     }
+  };
+
+  const handlePaymentClickWithStop = (e: React.MouseEvent, orderId: string, currentStatus: string) => {
+    e.stopPropagation();
+    handleUpdatePayment(orderId, currentStatus);
+  };
+
+  const handleReceiptClickWithStop = (e: React.MouseEvent, order: LaundryOrder) => {
+    e.stopPropagation();
+    setSelectedReceiptOrder(order);
   };
 
   const handleExport = async () => {
@@ -183,7 +209,9 @@ export default function GlobalLaundryListPage() {
 
         {/* Data Table */}
         <div className="glass-card-dark rounded-2xl border border-slate-800 overflow-hidden">
-          {loading ? (
+          {error ? (
+            <div className="text-center py-12 text-xs text-rose-400">⚠️ {error}</div>
+          ) : loading ? (
             <div className="text-center py-12 text-xs text-slate-400">Memuat data cucian...</div>
           ) : orders.length === 0 ? (
             <div className="text-center py-16 text-xs text-slate-400 space-y-3">
@@ -210,7 +238,7 @@ export default function GlobalLaundryListPage() {
                       </div>
                       <select
                         value={order.status}
-                        onChange={(e) => { e.stopPropagation(); handleUpdateStatus(order.id, e.target.value); }}
+                        onChange={(e) => handleStatusChangeWithStop(e, order.id)}
                         onClick={(e) => e.stopPropagation()}
                         className="px-2 py-1 rounded-lg text-[10px] font-semibold border bg-slate-800 text-slate-300 border-slate-700 focus:outline-none"
                       >
@@ -232,23 +260,18 @@ export default function GlobalLaundryListPage() {
                           Rp {Number(order.totalPrice).toLocaleString('id-ID')}
                         </div>
                         <button
-                          onClick={(e) => { e.stopPropagation(); handleUpdatePayment(order.id, order.paymentStatus); }}
-                          className={`text-[9px] px-2 py-0.5 rounded-full border mt-0.5 ${
-                            order.paymentStatus === 'PAID'
-                              ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30'
-                              : 'bg-rose-500/20 text-rose-300 border-rose-500/30'
-                          }`}
+                          onClick={(e) => handlePaymentClickWithStop(e, order.id, order.paymentStatus)}
+                          className={`text-[9px] px-2 py-0.5 rounded-full border mt-0.5 ${getPaymentStatusBadgeClass(order.paymentStatus)}`}
                         >
-                          {order.paymentStatus === 'PAID'
-                            ? `Lunas${order.paymentMethod ? ` · ${order.paymentMethod}` : ''}`
-                            : 'Belum Bayar'}
+                          {getPaymentStatusLabel(order.paymentStatus)}
+                          {order.paymentStatus === 'PAID' && order.paymentMethod ? ` · ${order.paymentMethod}` : ''}
                         </button>
                       </div>
                     </div>
 
                     {/* Baris 3: Item paket */}
                     <div className="text-[10px] text-slate-400">
-                      {order.items?.map((item: any, i: number) => (
+                      {order.items?.map((item, i) => (
                         <span key={i}>
                           {item.package?.name} ({item.quantity} {item.package?.unit})
                           {i < order.items.length - 1 ? ', ' : ''}
@@ -270,7 +293,7 @@ export default function GlobalLaundryListPage() {
                         Masuk: {new Date(order.dateIn).toLocaleDateString('id-ID')}
                       </span>
                       <button
-                        onClick={(e) => { e.stopPropagation(); setSelectedReceiptOrder(order); }}
+                        onClick={(e) => handleReceiptClickWithStop(e, order)}
                         className="px-2.5 py-1 rounded-lg bg-slate-800 text-brand-300 text-[10px] font-semibold border border-slate-700 inline-flex items-center gap-1"
                       >
                         <Printer className="w-3 h-3" /> Struk
@@ -337,7 +360,7 @@ export default function GlobalLaundryListPage() {
                         {order.outlet?.name || '—'}
                       </td>
                       <td className="py-4 px-4 space-y-1">
-                        {order.items?.map((item: any, i: number) => (
+                        {order.items?.map((item, i) => (
                           <div key={i} className="text-[11px] text-slate-300">
                             • {item.package?.name} ({item.quantity} {item.package?.unit}) —{' '}
                             <span className="text-slate-400">{item.category?.name}</span>
@@ -356,16 +379,8 @@ export default function GlobalLaundryListPage() {
                         <select
                           value={order.status}
                           onClick={(e) => e.stopPropagation()}
-                          onChange={(e) => { e.stopPropagation(); handleUpdateStatus(order.id, e.target.value); }}
-                          className={`px-2.5 py-1 rounded-xl text-[10px] font-semibold border cursor-pointer focus:outline-none ${
-                            order.status === 'RECEIVED'
-                              ? 'bg-slate-800 text-slate-300 border-slate-700'
-                              : order.status === 'IN_PROGRESS'
-                              ? 'bg-amber-500/20 text-amber-300 border-amber-500/30'
-                              : order.status === 'DONE'
-                              ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30'
-                              : 'bg-brand-500/20 text-brand-300 border-brand-500/30'
-                          }`}
+                          onChange={(e) => handleStatusChangeWithStop(e, order.id)}
+                          className={`px-2.5 py-1 rounded-xl text-[10px] font-semibold border cursor-pointer focus:outline-none ${getOrderStatusBadgeClass(order.status)}`}
                         >
                           <option value="RECEIVED" className="bg-slate-900 text-white">Masuk</option>
                           <option value="IN_PROGRESS" className="bg-slate-900 text-white">Sedang Dikerjakan</option>
@@ -375,15 +390,11 @@ export default function GlobalLaundryListPage() {
                       </td>
                       <td className="py-4 px-4">
                         <button
-                          onClick={(e) => { e.stopPropagation(); handleUpdatePayment(order.id, order.paymentStatus); }}
-                          className={`px-2.5 py-1 rounded-xl text-[10px] font-semibold border transition-all ${
-                            order.paymentStatus === 'PAID'
-                              ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30 hover:bg-rose-500/20 hover:text-rose-300'
-                              : 'bg-rose-500/20 text-rose-300 border-rose-500/30 hover:bg-emerald-500/20 hover:text-emerald-300'
-                          }`}
+                          onClick={(e) => handlePaymentClickWithStop(e, order.id, order.paymentStatus)}
+                          className={`px-2.5 py-1 rounded-xl text-[10px] font-semibold border transition-all ${getPaymentStatusBadgeClass(order.paymentStatus)}`}
                           title="Klik untuk ubah status bayar"
                         >
-                          {order.paymentStatus === 'PAID' ? 'Lunas' : 'Belum Bayar'}
+                          {getPaymentStatusLabel(order.paymentStatus)}
                         </button>
                         {order.paymentStatus === 'PAID' && order.paymentMethod && (
                           <div className="text-[9px] text-slate-400 mt-0.5 text-center">
@@ -396,7 +407,7 @@ export default function GlobalLaundryListPage() {
                           Rp {Number(order.totalPrice).toLocaleString('id-ID')}
                         </div>
                         <button
-                          onClick={(e) => { e.stopPropagation(); setSelectedReceiptOrder(order); }}
+                          onClick={(e) => handleReceiptClickWithStop(e, order)}
                           className="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-brand-300 text-[10px] font-semibold inline-flex items-center gap-1 border border-slate-700"
                         >
                           <Printer className="w-3 h-3" /> Struk

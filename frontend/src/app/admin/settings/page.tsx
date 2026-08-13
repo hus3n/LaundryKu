@@ -9,7 +9,12 @@ export default function StoreSettingsPage() {
   const [storeName, setStoreName] = useState('');
   const [storeAddress, setStoreAddress] = useState('');
   const [storePhone, setStorePhone] = useState('');
+  const [storeLogoUrl, setStoreLogoUrl] = useState<string | null>(null);
   const [subscriptionEnd, setSubscriptionEnd] = useState<string | null>(null);
+
+  const [logoFile, setLogoFile] = useState<File | null>(null);
+  const [logoPreview, setLogoPreview] = useState<string | null>(null);
+  const [isUploadingLogo, setIsUploadingLogo] = useState(false);
 
   const [loading, setLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -25,6 +30,7 @@ export default function StoreSettingsPage() {
           setStoreName(data.storeName || '');
           setStoreAddress(data.storeAddress || '');
           setStorePhone(data.storePhone || '');
+          setStoreLogoUrl(data.storeLogo || null);
           setSubscriptionEnd(data.subscriptionEnd);
         }
       } catch (err) {
@@ -57,6 +63,57 @@ export default function StoreSettingsPage() {
     }
   };
 
+  const handleLogoFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    
+    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+    if (!allowedTypes.includes(file.type)) {
+      alert('Format file tidak didukung. Gunakan JPG, PNG, atau WebP.');
+      return;
+    }
+    if (file.size > 2 * 1024 * 1024) {
+      alert('Ukuran file maksimum 2MB.');
+      return;
+    }
+    
+    setLogoFile(file);
+    setLogoPreview(URL.createObjectURL(file));
+  };
+
+  const handleUploadLogo = async () => {
+    if (!logoFile) return;
+    
+    setIsUploadingLogo(true);
+    try {
+      const formData = new FormData();
+      formData.append('logo', logoFile);
+      
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4001';
+      const response = await fetch(`${apiUrl}/api/store/upload-logo`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: formData,
+      });
+      
+      const result = await response.json();
+      if (result.success) {
+        alert('Logo berhasil diupload!');
+        setStoreLogoUrl(result.data.storeLogo);
+        setLogoFile(null);
+        setLogoPreview(null);
+      } else {
+        alert(`Gagal upload logo: ${result.error}`);
+      }
+    } catch (err) {
+      alert('Terjadi kesalahan saat upload logo.');
+    } finally {
+      setIsUploadingLogo(false);
+    }
+  };
+
   return (
     <DashboardLayout>
       <div className="max-w-3xl mx-auto space-y-6">
@@ -84,6 +141,58 @@ export default function StoreSettingsPage() {
             <div className="text-center py-8 text-xs text-slate-400">Memuat profil toko...</div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4">
+              
+              {/* Upload Logo */}
+              <div className="mb-6 p-4 rounded-2xl bg-slate-900/50 border border-slate-800">
+                <label className="block text-xs font-semibold text-slate-300 mb-3">Logo Toko</label>
+                
+                {/* Preview Logo */}
+                <div className="mb-4">
+                  {(logoPreview || storeLogoUrl) ? (
+                    <img
+                      src={logoPreview || `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4001'}/${storeLogoUrl}`}
+                      alt="Logo Toko"
+                      className="w-24 h-24 object-contain border border-slate-700 bg-white rounded-xl"
+                    />
+                  ) : (
+                    <div className="w-24 h-24 border-2 border-dashed border-slate-700 rounded-xl flex items-center justify-center text-slate-500 text-xs text-center">
+                      Belum ada logo
+                    </div>
+                  )}
+                </div>
+                
+                {/* Input File */}
+                <input
+                  id="logoUpload"
+                  type="file"
+                  accept="image/jpeg,image/jpg,image/png,image/webp"
+                  onChange={handleLogoFileChange}
+                  className="hidden"
+                />
+                <div className="flex gap-3 items-center">
+                  <label
+                    htmlFor="logoUpload"
+                    className="cursor-pointer px-4 py-2 border border-slate-700 rounded-lg text-xs font-medium text-slate-300 hover:bg-slate-800 transition-colors"
+                  >
+                    Pilih File
+                  </label>
+                  {logoFile && (
+                    <button
+                      type="button"
+                      onClick={handleUploadLogo}
+                      disabled={isUploadingLogo}
+                      className="px-4 py-2 bg-brand-600 text-white rounded-lg text-xs font-medium hover:bg-brand-700 disabled:opacity-50 transition-colors"
+                    >
+                      {isUploadingLogo ? 'Mengupload...' : 'Upload Logo'}
+                    </button>
+                  )}
+                </div>
+                {logoFile && (
+                  <p className="text-[10px] text-brand-400 mt-2">File dipilih: {logoFile.name}</p>
+                )}
+                <p className="text-[10px] text-slate-500 mt-1">Format: JPG, PNG, WebP. Maks 2MB.</p>
+              </div>
+
               <div>
                 <label className="block text-xs font-semibold text-slate-300 mb-1.5">Nama Toko Laundry *</label>
                 <input

@@ -4,10 +4,12 @@ import React, { useEffect, useState } from 'react';
 import DashboardLayout from '@/components/layouts/DashboardLayout';
 import { api } from '@/lib/api';
 import { FileText, Clock, User, ShieldAlert } from 'lucide-react';
+import type { ActivityLog } from '@/types';
 
 export default function ActivityLogPage() {
-  const [logs, setLogs] = useState<any[]>([]);
+  const [logs, setLogs] = useState<ActivityLog[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     async function loadLogs() {
@@ -15,7 +17,9 @@ export default function ActivityLogPage() {
         const res = await api.get('/analytics/logs');
         setLogs(res.data.data || []);
       } catch (err) {
-        console.error('Failed to load logs', err);
+        const message = err instanceof Error ? err.message : 'Terjadi kesalahan. Silakan refresh halaman.';
+        setError(message);
+        console.error('[ActivityLogPage] Failed to load logs:', err);
       } finally {
         setLoading(false);
       }
@@ -32,7 +36,9 @@ export default function ActivityLogPage() {
         </div>
 
         <div className="glass-card-dark rounded-2xl border border-slate-800 overflow-hidden">
-          {loading ? (
+          {error ? (
+            <div className="text-center py-12 text-xs text-rose-400">⚠️ {error}</div>
+          ) : loading ? (
             <div className="text-center py-12 text-xs text-slate-400">Memuat log aktivitas...</div>
           ) : logs.length === 0 ? (
             <div className="text-center py-16 text-xs text-slate-400 space-y-3">

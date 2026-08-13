@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { Shirt, Mail, ArrowLeft, Send, CheckCircle2, AlertCircle } from 'lucide-react';
 import { api } from '@/lib/api';
+import { getApiErrorMessage } from '@/lib/utils';
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState('');
@@ -19,8 +20,8 @@ export default function ForgotPasswordPage() {
     try {
       await api.post('/auth/forgot-password', { email });
       setSubmitted(true);
-    } catch (err: any) {
-      setError(err.response?.data?.error || err.message || 'Gagal mengirim instruksi reset password.');
+    } catch (err: unknown) {
+      setError(getApiErrorMessage(err, 'Gagal mengirim instruksi reset password.'));
     } finally {
       setIsSubmitting(false);
     }

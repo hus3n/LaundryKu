@@ -1,3 +1,4 @@
+import { Prisma, PaymentStatus, PaymentMethod, OrderStatus } from '@prisma/client';
 import { prisma } from '../config/database.js';
 import { createCustomer } from './customer.service.js';
 import { sendOrderWANotification } from '../whatsapp/baileys.js';
@@ -18,6 +19,7 @@ export async function createLaundryOrder(
     paymentStatus?: 'UNPAID' | 'PAID';
     outletId?: string;
     fragrance?: string;
+    clothesCount?: number;
     paymentMethod?: 'CASH' | 'QRIS';
   }
 ) {
@@ -100,7 +102,14 @@ export async function createLaundryOrder(
   // 4. Calculate estimated done date
   const estimatedDone = new Date(Date.now() + maxDurationHours * 60 * 60 * 1000);
 
-  // 5. Create order transaction
+  // 5. Setup payment info
+  const isPaid = data.paymentStatus === 'PAID';
+  const resolvedPaymentStatus = isPaid ? PaymentStatus.PAID : PaymentStatus.UNPAID;
+  const resolvedPaymentMethod = isPaid
+    ? ((data.paymentMethod as PaymentMethod) ?? PaymentMethod.CASH)
+    : null;
+
+  // 6. Create order transaction
   const order = await prisma.laundryOrder.create({
     data: {
       orderNumber,
@@ -108,12 +117,13 @@ export async function createLaundryOrder(
       employeeId,
       customerId: customer.id,
       outletId: data.outletId || null,
-      status: 'RECEIVED' as any,
-      paymentStatus: (data.paymentStatus === 'PAID' ? 'PAID' : 'UNPAID') as any,
-      paymentMethod: data.paymentStatus === 'PAID' ? (data.paymentMethod as any || 'CASH') : null,
+      status: OrderStatus.RECEIVED,
+      paymentStatus: resolvedPaymentStatus,
+      paymentMethod: resolvedPaymentMethod,
       totalPrice,
       notes: data.notes,
       fragrance: data.fragrance?.trim() || null,
+      clothesCount: data.clothesCount ?? null,
       dateIn: new Date(),
       estimatedDone,
       items: {
@@ -165,14 +175,14 @@ export async function getLaundryOrders(
     search?: string;
   }
 ) {
-  const where: any = { adminId };
+  const where: Prisma.LaundryOrderWhereInput = { adminId };
 
   if (query.status) {
-    where.status = query.status;
+    where.status = query.status as OrderStatus;
   }
 
   if (query.paymentStatus) {
-    where.paymentStatus = query.paymentStatus;
+    where.paymentStatus = query.paymentStatus as PaymentStatus;
   }
 
   if (query.startDate && query.endDate) {
@@ -221,7 +231,7 @@ export async function updateOrderStatus(
     throw new Error('Cucian tidak ditemukan.');
   }
 
-  const updateData: any = { status };
+  const updateData: Prisma.LaundryOrderUpdateInput = { status: status as OrderStatus };
   if (status === 'PICKED_UP') {
     updateData.dateOut = new Date();
   }
@@ -280,11 +290,16 @@ export async function updatePaymentStatus(
     throw new Error('Cucian tidak ditemukan.');
   }
 
+  const isPaid = paymentStatus === 'PAID';
+  const resolvedMethod = isPaid
+    ? ((paymentMethod as PaymentMethod) ?? PaymentMethod.CASH)
+    : null;
+
   const updatedOrder = await prisma.laundryOrder.update({
     where: { id: orderId },
     data: { 
-      paymentStatus: paymentStatus as any,
-      paymentMethod: paymentStatus === 'PAID' ? (paymentMethod as any || 'CASH') : null,
+      paymentStatus: paymentStatus as PaymentStatus,
+      paymentMethod: resolvedMethod,
     },
     include: { customer: true },
   });

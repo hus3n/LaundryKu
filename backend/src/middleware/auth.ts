@@ -15,6 +15,17 @@ export interface AuthenticatedRequest extends Request {
   user?: AuthenticatedUser;
 }
 
+function resolveAdminId(user: {
+  adminId: string | null;
+  adminRef: { id: string } | null;
+  role: string;
+}): string | null {
+  if (user.adminId) return user.adminId;
+  if (user.adminRef) return user.adminRef.id;
+  if (user.role === 'SUPERADMIN') return 'SUPERADMIN';
+  return null;
+}
+
 export async function authenticate(
   req: AuthenticatedRequest,
   res: Response,
@@ -79,7 +90,7 @@ export async function authenticate(
       email: user.email,
       name: user.name,
       role: user.role as 'SUPERADMIN' | 'ADMIN' | 'EMPLOYEE',
-      adminId: user.adminId || (user.adminRef ? user.adminRef.id : user.role === 'SUPERADMIN' ? 'SUPERADMIN' : null),
+      adminId: resolveAdminId(user),
     };
 
     next();

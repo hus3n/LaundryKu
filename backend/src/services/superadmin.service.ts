@@ -1,7 +1,11 @@
 import bcrypt from 'bcryptjs';
+import { Role } from '@prisma/client';
 import { prisma } from '../config/database.js';
 import { isMongoConnected } from '../config/mongodb.js';
 import { WASession } from '../models-nosql/waSession.model.js';
+
+const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000;
+const ONE_DAY_MS = 24 * 60 * 60 * 1000;
 
 export async function getSuperAdminDashboardData() {
   // Run all counts in parallel for speed
@@ -15,7 +19,7 @@ export async function getSuperAdminDashboardData() {
         isActive: true,
         subscriptionEnd: {
           gte: new Date(),
-          lte: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+          lte: new Date(Date.now() + SEVEN_DAYS_MS),
         },
       },
     }),
@@ -115,7 +119,7 @@ export async function createAdminWithStore(data: {
         email: data.email,
         password: hashedPassword,
         phone: data.phone,
-        role: 'ADMIN' as any,
+        role: Role.ADMIN,
         isActive: true,
       },
     });
@@ -137,7 +141,9 @@ export async function createAdminWithStore(data: {
 
 export async function extendAdminSubscription(adminId: string, additionalMonths: number) {
   const admin = await prisma.admin.findUnique({ where: { id: adminId } });
-  if (!admin) throw new Error('Admin toko tidak ditemukan.');
+  if (!admin) {
+    throw new Error('Admin toko tidak ditemukan.');
+  }
 
   const currentEnd = new Date(admin.subscriptionEnd);
   const startDate = currentEnd < new Date() ? new Date() : currentEnd;
@@ -151,7 +157,9 @@ export async function extendAdminSubscription(adminId: string, additionalMonths:
 
 export async function toggleAdminStatus(adminId: string, isActive: boolean) {
   const admin = await prisma.admin.findUnique({ where: { id: adminId } });
-  if (!admin) throw new Error('Admin toko tidak ditemukan.');
+  if (!admin) {
+    throw new Error('Admin toko tidak ditemukan.');
+  }
 
   return prisma.$transaction(async (tx) => {
     await tx.user.update({ where: { id: admin.userId }, data: { isActive } });
@@ -161,7 +169,9 @@ export async function toggleAdminStatus(adminId: string, isActive: boolean) {
 
 export async function deleteAdmin(adminId: string) {
   const admin = await prisma.admin.findUnique({ where: { id: adminId } });
-  if (!admin) throw new Error('Admin toko tidak ditemukan.');
+  if (!admin) {
+    throw new Error('Admin toko tidak ditemukan.');
+  }
 
   return prisma.$transaction(async (tx) => {
     await tx.admin.delete({ where: { id: adminId } });
@@ -179,7 +189,9 @@ export async function createTrialAdmin(data: {
   storeAddress?: string;
 }) {
   const existingUser = await prisma.user.findUnique({ where: { email: data.email } });
-  if (existingUser) throw new Error('Email pengelola sudah terdaftar.');
+  if (existingUser) {
+    throw new Error('Email pengelola sudah terdaftar.');
+  }
 
   const hashedPassword = await bcrypt.hash(data.password, 10);
   const subscriptionEnd = new Date();
@@ -192,7 +204,7 @@ export async function createTrialAdmin(data: {
         email: data.email,
         password: hashedPassword,
         phone: data.phone,
-        role: 'ADMIN' as any,
+        role: Role.ADMIN,
         isActive: true,
       },
     });
@@ -244,7 +256,7 @@ export async function cleanupExpiredTrials() {
 }
 
 export async function hardDeleteExpiredTrials() {
-  const cutoffTime = new Date(Date.now() - 24 * 60 * 60 * 1000);
+  const cutoffTime = new Date(Date.now() - ONE_DAY_MS);
   const toDelete = await prisma.admin.findMany({
     where: {
       isTrial: true,

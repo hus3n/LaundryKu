@@ -12,6 +12,37 @@ import {
 import { waQueue } from '../whatsapp/messageQueue.js';
 import { env } from '../config/env.js';
 
+function buildTrialWelcomeMessage(params: {
+  userName: string;
+  storeName: string;
+  email: string;
+  trialDays: number;
+  expiredDate: string;
+  appUrl: string;
+  superadminWaNumber: string;
+}): string {
+  const { userName, storeName, email, trialDays, expiredDate, appUrl, superadminWaNumber } = params;
+
+  return [
+    `Selamat Datang di LaundryKu! 🎉🧺`,
+    ``,
+    `Halo Kak ${userName}, akun trial LaundryKu untuk toko *${storeName}* berhasil dibuat!`,
+    ``,
+    `━━━━━━━━━━━━━━━━━━`,
+    `🔑 *Email Login*: ${email}`,
+    `⏳ *Masa Trial*: ${trialDays} hari (hingga ${expiredDate})`,
+    `🌐 *Link Aplikasi*: ${appUrl}`,
+    `━━━━━━━━━━━━━━━━━━`,
+    ``,
+    `Silakan login dan mulai eksplorasi semua fitur LaundryKu.`,
+    ``,
+    `Jika ada pertanyaan:`,
+    `📞 wa.me/${superadminWaNumber}`,
+    ``,
+    `Selamat mencoba! 🙏`,
+  ].join('\n');
+}
+
 export async function getDashboard(req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> {
   try {
     const data = await getSuperAdminDashboardData();
@@ -39,7 +70,7 @@ export async function addAdmin(req: AuthenticatedRequest, res: Response, next: N
       data: result,
     });
   } catch (error: any) {
-    res.status(400).json({ success: false, error: error.message });
+    next(error);
   }
 }
 
@@ -55,7 +86,7 @@ export async function extendSubscription(req: AuthenticatedRequest, res: Respons
       data: updated,
     });
   } catch (error: any) {
-    res.status(400).json({ success: false, error: error.message });
+    next(error);
   }
 }
 
@@ -71,7 +102,7 @@ export async function toggleStatus(req: AuthenticatedRequest, res: Response, nex
       data: updated,
     });
   } catch (error: any) {
-    res.status(400).json({ success: false, error: error.message });
+    next(error);
   }
 }
 
@@ -81,7 +112,7 @@ export async function removeAdmin(req: AuthenticatedRequest, res: Response, next
     await deleteAdmin(id as string);
     res.json({ success: true, message: 'Akun Admin berhasil dihapus.' });
   } catch (error: any) {
-    res.status(400).json({ success: false, error: error.message });
+    next(error);
   }
 }
 
@@ -100,11 +131,21 @@ export async function createTrial(
     });
 
     if (user.phone) {
+      const welcomeMessage = buildTrialWelcomeMessage({
+        userName: user.name,
+        storeName: admin.storeName,
+        email: user.email,
+        trialDays,
+        expiredDate,
+        appUrl: env.APP_URL,
+        superadminWaNumber: env.SUPERADMIN_WA_NUMBER,
+      });
+
       waQueue.enqueue({
         adminId: admin.id,
         recipientPhone: user.phone,
         recipientName: user.name,
-        message: `Selamat Datang di LaundryKu! 🎉🧺\n\nHalo Kak ${user.name}, akun trial LaundryKu untuk toko *${admin.storeName}* berhasil dibuat!\n\n━━━━━━━━━━━━━━━━━━\n🔑 *Email Login*: ${user.email}\n⏳ *Masa Trial*: ${trialDays} hari (hingga ${expiredDate})\n🌐 *Link Aplikasi*: ${env.APP_URL}\n━━━━━━━━━━━━━━━━━━\n\nSilakan login dan mulai eksplorasi semua fitur LaundryKu.\n\nJika ada pertanyaan:\n📞 wa.me/${env.SUPERADMIN_WA_NUMBER}\n\nSelamat mencoba! 🙏`,
+        message: welcomeMessage,
       });
     }
 
@@ -114,6 +155,6 @@ export async function createTrial(
       data: result,
     });
   } catch (error: any) {
-    res.status(400).json({ success: false, error: error.message });
+    next(error);
   }
 }

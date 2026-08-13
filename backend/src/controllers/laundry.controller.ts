@@ -25,7 +25,7 @@ export async function createOrder(req: AuthenticatedRequest, res: Response, next
       data: order,
     });
   } catch (error: any) {
-    res.status(400).json({ success: false, error: error.message });
+    next(error);
   }
 }
 
@@ -37,7 +37,13 @@ export async function getOrders(req: AuthenticatedRequest, res: Response, next: 
       return;
     }
 
-    const orders = await getLaundryOrders(adminId, req.query as any);
+    const orders = await getLaundryOrders(adminId, req.query as {
+      status?: string;
+      paymentStatus?: string;
+      startDate?: string;
+      endDate?: string;
+      search?: string;
+    });
     res.json({ success: true, data: orders });
   } catch (error: any) {
     next(error);
@@ -67,7 +73,7 @@ export async function changeOrderStatus(req: AuthenticatedRequest, res: Response
       data: updated,
     });
   } catch (error: any) {
-    res.status(400).json({ success: false, error: error.message });
+    next(error);
   }
 }
 
@@ -95,7 +101,7 @@ export async function changePaymentStatus(req: AuthenticatedRequest, res: Respon
       data: updated,
     });
   } catch (error: any) {
-    res.status(400).json({ success: false, error: error.message });
+    next(error);
   }
 }
 
@@ -103,11 +109,17 @@ export async function getOrderLogs(req: AuthenticatedRequest, res: Response, nex
   try {
     const adminId = req.user?.adminId;
     const { id } = req.params;
-    if (!adminId) { res.status(400).json({ success: false, error: 'adminId tidak ditemukan.' }); return; }
+    if (!adminId) {
+      res.status(400).json({ success: false, error: 'adminId tidak ditemukan.' });
+      return;
+    }
 
     // Verifikasi pesanan milik admin ini
     const order = await prisma.laundryOrder.findFirst({ where: { id: id as string, adminId } });
-    if (!order) { res.status(404).json({ success: false, error: 'Pesanan tidak ditemukan.' }); return; }
+    if (!order) {
+      res.status(404).json({ success: false, error: 'Pesanan tidak ditemukan.' });
+      return;
+    }
 
     const logs = await prisma.activityLog.findMany({
       where: { entity: 'LaundryOrder', entityId: id as string },
@@ -117,7 +129,9 @@ export async function getOrderLogs(req: AuthenticatedRequest, res: Response, nex
       orderBy: { createdAt: 'asc' },
     });
     res.json({ success: true, data: logs });
-  } catch (e: any) { next(e); }
+  } catch (error: any) {
+    next(error);
+  }
 }
 
 export async function exportOrders(req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> {
@@ -141,7 +155,7 @@ export async function exportOrders(req: AuthenticatedRequest, res: Response, nex
     });
 
     res.json({ success: true, data: orders });
-  } catch (e: any) {
-    next(e);
+  } catch (error: any) {
+    next(error);
   }
 }

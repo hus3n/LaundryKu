@@ -4,10 +4,13 @@ import React, { useEffect, useState } from 'react';
 import DashboardLayout from '@/components/layouts/DashboardLayout';
 import { api } from '@/lib/api';
 import { Building2, Plus, Edit, Trash2 } from 'lucide-react';
+import type { Outlet } from '@/types';
+import { getApiErrorMessage } from '@/lib/utils';
 
 export default function OutletManagementPage() {
-  const [outlets, setOutlets] = useState<any[]>([]);
+  const [outlets, setOutlets] = useState<Outlet[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const [modalOpen, setModalOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -24,7 +27,9 @@ export default function OutletManagementPage() {
       const res = await api.get('/outlets');
       setOutlets(res.data.data || []);
     } catch (err) {
-      console.error('Failed to load outlets', err);
+      const message = err instanceof Error ? err.message : 'Terjadi kesalahan. Silakan refresh halaman.';
+      setError(message);
+      console.error('[OutletPage] Failed to load outlets:', err);
     } finally {
       setLoading(false);
     }
@@ -42,7 +47,7 @@ export default function OutletManagementPage() {
     setModalOpen(true);
   };
 
-  const handleOpenEdit = (outlet: any) => {
+  const handleOpenEdit = (outlet: Outlet) => {
     setEditingId(outlet.id);
     setName(outlet.name);
     setAddress(outlet.address || '');
@@ -69,8 +74,8 @@ export default function OutletManagementPage() {
 
       setModalOpen(false);
       loadOutlets();
-    } catch (err: any) {
-      alert(err.response?.data?.error || 'Gagal menyimpan outlet');
+    } catch (err: unknown) {
+      alert(getApiErrorMessage(err, 'Gagal menyimpan outlet'));
     } finally {
       setIsSubmitting(false);
     }
@@ -81,8 +86,8 @@ export default function OutletManagementPage() {
       try {
         await api.delete(`/outlets/${id}`);
         loadOutlets();
-      } catch (err: any) {
-        alert(err.response?.data?.error || 'Gagal menonaktifkan outlet');
+      } catch (err: unknown) {
+        alert(getApiErrorMessage(err, 'Gagal menonaktifkan outlet'));
       }
     }
   };
@@ -116,7 +121,11 @@ export default function OutletManagementPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-800/60">
-                {loading ? (
+                {error ? (
+                  <tr>
+                    <td colSpan={4} className="py-8 text-center text-rose-400">⚠️ {error}</td>
+                  </tr>
+                ) : loading ? (
                   <tr>
                     <td colSpan={4} className="py-8 text-center text-slate-400">Memuat data...</td>
                   </tr>

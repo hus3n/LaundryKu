@@ -5,10 +5,13 @@ import DashboardLayout from '@/components/layouts/DashboardLayout';
 import { api } from '@/lib/api';
 import { Package as PackageIcon, Plus, Edit, Trash2, CheckCircle2, Clock, DollarSign } from 'lucide-react';
 import { formatDuration } from '@/lib/utils';
+import type { LaundryPackage } from '@/types';
+import { getApiErrorMessage } from '@/lib/utils';
 
 export default function PackageManagementPage() {
-  const [packages, setPackages] = useState<any[]>([]);
+  const [packages, setPackages] = useState<LaundryPackage[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const [modalOpen, setModalOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -27,7 +30,9 @@ export default function PackageManagementPage() {
       const res = await api.get('/packages');
       setPackages(res.data.data || []);
     } catch (err) {
-      console.error('Failed to load packages', err);
+      const message = err instanceof Error ? err.message : 'Terjadi kesalahan. Silakan refresh halaman.';
+      setError(message);
+      console.error('[PackagePage] Failed to load packages:', err);
     } finally {
       setLoading(false);
     }
@@ -47,7 +52,7 @@ export default function PackageManagementPage() {
     setModalOpen(true);
   };
 
-  const handleOpenEdit = (pkg: any) => {
+  const handleOpenEdit = (pkg: LaundryPackage) => {
     setEditingId(pkg.id);
     setName(pkg.name);
     setUnit(pkg.unit);
@@ -86,8 +91,8 @@ export default function PackageManagementPage() {
 
       setModalOpen(false);
       loadPackages();
-    } catch (err: any) {
-      alert(err.response?.data?.error || 'Gagal menyimpan paket');
+    } catch (err: unknown) {
+      alert(getApiErrorMessage(err, 'Gagal menyimpan paket'));
     } finally {
       setIsSubmitting(false);
     }
@@ -98,8 +103,8 @@ export default function PackageManagementPage() {
       try {
         await api.delete(`/packages/${id}`);
         loadPackages();
-      } catch (err: any) {
-        alert(err.response?.data?.error || 'Gagal menghapus paket');
+      } catch (err: unknown) {
+        alert(getApiErrorMessage(err, 'Gagal menghapus paket'));
       }
     }
   };
@@ -123,7 +128,9 @@ export default function PackageManagementPage() {
 
         {/* Package Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {loading ? (
+          {error ? (
+            <div className="col-span-3 text-center py-12 text-xs text-rose-400">⚠️ {error}</div>
+          ) : loading ? (
             <div className="col-span-3 text-center py-12 text-xs text-slate-400">Memuat data paket...</div>
           ) : packages.length === 0 ? (
             <div className="col-span-3 glass-card-dark p-12 rounded-2xl text-center text-xs text-slate-400 space-y-3">

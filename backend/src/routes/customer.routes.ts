@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { z } from 'zod';
-import { getCustomers, addCustomer, editCustomer, removeCustomer } from '../controllers/customer.controller.js';
+import { getCustomers, addCustomer, editCustomer, removeCustomer, exportCustomersCSV } from '../controllers/customer.controller.js';
 import { authenticate } from '../middleware/auth.js';
 import { authorize } from '../middleware/rbac.js';
 import { validate } from '../middleware/validation.js';
@@ -27,6 +27,10 @@ router.use(authenticate);
 
 router.get('/', authorize('ADMIN', 'EMPLOYEE'), getCustomers);
 router.post('/', authorize('ADMIN', 'EMPLOYEE'), validate(createCustomerSchema), addCustomer);
+
+// Tambahkan SEBELUM route /:id manapun
+router.get('/export', authorize('ADMIN'), exportCustomersCSV);
+
 router.put('/:id', authorize('ADMIN', 'EMPLOYEE'), validate(updateCustomerSchema), editCustomer);
 router.delete('/:id', authorize('ADMIN'), removeCustomer);
 

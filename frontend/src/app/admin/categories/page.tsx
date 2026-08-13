@@ -4,10 +4,13 @@ import React, { useEffect, useState } from 'react';
 import DashboardLayout from '@/components/layouts/DashboardLayout';
 import { api } from '@/lib/api';
 import { Layers, Plus, Edit, Trash2 } from 'lucide-react';
+import type { Category } from '@/types';
+import { getApiErrorMessage } from '@/lib/utils';
 
 export default function CategoryManagementPage() {
-  const [categories, setCategories] = useState<any[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const [modalOpen, setModalOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -20,7 +23,9 @@ export default function CategoryManagementPage() {
       const res = await api.get('/categories');
       setCategories(res.data.data || []);
     } catch (err) {
-      console.error('Failed to load categories', err);
+      const message = err instanceof Error ? err.message : 'Terjadi kesalahan. Silakan refresh halaman.';
+      setError(message);
+      console.error('[CategoryPage] Failed to load categories:', err);
     } finally {
       setLoading(false);
     }
@@ -36,7 +41,7 @@ export default function CategoryManagementPage() {
     setModalOpen(true);
   };
 
-  const handleOpenEdit = (cat: any) => {
+  const handleOpenEdit = (cat: Category) => {
     setEditingId(cat.id);
     setName(cat.name);
     setModalOpen(true);
@@ -55,8 +60,8 @@ export default function CategoryManagementPage() {
 
       setModalOpen(false);
       loadCategories();
-    } catch (err: any) {
-      alert(err.response?.data?.error || 'Gagal menyimpan kategori');
+    } catch (err: unknown) {
+      alert(getApiErrorMessage(err, 'Gagal menyimpan kategori'));
     } finally {
       setIsSubmitting(false);
     }
@@ -67,8 +72,8 @@ export default function CategoryManagementPage() {
       try {
         await api.delete(`/categories/${id}`);
         loadCategories();
-      } catch (err: any) {
-        alert(err.response?.data?.error || 'Gagal menghapus kategori');
+      } catch (err: unknown) {
+        alert(getApiErrorMessage(err, 'Gagal menghapus kategori'));
       }
     }
   };
@@ -91,7 +96,9 @@ export default function CategoryManagementPage() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-          {loading ? (
+          {error ? (
+            <div className="col-span-4 text-center py-12 text-xs text-rose-400">⚠️ {error}</div>
+          ) : loading ? (
             <div className="col-span-4 text-center py-12 text-xs text-slate-400">Memuat data kategori...</div>
           ) : categories.length === 0 ? (
             <div className="col-span-4 glass-card-dark p-12 rounded-2xl text-center text-xs text-slate-400 space-y-3">
