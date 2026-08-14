@@ -8,8 +8,17 @@ const inter = Inter({ subsets: ['latin'] });
 export const metadata: Metadata = {
   title: 'LaundryKu - Manajemen Laundry Digital',
   description: 'Sistem manajemen laundry digital cerdas, kelola pesanan dan pelanggan dengan mudah.',
+  manifest: '/manifest.json',
   icons: {
-    icon: '/logo/icon-option-a.svg',
+    icon: '/logo/laundryku-icon.svg',
+    shortcut: '/logo/laundryku-icon.svg',
+    apple: '/logo/laundryku-icon.svg',
+  },
+  themeColor: '#020617',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'black-translucent',
+    title: 'LaundryKu',
   },
   keywords: ['laundry', 'pencatatan laundry', 'whatsapp laundry', 'manajemen laundry', 'laundryku'],
 };

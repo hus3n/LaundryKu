@@ -11,6 +11,7 @@ export interface User {
   phone?: string;
   adminId?: string | null;
   storeName?: string | null;
+  storeLogo?: string | null;
 }
 
 interface AuthContextType {

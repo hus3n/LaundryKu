@@ -25,6 +25,8 @@ import {
   Bot,
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
+import BrandLogo from '@/components/ui/BrandLogo';
+import AppWindowControls from '@/components/ui/AppWindowControls';
 
 interface SidebarItem {
   label: string;
@@ -74,16 +76,10 @@ export default function DashboardLayout({ children, role }: { children: React.Re
       {/* Desktop Sidebar */}
       <aside className="hidden md:flex flex-col w-64 bg-slate-900/80 border-r border-slate-800/80 p-5 sticky top-0 h-screen z-30 backdrop-blur-xl">
         {/* Brand */}
-        <div className="flex items-center gap-3 pb-6 mb-4 border-b border-slate-800">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-brand-400 flex items-center justify-center shadow-md shadow-brand-500/20">
-            <Shirt className="w-6 h-6 text-white" />
-          </div>
-          <div>
-            <div className="font-bold text-white text-base">LaundryKu</div>
-            <div className="text-[10px] px-2 py-0.5 rounded-full bg-brand-500/20 text-brand-300 inline-block font-medium">
-              {user?.storeName || user?.role}
-            </div>
-          </div>
+        <div className="pb-5 mb-3 border-b border-slate-800">
+          <Link href={user?.role === 'SUPERADMIN' ? '/superadmin/dashboard' : user?.role === 'ADMIN' ? '/admin/dashboard' : '/karyawan/laundry'}>
+            <BrandLogo storeName={user?.storeName} storeLogo={user?.storeLogo} />
+          </Link>
         </div>
 
         {/* Nav Links */}
@@ -145,20 +141,28 @@ export default function DashboardLayout({ children, role }: { children: React.Re
       {/* Main Area */}
       <div className="flex-1 flex flex-col min-w-0">
         {/* Top Header */}
-        <header className="h-16 border-b border-slate-800/80 bg-slate-900/40 backdrop-blur-xl sticky top-0 z-20 px-6 flex items-center justify-between">
-          <button
-            onClick={() => setMobileOpen(true)}
-            className="md:hidden p-2 flex items-center justify-center rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
-          >
-            <Menu className="w-5 h-5" />
-          </button>
+        <header className="h-16 border-b border-slate-800/80 bg-slate-900/40 backdrop-blur-xl sticky top-0 z-20 px-4 md:px-6 flex items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setMobileOpen(true)}
+              className="md:hidden p-2 flex items-center justify-center rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+            >
+              <Menu className="w-5 h-5" />
+            </button>
 
-          <div className="text-xs font-semibold text-slate-400">
-            Selamat Datang, <span className="text-white">{user?.name}</span>
+            <div className="text-xs font-semibold text-slate-400 truncate hidden sm:block">
+              Selamat Datang, <span className="text-white font-bold">{user?.name}</span>
+              {user?.storeName && (
+                <span className="text-slate-500 font-normal ml-1.5">({user.storeName})</span>
+              )}
+            </div>
           </div>
 
           <div className="flex items-center gap-3">
-            <span className="text-xs px-3 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-300 font-medium hidden sm:inline-block">
+            {/* App Window & Fullscreen Controls */}
+            <AppWindowControls />
+
+            <span className="text-xs px-3 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-300 font-medium hidden md:inline-block">
               {user?.role}
             </span>
           </div>
@@ -186,10 +190,7 @@ export default function DashboardLayout({ children, role }: { children: React.Re
                 className="relative flex-1 max-w-xs bg-slate-900 border-r border-slate-800 p-6 flex flex-col"
               >
                 <div className="flex items-center justify-between pb-4 mb-4 border-b border-slate-800">
-                  <div className="flex items-center gap-2">
-                    <Shirt className="w-6 h-6 text-brand-400" />
-                    <span className="font-bold text-white text-base">LaundryKu</span>
-                  </div>
+                  <BrandLogo size="sm" storeName={user?.storeName} storeLogo={user?.storeLogo} />
                   <button onClick={() => setMobileOpen(false)} className="p-2 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 transition-colors">
                     <AnimatePresence mode="wait">
                       <motion.div 

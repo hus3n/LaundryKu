@@ -107,11 +107,16 @@ export default function LandingPage() {
       <header className="sticky top-0 z-50 backdrop-blur-xl bg-slate-900/60 border-b border-slate-800/80">
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-brand-400 flex items-center justify-center shadow-lg shadow-brand-500/30">
-              <Shirt className="w-6 h-6 text-white" />
-            </div>
-            <span className="text-xl font-bold bg-gradient-to-r from-white via-slate-200 to-brand-300 bg-clip-text text-transparent">
-              LaundryKu <span className="text-xs px-2 py-0.5 rounded-full bg-brand-500/20 border border-brand-500/30 text-brand-300 ml-1">v1.0</span>
+            <img
+              src="/logo/laundryku-icon.svg"
+              alt="LaundryKu"
+              className="w-10 h-10 rounded-xl shadow-lg shadow-brand-500/30"
+            />
+            <span className="text-xl font-extrabold bg-gradient-to-r from-white via-slate-200 to-brand-300 bg-clip-text text-transparent">
+              Laundry<span className="bg-gradient-to-r from-brand-400 to-sky-300 bg-clip-text text-transparent">Ku</span>{' '}
+              <span className="text-xs px-2 py-0.5 rounded-full bg-brand-500/20 border border-brand-500/30 text-brand-300 ml-1 font-semibold">
+                v1.0
+              </span>
             </span>
           </div>
 
