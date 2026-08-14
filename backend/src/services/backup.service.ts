@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import archiver from 'archiver';
+import { ZipArchive } from 'archiver';
 import { createReadStream } from 'fs';
 import { prisma } from '../config/database.js';
 import { sendFileToTelegram, sendMessageToTelegram, getTelegramStatus } from './telegram.service.js';
@@ -92,7 +92,7 @@ export async function createBackupArchive(): Promise<{
     // Create ZIP archive
     await new Promise<void>((resolve, reject) => {
       const output = fs.createWriteStream(zipPath);
-      const archive = (archiver as any)('zip', { zlib: { level: 9 } });
+      const archive = new ZipArchive({ zlib: { level: 9 } });
 
       output.on('close', () => resolve());
       archive.on('error', (err: any) => reject(err));
