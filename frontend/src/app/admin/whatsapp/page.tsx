@@ -15,7 +15,9 @@ import {
   CheckCircle2, 
   AlertCircle,
   Clock,
-  Code
+  Code,
+  LogOut,
+  XCircle
 } from 'lucide-react';
 import type { WATemplate } from '@/types';
 import { getApiErrorMessage } from '@/lib/utils';
@@ -25,6 +27,7 @@ export default function WhatsAppPairingPage() {
   const [phoneConnected, setPhoneConnected] = useState<string | null>(null);
   const [qrCode, setQrCode] = useState<string | null>(null);
   const [loadingStatus, setLoadingStatus] = useState(true);
+  const [isDisconnecting, setIsDisconnecting] = useState(false);
 
   const [subscriptionError, setSubscriptionError] = useState<string | null>(null);
   const [subscriptionCode, setSubscriptionCode] = useState<string | null>(null);
@@ -97,7 +100,7 @@ export default function WhatsAppPairingPage() {
       setQrCode(res.data.data.qrCode);
     } catch (err: any) {
       const errorData = err.response?.data;
-      if (errorData?.code && ['TRIAL_ACCOUNT', 'SUBSCRIPTION_EXPIRED', 'ACCOUNT_INACTIVE'].includes(errorData.code)) {
+      if (errorData?.code && ['SUBSCRIPTION_EXPIRED', 'ACCOUNT_INACTIVE'].includes(errorData.code)) {
         setSubscriptionError(errorData.error);
         setSubscriptionCode(errorData.code);
       } else {
@@ -121,13 +124,21 @@ export default function WhatsAppPairingPage() {
   };
 
   const handleDisconnect = async () => {
-    if (confirm('Putuskan koneksi WhatsApp toko ini? Notifikasi otomatis akan tertunda.')) {
-      try {
-        await api.post('/whatsapp/disconnect');
-        loadWAStatus();
-      } catch (err: unknown) {
-        alert(getApiErrorMessage(err, 'Gagal memutuskan WA'));
-      }
+    if (!confirm('Putuskan koneksi WhatsApp ini? Anda dapat menautkan nomor WhatsApp baru setelahnya.')) {
+      return;
+    }
+    setIsDisconnecting(true);
+    try {
+      await api.post('/whatsapp/disconnect');
+      setStatus('DISCONNECTED');
+      setPhoneConnected(null);
+      setQrCode(null);
+      await loadWAStatus();
+      alert('Koneksi WhatsApp berhasil diputuskan. Anda dapat menautkan nomor WhatsApp baru sekarang.');
+    } catch (err: unknown) {
+      alert(getApiErrorMessage(err, 'Gagal memutuskan WA'));
+    } finally {
+      setIsDisconnecting(false);
     }
   };
 
@@ -278,16 +289,59 @@ export default function WhatsAppPairingPage() {
               )}
             </div>
 
-            <div className="flex gap-3">
+            {/* Action Buttons */}
+            <div className="space-y-2">
               {status === 'CONNECTED' ? (
-                <button
-                  onClick={handleDisconnect}
-                  className="w-full py-2.5 rounded-xl bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 text-xs font-semibold border border-rose-500/30 transition-all"
-                >
-                  Putuskan Koneksi WA
-                </button>
+                <div className="space-y-2">
+                  <button
+                    type="button"
+                    onClick={handleDisconnect}
+                    disabled={isDisconnecting}
+                    className="w-full py-2.5 rounded-xl bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 text-xs font-semibold border border-rose-500/30 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+                  >
+                    {isDisconnecting ? (
+                      <>
+                        <RefreshCw className="w-4 h-4 animate-spin" /> Memutuskan WhatsApp...
+                      </>
+                    ) : (
+                      <>
+                        <LogOut className="w-4 h-4" /> Putuskan Koneksi WA
+                      </>
+                    )}
+                  </button>
+                  <p className="text-[10px] text-slate-400">
+                    Klik tombol di atas untuk melepas tautan dan mengganti ke nomor WhatsApp lain.
+                  </p>
+                </div>
+              ) : status === 'CONNECTING' ? (
+                <div className="space-y-2">
+                  <div className="flex gap-2">
+                    <button
+                      type="button"
+                      onClick={handleConnect}
+                      disabled={loadingStatus}
+                      className="flex-1 py-2.5 rounded-xl bg-brand-500 hover:bg-brand-400 text-white text-xs font-semibold shadow-lg shadow-brand-500/20 transition-all flex items-center justify-center gap-1.5 disabled:opacity-50"
+                    >
+                      <RefreshCw className={`w-3.5 h-3.5 ${loadingStatus ? 'animate-spin' : ''}`} />
+                      Refresh QR
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleDisconnect}
+                      disabled={isDisconnecting}
+                      className="flex-1 py-2.5 rounded-xl bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 text-xs font-semibold border border-rose-500/30 transition-all flex items-center justify-center gap-1.5 disabled:opacity-50"
+                    >
+                      <XCircle className="w-3.5 h-3.5" />
+                      {isDisconnecting ? 'Mereset...' : 'Batalkan Pairing'}
+                    </button>
+                  </div>
+                  <p className="text-[10px] text-slate-400">
+                    Jika QR kedaluwarsa atau ingin ganti nomor, klik "Batalkan Pairing" lalu hubungkan kembali.
+                  </p>
+                </div>
               ) : (
                 <button
+                  type="button"
                   onClick={handleConnect}
                   disabled={loadingStatus || !!subscriptionError}
                   className="w-full py-2.5 rounded-xl bg-brand-500 hover:bg-brand-400 text-white text-xs font-semibold shadow-lg shadow-brand-500/20 transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"

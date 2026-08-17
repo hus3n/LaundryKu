@@ -97,6 +97,17 @@ export async function getWASessionStatus(adminId: string) {
 }
 
 export async function initiateWAPairing(adminId: string) {
+  // Clean up any previous socket instance for this admin
+  const previousActive = activeSessions[adminId];
+  if (previousActive?.socket) {
+    try {
+      previousActive.socket.ev.removeAllListeners('connection.update');
+      previousActive.socket.ev.removeAllListeners('creds.update');
+      previousActive.socket.ev.removeAllListeners('messages.upsert');
+      previousActive.socket.end(undefined);
+    } catch (e) {}
+  }
+
   const sessionAuthDir = path.join(SESSIONS_DIR, adminId);
   if (!fs.existsSync(sessionAuthDir)) {
     fs.mkdirSync(sessionAuthDir, { recursive: true });
@@ -443,22 +454,36 @@ export async function disconnectWASession(adminId: string) {
   const active = activeSessions[adminId];
   if (active?.socket) {
     try {
-      await active.socket.logout();
+      active.socket.ev.removeAllListeners('connection.update');
+      active.socket.ev.removeAllListeners('creds.update');
+      active.socket.ev.removeAllListeners('messages.upsert');
+      await active.socket.logout().catch(() => {});
+      active.socket.end(undefined);
     } catch (e) {}
   }
 
   const sessionAuthDir = path.join(SESSIONS_DIR, adminId);
   if (fs.existsSync(sessionAuthDir)) {
-    fs.rmSync(sessionAuthDir, { recursive: true, force: true });
+    try {
+      fs.rmSync(sessionAuthDir, { recursive: true, force: true });
+    } catch (e) {
+      console.error('Error removing auth dir on disconnect:', e);
+    }
   }
 
-  activeSessions[adminId] = { status: 'DISCONNECTED' };
+  activeSessions[adminId] = {
+    status: 'DISCONNECTED',
+    socket: undefined,
+    qrCode: undefined,
+    phoneConnected: undefined,
+  };
 
   try {
     if (isMongoConnected()) {
       await WASession.findOneAndUpdate(
         { adminId },
-        { status: 'DISCONNECTED', qrCode: undefined, phoneConnected: undefined }
+        { status: 'DISCONNECTED', qrCode: undefined, phoneConnected: undefined },
+        { upsert: true }
       );
     }
   } catch (e) {}
