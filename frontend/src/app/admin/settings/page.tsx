@@ -3,9 +3,11 @@
 import React, { useEffect, useState } from 'react';
 import DashboardLayout from '@/components/layouts/DashboardLayout';
 import { api } from '@/lib/api';
+import { useAuth } from '@/contexts/AuthContext';
 import { Store, Phone, MapPin, CheckCircle2, AlertCircle } from 'lucide-react';
 
 export default function StoreSettingsPage() {
+  const { updateUser } = useAuth();
   const [storeName, setStoreName] = useState('');
   const [storeAddress, setStoreAddress] = useState('');
   const [storePhone, setStorePhone] = useState('');
@@ -55,6 +57,7 @@ export default function StoreSettingsPage() {
         storePhone,
       });
 
+      updateUser({ storeName });
       setMessage('Pengaturan toko berhasil disimpan.');
     } catch (err: any) {
       setError(err.response?.data?.error || 'Gagal menyimpan pengaturan toko.');
@@ -89,29 +92,38 @@ export default function StoreSettingsPage() {
       const formData = new FormData();
       formData.append('logo', logoFile);
       
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4001';
-      const response = await fetch(`${apiUrl}/api/store/upload-logo`, {
-        method: 'POST',
+      const res = await api.post('/store/upload-logo', formData, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'multipart/form-data',
         },
-        body: formData,
       });
       
-      const result = await response.json();
-      if (result.success) {
+      if (res.data.success) {
         alert('Logo berhasil diupload!');
-        setStoreLogoUrl(result.data.storeLogo);
+        const newLogo = res.data.data.storeLogo;
+        setStoreLogoUrl(newLogo);
+        updateUser({ storeLogo: newLogo });
         setLogoFile(null);
         setLogoPreview(null);
       } else {
-        alert(`Gagal upload logo: ${result.error}`);
+        alert(`Gagal upload logo: ${res.data.error || 'Terjadi kesalahan'}`);
       }
-    } catch (err) {
-      alert('Terjadi kesalahan saat upload logo.');
+    } catch (err: any) {
+      console.error('Error upload logo:', err);
+      const errorMsg = err.response?.data?.error || err.message || 'Terjadi kesalahan saat upload logo.';
+      alert(`Gagal upload logo: ${errorMsg}`);
     } finally {
       setIsUploadingLogo(false);
     }
+  };
+
+  const getLogoDisplayUrl = () => {
+    if (logoPreview) return logoPreview;
+    if (!storeLogoUrl) return null;
+    if (storeLogoUrl.startsWith('http://') || storeLogoUrl.startsWith('https://')) return storeLogoUrl;
+    const backendBase = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4001').replace(/\/api\/?$/, '');
+    const cleanPath = storeLogoUrl.startsWith('/') ? storeLogoUrl.slice(1) : storeLogoUrl;
+    return `${backendBase}/${cleanPath}`;
   };
 
   return (
@@ -150,9 +162,9 @@ export default function StoreSettingsPage() {
                 <div className="mb-4">
                   {(logoPreview || storeLogoUrl) ? (
                     <img
-                      src={logoPreview || `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4001'}/${storeLogoUrl}`}
+                      src={getLogoDisplayUrl()!}
                       alt="Logo Toko"
-                      className="w-24 h-24 object-contain border border-slate-700 bg-white rounded-xl"
+                      className="w-24 h-24 object-contain border border-slate-700 bg-white rounded-xl shadow-sm"
                     />
                   ) : (
                     <div className="w-24 h-24 border-2 border-dashed border-slate-700 rounded-xl flex items-center justify-center text-slate-500 text-xs text-center">
