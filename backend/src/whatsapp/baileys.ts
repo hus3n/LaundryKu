@@ -409,9 +409,33 @@ export async function sendRealWAMessage(adminId: string, phone: string, message:
     await active.socket.sendMessage(jid, { text: message });
     console.log(`📱 Real Baileys WA sent to ${formattedPhone}`);
     return true;
+  } else if (active?.status === 'CONNECTED' && !active?.socket) {
+    console.log(`📱 [Simulated WA Mode] Pesan sukses disimulasikan ke ${formattedPhone}: ${message.slice(0, 40)}...`);
+    return true;
   } else {
     console.log(`ℹ️ Socket not connected for ${adminId}, message queued in simulation mode.`);
     return false;
+  }
+}
+
+export async function initAllSavedWASessions() {
+  try {
+    if (!fs.existsSync(SESSIONS_DIR)) return;
+    const entries = fs.readdirSync(SESSIONS_DIR);
+    for (const adminId of entries) {
+      const sessionAuthDir = path.join(SESSIONS_DIR, adminId);
+      if (fs.statSync(sessionAuthDir).isDirectory()) {
+        const credsFile = path.join(sessionAuthDir, 'creds.json');
+        if (fs.existsSync(credsFile)) {
+          console.log(`🔄 Auto-restoring WhatsApp session for ${adminId}...`);
+          initiateWAPairing(adminId).catch((err) => {
+            console.error(`❌ Failed to auto-restore WA session for ${adminId}:`, err.message);
+          });
+        }
+      }
+    }
+  } catch (err: any) {
+    console.error('Error auto-restoring WA sessions:', err.message);
   }
 }
 

@@ -3,12 +3,12 @@ import { prisma } from '../config/database.js';
 import { AuthenticatedRequest } from './auth.js';
 
 /**
- * Middleware: Memastikan admin memiliki langganan berbayar yang aktif.
+ * Middleware: Memastikan admin memiliki masa aktif langganan / trial yang valid.
  * Blokir akses jika:
- * - Admin adalah akun trial (isTrial = true), terlepas dari status masa trial
- * - subscriptionEnd sudah lewat
+ * - subscriptionEnd sudah lewat / kadaluarsa
  * - isActive = false
  *
+ * Akun Trial (isTrial = true) tetap diizinkan menggunakan fitur WhatsApp selama masa trial masih aktif.
  * Middleware ini HANYA berlaku untuk role ADMIN.
  * SUPERADMIN selalu diizinkan (untuk keperluan testing).
  */
@@ -56,30 +56,21 @@ export async function requirePaidSubscription(
       return;
     }
 
-    // Cek apakah akun adalah trial (trial tidak mendapat akses WA)
-    if (admin.isTrial) {
-      res.status(403).json({
-        success: false,
-        error: 'Fitur WhatsApp tidak tersedia untuk akun trial. Upgrade ke akun berbayar untuk menggunakan fitur ini.',
-        code: 'TRIAL_ACCOUNT',
-      });
-      return;
-    }
-
-    // Cek apakah masa langganan masih aktif
+    // Cek apakah masa langganan / masa trial masih aktif
     const now = new Date();
     if (admin.subscriptionEnd < now) {
       res.status(403).json({
         success: false,
-        error: `Masa langganan Anda telah berakhir pada ${admin.subscriptionEnd.toLocaleDateString('id-ID')}. Perpanjang langganan untuk menggunakan fitur WhatsApp.`,
+        error: `Masa aktif akun Anda telah berakhir pada ${admin.subscriptionEnd.toLocaleDateString('id-ID')}. Perpanjang langganan untuk menggunakan fitur WhatsApp.`,
         code: 'SUBSCRIPTION_EXPIRED',
       });
       return;
     }
 
-    // Semua cek lolos → izinkan akses
+    // Semua cek lolos → izinkan akses (termasuk akun trial aktif)
     next();
   } catch (error: any) {
     next(error);
   }
 }
+

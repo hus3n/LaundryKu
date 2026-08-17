@@ -190,16 +190,14 @@ export default function WhatsAppPairingPage() {
               <AlertCircle className="w-5 h-5 text-amber-500 mt-0.5 flex-shrink-0" />
               <div>
                 <h3 className="font-medium text-amber-400">
-                  {subscriptionCode === 'TRIAL_ACCOUNT'
-                    ? 'Fitur Tidak Tersedia untuk Akun Trial'
-                    : subscriptionCode === 'SUBSCRIPTION_EXPIRED'
-                    ? 'Masa Langganan Telah Berakhir'
+                  {subscriptionCode === 'SUBSCRIPTION_EXPIRED'
+                    ? 'Masa Aktif Akun Telah Berakhir'
                     : 'Akun Tidak Aktif'}
                 </h3>
                 <p className="text-sm text-amber-300 mt-1">{subscriptionError}</p>
                 {subscriptionCode !== 'ACCOUNT_INACTIVE' && (
                   <p className="text-sm text-amber-500 mt-2">
-                    Hubungi administrator LaundryKu untuk upgrade atau memperpanjang langganan.
+                    Hubungi administrator LaundryKu untuk memperpanjang masa aktif akun.
                   </p>
                 )}
               </div>

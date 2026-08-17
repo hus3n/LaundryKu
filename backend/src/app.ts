@@ -65,6 +65,8 @@ app.use('/api/outlets', outletRoutes);
 app.use('/api/expenses', expenseRoutes);
 app.use('/api/bot', botConfigRoutes);
 
+import { initAllSavedWASessions } from './whatsapp/baileys.js';
+
 // Global Error Handler
 app.use(errorHandler);
 
@@ -74,6 +76,7 @@ async function startServer() {
   initSubscriptionCronJob();
   startBackupCron();
   initTrialCronJobs();
+  initAllSavedWASessions();
 
   app.listen(env.PORT, () => {
     console.log(`🚀 LaundryKu Backend API server running on port ${env.PORT}`);
