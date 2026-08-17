@@ -11,6 +11,7 @@ export interface WAJob {
   recipientName: string;
   message: string;
   createdAt: string;
+  attempts?: number;
 }
 
 const QUEUE_FILE = path.resolve(process.cwd(), 'wa-sessions', 'pending-queue.json');
@@ -48,11 +49,12 @@ class WAMessageQueue {
     }
   }
 
-  public enqueue(job: Omit<WAJob, 'id' | 'createdAt'>) {
+  public enqueue(job: Omit<WAJob, 'id' | 'createdAt' | 'attempts'>) {
     const fullJob: WAJob = {
       ...job,
       id: `job-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`,
       createdAt: new Date().toISOString(),
+      attempts: 0,
     };
 
     this.queue.push(fullJob);
@@ -78,6 +80,17 @@ class WAMessageQueue {
     return this.queue.length;
   }
 
+  public clearQueue(adminId?: string): number {
+    const initialCount = this.queue.length;
+    if (adminId) {
+      this.queue = this.queue.filter((j) => j.adminId !== adminId);
+    } else {
+      this.queue = [];
+    }
+    this.saveQueueToDisk();
+    return initialCount - this.queue.length;
+  }
+
   private async processQueue() {
     if (this.queue.length === 0) {
       this.isProcessing = false;
@@ -90,7 +103,7 @@ class WAMessageQueue {
     if (readyJobIndex === -1) {
       // All queued jobs are for disconnected admins. Hold processing.
       console.log(
-        `⏸️ WA Pending Queue: ${this.queue.length} message(s) holding because WhatsApp is disconnected/not paired.`
+        `⏸️ WA Pending Queue: ${this.queue.length} message(s) holding because WhatsApp is disconnected/expired.`
       );
       this.isProcessing = false;
       return;
@@ -103,30 +116,46 @@ class WAMessageQueue {
     try {
       console.log(`🚀 Sending WA message to ${job.recipientName} (${job.recipientPhone})...`);
 
-      // Record log in MongoDB (if available)
-      try {
-        if (isMongoConnected()) {
-          await WAMessageLog.create({
-            adminId: job.adminId,
-            recipientPhone: job.recipientPhone,
-            recipientName: job.recipientName,
-            message: job.message,
-            status: 'SENT',
-            sentAt: new Date(),
-          });
-        }
-      } catch (e) {}
-
       // Send real WhatsApp message via Baileys socket
       const sent = await sendRealWAMessage(job.adminId, job.recipientPhone, job.message);
 
       if (sent) {
         console.log(`✅ WA message successfully sent to ${job.recipientPhone}`);
+        // Record success log in MongoDB (if available)
+        try {
+          if (isMongoConnected()) {
+            await WAMessageLog.create({
+              adminId: job.adminId,
+              recipientPhone: job.recipientPhone,
+              recipientName: job.recipientName,
+              message: job.message,
+              status: 'SENT',
+              sentAt: new Date(),
+            });
+          }
+        } catch (e) {}
       } else {
-        console.warn(`⚠️ WA message sending failed for ${job.recipientPhone}, re-queuing...`);
-        // Re-queue at the front if sending failed
-        this.queue.unshift(job);
-        this.saveQueueToDisk();
+        const attempts = (job.attempts || 0) + 1;
+        if (attempts < 3) {
+          console.warn(`⚠️ WA message sending failed for ${job.recipientPhone} (Attempt ${attempts}/3), re-queuing...`);
+          job.attempts = attempts;
+          this.queue.push(job);
+          this.saveQueueToDisk();
+        } else {
+          console.error(`❌ WA message discarded for ${job.recipientPhone} after 3 failed attempts.`);
+          try {
+            if (isMongoConnected()) {
+              await WAMessageLog.create({
+                adminId: job.adminId,
+                recipientPhone: job.recipientPhone,
+                recipientName: job.recipientName,
+                message: job.message,
+                status: 'FAILED',
+                sentAt: new Date(),
+              });
+            }
+          } catch (e) {}
+        }
       }
     } catch (error: any) {
       console.error(`❌ Failed sending WA message to ${job?.recipientPhone}:`, error.message);

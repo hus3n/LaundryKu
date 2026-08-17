@@ -226,3 +226,42 @@ export async function sendNotaImage(req: AuthenticatedRequest, res: Response, ne
     next(error);
   }
 }
+
+export async function clearPendingQueue(req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> {
+  try {
+    const adminId = getTargetAdminId(req);
+    if (!adminId) {
+      res.status(400).json({ success: false, error: 'ID Toko tidak ditemukan.' });
+      return;
+    }
+
+    const clearedCount = waQueue.clearQueue(adminId);
+    res.json({
+      success: true,
+      message: `${clearedCount} pesan dalam antrean berhasil dibersihkan.`,
+      data: { clearedCount, pendingCount: waQueue.getPendingCount(adminId) },
+    });
+  } catch (error: any) {
+    next(error);
+  }
+}
+
+export async function retryPendingQueue(req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> {
+  try {
+    const adminId = getTargetAdminId(req);
+    if (!adminId) {
+      res.status(400).json({ success: false, error: 'ID Toko tidak ditemukan.' });
+      return;
+    }
+
+    waQueue.triggerQueue();
+    res.json({
+      success: true,
+      message: 'Proses pengiriman antrean pesan WhatsApp dipicu ulang.',
+      data: { pendingCount: waQueue.getPendingCount(adminId) },
+    });
+  } catch (error: any) {
+    next(error);
+  }
+}
+

@@ -10,6 +10,8 @@ import {
   sendCustomMessage,
   getMessageLogs,
   sendNotaImage,
+  clearPendingQueue,
+  retryPendingQueue,
 } from '../controllers/whatsapp.controller.js';
 import { authenticate } from '../middleware/auth.js';
 import { authorize } from '../middleware/rbac.js';
@@ -37,6 +39,8 @@ router.use(authenticate);
 // Status dan disconnect TIDAK memerlukan pengecekan langganan
 router.get('/status', authorize('ADMIN', 'SUPERADMIN'), getStatus);
 router.post('/disconnect', authorize('ADMIN', 'SUPERADMIN'), disconnect);
+router.post('/clear-queue', authorize('ADMIN', 'SUPERADMIN'), clearPendingQueue);
+router.post('/retry-queue', authorize('ADMIN', 'SUPERADMIN'), retryPendingQueue);
 
 // Connect dan confirm-simulated MEMERLUKAN pengecekan langganan berbayar
 router.post(

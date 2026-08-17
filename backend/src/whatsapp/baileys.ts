@@ -36,16 +36,38 @@ if (!fs.existsSync(SESSIONS_DIR)) {
 
 export function isWAConnected(adminId: string): boolean {
   const active = activeSessions[adminId];
-  return active?.status === 'CONNECTED';
+  if (!active || active.status !== 'CONNECTED') {
+    return false;
+  }
+  // Simulated mode (connected without socket)
+  if (!active.socket && active.status === 'CONNECTED') {
+    return true;
+  }
+  // Real socket check: verify user ID exists and websocket is not closed
+  if (active.socket) {
+    const hasUser = !!active.socket.user?.id;
+    const ws = (active.socket as any).ws;
+    const isWsOpen = ws ? ws.readyState === 1 : true;
+    return hasUser && isWsOpen;
+  }
+  return false;
 }
 
 export async function getWASessionStatus(adminId: string) {
   let active = activeSessions[adminId];
-
-  // Auto-reconnect if session folder on disk contains creds.json
   const sessionAuthDir = path.join(SESSIONS_DIR, adminId);
   const credsFile = path.join(sessionAuthDir, 'creds.json');
 
+  // Verify real socket health if in CONNECTED state
+  if (active?.status === 'CONNECTED' && active?.socket) {
+    const isSocketAlive = isWAConnected(adminId);
+    if (!isSocketAlive) {
+      console.log(`⚠️ Active socket for ${adminId} is disconnected/stale. Updating status to CONNECTING.`);
+      active.status = 'CONNECTING';
+    }
+  }
+
+  // Auto-reconnect if session folder on disk contains creds.json but in-memory active session is missing
   if (!active && fs.existsSync(credsFile)) {
     activeSessions[adminId] = { status: 'CONNECTING' };
     initiateWAPairing(adminId).catch((e) => console.error('Auto WA reconnect failed:', e.message));
@@ -62,38 +84,14 @@ export async function getWASessionStatus(adminId: string) {
     };
   }
 
-  if (!isMongoConnected()) {
-    return {
-      adminId,
-      status: 'DISCONNECTED',
-      qrCode: undefined,
-      phoneConnected: undefined,
-      pendingQueueCount: waQueue.getPendingCount(adminId),
-    };
-  }
-
-  try {
-    let session = await WASession.findOne({ adminId }).exec();
-    if (!session) {
-      session = await WASession.create({ adminId, status: 'DISCONNECTED' });
-      await ensureDefaultTemplates(adminId);
-    }
-    return {
-      adminId,
-      status: session.status,
-      qrCode: session.qrCode,
-      phoneConnected: session.phoneConnected,
-      pendingQueueCount: waQueue.getPendingCount(adminId),
-    };
-  } catch (e) {
-    return {
-      adminId,
-      status: 'DISCONNECTED',
-      qrCode: undefined,
-      phoneConnected: undefined,
-      pendingQueueCount: waQueue.getPendingCount(adminId),
-    };
-  }
+  // If no in-memory active session and no creds.json on disk, it is DISCONNECTED
+  return {
+    adminId,
+    status: 'DISCONNECTED' as const,
+    qrCode: undefined,
+    phoneConnected: undefined,
+    pendingQueueCount: waQueue.getPendingCount(adminId),
+  };
 }
 
 export async function initiateWAPairing(adminId: string) {
@@ -408,7 +406,7 @@ Terima kasih telah mempercayakan pakaian Anda kepada kami! Jika ada pertanyaan l
   });
 }
 
-export async function sendRealWAMessage(adminId: string, phone: string, message: string) {
+export async function sendRealWAMessage(adminId: string, phone: string, message: string): Promise<boolean> {
   const active = activeSessions[adminId];
   let formattedPhone = phone.replace(/[^0-9]/g, '');
   if (formattedPhone.startsWith('0')) {
@@ -417,14 +415,29 @@ export async function sendRealWAMessage(adminId: string, phone: string, message:
   const jid = `${formattedPhone}@s.whatsapp.net`;
 
   if (active?.socket && active.status === 'CONNECTED') {
-    await active.socket.sendMessage(jid, { text: message });
-    console.log(`📱 Real Baileys WA sent to ${formattedPhone}`);
-    return true;
+    try {
+      await active.socket.sendMessage(jid, { text: message });
+      console.log(`📱 Real Baileys WA sent to ${formattedPhone}`);
+      return true;
+    } catch (err: any) {
+      console.error(`❌ Error sending WA message to ${formattedPhone}:`, err.message);
+      const isAuthError =
+        err.message?.includes('Logged Out') ||
+        err.message?.includes('401') ||
+        err.output?.statusCode === 401 ||
+        err.output?.statusCode === DisconnectReason.loggedOut;
+
+      if (isAuthError) {
+        console.log(`❌ Session invalid/expired for ${adminId}. Resetting session.`);
+        await disconnectWASession(adminId);
+      }
+      return false;
+    }
   } else if (active?.status === 'CONNECTED' && !active?.socket) {
     console.log(`📱 [Simulated WA Mode] Pesan sukses disimulasikan ke ${formattedPhone}: ${message.slice(0, 40)}...`);
     return true;
   } else {
-    console.log(`ℹ️ Socket not connected for ${adminId}, message queued in simulation mode.`);
+    console.log(`ℹ️ Socket not connected for ${adminId}, message queued.`);
     return false;
   }
 }

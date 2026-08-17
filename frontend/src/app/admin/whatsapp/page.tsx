@@ -17,7 +17,9 @@ import {
   Clock,
   Code,
   LogOut,
-  XCircle
+  XCircle,
+  Trash2,
+  Play
 } from 'lucide-react';
 import type { WATemplate } from '@/types';
 import { getApiErrorMessage } from '@/lib/utils';
@@ -142,6 +144,27 @@ export default function WhatsAppPairingPage() {
     }
   };
 
+  const handleClearQueue = async () => {
+    if (!confirm('Hapus semua pesan yang tertahan dalam antrean? Pesan tidak akan dikirim.')) return;
+    try {
+      const res = await api.post('/whatsapp/clear-queue');
+      alert(res.data.message || 'Antrean berhasil dibersihkan.');
+      loadWAStatus();
+    } catch (err: unknown) {
+      alert(getApiErrorMessage(err, 'Gagal membersihkan antrean'));
+    }
+  };
+
+  const handleRetryQueue = async () => {
+    try {
+      const res = await api.post('/whatsapp/retry-queue');
+      alert(res.data.message || 'Antrean pengiriman dipicu ulang.');
+      loadWAStatus();
+    } catch (err: unknown) {
+      alert(getApiErrorMessage(err, 'Gagal memicu antrean'));
+    }
+  };
+
   const handleSelectTemplate = (id: string) => {
     setSelectedTemplateId(id);
     const tmpl = templates.find((t) => t._id === id);
@@ -246,15 +269,40 @@ export default function WhatsAppPairingPage() {
               </span>
             </div>
 
-            {/* Pending Queue Count Badge if WA is offline and messages are waiting */}
+            {/* Pending Queue Count Card */}
             {pendingQueueCount > 0 && (
-              <div className="p-3 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs flex items-center justify-between">
-                <span className="flex items-center gap-1.5 font-medium">
-                  <Clock className="w-3.5 h-3.5 text-amber-400" /> Antrean Pesan (Tertahan):
-                </span>
-                <span className="font-bold text-amber-200 bg-amber-500/20 px-2.5 py-0.5 rounded-full border border-amber-500/40">
-                  {pendingQueueCount} Pesan
-                </span>
+              <div className="p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="flex items-center gap-1.5 font-medium">
+                    <Clock className="w-3.5 h-3.5 text-amber-400" /> Antrean Tertahan:
+                  </span>
+                  <span className="font-bold text-amber-200 bg-amber-500/20 px-2.5 py-0.5 rounded-full border border-amber-500/40">
+                    {pendingQueueCount} Pesan
+                  </span>
+                </div>
+                <p className="text-[10px] text-amber-400/80 text-left">
+                  {status === 'CONNECTED'
+                    ? 'Pesan sedang dikirim bergantian dengan jeda aman 10 detik.'
+                    : 'Pesan tertunda sampai WhatsApp toko terhubung kembali.'}
+                </p>
+                <div className="flex gap-2 pt-1">
+                  {status === 'CONNECTED' && (
+                    <button
+                      type="button"
+                      onClick={handleRetryQueue}
+                      className="flex-1 py-1 px-2 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-amber-200 text-[10px] font-semibold flex items-center justify-center gap-1 transition-all"
+                    >
+                      <Play className="w-3 h-3" /> Kirim Sekarang
+                    </button>
+                  )}
+                  <button
+                    type="button"
+                    onClick={handleClearQueue}
+                    className="flex-1 py-1 px-2 rounded-lg bg-rose-500/20 hover:bg-rose-500/30 border border-rose-500/40 text-rose-300 text-[10px] font-semibold flex items-center justify-center gap-1 transition-all"
+                  >
+                    <Trash2 className="w-3 h-3" /> Bersihkan
+                  </button>
+                </div>
               </div>
             )}
 
