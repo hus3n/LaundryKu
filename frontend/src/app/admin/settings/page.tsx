@@ -130,8 +130,8 @@ export default function StoreSettingsPage() {
     <DashboardLayout>
       <div className="max-w-3xl mx-auto space-y-6">
         <div>
-          <h1 className="text-2xl font-bold text-white">Pengaturan Toko Laundry</h1>
-          <p className="text-xs text-slate-400 mt-1">Atur profil toko, alamat, dan kontak yang akan tampil di nota/struk</p>
+          <h1 className="text-2xl font-bold text-[#F5EACA]">Pengaturan Toko Laundry</h1>
+          <p className="text-xs text-[#F5EACA]/60 mt-1">Atur profil toko, alamat, dan kontak yang akan tampil di nota/struk</p>
         </div>
 
         {message && (
@@ -148,15 +148,15 @@ export default function StoreSettingsPage() {
           </div>
         )}
 
-        <div className="glass-card-dark p-6 rounded-3xl border border-slate-800 space-y-6">
+        <div className="glass-card-dark p-6 rounded-3xl border border-[#1DA9D0]/15 space-y-6">
           {loading ? (
-            <div className="text-center py-8 text-xs text-slate-400">Memuat profil toko...</div>
+            <div className="text-center py-8 text-xs text-[#F5EACA]/60">Memuat profil toko...</div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4">
               
               {/* Upload Logo */}
-              <div className="mb-6 p-4 rounded-2xl bg-slate-900/50 border border-slate-800">
-                <label className="block text-xs font-semibold text-slate-300 mb-3">Logo Toko</label>
+              <div className="mb-6 p-4 rounded-2xl bg-[#012040]/50 border border-[#1DA9D0]/15">
+                <label className="block text-xs font-semibold text-[#F5EACA]/80 mb-3">Logo Toko</label>
                 
                 {/* Preview Logo */}
                 <div className="mb-4">
@@ -164,10 +164,10 @@ export default function StoreSettingsPage() {
                     <img
                       src={getLogoDisplayUrl()!}
                       alt="Logo Toko"
-                      className="w-24 h-24 object-contain border border-slate-700 bg-white rounded-xl shadow-sm"
+                      className="w-24 h-24 object-contain border border-[#1DA9D0]/25 bg-white rounded-xl shadow-sm"
                     />
                   ) : (
-                    <div className="w-24 h-24 border-2 border-dashed border-slate-700 rounded-xl flex items-center justify-center text-slate-500 text-xs text-center">
+                    <div className="w-24 h-24 border-2 border-dashed border-[#1DA9D0]/25 rounded-xl flex items-center justify-center text-[#F5EACA]/50 text-xs text-center">
                       Belum ada logo
                     </div>
                   )}
@@ -184,7 +184,7 @@ export default function StoreSettingsPage() {
                 <div className="flex gap-3 items-center">
                   <label
                     htmlFor="logoUpload"
-                    className="cursor-pointer px-4 py-2 border border-slate-700 rounded-lg text-xs font-medium text-slate-300 hover:bg-slate-800 transition-colors"
+                    className="cursor-pointer px-4 py-2 border border-[#1DA9D0]/25 rounded-lg text-xs font-medium text-[#F5EACA]/80 hover:bg-[#013D66] transition-colors"
                   >
                     Pilih File
                   </label>
@@ -193,56 +193,56 @@ export default function StoreSettingsPage() {
                       type="button"
                       onClick={handleUploadLogo}
                       disabled={isUploadingLogo}
-                      className="px-4 py-2 bg-brand-600 text-white rounded-lg text-xs font-medium hover:bg-brand-700 disabled:opacity-50 transition-colors"
+                      className="px-4 py-2 bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] text-[#010E1C] font-bold rounded-lg text-xs hover:opacity-95 disabled:opacity-50 transition-all"
                     >
                       {isUploadingLogo ? 'Mengupload...' : 'Upload Logo'}
                     </button>
                   )}
                 </div>
                 {logoFile && (
-                  <p className="text-[10px] text-brand-400 mt-2">File dipilih: {logoFile.name}</p>
+                  <p className="text-[10px] text-[#43D5CC] mt-2">File dipilih: {logoFile.name}</p>
                 )}
-                <p className="text-[10px] text-slate-500 mt-1">Format: JPG, PNG, WebP. Maks 2MB.</p>
+                <p className="text-[10px] text-[#F5EACA]/50 mt-1">Format: JPG, PNG, WebP. Maks 2MB.</p>
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1.5">Nama Toko Laundry *</label>
+                <label className="block text-xs font-semibold text-[#F5EACA]/80 mb-1.5">Nama Toko Laundry *</label>
                 <input
                   type="text"
                   required
                   value={storeName}
                   onChange={(e) => setStoreName(e.target.value)}
                   placeholder="Contoh: FreshClean Laundry 24"
-                  className="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-brand-500"
+                  className="w-full px-4 py-2.5 rounded-xl bg-[#012040] border border-[#1DA9D0]/25 text-xs text-[#F5EACA] placeholder-[#1DA9D0]/50 focus:outline-none focus:border-[#1DA9D0]"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1.5">Nomor Telepon / WA Toko</label>
+                <label className="block text-xs font-semibold text-[#F5EACA]/80 mb-1.5">Nomor Telepon / WA Toko</label>
                 <input
                   type="text"
                   value={storePhone}
                   onChange={(e) => setStorePhone(e.target.value)}
                   placeholder="081234567890"
-                  className="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-brand-500"
+                  className="w-full px-4 py-2.5 rounded-xl bg-[#012040] border border-[#1DA9D0]/25 text-xs text-[#F5EACA] placeholder-[#1DA9D0]/50 focus:outline-none focus:border-[#1DA9D0]"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1.5">Alamat Toko Lengkap</label>
+                <label className="block text-xs font-semibold text-[#F5EACA]/80 mb-1.5">Alamat Toko Lengkap</label>
                 <textarea
                   rows={3}
                   value={storeAddress}
                   onChange={(e) => setStoreAddress(e.target.value)}
                   placeholder="Jl. Merdeka No. 45, Kecamatan Gambir, Jakarta Pusat"
-                  className="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-brand-500"
+                  className="w-full px-4 py-2.5 rounded-xl bg-[#012040] border border-[#1DA9D0]/25 text-xs text-[#F5EACA] placeholder-[#1DA9D0]/50 focus:outline-none focus:border-[#1DA9D0]"
                 />
               </div>
 
               {subscriptionEnd && (
-                <div className="p-4 rounded-xl bg-slate-900/90 border border-slate-800 flex justify-between items-center text-xs">
-                  <span className="text-slate-400">Masa Aktif Berlangganan Toko:</span>
-                  <span className="font-bold text-amber-400">
+                <div className="p-4 rounded-xl bg-[#012040] border border-[#1DA9D0]/15 flex justify-between items-center text-xs">
+                  <span className="text-[#F5EACA]/60">Masa Aktif Berlangganan Toko:</span>
+                  <span className="font-bold text-[#EA8803]">
                     {new Date(subscriptionEnd).toLocaleDateString('id-ID', {
                       day: 'numeric',
                       month: 'long',
@@ -256,10 +256,10 @@ export default function StoreSettingsPage() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-brand-500 to-brand-600 hover:from-brand-400 hover:to-brand-500 text-white font-semibold text-xs shadow-lg shadow-brand-500/20 transition-all flex items-center gap-2 disabled:opacity-50"
+                  className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] hover:opacity-95 text-[#010E1C] font-bold text-xs shadow-lg shadow-[#1DA9D0]/20 transition-all flex items-center gap-2 disabled:opacity-50"
                 >
                   {isSubmitting ? (
-                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    <div className="w-4 h-4 border-2 border-[#010E1C]/30 border-t-[#010E1C] rounded-full animate-spin" />
                   ) : (
                     <>
                       Simpan Perubahan

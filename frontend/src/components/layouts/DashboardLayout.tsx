@@ -72,11 +72,11 @@ export default function DashboardLayout({ children, role }: { children: React.Re
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex">
+    <div className="min-h-screen bg-[#010E1C] text-[#F5EACA] flex">
       {/* Desktop Sidebar */}
-      <aside className="hidden md:flex flex-col w-64 bg-slate-900/80 border-r border-slate-800/80 p-5 sticky top-0 h-screen z-30 backdrop-blur-xl">
+      <aside className="hidden md:flex flex-col w-64 bg-[#012040]/80 border-r border-[#1DA9D0]/15 p-5 sticky top-0 h-screen z-30 backdrop-blur-xl">
         {/* Brand */}
-        <div className="pb-5 mb-3 border-b border-slate-800">
+        <div className="pb-5 mb-3 border-b border-[#1DA9D0]/15">
           <Link href={user?.role === 'SUPERADMIN' ? '/superadmin/dashboard' : user?.role === 'ADMIN' ? '/admin/dashboard' : '/karyawan/laundry'}>
             <BrandLogo storeName={user?.storeName} storeLogo={user?.storeLogo} />
           </Link>
@@ -92,18 +92,18 @@ export default function DashboardLayout({ children, role }: { children: React.Re
                 key={item.href}
                 href={item.href}
                 className={`relative flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-semibold transition-colors group ${
-                  isActive ? 'text-white' : 'text-slate-400 hover:text-slate-200'
+                  isActive ? 'text-[#010E1C] font-bold' : 'text-[#F5EACA]/60 hover:text-[#F5EACA]'
                 }`}
               >
                 {isActive && (
                   <motion.div
                     layoutId="sidebar-active-indicator"
-                    className="absolute inset-0 rounded-xl bg-gradient-to-r from-brand-500 to-brand-600 shadow-lg shadow-brand-500/25"
+                    className="absolute inset-0 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] shadow-lg shadow-[#1DA9D0]/25"
                     transition={{ type: 'spring', stiffness: 300, damping: 30 }}
                   />
                 )}
                 {!isActive && (
-                  <div className="absolute inset-0 rounded-xl bg-slate-800/60 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <div className="absolute inset-0 rounded-xl bg-[#1DA9D0]/10 opacity-0 group-hover:opacity-100 transition-opacity" />
                 )}
                 <span className="relative z-10 flex items-center gap-3">
                   <Icon className="w-4 h-4 shrink-0" />
@@ -115,14 +115,14 @@ export default function DashboardLayout({ children, role }: { children: React.Re
         </nav>
 
         {/* User Info & Logout */}
-        <div className="pt-4 mt-4 border-t border-slate-800 flex items-center justify-between">
+        <div className="pt-4 mt-4 border-t border-[#1DA9D0]/15 flex items-center justify-between">
           <div className="flex items-center gap-3 overflow-hidden">
-            <div className="w-9 h-9 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center font-bold text-brand-400 shrink-0">
+            <div className="w-9 h-9 rounded-xl bg-[#013D66] border border-[#1DA9D0]/25 flex items-center justify-center font-bold text-[#43D5CC] shrink-0">
               {user?.name?.[0]?.toUpperCase() || 'U'}
             </div>
             <div className="truncate">
-              <div className="text-xs font-semibold text-white truncate">{user?.name}</div>
-              <div className="text-[10px] text-slate-400 truncate">{user?.email}</div>
+              <div className="text-xs font-semibold text-[#F5EACA] truncate">{user?.name}</div>
+              <div className="text-[10px] text-[#F5EACA]/50 truncate">{user?.email}</div>
             </div>
           </div>
 
@@ -131,7 +131,7 @@ export default function DashboardLayout({ children, role }: { children: React.Re
             whileTap={{ scale: 0.9 }}
             onClick={logout}
             title="Keluar / Logout"
-            className="p-2 rounded-lg text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors"
+            className="p-2 rounded-lg text-[#F5EACA]/60 hover:text-rose-400 hover:bg-rose-500/10 transition-colors"
           >
             <LogOut className="w-4 h-4" />
           </motion.button>
@@ -141,19 +141,19 @@ export default function DashboardLayout({ children, role }: { children: React.Re
       {/* Main Area */}
       <div className="flex-1 flex flex-col min-w-0">
         {/* Top Header */}
-        <header className="h-16 border-b border-slate-800/80 bg-slate-900/40 backdrop-blur-xl sticky top-0 z-20 px-4 md:px-6 flex items-center justify-between gap-4">
+        <header className="h-16 border-b border-[#1DA9D0]/15 bg-[#012040]/50 backdrop-blur-xl sticky top-0 z-20 px-4 md:px-6 flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <button
               onClick={() => setMobileOpen(true)}
-              className="md:hidden p-2 flex items-center justify-center rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+              className="md:hidden p-2 flex items-center justify-center rounded-lg text-[#F5EACA]/60 hover:text-[#F5EACA] hover:bg-[#1DA9D0]/10 transition-colors"
             >
               <Menu className="w-5 h-5" />
             </button>
 
-            <div className="text-xs font-semibold text-slate-400 truncate hidden sm:block">
-              Selamat Datang, <span className="text-white font-bold">{user?.name}</span>
+            <div className="text-xs font-semibold text-[#F5EACA]/60 truncate hidden sm:block">
+              Selamat Datang, <span className="text-[#F5EACA] font-bold">{user?.name}</span>
               {user?.storeName && (
-                <span className="text-slate-500 font-normal ml-1.5">({user.storeName})</span>
+                <span className="text-[#1DA9D0]/70 font-normal ml-1.5">({user.storeName})</span>
               )}
             </div>
           </div>
@@ -162,7 +162,7 @@ export default function DashboardLayout({ children, role }: { children: React.Re
             {/* App Window & Fullscreen Controls */}
             <AppWindowControls />
 
-            <span className="text-xs px-3 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-300 font-medium hidden md:inline-block">
+            <span className="text-xs px-3 py-1 rounded-full bg-[#013D66] border border-[#1DA9D0]/25 text-[#F5EACA]/80 font-medium hidden md:inline-block">
               {user?.role}
             </span>
           </div>
@@ -178,7 +178,7 @@ export default function DashboardLayout({ children, role }: { children: React.Re
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.2 }}
-                className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm" 
+                className="fixed inset-0 bg-[#010E1C]/85 backdrop-blur-sm" 
                 onClick={() => setMobileOpen(false)} 
               />
               <motion.aside 
@@ -187,11 +187,11 @@ export default function DashboardLayout({ children, role }: { children: React.Re
                 animate={{ x: 0 }}
                 exit={{ x: '-100%' }}
                 transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-                className="relative flex-1 max-w-xs bg-slate-900 border-r border-slate-800 p-6 flex flex-col"
+                className="relative flex-1 max-w-xs bg-[#012040] border-r border-[#1DA9D0]/15 p-6 flex flex-col"
               >
-                <div className="flex items-center justify-between pb-4 mb-4 border-b border-slate-800">
+                <div className="flex items-center justify-between pb-4 mb-4 border-b border-[#1DA9D0]/15">
                   <BrandLogo size="sm" storeName={user?.storeName} storeLogo={user?.storeLogo} />
-                  <button onClick={() => setMobileOpen(false)} className="p-2 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 transition-colors">
+                  <button onClick={() => setMobileOpen(false)} className="p-2 text-[#F5EACA]/60 hover:text-[#F5EACA] rounded-lg hover:bg-[#1DA9D0]/10 transition-colors">
                     <AnimatePresence mode="wait">
                       <motion.div 
                         key="close" 
@@ -217,8 +217,8 @@ export default function DashboardLayout({ children, role }: { children: React.Re
                         onClick={() => setMobileOpen(false)}
                         className={`flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-semibold transition-colors ${
                           isActive
-                            ? 'bg-brand-500 text-white shadow-md shadow-brand-500/20'
-                            : 'text-slate-400 hover:text-white hover:bg-slate-800'
+                            ? 'bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] text-[#010E1C] font-bold shadow-md shadow-[#1DA9D0]/20'
+                            : 'text-[#F5EACA]/60 hover:text-[#F5EACA] hover:bg-[#1DA9D0]/10'
                         }`}
                       >
                         <Icon className="w-4 h-4" />

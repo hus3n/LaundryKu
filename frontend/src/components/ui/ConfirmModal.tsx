@@ -34,15 +34,15 @@ export default function ConfirmModal({
   const colorStyles = {
     danger: {
       bgIcon: 'bg-rose-500/20 text-rose-400 border-rose-500/30',
-      btn: 'bg-gradient-to-r from-rose-600 to-rose-700 hover:from-rose-500 hover:to-rose-600 shadow-rose-900/30',
+      btn: 'bg-gradient-to-r from-rose-600 to-rose-700 hover:from-rose-500 hover:to-rose-600 shadow-rose-900/30 text-white font-semibold',
     },
     warning: {
-      bgIcon: 'bg-amber-500/20 text-amber-400 border-amber-500/30',
-      btn: 'bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-500 hover:to-amber-600 shadow-amber-900/30',
+      bgIcon: 'bg-[#EA8803]/20 text-[#EA8803] border-[#EA8803]/30',
+      btn: 'bg-gradient-to-r from-[#EA8803] to-[#EA8803]/80 hover:opacity-95 text-[#010E1C] font-bold shadow-[#EA8803]/30',
     },
     info: {
-      bgIcon: 'bg-brand-500/20 text-brand-400 border-brand-500/30',
-      btn: 'bg-gradient-to-r from-brand-500 to-brand-600 hover:from-brand-400 hover:to-brand-500 shadow-brand-900/30',
+      bgIcon: 'bg-[#1DA9D0]/20 text-[#43D5CC] border-[#1DA9D0]/30',
+      btn: 'bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] hover:opacity-95 text-[#010E1C] font-bold shadow-[#1DA9D0]/30',
     },
   }[type];
 
@@ -55,7 +55,7 @@ export default function ConfirmModal({
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.2 }}
-        className="fixed inset-0 z-[60] bg-slate-950/80 backdrop-blur-md"
+        className="fixed inset-0 z-[60] bg-[#010E1C]/80 backdrop-blur-md"
         onClick={onClose}
       />
       {/* Panel */}
@@ -67,11 +67,11 @@ export default function ConfirmModal({
         transition={{ type: 'spring', stiffness: 320, damping: 26 }}
         className="fixed inset-0 z-[70] flex items-center justify-center p-4 pointer-events-none"
       >
-        <div className="glass-card-dark p-6 sm:p-7 rounded-3xl border border-slate-800/80 max-w-md w-full shadow-2xl relative space-y-5 pointer-events-auto">
+        <div className="glass-card-dark p-6 sm:p-7 rounded-3xl border border-[#1DA9D0]/15 max-w-md w-full shadow-2xl relative space-y-5 pointer-events-auto">
           <motion.button
             whileTap={{ scale: 0.95 }}
             onClick={onClose}
-            className="absolute top-5 right-5 p-1.5 rounded-xl bg-slate-900/60 text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+            className="absolute top-5 right-5 p-1.5 rounded-xl bg-[#012040] text-[#F5EACA]/60 hover:text-[#F5EACA] hover:bg-[#013D66] transition-colors"
           >
             <X className="w-4 h-4" />
           </motion.button>
@@ -81,18 +81,18 @@ export default function ConfirmModal({
               <AlertTriangle className="w-6 h-6" />
             </div>
             <div>
-              <h3 className="text-base font-bold text-white">{title}</h3>
-              <p className="text-xs text-slate-300 mt-1 leading-relaxed">{message}</p>
+              <h3 className="text-base font-bold text-[#F5EACA]">{title}</h3>
+              <p className="text-xs text-[#F5EACA]/80 mt-1 leading-relaxed">{message}</p>
             </div>
           </div>
 
-          <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-800/60">
+          <div className="flex items-center justify-end gap-3 pt-3 border-t border-[#1DA9D0]/10">
             <motion.button
               whileTap={{ scale: 0.95 }}
               type="button"
               onClick={onClose}
               disabled={isSubmitting}
-              className="px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 text-xs font-semibold border border-slate-800 transition-colors"
+              className="px-4 py-2.5 rounded-xl bg-[#012040] hover:bg-[#013D66] text-[#F5EACA]/80 text-xs font-semibold border border-[#1DA9D0]/15 transition-colors"
             >
               {cancelText}
             </motion.button>
@@ -101,11 +101,11 @@ export default function ConfirmModal({
               type="button"
               onClick={onConfirm}
               disabled={isSubmitting}
-              className={`px-5 py-2.5 rounded-xl text-white font-semibold text-xs shadow-lg transition-all flex items-center gap-2 ${colorStyles.btn} disabled:opacity-50`}
+              className={`px-5 py-2.5 rounded-xl text-xs shadow-lg transition-all flex items-center gap-2 ${colorStyles.btn} disabled:opacity-50`}
             >
               {isSubmitting ? (
                 <>
-                  <div className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  <div className="w-3.5 h-3.5 border-2 border-current border-t-transparent rounded-full animate-spin" />
                   Memproses...
                 </>
               ) : (
@@ -118,3 +118,4 @@ export default function ConfirmModal({
     </>
   );
 }
+

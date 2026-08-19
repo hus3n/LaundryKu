@@ -169,21 +169,21 @@ export default function GlobalLaundryListPage() {
       <div className="space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-bold text-white">Data Cucian Global</h1>
-            <p className="text-xs text-slate-400 mt-1">Daftar seluruh transaksi cucian toko, update status pengerjaan, dan cetak nota</p>
+            <h1 className="text-2xl font-bold text-[#F5EACA]">Data Cucian Global</h1>
+            <p className="text-xs text-[#F5EACA]/60 mt-1">Daftar seluruh transaksi cucian toko, update status pengerjaan, dan cetak nota</p>
           </div>
           <div className="flex items-center gap-3">
             <button
               onClick={handleExport}
               disabled={isExporting}
-              className="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-xs transition-colors inline-flex items-center gap-2 disabled:opacity-50"
+              className="px-4 py-2.5 rounded-xl bg-[#013D66] hover:bg-[#014775] text-[#F5EACA]/80 font-semibold text-xs border border-[#1DA9D0]/25 transition-colors inline-flex items-center gap-2 disabled:opacity-50"
             >
-              <Download className="w-4 h-4" />
+              <Download className="w-4 h-4 text-[#43D5CC]" />
               {isExporting ? 'Mengekspor...' : 'Export CSV'}
             </button>
             <Link
               href="/admin/laundry/new"
-              className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-brand-500 to-brand-600 hover:from-brand-400 hover:to-brand-500 text-white font-semibold text-xs shadow-lg shadow-brand-500/20 transition-all inline-flex items-center gap-2"
+              className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] hover:opacity-95 text-[#010E1C] font-bold text-xs shadow-lg shadow-[#1DA9D0]/20 transition-all inline-flex items-center gap-2"
             >
               <PlusCircle className="w-4 h-4" />
               Catat Cucian Baru
@@ -192,15 +192,15 @@ export default function GlobalLaundryListPage() {
         </div>
 
         {/* Search & Filter Bar */}
-        <div className="glass-card-dark p-4 rounded-2xl border border-slate-800 flex flex-col md:flex-row gap-4 justify-between items-center">
+        <div className="glass-card-dark p-4 rounded-2xl border border-[#1DA9D0]/15 flex flex-col md:flex-row gap-4 justify-between items-center">
           <form onSubmit={handleSearchSubmit} className="relative w-full md:w-80">
-            <Search className="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
+            <Search className="w-4 h-4 text-[#1DA9D0]/50 absolute left-3.5 top-1/2 -translate-y-1/2" />
             <input
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Cari nota, pelanggan, no WA..."
-              className="w-full pl-10 pr-4 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-brand-500"
+              className="w-full pl-10 pr-4 py-2 rounded-xl bg-[#012040] border border-[#1DA9D0]/25 text-xs text-[#F5EACA] placeholder-[#1DA9D0]/50 focus:outline-none focus:border-[#1DA9D0]"
             />
           </form>
 
@@ -208,7 +208,7 @@ export default function GlobalLaundryListPage() {
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs text-slate-300 focus:outline-none focus:border-brand-500"
+              className="px-3 py-2 rounded-xl bg-[#012040] border border-[#1DA9D0]/25 text-xs text-[#F5EACA]/80 focus:outline-none focus:border-[#1DA9D0]"
             >
               <option value="">Semua Status Cucian</option>
               <option value="RECEIVED">Masuk</option>
@@ -220,7 +220,7 @@ export default function GlobalLaundryListPage() {
             <select
               value={paymentFilter}
               onChange={(e) => setPaymentFilter(e.target.value)}
-              className="px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs text-slate-300 focus:outline-none focus:border-brand-500"
+              className="px-3 py-2 rounded-xl bg-[#012040] border border-[#1DA9D0]/25 text-xs text-[#F5EACA]/80 focus:outline-none focus:border-[#1DA9D0]"
             >
               <option value="">Semua Pembayaran</option>
               <option value="UNPAID">Belum Bayar</option>
@@ -230,39 +230,39 @@ export default function GlobalLaundryListPage() {
         </div>
 
         {/* Data Table */}
-        <div className="glass-card-dark rounded-2xl border border-slate-800 overflow-hidden">
+        <div className="glass-card-dark rounded-2xl border border-[#1DA9D0]/15 overflow-hidden">
           {error ? (
             <div className="text-center py-12 text-xs text-rose-400">⚠️ {error}</div>
           ) : loading ? (
-            <div className="text-center py-12 text-xs text-slate-400">Memuat data cucian...</div>
+            <div className="text-center py-12 text-xs text-[#F5EACA]/60">Memuat data cucian...</div>
           ) : orders.length === 0 ? (
-            <div className="text-center py-16 text-xs text-slate-400 space-y-3">
-              <Shirt className="w-12 h-12 mx-auto text-slate-600" />
+            <div className="text-center py-16 text-xs text-[#F5EACA]/60 space-y-3">
+              <Shirt className="w-12 h-12 mx-auto text-[#1DA9D0]/40" />
               <p>Tidak ada data cucian yang sesuai dengan filter.</p>
             </div>
           ) : (
             <>
               {/* === CARD VIEW — MOBILE ONLY (< md) === */}
-              <div className="md:hidden divide-y divide-slate-800/60">
+              <div className="md:hidden divide-y divide-[#1DA9D0]/10">
                 {orders.map((order) => (
                   <div
                     key={order.id}
-                    className="p-4 space-y-2.5 hover:bg-slate-900/50 transition-colors cursor-pointer"
+                    className="p-4 space-y-2.5 hover:bg-[#1DA9D0]/5 transition-colors cursor-pointer"
                     onClick={() => setSelectedLogOrder(order)}
                   >
                     {/* Baris 1: No Nota + Status Cucian */}
                     <div className="flex items-center justify-between">
                       <div>
-                        <span className="font-bold text-brand-300 text-xs">#{order.orderNumber}</span>
+                        <span className="font-bold text-[#43D5CC] text-xs">#{order.orderNumber}</span>
                         {order.outlet && (
-                          <span className="ml-2 text-[9px] text-slate-500">{order.outlet.name}</span>
+                          <span className="ml-2 text-[9px] text-[#1DA9D0]/50">{order.outlet.name}</span>
                         )}
                       </div>
                       <select
                         value={order.status}
                         onChange={(e) => handleStatusChangeWithStop(e, order.id)}
                         onClick={(e) => e.stopPropagation()}
-                        className="px-2 py-1 rounded-lg text-[10px] font-semibold border bg-slate-800 text-slate-300 border-slate-700 focus:outline-none"
+                        className="px-2 py-1 rounded-lg text-[10px] font-semibold border bg-[#013D66] text-[#F5EACA]/80 border-[#1DA9D0]/25 focus:outline-none"
                       >
                         <option value="RECEIVED">Masuk</option>
                         <option value="IN_PROGRESS">Dikerjakan</option>
@@ -274,11 +274,11 @@ export default function GlobalLaundryListPage() {
                     {/* Baris 2: Pelanggan + Total + Bayar */}
                     <div className="flex items-start justify-between">
                       <div>
-                        <div className="text-white text-xs font-semibold">{order.customer?.name}</div>
-                        <div className="text-[10px] text-slate-400">{order.customer?.phone}</div>
+                        <div className="text-[#F5EACA] text-xs font-semibold">{order.customer?.name}</div>
+                        <div className="text-[10px] text-[#F5EACA]/60">{order.customer?.phone}</div>
                       </div>
                       <div className="text-right">
-                        <div className="text-white text-xs font-bold">
+                        <div className="text-[#F5EACA] text-xs font-bold">
                           Rp {Number(order.totalPrice).toLocaleString('id-ID')}
                         </div>
                         <button
@@ -292,7 +292,7 @@ export default function GlobalLaundryListPage() {
                     </div>
 
                     {/* Baris 3: Item paket */}
-                    <div className="text-[10px] text-slate-400">
+                    <div className="text-[10px] text-[#F5EACA]/60">
                       {order.items?.map((item, i) => (
                         <span key={i}>
                           {item.package?.name} ({item.quantity} {item.package?.unit})
@@ -304,14 +304,14 @@ export default function GlobalLaundryListPage() {
                     {/* Baris 4: Catatan + Parfum (jika ada) */}
                     {(order.notes || order.fragrance) && (
                       <div className="text-[10px] space-y-0.5">
-                        {order.notes && <div className="text-amber-400 italic">📝 {order.notes}</div>}
-                        {order.fragrance && <div className="text-purple-400/90">🌸 Parfum: {order.fragrance}</div>}
+                        {order.notes && <div className="text-[#EA8803] italic">📝 {order.notes}</div>}
+                        {order.fragrance && <div className="text-[#43D5CC]">🌸 Parfum: {order.fragrance}</div>}
                       </div>
                     )}
 
                     {/* Baris 5: Struk + Tgl Masuk */}
                     <div className="flex items-center justify-between">
-                      <span className="text-[9px] text-slate-500">
+                      <span className="text-[9px] text-[#1DA9D0]/50">
                         Masuk: {new Date(order.dateIn).toLocaleDateString('id-ID')}
                       </span>
                       <div className="flex items-center gap-1.5">
@@ -320,11 +320,11 @@ export default function GlobalLaundryListPage() {
                             id={`btn-send-nota-image-mob-${order.id}`}
                             onClick={(e) => handleSendNotaImage(e, order)}
                             disabled={isSendingNota === order.id}
-                            className="px-2 py-1 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 text-[10px] font-semibold border border-emerald-500/30 inline-flex items-center gap-1 transition-colors disabled:opacity-50"
+                            className="px-2 py-1 rounded-lg bg-[#43D5CC]/10 hover:bg-[#43D5CC]/20 text-[#43D5CC] text-[10px] font-semibold border border-[#43D5CC]/30 inline-flex items-center gap-1 transition-colors disabled:opacity-50"
                             title="Kirim Nota sebagai Gambar WA"
                           >
                             {isSendingNota === order.id ? (
-                              <div className="w-3 h-3 border-2 border-emerald-400/30 border-t-emerald-400 rounded-full animate-spin" />
+                              <div className="w-3 h-3 border-2 border-[#43D5CC]/30 border-t-[#43D5CC] rounded-full animate-spin" />
                             ) : (
                               <>📷 WA</>
                             )}
@@ -332,7 +332,7 @@ export default function GlobalLaundryListPage() {
                         )}
                         <button
                           onClick={(e) => handleReceiptClickWithStop(e, order)}
-                          className="px-2.5 py-1 rounded-lg bg-slate-800 text-brand-300 text-[10px] font-semibold border border-slate-700 inline-flex items-center gap-1"
+                          className="px-2.5 py-1 rounded-lg bg-[#013D66] text-[#43D5CC] text-[10px] font-semibold border border-[#1DA9D0]/25 inline-flex items-center gap-1 hover:bg-[#014775]"
                         >
                           <Printer className="w-3 h-3" /> Struk
                         </button>
@@ -346,7 +346,7 @@ export default function GlobalLaundryListPage() {
               <div className="hidden md:block overflow-x-auto">
               <table className="w-full text-left text-xs">
                 <thead>
-                  <tr className="border-b border-slate-800 text-slate-400 font-medium bg-slate-900/40">
+                  <tr className="border-b border-[#1DA9D0]/15 text-[#F5EACA]/60 font-medium bg-[#012040]/40">
                     <th className="py-3.5 px-4">No. Nota</th>
                     <th className="py-3.5 px-4">Pelanggan & WA</th>
                     <th className="py-3.5 px-4">Outlet</th>
@@ -357,7 +357,7 @@ export default function GlobalLaundryListPage() {
                     <th className="py-3.5 px-4 text-right">Total & Struk</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-800/60">
+                <tbody className="divide-y divide-[#1DA9D0]/10">
                   <AnimatePresence>
                     {orders.map((order) => (
                       <motion.tr 
@@ -368,48 +368,48 @@ export default function GlobalLaundryListPage() {
                         transition={{ duration: 0.2 }}
                         layout
                         onClick={() => setSelectedLogOrder(order)}
-                        className="hover:bg-slate-900/50 transition-colors cursor-pointer"
+                        className="hover:bg-[#1DA9D0]/5 transition-colors cursor-pointer"
                       >
-                        <td className="py-4 px-4 font-bold text-brand-300">
+                        <td className="py-4 px-4 font-bold text-[#43D5CC]">
                         #{order.orderNumber}
                         {order.notes && (
-                          <div className="text-[10px] text-amber-400/90 mt-1 italic font-normal">
+                          <div className="text-[10px] text-[#EA8803]/90 mt-1 italic font-normal">
                             📝 {order.notes}
                           </div>
                         )}
                         {order.fragrance && (
-                          <div className="text-[10px] text-purple-400/90 mt-0.5 font-normal">
+                          <div className="text-[10px] text-[#43D5CC]/90 mt-0.5 font-normal">
                             🌸 Parfum: {order.fragrance}
                           </div>
                         )}
                       </td>
                       <td className="py-4 px-4">
-                        <div className="font-semibold text-white">{order.customer?.name}</div>
+                        <div className="font-semibold text-[#F5EACA]">{order.customer?.name}</div>
                         <a
                           href={`https://wa.me/${order.customer?.phone}`}
                           target="_blank"
                           rel="noreferrer"
                           onClick={(e) => e.stopPropagation()}
-                          className="text-[10px] text-brand-400 hover:underline"
+                          className="text-[10px] text-[#43D5CC] hover:underline"
                         >
                           {order.customer?.phone}
                         </a>
                       </td>
-                      <td className="py-4 px-4 text-xs text-slate-300">
+                      <td className="py-4 px-4 text-xs text-[#F5EACA]/80">
                         {order.outlet?.name || '—'}
                       </td>
                       <td className="py-4 px-4 space-y-1">
                         {order.items?.map((item, i) => (
-                          <div key={i} className="text-[11px] text-slate-300">
+                          <div key={i} className="text-[11px] text-[#F5EACA]/80">
                             • {item.package?.name} ({item.quantity} {item.package?.unit}) —{' '}
-                            <span className="text-slate-400">{item.category?.name}</span>
+                            <span className="text-[#F5EACA]/60">{item.category?.name}</span>
                           </div>
                         ))}
                       </td>
-                      <td className="py-4 px-4 text-slate-300 space-y-0.5">
+                      <td className="py-4 px-4 text-[#F5EACA]/80 space-y-0.5">
                         <div>{new Date(order.dateIn).toLocaleDateString('id-ID')}</div>
                         {order.estimatedDone && (
-                          <div className="text-[10px] text-slate-400">
+                          <div className="text-[10px] text-[#F5EACA]/60">
                             Est: {new Date(order.estimatedDone).toLocaleDateString('id-ID')}
                           </div>
                         )}
@@ -421,10 +421,10 @@ export default function GlobalLaundryListPage() {
                           onChange={(e) => handleStatusChangeWithStop(e, order.id)}
                           className={`px-2.5 py-1 rounded-xl text-[10px] font-semibold border cursor-pointer focus:outline-none ${getOrderStatusBadgeClass(order.status)}`}
                         >
-                          <option value="RECEIVED" className="bg-slate-900 text-white">Masuk</option>
-                          <option value="IN_PROGRESS" className="bg-slate-900 text-white">Sedang Dikerjakan</option>
-                          <option value="DONE" className="bg-slate-900 text-white">Selesai</option>
-                          <option value="PICKED_UP" className="bg-slate-900 text-white">Diambil Pelanggan</option>
+                          <option value="RECEIVED" className="bg-[#012040] text-[#F5EACA]">Masuk</option>
+                          <option value="IN_PROGRESS" className="bg-[#012040] text-[#F5EACA]">Sedang Dikerjakan</option>
+                          <option value="DONE" className="bg-[#012040] text-[#F5EACA]">Selesai</option>
+                          <option value="PICKED_UP" className="bg-[#012040] text-[#F5EACA]">Diambil Pelanggan</option>
                         </select>
                       </td>
                       <td className="py-4 px-4">
@@ -436,13 +436,13 @@ export default function GlobalLaundryListPage() {
                           {getPaymentStatusLabel(order.paymentStatus)}
                         </button>
                         {order.paymentStatus === 'PAID' && order.paymentMethod && (
-                          <div className="text-[9px] text-slate-400 mt-0.5 text-center">
+                          <div className="text-[9px] text-[#F5EACA]/60 mt-0.5 text-center">
                             {order.paymentMethod === 'CASH' ? '💵 Cash' : '📱 QRIS'}
                           </div>
                         )}
                       </td>
                       <td className="py-4 px-4 text-right space-y-1.5">
-                        <div className="font-bold text-white">
+                        <div className="font-bold text-[#F5EACA]">
                           Rp {Number(order.totalPrice).toLocaleString('id-ID')}
                         </div>
                         <div className="flex items-center justify-end gap-1.5">
@@ -451,11 +451,11 @@ export default function GlobalLaundryListPage() {
                               id={`btn-send-nota-image-${order.id}`}
                               onClick={(e) => handleSendNotaImage(e, order)}
                               disabled={isSendingNota === order.id}
-                              className="px-2 py-1 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 text-[10px] font-semibold inline-flex items-center gap-1 border border-emerald-500/30 transition-colors disabled:opacity-50"
+                              className="px-2 py-1 rounded-lg bg-[#43D5CC]/10 hover:bg-[#43D5CC]/20 text-[#43D5CC] text-[10px] font-semibold inline-flex items-center gap-1 border border-[#43D5CC]/30 transition-colors disabled:opacity-50"
                               title="Kirim Nota sebagai Gambar WA"
                             >
                               {isSendingNota === order.id ? (
-                                <div className="w-3 h-3 border-2 border-emerald-400/30 border-t-emerald-400 rounded-full animate-spin" />
+                                <div className="w-3 h-3 border-2 border-[#43D5CC]/30 border-t-[#43D5CC] rounded-full animate-spin" />
                               ) : (
                                 <>📷 WA</>
                               )}
@@ -463,7 +463,7 @@ export default function GlobalLaundryListPage() {
                           )}
                           <button
                             onClick={(e) => handleReceiptClickWithStop(e, order)}
-                            className="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-brand-300 text-[10px] font-semibold inline-flex items-center gap-1 border border-slate-700"
+                            className="px-2.5 py-1 rounded-lg bg-[#013D66] hover:bg-[#014775] text-[#43D5CC] text-[10px] font-semibold inline-flex items-center gap-1 border border-[#1DA9D0]/25"
                           >
                             <Printer className="w-3 h-3" /> Struk
                           </button>

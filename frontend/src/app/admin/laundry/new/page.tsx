@@ -218,26 +218,26 @@ export default function NewLaundryOrderPage() {
       <div className="max-w-4xl mx-auto space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
           <div>
-            <h1 className="text-2xl font-bold text-white">Pencatatan Cucian Baru</h1>
-            <p className="text-xs text-slate-400 mt-1">Input transaksi cucian masuk dan pilih paket layanan</p>
+            <h1 className="text-2xl font-bold text-[#F5EACA]">Pencatatan Cucian Baru</h1>
+            <p className="text-xs text-[#F5EACA]/60 mt-1">Input transaksi cucian masuk dan pilih paket layanan</p>
           </div>
 
           {/* Indikator Status Draft */}
           <div className="flex items-center gap-2 shrink-0 self-start sm:self-center">
             {draftStatus === 'saving' && (
-              <span className="inline-flex items-center gap-1.5 text-[10px] font-medium text-slate-400 bg-slate-800/80 border border-slate-700 px-2.5 py-1.5 rounded-full animate-pulse">
-                <span className="w-1.5 h-1.5 rounded-full bg-amber-400 inline-block" />
+              <span className="inline-flex items-center gap-1.5 text-[10px] font-medium text-[#F5EACA]/60 bg-[#013D66]/80 border border-[#1DA9D0]/25 px-2.5 py-1.5 rounded-full animate-pulse">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#EA8803] inline-block" />
                 Menyimpan draft...
               </span>
             )}
             {draftStatus === 'saved' && !showRestoreBanner && (
-              <span className="inline-flex items-center gap-1.5 text-[10px] font-medium text-slate-400 bg-slate-800/80 border border-slate-700 px-2.5 py-1.5 rounded-full">
-                <Save className="w-3 h-3 text-emerald-400" />
+              <span className="inline-flex items-center gap-1.5 text-[10px] font-medium text-[#F5EACA]/60 bg-[#013D66]/80 border border-[#1DA9D0]/25 px-2.5 py-1.5 rounded-full">
+                <Save className="w-3 h-3 text-[#43D5CC]" />
                 Draft tersimpan
               </span>
             )}
             {draftRestored && (
-              <span className="inline-flex items-center gap-1.5 text-[10px] font-medium text-brand-300 bg-brand-500/10 border border-brand-500/30 px-2.5 py-1.5 rounded-full">
+              <span className="inline-flex items-center gap-1.5 text-[10px] font-medium text-[#43D5CC] bg-[#1DA9D0]/10 border border-[#1DA9D0]/30 px-2.5 py-1.5 rounded-full">
                 <RotateCcw className="w-3 h-3" />
                 Draft dipulihkan
               </span>
@@ -247,12 +247,12 @@ export default function NewLaundryOrderPage() {
 
         {/* Banner: Draft Dipulihkan dari localStorage */}
         {showRestoreBanner && (
-          <div className="p-3.5 rounded-xl bg-brand-500/10 border border-brand-500/25 flex items-start justify-between gap-3 text-xs">
+          <div className="p-3.5 rounded-xl bg-[#1DA9D0]/10 border border-[#1DA9D0]/25 flex items-start justify-between gap-3 text-xs">
             <div className="flex items-start gap-2.5">
-              <RotateCcw className="w-4 h-4 text-brand-400 shrink-0 mt-0.5" />
+              <RotateCcw className="w-4 h-4 text-[#43D5CC] shrink-0 mt-0.5" />
               <div>
-                <p className="font-semibold text-brand-300">Draft formulir ditemukan & dipulihkan</p>
-                <p className="text-slate-400 mt-0.5 leading-relaxed">
+                <p className="font-semibold text-[#43D5CC]">Draft formulir ditemukan & dipulihkan</p>
+                <p className="text-[#F5EACA]/60 mt-0.5 leading-relaxed">
                   Data Anda yang belum tersimpan sebelumnya telah dimuat kembali secara otomatis.
                   Periksa kembali data di bawah sebelum menyimpan transaksi.
                 </p>
@@ -261,7 +261,7 @@ export default function NewLaundryOrderPage() {
             <button
               type="button"
               onClick={() => setShowRestoreBanner(false)}
-              className="p-1 rounded-lg text-slate-500 hover:text-white hover:bg-slate-700 transition-colors shrink-0"
+              className="p-1 rounded-lg text-[#1DA9D0]/50 hover:text-[#F5EACA] hover:bg-[#013D66] transition-colors shrink-0"
               aria-label="Tutup notifikasi"
             >
               <X className="w-3.5 h-3.5" />
@@ -278,14 +278,14 @@ export default function NewLaundryOrderPage() {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Customer Info Card */}
-          <div className="glass-card-dark p-4 md:p-6 rounded-2xl border border-slate-800 space-y-4">
-            <h3 className="text-sm font-bold text-white flex items-center gap-2">
-              <User className="w-4 h-4 text-brand-400" /> Informasi Pelanggan
+          <div className="glass-card-dark p-4 md:p-6 rounded-2xl border border-[#1DA9D0]/15 space-y-4">
+            <h3 className="text-sm font-bold text-[#F5EACA] flex items-center gap-2">
+              <User className="w-4 h-4 text-[#43D5CC]" /> Informasi Pelanggan
             </h3>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+                <label className="block text-xs font-semibold text-[#F5EACA]/80 mb-1.5">
                   Nama Pelanggan *
                 </label>
                 <input
@@ -294,12 +294,12 @@ export default function NewLaundryOrderPage() {
                   value={customerName}
                   onChange={(e) => setCustomerName(e.target.value)}
                   placeholder="Contoh: Ibu Rina"
-                  className="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-brand-500"
+                  className="w-full px-4 py-2.5 rounded-xl bg-[#012040] border border-[#1DA9D0]/25 text-xs text-[#F5EACA] placeholder-[#1DA9D0]/50 focus:outline-none focus:border-[#1DA9D0]"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+                <label className="block text-xs font-semibold text-[#F5EACA]/80 mb-1.5">
                   Nomor WhatsApp *
                 </label>
                 <input
@@ -308,20 +308,20 @@ export default function NewLaundryOrderPage() {
                   value={customerPhone}
                   onChange={(e) => setCustomerPhone(e.target.value)}
                   placeholder="Contoh: 081234567890"
-                  className="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-brand-500"
+                  className="w-full px-4 py-2.5 rounded-xl bg-[#012040] border border-[#1DA9D0]/25 text-xs text-[#F5EACA] placeholder-[#1DA9D0]/50 focus:outline-none focus:border-[#1DA9D0]"
                 />
               </div>
             </div>
 
             {outlets.length > 0 && (
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+                <label className="block text-xs font-semibold text-[#F5EACA]/80 mb-1.5">
                   Outlet / Cabang *
                 </label>
                 <select
                   value={selectedOutletId}
                   onChange={(e) => setSelectedOutletId(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-brand-500"
+                  className="w-full px-4 py-2.5 rounded-xl bg-[#012040] border border-[#1DA9D0]/25 text-xs text-[#F5EACA] focus:outline-none focus:border-[#1DA9D0]"
                 >
                   <option value="">-- Pilih Outlet --</option>
                   {outlets.map((o) => (
@@ -334,36 +334,36 @@ export default function NewLaundryOrderPage() {
             )}
 
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1.5">Alamat (Opsional)</label>
+              <label className="block text-xs font-semibold text-[#F5EACA]/80 mb-1.5">Alamat (Opsional)</label>
               <input
                 type="text"
                 value={customerAddress}
                 onChange={(e) => setCustomerAddress(e.target.value)}
                 placeholder="Contoh: Jl. Mawar No. 12"
-                className="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-brand-500"
+                className="w-full px-4 py-2.5 rounded-xl bg-[#012040] border border-[#1DA9D0]/25 text-xs text-[#F5EACA] placeholder-[#1DA9D0]/50 focus:outline-none focus:border-[#1DA9D0]"
               />
             </div>
           </div>
 
           {/* Items & Package Card */}
-          <div className="glass-card-dark p-4 md:p-6 rounded-2xl border border-slate-800 space-y-4">
+          <div className="glass-card-dark p-4 md:p-6 rounded-2xl border border-[#1DA9D0]/15 space-y-4">
             <div className="flex items-center justify-between">
-              <h3 className="text-sm font-bold text-white flex items-center gap-2">
-                <Shirt className="w-4 h-4 text-brand-400" /> Detail Item Cucian
+              <h3 className="text-sm font-bold text-[#F5EACA] flex items-center gap-2">
+                <Shirt className="w-4 h-4 text-[#43D5CC]" /> Detail Item Cucian
               </h3>
               <button
                 type="button"
                 onClick={handleAddItem}
-                className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-brand-300 text-xs font-semibold flex items-center gap-1 border border-slate-700"
+                className="px-3 py-1.5 rounded-lg bg-[#013D66] hover:bg-[#014775] text-[#43D5CC] text-xs font-semibold flex items-center gap-1 border border-[#1DA9D0]/25 transition-colors"
               >
                 <Plus className="w-3.5 h-3.5" /> Tambah Item
               </button>
             </div>
 
             {loadingConfig ? (
-              <div className="text-xs text-slate-400 py-4 text-center">Memuat data paket & kategori...</div>
+              <div className="text-xs text-[#F5EACA]/60 py-4 text-center">Memuat data paket & kategori...</div>
             ) : packages.length === 0 ? (
-              <div className="text-xs text-amber-400 p-4 rounded-xl bg-amber-500/10 border border-amber-500/20">
+              <div className="text-xs text-[#EA8803] p-4 rounded-xl bg-[#EA8803]/10 border border-[#EA8803]/20">
                 Belum ada paket layanan. Silakan buat paket layanan terlebih dahulu di menu "Kelola Paket".
               </div>
             ) : (
@@ -371,13 +371,13 @@ export default function NewLaundryOrderPage() {
                 {items.map((item, idx) => {
                   const currentPkg = packages.find((p) => p.id === item.packageId);
                   return (
-                    <div key={idx} className="p-4 rounded-xl bg-slate-900/90 border border-slate-800 grid grid-cols-1 sm:grid-cols-12 gap-3 items-end">
+                    <div key={idx} className="p-4 rounded-xl bg-[#012040]/90 border border-[#1DA9D0]/15 grid grid-cols-1 sm:grid-cols-12 gap-3 items-end">
                       <div className="sm:col-span-4">
-                        <label className="block text-[11px] font-semibold text-slate-400 mb-1">Paket Layanan</label>
+                        <label className="block text-[11px] font-semibold text-[#F5EACA]/60 mb-1">Paket Layanan</label>
                         <select
                           value={item.packageId}
                           onChange={(e) => handleItemChange(idx, 'packageId', e.target.value)}
-                          className="w-full px-3 py-2 rounded-lg bg-slate-800 border border-slate-700 text-xs text-white focus:outline-none focus:border-brand-500"
+                          className="w-full px-3 py-2 rounded-lg bg-[#013D66] border border-[#1DA9D0]/25 text-xs text-[#F5EACA] focus:outline-none focus:border-[#1DA9D0]"
                         >
                           {packages.map((pkg) => (
                             <option key={pkg.id} value={pkg.id}>
@@ -388,11 +388,11 @@ export default function NewLaundryOrderPage() {
                       </div>
 
                       <div className="sm:col-span-4">
-                        <label className="block text-[11px] font-semibold text-slate-400 mb-1">Kategori Jenis</label>
+                        <label className="block text-[11px] font-semibold text-[#F5EACA]/60 mb-1">Kategori Jenis</label>
                         <select
                           value={item.categoryId}
                           onChange={(e) => handleItemChange(idx, 'categoryId', e.target.value)}
-                          className="w-full px-3 py-2 rounded-lg bg-slate-800 border border-slate-700 text-xs text-white focus:outline-none focus:border-brand-500"
+                          className="w-full px-3 py-2 rounded-lg bg-[#013D66] border border-[#1DA9D0]/25 text-xs text-[#F5EACA] focus:outline-none focus:border-[#1DA9D0]"
                         >
                           {categories.map((cat) => (
                             <option key={cat.id} value={cat.id}>
@@ -403,7 +403,7 @@ export default function NewLaundryOrderPage() {
                       </div>
 
                       <div className="sm:col-span-3">
-                        <label className="block text-[11px] font-semibold text-slate-400 mb-1">
+                        <label className="block text-[11px] font-semibold text-[#F5EACA]/60 mb-1">
                           Kuantitas ({currentPkg?.unit || 'unit'})
                         </label>
                         <QuantityInput
@@ -432,19 +432,19 @@ export default function NewLaundryOrderPage() {
           </div>
 
           {/* Transaction Summary Card */}
-          <div className="glass-card-dark p-4 md:p-6 rounded-2xl border border-slate-800 space-y-4">
+          <div className="glass-card-dark p-4 md:p-6 rounded-2xl border border-[#1DA9D0]/15 space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1.5">Catatan Penting</label>
+                <label className="block text-xs font-semibold text-[#F5EACA]/80 mb-1.5">Catatan Penting</label>
                 <textarea
                   rows={3}
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
                   placeholder="Contoh: Baju putih dipisah, luntur"
-                  className="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-brand-500 mb-3"
+                  className="w-full px-4 py-2.5 rounded-xl bg-[#012040] border border-[#1DA9D0]/25 text-xs text-[#F5EACA] placeholder-[#1DA9D0]/50 focus:outline-none focus:border-[#1DA9D0] mb-3"
                 />
 
-                <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+                <label className="block text-xs font-semibold text-[#F5EACA]/80 mb-1.5">
                   Parfum yang Digunakan (Opsional)
                 </label>
                 <input
@@ -452,14 +452,14 @@ export default function NewLaundryOrderPage() {
                   value={fragrance}
                   onChange={(e) => setFragrance(e.target.value)}
                   placeholder="Contoh: Molto Lavender, Downy Sunrise Fresh"
-                  className="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-brand-500"
+                  className="w-full px-4 py-2.5 rounded-xl bg-[#012040] border border-[#1DA9D0]/25 text-xs text-[#F5EACA] placeholder-[#1DA9D0]/50 focus:outline-none focus:border-[#1DA9D0]"
                 />
-                <p className="text-[10px] text-slate-500 mt-1 mb-3">
+                <p className="text-[10px] text-[#1DA9D0]/50 mt-1 mb-3">
                   Tulis nama parfum secara manual sesuai stok yang tersedia
                 </p>
 
-                <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-                  Jumlah Baju (helai) <span className="text-slate-500 font-normal">(opsional)</span>
+                <label className="block text-xs font-semibold text-[#F5EACA]/80 mb-1.5">
+                  Jumlah Baju (helai) <span className="text-[#1DA9D0]/50 font-normal">(opsional)</span>
                 </label>
                 <input
                   type="number"
@@ -468,12 +468,12 @@ export default function NewLaundryOrderPage() {
                   value={clothesCount ?? ''}
                   onChange={(e) => setClothesCount(e.target.value ? parseInt(e.target.value) : undefined)}
                   placeholder="Contoh: 10"
-                  className="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-brand-500"
+                  className="w-full px-4 py-2.5 rounded-xl bg-[#012040] border border-[#1DA9D0]/25 text-xs text-[#F5EACA] placeholder-[#1DA9D0]/50 focus:outline-none focus:border-[#1DA9D0]"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1.5">Status Pembayaran</label>
+                <label className="block text-xs font-semibold text-[#F5EACA]/80 mb-1.5">Status Pembayaran</label>
                 <div className="grid grid-cols-2 gap-3">
                   <button
                     type="button"
@@ -481,7 +481,7 @@ export default function NewLaundryOrderPage() {
                     className={`py-2.5 rounded-xl text-xs font-semibold border transition-all ${
                       paymentStatus === 'UNPAID'
                         ? 'bg-rose-500/20 text-rose-300 border-rose-500/40'
-                        : 'bg-slate-900 text-slate-400 border-slate-800'
+                        : 'bg-[#012040] text-[#F5EACA]/60 border-[#1DA9D0]/20'
                     }`}
                   >
                     Belum Bayar
@@ -492,7 +492,7 @@ export default function NewLaundryOrderPage() {
                     className={`py-2.5 rounded-xl text-xs font-semibold border transition-all ${
                       paymentStatus === 'PAID'
                         ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
-                        : 'bg-slate-900 text-slate-400 border-slate-800'
+                        : 'bg-[#012040] text-[#F5EACA]/60 border-[#1DA9D0]/20'
                     }`}
                   >
                     Lunas
@@ -501,7 +501,7 @@ export default function NewLaundryOrderPage() {
 
                 {paymentStatus === 'PAID' && (
                   <div className="mt-3">
-                    <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+                    <label className="block text-xs font-semibold text-[#F5EACA]/80 mb-1.5">
                       Metode Pembayaran
                     </label>
                     <div className="grid grid-cols-2 gap-3">
@@ -511,7 +511,7 @@ export default function NewLaundryOrderPage() {
                         className={`py-2.5 rounded-xl text-xs font-semibold border transition-all ${
                           paymentMethod === 'CASH'
                             ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
-                            : 'bg-slate-900 text-slate-400 border-slate-800'
+                            : 'bg-[#012040] text-[#F5EACA]/60 border-[#1DA9D0]/20'
                         }`}
                       >
                         💵 Cash
@@ -521,8 +521,8 @@ export default function NewLaundryOrderPage() {
                         onClick={() => setPaymentMethod('QRIS')}
                         className={`py-2.5 rounded-xl text-xs font-semibold border transition-all ${
                           paymentMethod === 'QRIS'
-                            ? 'bg-blue-500/20 text-blue-300 border-blue-500/40'
-                            : 'bg-slate-900 text-slate-400 border-slate-800'
+                            ? 'bg-[#1DA9D0]/20 text-[#43D5CC] border-[#1DA9D0]/40'
+                            : 'bg-[#012040] text-[#F5EACA]/60 border-[#1DA9D0]/20'
                         }`}
                       >
                         📱 QRIS
@@ -531,30 +531,30 @@ export default function NewLaundryOrderPage() {
                   </div>
                 )}
 
-                <div className="mt-4 p-3 rounded-xl bg-slate-900/80 border border-slate-800 flex justify-between items-center">
-                  <span className="text-xs text-slate-400 font-medium">Total Tagihan:</span>
-                  <span className="text-lg font-bold text-emerald-400">
+                <div className="mt-4 p-3 rounded-xl bg-[#012040]/80 border border-[#1DA9D0]/20 flex justify-between items-center">
+                  <span className="text-xs text-[#F5EACA]/60 font-medium">Total Tagihan:</span>
+                  <span className="text-lg font-bold text-[#43D5CC]">
                     Rp {totalPrice.toLocaleString('id-ID')}
                   </span>
                 </div>
               </div>
             </div>
 
-            <div className="pt-4 border-t border-slate-800 flex flex-col-reverse sm:flex-row justify-end gap-3">
+            <div className="pt-4 border-t border-[#1DA9D0]/15 flex flex-col-reverse sm:flex-row justify-end gap-3">
               <button
                 type="button"
                 onClick={() => router.back()}
-                className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-slate-800 text-slate-300 text-xs font-semibold hover:bg-slate-700"
+                className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-[#013D66] text-[#F5EACA]/80 text-xs font-semibold hover:bg-[#014775] border border-[#1DA9D0]/25 transition-colors"
               >
                 Batal
               </button>
               <button
                 type="submit"
                 disabled={isSubmitting || packages.length === 0}
-                className="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-gradient-to-r from-brand-500 to-brand-600 hover:from-brand-400 hover:to-brand-500 text-white font-semibold text-xs shadow-lg shadow-brand-500/20 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+                className="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] hover:opacity-95 text-[#010E1C] font-bold text-xs shadow-lg shadow-[#1DA9D0]/20 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
               >
                 {isSubmitting ? (
-                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  <div className="w-4 h-4 border-2 border-[#010E1C]/30 border-t-[#010E1C] rounded-full animate-spin" />
                 ) : (
                   <>
                     Simpan Transaksi

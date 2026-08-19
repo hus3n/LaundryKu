@@ -50,20 +50,20 @@ export default function OrderLogModal({ order, isOpen, onClose }: Props) {
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#010E1C]/80 backdrop-blur-sm">
         <motion.div
           initial={{ opacity: 0, scale: 0.96 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.96 }}
-          className="glass-card-dark p-6 rounded-3xl border border-slate-800 max-w-md w-full max-h-[80vh] flex flex-col"
+          className="glass-card-dark p-6 rounded-3xl border border-[#1DA9D0]/15 max-w-md w-full max-h-[80vh] flex flex-col"
         >
           {/* Header */}
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h3 className="text-sm font-bold text-white">Log Aktivitas Pesanan</h3>
-              <p className="text-[10px] text-slate-400">#{order?.orderNumber}</p>
+              <h3 className="text-sm font-bold text-[#F5EACA]">Log Aktivitas Pesanan</h3>
+              <p className="text-[10px] text-[#43D5CC]">#{order?.orderNumber}</p>
             </div>
-            <button onClick={onClose} className="p-2 rounded-xl hover:bg-slate-800 text-slate-400 hover:text-white transition-colors">
+            <button onClick={onClose} className="p-2 rounded-xl hover:bg-[#013D66] text-[#F5EACA]/60 hover:text-[#F5EACA] transition-colors">
               <X className="w-4 h-4" />
             </button>
           </div>
@@ -71,51 +71,51 @@ export default function OrderLogModal({ order, isOpen, onClose }: Props) {
           {/* Log Timeline */}
           <div className="overflow-y-auto flex-1 pr-1">
             {loading ? (
-              <div className="text-center py-8 text-xs text-slate-400">Memuat log...</div>
+              <div className="text-center py-8 text-xs text-[#F5EACA]/60">Memuat log...</div>
             ) : logs.length === 0 ? (
-              <div className="text-center py-8 text-xs text-slate-400">Belum ada log aktivitas untuk pesanan ini.</div>
+              <div className="text-center py-8 text-xs text-[#F5EACA]/60">Belum ada log aktivitas untuk pesanan ini.</div>
             ) : (
               <div className="relative pl-5">
                 {/* Garis vertikal timeline */}
-                <div className="absolute left-2 top-0 bottom-0 w-px bg-slate-700" />
+                <div className="absolute left-2 top-0 bottom-0 w-px bg-[#1DA9D0]/25" />
                 <div className="space-y-5">
                   {logs.map((log) => (
                     <div key={log.id} className="relative">
                       {/* Dot di timeline */}
-                      <div className="absolute -left-3 top-1 w-2.5 h-2.5 rounded-full bg-brand-500 border-2 border-slate-900" />
+                      <div className="absolute -left-3 top-1 w-2.5 h-2.5 rounded-full bg-[#1DA9D0] border-2 border-[#010E1C]" />
 
-                      <div className="bg-slate-900/60 rounded-xl p-3 border border-slate-800">
+                      <div className="bg-[#012040] rounded-xl p-3 border border-[#1DA9D0]/15">
                         {/* Aksi */}
-                        <p className="text-xs font-semibold text-white mb-1">
+                        <p className="text-xs font-semibold text-[#F5EACA] mb-1">
                           {ACTION_LABELS[log.action] || log.action}
                         </p>
 
                         {/* Detail dari log.details */}
                         {log.details && (
-                          <div className="text-[10px] text-slate-400 space-y-0.5 mb-2">
+                          <div className="text-[10px] text-[#F5EACA]/60 space-y-0.5 mb-2">
                             {log.details.newStatus && (
-                              <p>Status baru: <span className="text-slate-300">{STATUS_LABELS[log.details.newStatus] || log.details.newStatus}</span></p>
+                              <p>Status baru: <span className="text-[#F5EACA]/80">{STATUS_LABELS[log.details.newStatus] || log.details.newStatus}</span></p>
                             )}
                             {log.details.newPaymentStatus && (
-                              <p>Pembayaran: <span className="text-slate-300">{STATUS_LABELS[log.details.newPaymentStatus] || log.details.newPaymentStatus}</span></p>
+                              <p>Pembayaran: <span className="text-[#F5EACA]/80">{STATUS_LABELS[log.details.newPaymentStatus] || log.details.newPaymentStatus}</span></p>
                             )}
                             {log.details.paymentMethod && (
-                              <p>Metode: <span className="text-slate-300">{log.details.paymentMethod}</span></p>
+                              <p>Metode: <span className="text-[#F5EACA]/80">{log.details.paymentMethod}</span></p>
                             )}
                             {log.details.customerName && (
-                              <p>Pelanggan: <span className="text-slate-300">{log.details.customerName}</span></p>
+                              <p>Pelanggan: <span className="text-[#F5EACA]/80">{log.details.customerName}</span></p>
                             )}
                           </div>
                         )}
 
                         {/* Footer: user + waktu */}
                         <div className="flex items-center justify-between text-[10px]">
-                          <div className="flex items-center gap-1 text-slate-400">
+                          <div className="flex items-center gap-1 text-[#F5EACA]/60">
                             <User className="w-3 h-3" />
                             <span>{log.user?.name}</span>
-                            <span className="text-slate-600">({log.user?.role})</span>
+                            <span className="text-[#1DA9D0]/40">({log.user?.role})</span>
                           </div>
-                          <div className="flex items-center gap-1 text-slate-500">
+                          <div className="flex items-center gap-1 text-[#F5EACA]/50">
                             <Clock className="w-3 h-3" />
                             <span>
                               {new Date(log.createdAt).toLocaleString('id-ID', {

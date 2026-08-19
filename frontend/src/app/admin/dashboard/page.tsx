@@ -85,12 +85,12 @@ export default function AdminDashboardPage() {
         {/* Header Title */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-bold text-white">Dashboard Utama Laundry</h1>
-            <p className="text-xs text-slate-400 mt-1">Ringkasan transaksi, pendapatan, dan aktivitas cucian toko Anda</p>
+            <h1 className="text-2xl font-bold text-[#F5EACA]">Dashboard Utama Laundry</h1>
+            <p className="text-xs text-[#F5EACA]/60 mt-1">Ringkasan transaksi, pendapatan, dan aktivitas cucian toko Anda</p>
           </div>
           <Link
             href="/admin/laundry/new"
-            className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-brand-500 to-brand-600 hover:from-brand-400 hover:to-brand-500 text-white font-semibold text-xs shadow-lg shadow-brand-500/20 transition-all inline-flex items-center gap-2"
+            className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] hover:opacity-95 text-[#010E1C] font-bold text-xs shadow-lg shadow-[#1DA9D0]/20 transition-all inline-flex items-center gap-2"
           >
             <PlusCircle className="w-4 h-4" />
             Catat Cucian Baru
@@ -106,18 +106,18 @@ export default function AdminDashboardPage() {
           <motion.div 
             variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
             whileHover={{ y: -4, transition: { type: 'spring', stiffness: 400, damping: 20 } }}
-            className="glass-card-dark p-6 rounded-2xl border border-slate-800 relative overflow-hidden"
+            className="glass-card-dark p-6 rounded-2xl border border-[#1DA9D0]/15 relative overflow-hidden"
           >
             <div className="flex justify-between items-start">
               <div>
-                <p className="text-xs text-slate-400 font-medium">Total Cucian Masuk</p>
-                <h3 className="text-2xl font-bold text-white mt-2">{totalOrders}</h3>
+                <p className="text-xs text-[#F5EACA]/60 font-medium">Total Cucian Masuk</p>
+                <h3 className="text-2xl font-bold text-[#F5EACA] mt-2">{totalOrders}</h3>
               </div>
-              <div className="w-10 h-10 rounded-xl bg-brand-500/20 border border-brand-500/30 flex items-center justify-center text-brand-400">
+              <div className="w-10 h-10 rounded-xl bg-[#1DA9D0]/20 border border-[#1DA9D0]/30 flex items-center justify-center text-[#43D5CC]">
                 <Shirt className="w-5 h-5" />
               </div>
             </div>
-            <p className="text-[11px] text-brand-300 mt-4 flex items-center gap-1">
+            <p className="text-[11px] text-[#43D5CC] mt-4 flex items-center gap-1">
               <ArrowUpRight className="w-3.5 h-3.5" /> Terdaftar di sistem
             </p>
           </motion.div>
@@ -125,20 +125,20 @@ export default function AdminDashboardPage() {
           <motion.div 
             variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
             whileHover={{ y: -4, transition: { type: 'spring', stiffness: 400, damping: 20 } }}
-            className="glass-card-dark p-6 rounded-2xl border border-slate-800 relative overflow-hidden"
+            className="glass-card-dark p-6 rounded-2xl border border-[#1DA9D0]/15 relative overflow-hidden"
           >
             <div className="flex justify-between items-start">
               <div>
-                <p className="text-xs text-slate-400 font-medium">Total Pendapatan</p>
-                <h3 className="text-2xl font-bold text-emerald-400 mt-2">
+                <p className="text-xs text-[#F5EACA]/60 font-medium">Total Pendapatan</p>
+                <h3 className="text-2xl font-bold text-[#43D5CC] mt-2">
                   Rp {totalRevenue.toLocaleString('id-ID')}
                 </h3>
               </div>
-              <div className="w-10 h-10 rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+              <div className="w-10 h-10 rounded-xl bg-[#43D5CC]/20 border border-[#43D5CC]/30 flex items-center justify-center text-[#43D5CC]">
                 <DollarSign className="w-5 h-5" />
               </div>
             </div>
-            <p className="text-[11px] text-emerald-400 mt-4 flex items-center gap-1">
+            <p className="text-[11px] text-[#43D5CC] mt-4 flex items-center gap-1">
               <TrendingUp className="w-3.5 h-3.5" /> Akumulasi pendapatan
             </p>
           </motion.div>
@@ -146,46 +146,46 @@ export default function AdminDashboardPage() {
           <motion.div 
             variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
             whileHover={{ y: -4, transition: { type: 'spring', stiffness: 400, damping: 20 } }}
-            className="glass-card-dark p-6 rounded-2xl border border-slate-800 relative overflow-hidden"
+            className="glass-card-dark p-6 rounded-2xl border border-[#1DA9D0]/15 relative overflow-hidden"
           >
             <div className="flex justify-between items-start">
               <div>
-                <p className="text-xs text-slate-400 font-medium">Cucian Masuk Hari Ini</p>
-                <h3 className="text-2xl font-bold text-amber-400 mt-2">{todayOrders}</h3>
+                <p className="text-xs text-[#F5EACA]/60 font-medium">Cucian Masuk Hari Ini</p>
+                <h3 className="text-2xl font-bold text-[#EA8803] mt-2">{todayOrders}</h3>
               </div>
-              <div className="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400">
+              <div className="w-10 h-10 rounded-xl bg-[#EA8803]/20 border border-[#EA8803]/30 flex items-center justify-center text-[#EA8803]">
                 <Clock className="w-5 h-5" />
               </div>
             </div>
-            <p className="text-[11px] text-amber-300 mt-4">Tanggal: {new Date().toLocaleDateString('id-ID')}</p>
+            <p className="text-[11px] text-[#EA8803] mt-4">Tanggal: {new Date().toLocaleDateString('id-ID')}</p>
           </motion.div>
 
           <motion.div 
             variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
             whileHover={{ y: -4, transition: { type: 'spring', stiffness: 400, damping: 20 } }}
-            className="glass-card-dark p-6 rounded-2xl border border-slate-800 relative overflow-hidden"
+            className="glass-card-dark p-6 rounded-2xl border border-[#1DA9D0]/15 relative overflow-hidden"
           >
             <div className="flex justify-between items-start">
               <div>
-                <p className="text-xs text-slate-400 font-medium">Siap Diambil</p>
-                <h3 className="text-2xl font-bold text-accent-teal mt-2">{doneOrders}</h3>
+                <p className="text-xs text-[#F5EACA]/60 font-medium">Siap Diambil</p>
+                <h3 className="text-2xl font-bold text-[#1DA9D0] mt-2">{doneOrders}</h3>
               </div>
-              <div className="w-10 h-10 rounded-xl bg-accent-teal/20 border border-accent-teal/30 flex items-center justify-center text-accent-teal">
+              <div className="w-10 h-10 rounded-xl bg-[#1DA9D0]/20 border border-[#1DA9D0]/30 flex items-center justify-center text-[#1DA9D0]">
                 <CheckCircle2 className="w-5 h-5" />
               </div>
             </div>
-            <p className="text-[11px] text-accent-teal mt-4">Menunggu diambil pelanggan</p>
+            <p className="text-[11px] text-[#1DA9D0] mt-4">Menunggu diambil pelanggan</p>
           </motion.div>
         </motion.div>
 
         {/* Chart Section */}
-        <div className="glass-card-dark p-6 rounded-2xl border border-slate-800">
+        <div className="glass-card-dark p-6 rounded-2xl border border-[#1DA9D0]/15">
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-base font-bold text-white">Grafik Keuangan</h3>
+            <h3 className="text-base font-bold text-[#F5EACA]">Grafik Keuangan</h3>
             <select 
               value={chartYear} 
               onChange={(e) => setChartYear(parseInt(e.target.value))}
-              className="bg-slate-900 border border-slate-700 text-white text-xs rounded-xl px-3 py-1.5 focus:outline-none focus:border-brand-500"
+              className="bg-[#012040] border border-[#1DA9D0]/25 text-[#F5EACA] text-xs rounded-xl px-3 py-1.5 focus:outline-none focus:border-[#1DA9D0]"
             >
               {[2024, 2025, 2026, 2027].map((y) => (
                 <option key={y} value={y}>{y}</option>
@@ -195,27 +195,27 @@ export default function AdminDashboardPage() {
           <div className="h-72 w-full text-xs">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={chartData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" vertical={false} />
-                <XAxis dataKey="name" stroke="#64748b" fontSize={10} tickLine={false} axisLine={false} />
-                <YAxis stroke="#64748b" fontSize={10} tickLine={false} axisLine={false} width={80} tickFormatter={(val) => `Rp ${(val/1000)}k`} />
+                <CartesianGrid strokeDasharray="3 3" stroke="#013D66" vertical={false} />
+                <XAxis dataKey="name" stroke="#1DA9D0" opacity={0.7} fontSize={10} tickLine={false} axisLine={false} />
+                <YAxis stroke="#1DA9D0" opacity={0.7} fontSize={10} tickLine={false} axisLine={false} width={80} tickFormatter={(val) => `Rp ${(val/1000)}k`} />
                 <Tooltip 
-                  cursor={{ fill: '#1e293b' }} 
-                  contentStyle={{ backgroundColor: '#0f172a', borderColor: '#1e293b', borderRadius: '12px', fontSize: '12px', color: '#f8fafc' }} 
+                  cursor={{ fill: 'rgba(29, 169, 208, 0.1)' }} 
+                  contentStyle={{ backgroundColor: '#012040', borderColor: 'rgba(29, 169, 208, 0.3)', borderRadius: '12px', fontSize: '12px', color: '#F5EACA' }} 
                   formatter={(value: any) => new Intl.NumberFormat('id-ID').format(value)}
                 />
                 <Legend iconType="circle" wrapperStyle={{ fontSize: '11px', paddingTop: '10px' }} />
-                <Bar dataKey="Pemasukan" fill="#34d399" radius={[4, 4, 0, 0]} barSize={20} />
-                <Bar dataKey="Pengeluaran" fill="#fb7185" radius={[4, 4, 0, 0]} barSize={20} />
+                <Bar dataKey="Pemasukan" fill="#1DA9D0" radius={[4, 4, 0, 0]} barSize={20} />
+                <Bar dataKey="Pengeluaran" fill="#EA8803" radius={[4, 4, 0, 0]} barSize={20} />
               </BarChart>
             </ResponsiveContainer>
           </div>
         </div>
 
         {/* Recent Orders Section */}
-        <div className="glass-card-dark p-6 rounded-2xl border border-slate-800">
+        <div className="glass-card-dark p-6 rounded-2xl border border-[#1DA9D0]/15">
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-base font-bold text-white">Cucian Terbaru</h3>
-            <Link href="/admin/laundry" className="text-xs font-semibold text-brand-400 hover:underline">
+            <h3 className="text-base font-bold text-[#F5EACA]">Cucian Terbaru</h3>
+            <Link href="/admin/laundry" className="text-xs font-semibold text-[#43D5CC] hover:underline">
               Lihat Semua Cucian →
             </Link>
           </div>
@@ -225,14 +225,14 @@ export default function AdminDashboardPage() {
               ⚠️ {error}
             </div>
           ) : loading ? (
-            <div className="text-center py-8 text-xs text-slate-400">Memuat data cucian...</div>
+            <div className="text-center py-8 text-xs text-[#F5EACA]/60">Memuat data cucian...</div>
           ) : orders.length === 0 ? (
-            <div className="text-center py-12 text-xs text-slate-400 space-y-3">
-              <Shirt className="w-10 h-10 mx-auto text-slate-600" />
+            <div className="text-center py-12 text-xs text-[#F5EACA]/60 space-y-3">
+              <Shirt className="w-10 h-10 mx-auto text-[#1DA9D0]/40" />
               <p>Belum ada cucian tercatat hari ini.</p>
               <Link
                 href="/admin/laundry/new"
-                className="inline-block px-4 py-2 rounded-xl bg-brand-500 text-white text-xs font-semibold"
+                className="inline-block px-4 py-2 rounded-xl bg-[#1DA9D0] hover:bg-[#43D5CC] text-[#010E1C] font-bold text-xs transition-colors"
               >
                 Catat Cucian Pertama
               </Link>
@@ -241,7 +241,7 @@ export default function AdminDashboardPage() {
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs">
                 <thead>
-                  <tr className="border-b border-slate-800 text-slate-400 font-medium">
+                  <tr className="border-b border-[#1DA9D0]/15 text-[#F5EACA]/60 font-medium">
                     <th className="py-3 px-4">No. Nota</th>
                     <th className="py-3 px-4">Pelanggan</th>
                     <th className="py-3 px-4">Tanggal Masuk</th>
@@ -250,15 +250,15 @@ export default function AdminDashboardPage() {
                     <th className="py-3 px-4 text-right">Total Harga</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-800/60">
+                <tbody className="divide-y divide-[#1DA9D0]/10">
                   {orders.slice(0, 5).map((order) => (
-                    <tr key={order.id} className="hover:bg-slate-900/50 transition-colors">
-                      <td className="py-3.5 px-4 font-bold text-brand-300">#{order.orderNumber}</td>
+                    <tr key={order.id} className="hover:bg-[#1DA9D0]/5 transition-colors">
+                      <td className="py-3.5 px-4 font-bold text-[#43D5CC]">#{order.orderNumber}</td>
                       <td className="py-3.5 px-4">
-                        <div className="font-semibold text-white">{order.customer?.name}</div>
-                        <div className="text-[10px] text-slate-400">{order.customer?.phone}</div>
+                        <div className="font-semibold text-[#F5EACA]">{order.customer?.name}</div>
+                        <div className="text-[10px] text-[#F5EACA]/60">{order.customer?.phone}</div>
                       </td>
-                      <td className="py-3.5 px-4 text-slate-300">
+                      <td className="py-3.5 px-4 text-[#F5EACA]/80">
                         {new Date(order.dateIn).toLocaleDateString('id-ID')}
                       </td>
                       <td className="py-3.5 px-4">
@@ -271,7 +271,7 @@ export default function AdminDashboardPage() {
                           {getPaymentStatusLabel(order.paymentStatus)}
                         </span>
                       </td>
-                      <td className="py-3.5 px-4 text-right font-bold text-white">
+                      <td className="py-3.5 px-4 text-right font-bold text-[#F5EACA]">
                         Rp {Number(order.totalPrice).toLocaleString('id-ID')}
                       </td>
                     </tr>

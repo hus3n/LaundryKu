@@ -84,7 +84,7 @@ export default function ExtendSubscriptionModal({
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.2 }}
-        className="fixed inset-0 z-[60] bg-slate-950/80 backdrop-blur-md"
+        className="fixed inset-0 z-[60] bg-[#010E1C]/80 backdrop-blur-md"
         onClick={onClose}
       />
       <motion.div
@@ -95,13 +95,13 @@ export default function ExtendSubscriptionModal({
         transition={{ type: 'spring', stiffness: 320, damping: 26 }}
         className="fixed inset-0 z-[70] flex items-center justify-center p-4 pointer-events-none"
       >
-        <div className="glass-card-dark p-6 sm:p-7 rounded-3xl border border-slate-800/80 max-w-lg w-full shadow-2xl shadow-emerald-950/20 relative space-y-6 pointer-events-auto">
+        <div className="glass-card-dark p-6 sm:p-7 rounded-3xl border border-[#1DA9D0]/15 max-w-lg w-full shadow-2xl relative space-y-6 pointer-events-auto">
           
           {/* Close Button */}
           <motion.button
             whileTap={{ scale: 0.95 }}
             onClick={onClose}
-            className="absolute top-5 right-5 p-1.5 rounded-xl bg-slate-900/60 text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+            className="absolute top-5 right-5 p-1.5 rounded-xl bg-[#012040] text-[#F5EACA]/60 hover:text-[#F5EACA] hover:bg-[#013D66] transition-colors"
           >
             <X className="w-4 h-4" />
           </motion.button>
@@ -112,24 +112,24 @@ export default function ExtendSubscriptionModal({
             <Clock className="w-6 h-6" />
           </div>
           <div>
-            <h3 className="text-lg font-bold text-white flex items-center gap-2">
+            <h3 className="text-lg font-bold text-[#F5EACA] flex items-center gap-2">
               Perpanjang Masa Aktif Toko
             </h3>
-            <p className="text-xs text-slate-400 mt-1">
+            <p className="text-xs text-[#F5EACA]/60 mt-1">
               Tambahkan durasi langganan untuk <span className="text-emerald-300 font-semibold">{admin.storeName}</span>
             </p>
           </div>
         </div>
 
         {/* Info Card current subscription */}
-        <div className="p-3.5 rounded-2xl bg-slate-900/80 border border-slate-800/80 grid grid-cols-2 gap-3 text-xs">
+        <div className="p-3.5 rounded-2xl bg-[#012040] border border-[#1DA9D0]/15 grid grid-cols-2 gap-3 text-xs">
           <div>
-            <span className="text-[11px] text-slate-400 block font-medium">Pemilik Toko</span>
-            <span className="text-slate-200 font-semibold">{admin.user?.name || '-'}</span>
+            <span className="text-[11px] text-[#F5EACA]/60 block font-medium">Pemilik Toko</span>
+            <span className="text-[#F5EACA] font-semibold">{admin.user?.name || '-'}</span>
           </div>
           <div>
-            <span className="text-[11px] text-slate-400 block font-medium">Berakhir Saat Ini</span>
-            <span className={`font-semibold ${new Date(admin.subscriptionEnd) < new Date() ? 'text-rose-400' : 'text-slate-200'}`}>
+            <span className="text-[11px] text-[#F5EACA]/60 block font-medium">Berakhir Saat Ini</span>
+            <span className={`font-semibold ${new Date(admin.subscriptionEnd) < new Date() ? 'text-rose-400' : 'text-[#F5EACA]'}`}>
               {new Date(admin.subscriptionEnd).toLocaleDateString('id-ID', {
                 day: 'numeric',
                 month: 'short',
@@ -142,7 +142,7 @@ export default function ExtendSubscriptionModal({
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-2.5">
+            <label className="block text-xs font-semibold text-[#F5EACA]/80 mb-2.5">
               Pilih Durasi Perpanjangan
             </label>
             <div className="grid grid-cols-2 gap-2.5">
@@ -156,8 +156,8 @@ export default function ExtendSubscriptionModal({
                   }}
                   className={`p-3 rounded-2xl border text-left transition-all relative overflow-hidden flex flex-col justify-between ${
                     !isCustom && months === opt.value
-                      ? 'bg-emerald-500/10 border-emerald-500/50 text-white shadow-lg shadow-emerald-500/10'
-                      : 'bg-slate-900/50 border-slate-800/80 text-slate-400 hover:border-slate-700 hover:text-slate-200'
+                      ? 'bg-emerald-500/10 border-emerald-500/50 text-[#F5EACA] shadow-lg shadow-emerald-500/10'
+                      : 'bg-[#012040] border-[#1DA9D0]/15 text-[#F5EACA]/60 hover:border-[#1DA9D0]/40 hover:text-[#F5EACA]'
                   }`}
                 >
                   <div className="flex items-center justify-between">
@@ -191,7 +191,7 @@ export default function ExtendSubscriptionModal({
                     placeholder="Masukkan jumlah bulan (contoh: 2, 5, 24)"
                     value={customMonths}
                     onChange={(e) => setCustomMonths(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#012040] border border-[#1DA9D0]/25 text-xs text-[#F5EACA] placeholder-[#1DA9D0]/40 focus:outline-none focus:border-emerald-500"
                   />
                 </div>
               )}
@@ -200,7 +200,7 @@ export default function ExtendSubscriptionModal({
 
           {/* New Expiry Date Preview */}
           <div className="p-4 rounded-2xl bg-gradient-to-r from-emerald-950/40 to-teal-950/20 border border-emerald-500/20 flex items-center justify-between text-xs">
-            <div className="flex items-center gap-2 text-slate-300">
+            <div className="flex items-center gap-2 text-[#F5EACA]/80">
               <Calendar className="w-4 h-4 text-emerald-400 shrink-0" />
               <span>Tanggal Kadaluarsa Baru:</span>
             </div>
@@ -224,13 +224,13 @@ export default function ExtendSubscriptionModal({
           )}
 
           {/* Actions */}
-        <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-800/60">
+        <div className="flex items-center justify-end gap-3 pt-3 border-t border-[#1DA9D0]/10">
           <motion.button
             whileTap={{ scale: 0.95 }}
             type="button"
             onClick={onClose}
             disabled={isSubmitting}
-            className="px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 text-xs font-semibold border border-slate-800 transition-colors"
+            className="px-4 py-2.5 rounded-xl bg-[#012040] hover:bg-[#013D66] text-[#F5EACA]/80 text-xs font-semibold border border-[#1DA9D0]/15 transition-colors"
           >
             Batal
           </motion.button>

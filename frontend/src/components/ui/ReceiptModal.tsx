@@ -29,7 +29,7 @@ export default function ReceiptModal({ order, store, onClose }: ReceiptModalProp
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.2 }}
-        className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm"
+        className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-[#010E1C]/80 backdrop-blur-sm"
         onClick={onClose}
       />
       <motion.div
@@ -44,7 +44,7 @@ export default function ReceiptModal({ order, store, onClose }: ReceiptModalProp
           {/* Header bar (hide on print) */}
           <div className="flex items-center justify-between pb-3 border-b border-slate-200 print:hidden">
             <h3 className="font-bold text-sm text-slate-800 flex items-center gap-2">
-              <Printer className="w-4 h-4 text-brand-600" /> Struk / Nota Cucian
+              <Printer className="w-4 h-4 text-[#015383]" /> Struk / Nota Cucian
             </h3>
             <motion.button whileTap={{ scale: 0.9 }} onClick={onClose} className="p-1 rounded-lg hover:bg-slate-100 text-slate-500">
               <X className="w-4 h-4" />
@@ -82,7 +82,7 @@ export default function ReceiptModal({ order, store, onClose }: ReceiptModalProp
                 <div style={{
                   fontSize: '24px',
                   fontWeight: 'bold',
-                  color: '#1e40af',
+                  color: '#015383',
                   marginBottom: '4px',
                 }}>
                   🧺 LaundryKu
@@ -208,7 +208,7 @@ export default function ReceiptModal({ order, store, onClose }: ReceiptModalProp
             <motion.button
               whileTap={{ scale: 0.95 }}
               onClick={handlePrint}
-              className="flex-1 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-semibold text-xs shadow-lg transition-colors flex items-center justify-center gap-2"
+              className="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] text-[#010E1C] font-bold text-xs shadow-lg transition-colors flex items-center justify-center gap-2"
             >
               <Printer className="w-4 h-4" /> Cetak Thermal / PDF
             </motion.button>

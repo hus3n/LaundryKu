@@ -32,7 +32,7 @@ export default function BrandLogo({
   if (storeLogo && !imageError) {
     return (
       <div className={`flex items-center gap-3 ${className}`}>
-        <div className="relative overflow-hidden rounded-xl bg-slate-800 border border-slate-700/80 shadow-md p-0.5 flex items-center justify-center shrink-0 w-10 h-10">
+        <div className="relative overflow-hidden rounded-xl bg-[#013D66] border border-[#1DA9D0]/25 shadow-md p-0.5 flex items-center justify-center shrink-0 w-10 h-10">
           <img
             src={getFullApiUrl(storeLogo)}
             alt={storeName || 'Logo Toko'}
@@ -42,11 +42,11 @@ export default function BrandLogo({
         </div>
         {variant !== 'icon' && (
           <div className="flex flex-col min-w-0">
-            <span className="font-bold text-white text-base tracking-tight truncate">
+            <span className="font-bold text-[#F5EACA] text-base tracking-tight truncate">
               {storeName || 'LaundryKu'}
             </span>
             {showSubtitle && (
-              <span className="text-[10px] px-2 py-0.5 rounded-full bg-brand-500/20 text-brand-300 inline-block font-medium w-fit border border-brand-500/30">
+              <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#1DA9D0]/20 text-[#43D5CC] inline-block font-medium w-fit border border-[#1DA9D0]/30">
                 Laundry POS
               </span>
             )}
@@ -66,7 +66,7 @@ export default function BrandLogo({
           alt="LaundryKu Icon"
           width={iconDimensions}
           height={iconDimensions}
-          className="rounded-xl shadow-lg shadow-brand-500/20 transition-transform duration-200 hover:scale-105"
+          className="rounded-xl shadow-lg shadow-[#1DA9D0]/20 transition-transform duration-200 hover:scale-105"
         />
       </div>
     );
@@ -79,22 +79,22 @@ export default function BrandLogo({
         <img
           src="/logo/laundryku-icon.svg"
           alt="LaundryKu Icon"
-          className={`rounded-xl shadow-lg shadow-brand-500/25 transition-transform duration-300 hover:scale-105 ${
+          className={`rounded-xl shadow-lg shadow-[#1DA9D0]/25 transition-transform duration-300 hover:scale-105 ${
             size === 'sm' ? 'w-8 h-8' : size === 'lg' ? 'w-12 h-12' : 'w-10 h-10'
           }`}
         />
       </div>
       <div className="flex flex-col min-w-0">
         <div className="flex items-center gap-1.5">
-          <span className="font-extrabold text-white tracking-tight text-base">
-            Laundry<span className="bg-gradient-to-r from-brand-400 to-sky-300 bg-clip-text text-transparent">Ku</span>
+          <span className="font-extrabold text-[#F5EACA] tracking-tight text-base">
+            Laundry<span className="bg-gradient-to-r from-[#43D5CC] to-[#1DA9D0] bg-clip-text text-transparent">Ku</span>
           </span>
-          <span className="text-[9px] px-1.5 py-0.5 rounded font-bold bg-brand-500/20 text-brand-300 border border-brand-500/30">
+          <span className="text-[9px] px-1.5 py-0.5 rounded font-bold bg-[#1DA9D0]/20 text-[#43D5CC] border border-[#1DA9D0]/30">
             v1.0
           </span>
         </div>
         {showSubtitle && (
-          <span className="text-[10px] text-slate-400 font-medium truncate">
+          <span className="text-[10px] text-[#1DA9D0]/70 font-medium truncate">
             {storeName ? storeName : 'Sistem POS Digital'}
           </span>
         )}
