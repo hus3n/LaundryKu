@@ -29,7 +29,7 @@ export default function ReceiptModal({ order, store, onClose }: ReceiptModalProp
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.2 }}
-        className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-[#010E1C]/80 backdrop-blur-sm"
+        className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm"
         onClick={onClose}
       />
       <motion.div
@@ -208,7 +208,7 @@ export default function ReceiptModal({ order, store, onClose }: ReceiptModalProp
             <motion.button
               whileTap={{ scale: 0.95 }}
               onClick={handlePrint}
-              className="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] text-[#010E1C] font-bold text-xs shadow-lg transition-colors flex items-center justify-center gap-2"
+              className="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] text-background font-bold text-xs shadow-lg transition-colors flex items-center justify-center gap-2"
             >
               <Printer className="w-4 h-4" /> Cetak Thermal / PDF
             </motion.button>

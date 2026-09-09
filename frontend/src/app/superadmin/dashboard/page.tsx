@@ -64,12 +64,12 @@ export default function SuperAdminDashboardPage() {
       <div className="space-y-8">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-bold text-[#F5EACA]">Dashboard SuperAdmin Platform</h1>
-            <p className="text-xs text-[#F5EACA]/60 mt-1">Monitoring seluruh toko laundry terdaftar dan status masa aktif langganan</p>
+            <h1 className="text-2xl font-bold text-foreground">Dashboard SuperAdmin Platform</h1>
+            <p className="text-xs text-foreground/60 mt-1">Monitoring seluruh toko laundry terdaftar dan status masa aktif langganan</p>
           </div>
           <Link
             href="/superadmin/admins"
-            className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] hover:opacity-95 text-[#010E1C] font-bold text-xs shadow-lg shadow-[#1DA9D0]/20 transition-all inline-flex items-center gap-2"
+            className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] hover:opacity-95 text-background font-bold text-xs shadow-lg shadow-[#1DA9D0]/20 transition-all inline-flex items-center gap-2"
           >
             <Plus className="w-4 h-4" />
             Tambah Admin Toko
@@ -89,8 +89,8 @@ export default function SuperAdminDashboardPage() {
           >
             <div className="flex justify-between items-start">
               <div>
-                <p className="text-xs text-[#F5EACA]/60 font-medium">Total Toko Admin</p>
-                <h3 className="text-2xl font-bold text-[#F5EACA] mt-2">{data?.totalAdmins || 0}</h3>
+                <p className="text-xs text-foreground/60 font-medium">Total Toko Admin</p>
+                <h3 className="text-2xl font-bold text-foreground mt-2">{data?.totalAdmins || 0}</h3>
               </div>
               <div className="w-10 h-10 rounded-xl bg-[#1DA9D0]/20 border border-[#1DA9D0]/30 flex items-center justify-center text-[#43D5CC]">
                 <Users className="w-5 h-5" />
@@ -108,7 +108,7 @@ export default function SuperAdminDashboardPage() {
           >
             <div className="flex justify-between items-start">
               <div>
-                <p className="text-xs text-[#F5EACA]/60 font-medium">Toko Masa Aktif</p>
+                <p className="text-xs text-foreground/60 font-medium">Toko Masa Aktif</p>
                 <h3 className="text-2xl font-bold text-emerald-400 mt-2">{data?.activeAdmins || 0}</h3>
               </div>
               <div className="w-10 h-10 rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
@@ -125,7 +125,7 @@ export default function SuperAdminDashboardPage() {
           >
             <div className="flex justify-between items-start">
               <div>
-                <p className="text-xs text-[#F5EACA]/60 font-medium">Toko Akan Kedaluwarsa</p>
+                <p className="text-xs text-foreground/60 font-medium">Toko Akan Kedaluwarsa</p>
                 <h3 className="text-2xl font-bold text-[#EA8803] mt-2">{data?.expiringSoon || 0}</h3>
               </div>
               <div className="w-10 h-10 rounded-xl bg-[#EA8803]/20 border border-[#EA8803]/30 flex items-center justify-center text-[#EA8803]">
@@ -144,7 +144,7 @@ export default function SuperAdminDashboardPage() {
           >
             <div className="flex justify-between items-start">
               <div>
-                <p className="text-xs text-[#F5EACA]/60 font-medium">Toko Tidak Aktif</p>
+                <p className="text-xs text-foreground/60 font-medium">Toko Tidak Aktif</p>
                 <h3 className="text-2xl font-bold text-rose-400 mt-2">{data?.inactiveAdmins || 0}</h3>
               </div>
               <div className="w-10 h-10 rounded-xl bg-rose-500/20 border border-rose-500/30 flex items-center justify-center text-rose-400">
@@ -157,31 +157,31 @@ export default function SuperAdminDashboardPage() {
 
         {/* Akses Cepat */}
         <div className="glass-card-dark p-6 rounded-2xl border border-[#1DA9D0]/15">
-          <h3 className="text-base font-bold text-[#F5EACA] mb-4">Akses Cepat Pengaturan</h3>
+          <h3 className="text-base font-bold text-foreground mb-4">Akses Cepat Pengaturan</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <Link href="/superadmin/admins" className="group p-4 rounded-xl bg-[#012040]/50 border border-[#1DA9D0]/15 hover:border-[#43D5CC]/50 hover:bg-[#1DA9D0]/10 transition-all flex flex-col items-center justify-center text-center gap-3">
+            <Link href="/superadmin/admins" className="group p-4 rounded-xl bg-surface/50 border border-[#1DA9D0]/15 hover:border-[#43D5CC]/50 hover:bg-[#1DA9D0]/10 transition-all flex flex-col items-center justify-center text-center gap-3">
               <div className="w-12 h-12 rounded-full bg-[#1DA9D0]/20 flex items-center justify-center text-[#43D5CC] group-hover:scale-110 transition-transform">
                 <Users className="w-6 h-6" />
               </div>
-              <span className="text-xs font-semibold text-[#F5EACA]/80 group-hover:text-[#F5EACA]">Kelola Admin</span>
+              <span className="text-xs font-semibold text-foreground/80 group-hover:text-foreground">Kelola Admin</span>
             </Link>
-            <Link href="/superadmin/whatsapp" className="group p-4 rounded-xl bg-[#012040]/50 border border-[#1DA9D0]/15 hover:border-[#43D5CC]/50 hover:bg-[#1DA9D0]/10 transition-all flex flex-col items-center justify-center text-center gap-3">
+            <Link href="/superadmin/whatsapp" className="group p-4 rounded-xl bg-surface/50 border border-[#1DA9D0]/15 hover:border-[#43D5CC]/50 hover:bg-[#1DA9D0]/10 transition-all flex flex-col items-center justify-center text-center gap-3">
               <div className="w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400 group-hover:scale-110 transition-transform">
                 <QrCode className="w-6 h-6" />
               </div>
-              <span className="text-xs font-semibold text-[#F5EACA]/80 group-hover:text-[#F5EACA]">Pairing WA</span>
+              <span className="text-xs font-semibold text-foreground/80 group-hover:text-foreground">Pairing WA</span>
             </Link>
-            <Link href="/superadmin/bot-settings" className="group p-4 rounded-xl bg-[#012040]/50 border border-[#1DA9D0]/15 hover:border-[#43D5CC]/50 hover:bg-[#1DA9D0]/10 transition-all flex flex-col items-center justify-center text-center gap-3">
-              <div className="w-12 h-12 rounded-full bg-[#015383]/40 flex items-center justify-center text-[#43D5CC] group-hover:scale-110 transition-transform">
+            <Link href="/superadmin/bot-settings" className="group p-4 rounded-xl bg-surface/50 border border-[#1DA9D0]/15 hover:border-[#43D5CC]/50 hover:bg-[#1DA9D0]/10 transition-all flex flex-col items-center justify-center text-center gap-3">
+              <div className="w-12 h-12 rounded-full bg-orient/40 flex items-center justify-center text-[#43D5CC] group-hover:scale-110 transition-transform">
                 <Bot className="w-6 h-6" />
               </div>
-              <span className="text-xs font-semibold text-[#F5EACA]/80 group-hover:text-[#F5EACA]">Pengaturan Bot</span>
+              <span className="text-xs font-semibold text-foreground/80 group-hover:text-foreground">Pengaturan Bot</span>
             </Link>
-            <Link href="/superadmin/backup" className="group p-4 rounded-xl bg-[#012040]/50 border border-[#1DA9D0]/15 hover:border-[#43D5CC]/50 hover:bg-[#1DA9D0]/10 transition-all flex flex-col items-center justify-center text-center gap-3">
+            <Link href="/superadmin/backup" className="group p-4 rounded-xl bg-surface/50 border border-[#1DA9D0]/15 hover:border-[#43D5CC]/50 hover:bg-[#1DA9D0]/10 transition-all flex flex-col items-center justify-center text-center gap-3">
               <div className="w-12 h-12 rounded-full bg-[#EA8803]/20 flex items-center justify-center text-[#EA8803] group-hover:scale-110 transition-transform">
                 <Database className="w-6 h-6" />
               </div>
-              <span className="text-xs font-semibold text-[#F5EACA]/80 group-hover:text-[#F5EACA]">Backup Data</span>
+              <span className="text-xs font-semibold text-foreground/80 group-hover:text-foreground">Backup Data</span>
             </Link>
           </div>
         </div>
@@ -189,7 +189,7 @@ export default function SuperAdminDashboardPage() {
         {/* Admins Overview Table */}
         <div className="glass-card-dark p-6 rounded-2xl border border-[#1DA9D0]/15">
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-base font-bold text-[#F5EACA]">Daftar Toko Admin Terdaftar</h3>
+            <h3 className="text-base font-bold text-foreground">Daftar Toko Admin Terdaftar</h3>
             <Link href="/superadmin/admins" className="text-xs font-semibold text-[#43D5CC] hover:underline">
               Kelola Semua Admin →
             </Link>
@@ -198,12 +198,12 @@ export default function SuperAdminDashboardPage() {
           {error ? (
             <div className="text-center py-8 text-xs text-rose-400">⚠️ {error}</div>
           ) : loading ? (
-            <div className="text-center py-8 text-xs text-[#F5EACA]/60">Memuat data Admin...</div>
+            <div className="text-center py-8 text-xs text-foreground/60">Memuat data Admin...</div>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs">
                 <thead>
-                  <tr className="border-b border-[#1DA9D0]/15 text-[#F5EACA]/60 font-medium bg-[#012040]">
+                  <tr className="border-b border-[#1DA9D0]/15 text-foreground/60 font-medium bg-surface">
                     <th className="py-3.5 px-4">Nama Toko</th>
                     <th className="py-3.5 px-4">Pemilik & WA</th>
                     <th className="py-3.5 px-4">Masa Aktif Berakhir</th>
@@ -215,11 +215,11 @@ export default function SuperAdminDashboardPage() {
                   {admins.map((admin) => {
                     const isExpired = new Date(admin.subscriptionEnd) < new Date();
                     return (
-                      <tr key={admin.id} className="hover:bg-[#013D66]/50 transition-colors">
-                        <td className="py-4 px-4 font-bold text-[#F5EACA]">{admin.storeName}</td>
+                      <tr key={admin.id} className="hover:bg-muted/50 transition-colors">
+                        <td className="py-4 px-4 font-bold text-foreground">{admin.storeName}</td>
                         <td className="py-4 px-4">
-                          <div className="font-semibold text-[#F5EACA]">{admin.user?.name}</div>
-                          <div className="text-[10px] text-[#F5EACA]/60">{admin.user?.email}</div>
+                          <div className="font-semibold text-foreground">{admin.user?.name}</div>
+                          <div className="text-[10px] text-foreground/60">{admin.user?.email}</div>
                         </td>
                         <td className="py-4 px-4">
                           <div
@@ -242,7 +242,7 @@ export default function SuperAdminDashboardPage() {
                             className={`px-2.5 py-1 rounded-full text-[10px] font-semibold border ${
                               admin.waStatus === 'CONNECTED'
                                 ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30'
-                                : 'bg-[#013D66] text-[#F5EACA]/60 border-[#1DA9D0]/20'
+                                : 'bg-muted text-foreground/60 border-[#1DA9D0]/20'
                             }`}
                           >
                             {admin.waStatus === 'CONNECTED' ? 'Terhubung' : 'Terputus'}

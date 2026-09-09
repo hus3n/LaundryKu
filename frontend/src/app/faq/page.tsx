@@ -34,7 +34,7 @@ export default function FAQPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#010E1C] text-[#F5EACA] flex flex-col">
+    <div className="min-h-screen bg-background text-foreground flex flex-col">
       <Header />
       
       <main className="flex-1 max-w-4xl mx-auto px-6 py-20 w-full relative z-10">
@@ -44,14 +44,14 @@ export default function FAQPage() {
           <div className="w-12 h-12 rounded-xl bg-[#1DA9D0]/20 flex items-center justify-center text-[#43D5CC]">
             <HelpCircle className="w-6 h-6" />
           </div>
-          <h1 className="text-3xl font-extrabold text-[#F5EACA]">Pertanyaan Terkait LaundryKu (FAQ)</h1>
+          <h1 className="text-3xl font-extrabold text-foreground">Pertanyaan Terkait LaundryKu (FAQ)</h1>
         </div>
 
         <div className="space-y-4">
           {faqs.map((faq, idx) => (
             <div key={idx} className="glass-card-dark p-6 rounded-2xl border border-[#1DA9D0]/15 relative">
-              <h3 className="font-bold text-lg text-[#F5EACA] mb-3">{faq.question}</h3>
-              <p className="text-sm text-[#F5EACA]/70 leading-relaxed">
+              <h3 className="font-bold text-lg text-foreground mb-3">{faq.question}</h3>
+              <p className="text-sm text-foreground/70 leading-relaxed">
                 {faq.answer}
               </p>
             </div>
@@ -59,7 +59,7 @@ export default function FAQPage() {
         </div>
         
         <div className="mt-12 p-6 glass-card-dark rounded-2xl border border-[#1DA9D0]/30 bg-gradient-to-br from-[#012040] to-transparent text-center">
-          <p className="text-sm text-[#F5EACA]/80 mb-4">Masih punya pertanyaan lain yang belum terjawab?</p>
+          <p className="text-sm text-foreground/80 mb-4">Masih punya pertanyaan lain yang belum terjawab?</p>
           <a href="/kontak" className="inline-flex px-6 py-2 rounded-lg bg-[#1DA9D0]/20 text-[#43D5CC] font-semibold text-sm hover:bg-[#1DA9D0]/30 transition-colors border border-[#1DA9D0]/30">
             Hubungi Tim Kami
           </a>

@@ -223,11 +223,11 @@ export default function BackupRestorePage() {
         {/* Header */}
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#1DA9D0] to-[#43D5CC] flex items-center justify-center shadow-lg shadow-[#1DA9D0]/20">
-            <Database className="w-5 h-5 text-[#010E1C]" />
+            <Database className="w-5 h-5 text-background" />
           </div>
           <div>
-            <h1 className="text-xl font-bold text-[#F5EACA]">Backup & Restore</h1>
-            <p className="text-xs text-[#F5EACA]/60">Kelola backup otomatis ke Telegram & restore data</p>
+            <h1 className="text-xl font-bold text-foreground">Backup & Restore</h1>
+            <p className="text-xs text-foreground/60">Kelola backup otomatis ke Telegram & restore data</p>
           </div>
         </div>
 
@@ -238,7 +238,7 @@ export default function BackupRestorePage() {
           <div className="glass-card-dark p-6 rounded-2xl border border-[#1DA9D0]/15 space-y-5">
             <div className="flex items-center gap-2.5">
               <Bot className="w-5 h-5 text-[#43D5CC]" />
-              <h2 className="text-sm font-bold text-[#F5EACA]">Hubungkan Bot Telegram</h2>
+              <h2 className="text-sm font-bold text-foreground">Hubungkan Bot Telegram</h2>
               {telegramStatus.isConnected && (
                 <span className="ml-auto text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 flex items-center gap-1">
                   <CheckCircle2 className="w-3 h-3" /> Terhubung
@@ -248,13 +248,13 @@ export default function BackupRestorePage() {
 
             {telegramStatus.isConnected ? (
               <div className="space-y-4">
-                <div className="p-4 rounded-xl bg-[#012040] border border-[#1DA9D0]/25 space-y-2">
+                <div className="p-4 rounded-xl bg-surface border border-[#1DA9D0]/25 space-y-2">
                   <div className="flex items-center justify-between">
-                    <span className="text-xs text-[#F5EACA]/60">Bot Username</span>
+                    <span className="text-xs text-foreground/60">Bot Username</span>
                     <span className="text-xs font-mono text-[#43D5CC]">@{telegramStatus.botUsername}</span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-xs text-[#F5EACA]/60">Chat ID</span>
+                    <span className="text-xs text-foreground/60">Chat ID</span>
                     <span className="text-xs font-mono text-emerald-300">
                       {telegramStatus.chatId || (
                         <span className="text-[#EA8803]">Belum diset - kirim /start ke bot</span>
@@ -262,7 +262,7 @@ export default function BackupRestorePage() {
                     </span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-xs text-[#F5EACA]/60">Auto Backup</span>
+                    <span className="text-xs text-foreground/60">Auto Backup</span>
                     <span className="text-xs text-emerald-300 flex items-center gap-1">
                       <Clock className="w-3 h-3" /> Setiap 1 Jam
                     </span>
@@ -280,7 +280,7 @@ export default function BackupRestorePage() {
                         value={chatIdInput}
                         onChange={(e) => setChatIdInput(e.target.value)}
                         placeholder="Masukkan Chat ID"
-                        className="flex-1 px-3 py-2 rounded-lg bg-[#012040] border border-[#1DA9D0]/25 text-xs text-[#F5EACA] placeholder-[#1DA9D0]/40 focus:outline-none focus:border-[#1DA9D0]"
+                        className="flex-1 px-3 py-2 rounded-lg bg-surface border border-[#1DA9D0]/25 text-xs text-foreground placeholder-[#1DA9D0]/40 focus:outline-none focus:border-[#1DA9D0]"
                       />
                       <button
                         onClick={handleSetChatId}
@@ -303,7 +303,7 @@ export default function BackupRestorePage() {
               <div className="space-y-4">
                 <div className="p-3.5 rounded-xl bg-[#1DA9D0]/10 border border-[#1DA9D0]/20 text-[11px] text-[#43D5CC] space-y-2">
                   <p className="font-semibold">📋 Cara Membuat Bot Telegram:</p>
-                  <ol className="list-decimal list-inside space-y-1 text-[#F5EACA]/60">
+                  <ol className="list-decimal list-inside space-y-1 text-foreground/60">
                     <li>Buka Telegram, cari <strong>@BotFather</strong></li>
                     <li>Kirim <strong>/newbot</strong>, ikuti instruksinya</li>
                     <li>Salin <strong>Token Bot</strong> yang diberikan BotFather</li>
@@ -312,20 +312,20 @@ export default function BackupRestorePage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-[#F5EACA]/80 mb-1.5">Token Bot Telegram</label>
+                  <label className="block text-xs font-semibold text-foreground/80 mb-1.5">Token Bot Telegram</label>
                   <input
                     type="text"
                     value={botToken}
                     onChange={(e) => setBotToken(e.target.value)}
                     placeholder="1234567890:ABCdefGHIjklMNOpqrsTUVwxyz..."
-                    className="w-full px-3 py-2.5 rounded-xl bg-[#012040] border border-[#1DA9D0]/25 text-xs text-[#F5EACA] placeholder-[#1DA9D0]/40 focus:outline-none focus:border-[#1DA9D0] focus:ring-2 focus:ring-[#1DA9D0]/20 transition-all font-mono"
+                    className="w-full px-3 py-2.5 rounded-xl bg-surface border border-[#1DA9D0]/25 text-xs text-foreground placeholder-[#1DA9D0]/40 focus:outline-none focus:border-[#1DA9D0] focus:ring-2 focus:ring-[#1DA9D0]/20 transition-all font-mono"
                   />
                 </div>
 
                 <button
                   onClick={handleConnectBot}
                   disabled={connectingBot || !botToken.trim()}
-                  className="w-full py-3 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] hover:opacity-95 text-[#010E1C] font-bold text-xs shadow-lg shadow-[#1DA9D0]/20 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+                  className="w-full py-3 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] hover:opacity-95 text-background font-bold text-xs shadow-lg shadow-[#1DA9D0]/20 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
                 >
                   {connectingBot ? (
                     <Loader2 className="w-4 h-4 animate-spin" />
@@ -346,7 +346,7 @@ export default function BackupRestorePage() {
             <div className="glass-card-dark p-6 rounded-2xl border border-[#1DA9D0]/15 space-y-4">
               <div className="flex items-center gap-2.5">
                 <Cloud className="w-5 h-5 text-emerald-400" />
-                <h2 className="text-sm font-bold text-[#F5EACA]">Backup Database</h2>
+                <h2 className="text-sm font-bold text-foreground">Backup Database</h2>
               </div>
 
               <div className="grid grid-cols-2 gap-3">
@@ -381,15 +381,15 @@ export default function BackupRestorePage() {
               {/* Recent backups */}
               {backups.length > 0 && (
                 <div className="space-y-2">
-                  <p className="text-[11px] text-[#F5EACA]/50 font-semibold uppercase tracking-wider">Riwayat Backup Lokal</p>
+                  <p className="text-[11px] text-foreground/50 font-semibold uppercase tracking-wider">Riwayat Backup Lokal</p>
                   <div className="space-y-1.5 max-h-36 overflow-y-auto">
                     {backups.slice(0, 5).map((b, i) => (
-                      <div key={i} className="flex items-center justify-between p-2.5 rounded-lg bg-[#012040] border border-[#1DA9D0]/15">
+                      <div key={i} className="flex items-center justify-between p-2.5 rounded-lg bg-surface border border-[#1DA9D0]/15">
                         <div className="flex items-center gap-2">
                           <FileArchive className="w-3.5 h-3.5 text-[#1DA9D0]/40" />
-                          <span className="text-[11px] text-[#F5EACA]/80 font-mono truncate max-w-[200px]">{b.fileName}</span>
+                          <span className="text-[11px] text-foreground/80 font-mono truncate max-w-[200px]">{b.fileName}</span>
                         </div>
-                        <span className="text-[10px] text-[#F5EACA]/50">{formatFileSize(b.size)}</span>
+                        <span className="text-[10px] text-foreground/50">{formatFileSize(b.size)}</span>
                       </div>
                     ))}
                   </div>
@@ -401,7 +401,7 @@ export default function BackupRestorePage() {
             <div className="glass-card-dark p-6 rounded-2xl border border-[#1DA9D0]/15 space-y-4">
               <div className="flex items-center gap-2.5">
                 <CloudUpload className="w-5 h-5 text-[#EA8803]" />
-                <h2 className="text-sm font-bold text-[#F5EACA]">Restore Backup</h2>
+                <h2 className="text-sm font-bold text-foreground">Restore Backup</h2>
               </div>
 
               <div className="p-3 rounded-xl bg-[#EA8803]/10 border border-[#EA8803]/30 text-[11px] text-[#EA8803] flex items-start gap-2">
@@ -413,15 +413,15 @@ export default function BackupRestorePage() {
 
               <div className="space-y-3">
                 <div>
-                  <label className="block text-xs font-semibold text-[#F5EACA]/80 mb-1.5">Upload File Backup (.zip)</label>
+                  <label className="block text-xs font-semibold text-foreground/80 mb-1.5">Upload File Backup (.zip)</label>
                   <input
                     type="file"
                     accept=".zip"
                     onChange={(e) => setRestoreFile(e.target.files?.[0] || null)}
-                    className="w-full text-xs text-[#F5EACA]/60 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-[#013D66] file:text-[#F5EACA] hover:file:bg-[#014775] cursor-pointer"
+                    className="w-full text-xs text-foreground/60 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-muted file:text-foreground hover:file:bg-muted-hover cursor-pointer"
                   />
                   {restoreFile && (
-                    <p className="text-[11px] text-[#F5EACA]/60 mt-1">
+                    <p className="text-[11px] text-foreground/60 mt-1">
                       📁 {restoreFile.name} ({formatFileSize(restoreFile.size)})
                     </p>
                   )}
@@ -430,7 +430,7 @@ export default function BackupRestorePage() {
                 <button
                   onClick={handleRestore}
                   disabled={restoring || !restoreFile}
-                  className="w-full py-3 rounded-xl bg-gradient-to-r from-[#EA8803] to-[#EA8803]/80 hover:opacity-95 text-[#010E1C] font-bold text-xs shadow-lg shadow-[#EA8803]/20 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+                  className="w-full py-3 rounded-xl bg-gradient-to-r from-[#EA8803] to-[#EA8803]/80 hover:opacity-95 text-background font-bold text-xs shadow-lg shadow-[#EA8803]/20 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
                 >
                   {restoring ? (
                     <>

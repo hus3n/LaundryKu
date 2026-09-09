@@ -4,43 +4,80 @@
 
 @layer base {
   :root {
-    --background: 216 93% 5%;
-    --foreground: 44 76% 91%;
+    /* Light Mode Variables */
+    --background: 245 250 255; /* Sangat terang (off-white blueish) */
+    --foreground: 1 14 28; /* #010E1C text utama */
+    --surface: 255 255 255; /* #FFFFFF background kartu */
+    --surface-deep: 241 245 249; /* Slate 100 bg alternatif/input */
+    --muted: 241 245 249; /* Slate 100 */
+    --muted-hover: 226 232 240; /* Slate 200 */
+    --orient: 1 83 131; /* #015383 */
+  }
+
+  .dark {
+    /* Dark Mode Variables - Warna asli LaundryKu */
+    --background: 1 14 28; /* #010E1C */
+    --foreground: 245 234 202; /* #F5EACA Sidecar */
+    --surface: 1 32 64; /* #012040 Orient Dark */
+    --surface-deep: 1 27 46; /* #011B2E */
+    --muted: 1 61 102; /* #013D66 Orient Medium */
+    --muted-hover: 1 71 117; /* #014775 Orient Light */
+    --orient: 1 83 131; /* #015383 */
   }
 
   body {
-    @apply bg-[#010E1C] text-[#F5EACA] antialiased selection:bg-brand-500 selection:text-white min-h-screen;
+    @apply bg-background text-foreground antialiased selection:bg-brand-500 selection:text-white min-h-screen transition-colors duration-300;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
 
 /* Glassmorphism Utilities */
 .glass-card {
-  background: rgba(1, 83, 131, 0.35);
+  background: rgba(var(--orient), 0.1);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(67, 213, 204, 0.18);
+  box-shadow: 0 8px 32px rgba(1, 14, 28, 0.05);
+}
+
+.dark .glass-card {
+  background: rgba(1, 83, 131, 0.35);
   box-shadow: 0 8px 32px rgba(1, 14, 28, 0.4);
 }
 
 .glass-card-dark {
-  background: rgba(1, 32, 64, 0.88);
+  background: rgba(var(--surface), 0.95);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(29, 169, 208, 0.2);
+  box-shadow: 0 10px 40px rgba(1, 14, 28, 0.05);
+}
+
+.dark .glass-card-dark {
+  background: rgba(1, 32, 64, 0.88);
   box-shadow: 0 10px 40px rgba(1, 14, 28, 0.5);
 }
 
 .glass-input {
-  background: rgba(1, 61, 102, 0.45);
+  background: rgba(var(--muted), 0.6);
   backdrop-filter: blur(12px);
   border: 1px solid rgba(29, 169, 208, 0.25);
+  color: rgb(var(--foreground));
+}
+
+.dark .glass-input {
+  background: rgba(1, 61, 102, 0.45);
   color: #F5EACA;
 }
 
 .glass-input:focus {
-  background: rgba(1, 61, 102, 0.8);
+  background: rgba(var(--muted), 0.9);
   border-color: #1DA9D0;
+  box-shadow: 0 0 0 4px rgba(29, 169, 208, 0.1);
+}
+
+.dark .glass-input:focus {
+  background: rgba(1, 61, 102, 0.8);
   box-shadow: 0 0 0 4px rgba(29, 169, 208, 0.2);
 }
 

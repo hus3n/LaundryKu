@@ -132,20 +132,20 @@ export default function AdminStoreManagementPage() {
       <div className="space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-bold text-[#F5EACA]">Kelola Admin Toko Laundry</h1>
-            <p className="text-xs text-[#F5EACA]/60 mt-1">Daftar akun pemilik laundry terdaftar, pengesahan pendaftaran, dan masa aktif</p>
+            <h1 className="text-2xl font-bold text-foreground">Kelola Admin Toko Laundry</h1>
+            <p className="text-xs text-foreground/60 mt-1">Daftar akun pemilik laundry terdaftar, pengesahan pendaftaran, dan masa aktif</p>
           </div>
           <div className="flex items-center gap-3">
             <button
               onClick={() => setIsTrialModalOpen(true)}
-              className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#EA8803] to-[#EA8803]/80 hover:opacity-95 text-[#010E1C] font-bold text-xs shadow-lg shadow-[#EA8803]/20 transition-all inline-flex items-center gap-2"
+              className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#EA8803] to-[#EA8803]/80 hover:opacity-95 text-background font-bold text-xs shadow-lg shadow-[#EA8803]/20 transition-all inline-flex items-center gap-2"
             >
               <Zap className="w-4 h-4" />
               Buat Akun Trial
             </button>
             <button
               onClick={handleOpenCreate}
-              className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] hover:opacity-95 text-[#010E1C] font-bold text-xs shadow-lg shadow-[#1DA9D0]/20 transition-all inline-flex items-center gap-2"
+              className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] hover:opacity-95 text-background font-bold text-xs shadow-lg shadow-[#1DA9D0]/20 transition-all inline-flex items-center gap-2"
             >
               <Plus className="w-4 h-4" />
               Daftarkan Admin Toko Baru
@@ -158,9 +158,9 @@ export default function AdminStoreManagementPage() {
           {error ? (
             <div className="text-center py-12 text-xs text-rose-400">⚠️ {error}</div>
           ) : loading ? (
-            <div className="text-center py-12 text-xs text-[#F5EACA]/60">Memuat data Admin toko...</div>
+            <div className="text-center py-12 text-xs text-foreground/60">Memuat data Admin toko...</div>
           ) : admins.length === 0 ? (
-            <div className="text-center py-16 text-xs text-[#F5EACA]/60 space-y-3">
+            <div className="text-center py-16 text-xs text-foreground/60 space-y-3">
               <Users className="w-12 h-12 mx-auto text-[#1DA9D0]/30" />
               <p>Belum ada Admin toko terdaftar.</p>
             </div>
@@ -168,7 +168,7 @@ export default function AdminStoreManagementPage() {
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs">
                 <thead>
-                  <tr className="border-b border-[#1DA9D0]/15 text-[#F5EACA]/60 font-medium bg-[#012040]">
+                  <tr className="border-b border-[#1DA9D0]/15 text-foreground/60 font-medium bg-surface">
                     <th className="py-3.5 px-4">Nama Toko & Penanggung Jawab</th>
                     <th className="py-3.5 px-4">Kontak (Email / WA)</th>
                     <th className="py-3.5 px-4">Masa Aktif Langganan</th>
@@ -181,9 +181,9 @@ export default function AdminStoreManagementPage() {
                   {admins.map((admin) => {
                     const isExpired = new Date(admin.subscriptionEnd) < new Date();
                     return (
-                      <tr key={admin.id} className="hover:bg-[#013D66]/50 transition-colors">
+                      <tr key={admin.id} className="hover:bg-muted/50 transition-colors">
                         <td className="py-4 px-4">
-                          <div className="font-bold text-[#F5EACA] text-sm flex items-center gap-2">
+                          <div className="font-bold text-foreground text-sm flex items-center gap-2">
                             {admin.storeName}
                             {admin.isTrial && (() => {
                               const now = new Date();
@@ -201,10 +201,10 @@ export default function AdminStoreManagementPage() {
                               );
                             })()}
                           </div>
-                          <div className="text-[11px] text-[#F5EACA]/60">Pemilik: {admin.user?.name}</div>
+                          <div className="text-[11px] text-foreground/60">Pemilik: {admin.user?.name}</div>
                         </td>
                         <td className="py-4 px-4 space-y-0.5">
-                          <div className="text-[#F5EACA]/80">{admin.user?.email}</div>
+                          <div className="text-foreground/80">{admin.user?.email}</div>
                           <a
                             href={`https://wa.me/${admin.user?.phone}`}
                             target="_blank"
@@ -235,7 +235,7 @@ export default function AdminStoreManagementPage() {
                             className={`px-2.5 py-1 rounded-full text-[10px] font-semibold border ${
                               admin.waStatus === 'CONNECTED'
                                 ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30'
-                                : 'bg-[#013D66] text-[#F5EACA]/60 border-[#1DA9D0]/20'
+                                : 'bg-muted text-foreground/60 border-[#1DA9D0]/20'
                             }`}
                           >
                             {admin.waStatus === 'CONNECTED' ? 'Terhubung' : 'Terputus'}
@@ -262,7 +262,7 @@ export default function AdminStoreManagementPage() {
                           </button>
                           <button
                             onClick={() => handleOpenDelete(admin)}
-                            className="p-1.5 rounded-lg text-[#F5EACA]/60 hover:text-rose-400 hover:bg-[#013D66] transition-colors"
+                            className="p-1.5 rounded-lg text-foreground/60 hover:text-rose-400 hover:bg-muted transition-colors"
                           >
                             <Trash2 className="w-4 h-4" />
                           </button>
@@ -279,9 +279,9 @@ export default function AdminStoreManagementPage() {
         {/* Modal Create Admin */}
         <AnimatePresence>
           {modalOpen && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#010E1C]/80 backdrop-blur-sm">
+            <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm">
               <div className="glass-card-dark p-6 rounded-3xl border border-[#1DA9D0]/20 max-w-md w-full space-y-4">
-                <h3 className="text-base font-bold text-[#F5EACA]">Daftarkan Admin Toko Baru</h3>
+                <h3 className="text-base font-bold text-foreground">Daftarkan Admin Toko Baru</h3>
 
                 {createErrorMsg && (
                   <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-400 text-xs">
@@ -291,73 +291,73 @@ export default function AdminStoreManagementPage() {
 
                 <form onSubmit={handleCreateSubmit} className="space-y-3">
                   <div>
-                    <label className="block text-xs font-semibold text-[#F5EACA]/80 mb-1">Nama Toko Laundry</label>
+                    <label className="block text-xs font-semibold text-foreground/80 mb-1">Nama Toko Laundry</label>
                     <input
                       type="text"
                       required
                       value={storeName}
                       onChange={(e) => setStoreName(e.target.value)}
                       placeholder="Contoh: FreshClean Laundry"
-                      className="w-full px-3.5 py-2 rounded-xl bg-[#012040] border border-[#1DA9D0]/25 text-xs text-[#F5EACA] placeholder-[#1DA9D0]/40 focus:outline-none focus:border-[#1DA9D0]"
+                      className="w-full px-3.5 py-2 rounded-xl bg-surface border border-[#1DA9D0]/25 text-xs text-foreground placeholder-[#1DA9D0]/40 focus:outline-none focus:border-[#1DA9D0]"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-xs font-semibold text-[#F5EACA]/80 mb-1">Nama Pemilik / Admin</label>
+                    <label className="block text-xs font-semibold text-foreground/80 mb-1">Nama Pemilik / Admin</label>
                     <input
                       type="text"
                       required
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       placeholder="Contoh: Bpk. Ahmad"
-                      className="w-full px-3.5 py-2 rounded-xl bg-[#012040] border border-[#1DA9D0]/25 text-xs text-[#F5EACA] placeholder-[#1DA9D0]/40 focus:outline-none focus:border-[#1DA9D0]"
+                      className="w-full px-3.5 py-2 rounded-xl bg-surface border border-[#1DA9D0]/25 text-xs text-foreground placeholder-[#1DA9D0]/40 focus:outline-none focus:border-[#1DA9D0]"
                     />
                   </div>
 
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-xs font-semibold text-[#F5EACA]/80 mb-1">Email Login</label>
+                      <label className="block text-xs font-semibold text-foreground/80 mb-1">Email Login</label>
                       <input
                         type="email"
                         required
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="ahmad@laundry.com"
-                        className="w-full px-3.5 py-2 rounded-xl bg-[#012040] border border-[#1DA9D0]/25 text-xs text-[#F5EACA] focus:outline-none focus:border-[#1DA9D0]"
+                        className="w-full px-3.5 py-2 rounded-xl bg-surface border border-[#1DA9D0]/25 text-xs text-foreground focus:outline-none focus:border-[#1DA9D0]"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-xs font-semibold text-[#F5EACA]/80 mb-1">Password</label>
+                      <label className="block text-xs font-semibold text-foreground/80 mb-1">Password</label>
                       <input
                         type="password"
                         required
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         placeholder="••••••••"
-                        className="w-full px-3.5 py-2 rounded-xl bg-[#012040] border border-[#1DA9D0]/25 text-xs text-[#F5EACA] focus:outline-none focus:border-[#1DA9D0]"
+                        className="w-full px-3.5 py-2 rounded-xl bg-surface border border-[#1DA9D0]/25 text-xs text-foreground focus:outline-none focus:border-[#1DA9D0]"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-xs font-semibold text-[#F5EACA]/80 mb-1">No. WhatsApp Pemilik</label>
+                    <label className="block text-xs font-semibold text-foreground/80 mb-1">No. WhatsApp Pemilik</label>
                     <input
                       type="text"
                       required
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
                       placeholder="081234567890"
-                      className="w-full px-3.5 py-2 rounded-xl bg-[#012040] border border-[#1DA9D0]/25 text-xs text-[#F5EACA] focus:outline-none focus:border-[#1DA9D0]"
+                      className="w-full px-3.5 py-2 rounded-xl bg-surface border border-[#1DA9D0]/25 text-xs text-foreground focus:outline-none focus:border-[#1DA9D0]"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-xs font-semibold text-[#F5EACA]/80 mb-1">Durasi Awal Berlangganan</label>
+                    <label className="block text-xs font-semibold text-foreground/80 mb-1">Durasi Awal Berlangganan</label>
                     <select
                       value={durationMonths}
                       onChange={(e) => setDurationMonths(parseInt(e.target.value, 10))}
-                      className="w-full px-3.5 py-2 rounded-xl bg-[#012040] border border-[#1DA9D0]/25 text-xs text-[#F5EACA] focus:outline-none focus:border-[#1DA9D0]"
+                      className="w-full px-3.5 py-2 rounded-xl bg-surface border border-[#1DA9D0]/25 text-xs text-foreground focus:outline-none focus:border-[#1DA9D0]"
                     >
                       <option value={1}>1 Bulan</option>
                       <option value={3}>3 Bulan</option>
@@ -370,14 +370,14 @@ export default function AdminStoreManagementPage() {
                     <button
                       type="button"
                       onClick={() => setModalOpen(false)}
-                      className="px-4 py-2 rounded-xl bg-[#013D66] text-[#F5EACA]/80 text-xs font-semibold hover:bg-[#014775]"
+                      className="px-4 py-2 rounded-xl bg-muted text-foreground/80 text-xs font-semibold hover:bg-muted-hover"
                     >
                       Batal
                     </button>
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="px-5 py-2 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] text-[#010E1C] text-xs font-bold disabled:opacity-50"
+                      className="px-5 py-2 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] text-background text-xs font-bold disabled:opacity-50"
                     >
                       Daftarkan Admin Toko
                     </button>

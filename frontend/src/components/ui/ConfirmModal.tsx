@@ -38,11 +38,11 @@ export default function ConfirmModal({
     },
     warning: {
       bgIcon: 'bg-[#EA8803]/20 text-[#EA8803] border-[#EA8803]/30',
-      btn: 'bg-gradient-to-r from-[#EA8803] to-[#EA8803]/80 hover:opacity-95 text-[#010E1C] font-bold shadow-[#EA8803]/30',
+      btn: 'bg-gradient-to-r from-[#EA8803] to-[#EA8803]/80 hover:opacity-95 text-background font-bold shadow-[#EA8803]/30',
     },
     info: {
       bgIcon: 'bg-[#1DA9D0]/20 text-[#43D5CC] border-[#1DA9D0]/30',
-      btn: 'bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] hover:opacity-95 text-[#010E1C] font-bold shadow-[#1DA9D0]/30',
+      btn: 'bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] hover:opacity-95 text-background font-bold shadow-[#1DA9D0]/30',
     },
   }[type];
 
@@ -55,7 +55,7 @@ export default function ConfirmModal({
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.2 }}
-        className="fixed inset-0 z-[60] bg-[#010E1C]/80 backdrop-blur-md"
+        className="fixed inset-0 z-[60] bg-background/80 backdrop-blur-md"
         onClick={onClose}
       />
       {/* Panel */}
@@ -71,7 +71,7 @@ export default function ConfirmModal({
           <motion.button
             whileTap={{ scale: 0.95 }}
             onClick={onClose}
-            className="absolute top-5 right-5 p-1.5 rounded-xl bg-[#012040] text-[#F5EACA]/60 hover:text-[#F5EACA] hover:bg-[#013D66] transition-colors"
+            className="absolute top-5 right-5 p-1.5 rounded-xl bg-surface text-foreground/60 hover:text-foreground hover:bg-muted transition-colors"
           >
             <X className="w-4 h-4" />
           </motion.button>
@@ -81,8 +81,8 @@ export default function ConfirmModal({
               <AlertTriangle className="w-6 h-6" />
             </div>
             <div>
-              <h3 className="text-base font-bold text-[#F5EACA]">{title}</h3>
-              <p className="text-xs text-[#F5EACA]/80 mt-1 leading-relaxed">{message}</p>
+              <h3 className="text-base font-bold text-foreground">{title}</h3>
+              <p className="text-xs text-foreground/80 mt-1 leading-relaxed">{message}</p>
             </div>
           </div>
 
@@ -92,7 +92,7 @@ export default function ConfirmModal({
               type="button"
               onClick={onClose}
               disabled={isSubmitting}
-              className="px-4 py-2.5 rounded-xl bg-[#012040] hover:bg-[#013D66] text-[#F5EACA]/80 text-xs font-semibold border border-[#1DA9D0]/15 transition-colors"
+              className="px-4 py-2.5 rounded-xl bg-surface hover:bg-muted text-foreground/80 text-xs font-semibold border border-[#1DA9D0]/15 transition-colors"
             >
               {cancelText}
             </motion.button>

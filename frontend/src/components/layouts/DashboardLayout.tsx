@@ -28,6 +28,7 @@ import {
 import { useAuth } from '@/contexts/AuthContext';
 import BrandLogo from '@/components/ui/BrandLogo';
 import AppWindowControls from '@/components/ui/AppWindowControls';
+import { ThemeToggle } from '@/components/ui/ThemeToggle';
 
 interface SidebarItem {
   label: string;
@@ -65,10 +66,10 @@ export default function DashboardLayout({ children, role }: { children: React.Re
   }
 
   return (
-    <div className="min-h-screen bg-[#010E1C] text-[#F5EACA] flex">
+    <div className="min-h-screen bg-background text-foreground flex">
       {/* Desktop Sidebar */}
       {!isEmployee && (
-      <aside className="hidden md:flex flex-col w-64 bg-[#012040]/80 border-r border-[#1DA9D0]/15 p-5 sticky top-0 h-screen z-30 backdrop-blur-xl">
+      <aside className="hidden md:flex flex-col w-64 bg-surface/80 border-r border-[#1DA9D0]/15 p-5 sticky top-0 h-screen z-30 backdrop-blur-xl">
         {/* Brand */}
         <div className="pb-5 mb-3 border-b border-[#1DA9D0]/15">
           <Link href={user?.role === 'SUPERADMIN' ? '/superadmin/dashboard' : user?.role === 'ADMIN' ? '/admin/dashboard' : '/karyawan/dashboard'}>
@@ -86,7 +87,7 @@ export default function DashboardLayout({ children, role }: { children: React.Re
                 key={item.href}
                 href={item.href}
                 className={`relative flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-semibold transition-colors group ${
-                  isActive ? 'text-[#010E1C] font-bold' : 'text-[#F5EACA]/60 hover:text-[#F5EACA]'
+                  isActive ? 'text-background font-bold' : 'text-foreground/60 hover:text-foreground'
                 }`}
               >
                 {isActive && (
@@ -111,12 +112,12 @@ export default function DashboardLayout({ children, role }: { children: React.Re
         {/* User Info & Logout */}
         <div className="pt-4 mt-4 border-t border-[#1DA9D0]/15 flex items-center justify-between">
           <div className="flex items-center gap-3 overflow-hidden">
-            <div className="w-9 h-9 rounded-xl bg-[#013D66] border border-[#1DA9D0]/25 flex items-center justify-center font-bold text-[#43D5CC] shrink-0">
+            <div className="w-9 h-9 rounded-xl bg-muted border border-[#1DA9D0]/25 flex items-center justify-center font-bold text-[#43D5CC] shrink-0">
               {user?.name?.[0]?.toUpperCase() || 'U'}
             </div>
             <div className="truncate">
-              <div className="text-xs font-semibold text-[#F5EACA] truncate">{user?.name}</div>
-              <div className="text-[10px] text-[#F5EACA]/50 truncate">{user?.email}</div>
+              <div className="text-xs font-semibold text-foreground truncate">{user?.name}</div>
+              <div className="text-[10px] text-foreground/50 truncate">{user?.email}</div>
             </div>
           </div>
 
@@ -125,7 +126,7 @@ export default function DashboardLayout({ children, role }: { children: React.Re
             whileTap={{ scale: 0.9 }}
             onClick={logout}
             title="Keluar / Logout"
-            className="p-2 rounded-lg text-[#F5EACA]/60 hover:text-rose-400 hover:bg-rose-500/10 transition-colors"
+            className="p-2 rounded-lg text-foreground/60 hover:text-rose-400 hover:bg-rose-500/10 transition-colors"
           >
             <LogOut className="w-4 h-4" />
           </motion.button>
@@ -136,19 +137,19 @@ export default function DashboardLayout({ children, role }: { children: React.Re
       {/* Main Area */}
       <div className="flex-1 flex flex-col min-w-0">
         {/* Top Header */}
-        <header className="h-16 border-b border-[#1DA9D0]/15 bg-[#012040]/50 backdrop-blur-xl sticky top-0 z-20 px-4 md:px-6 flex items-center justify-between gap-4">
+        <header className="h-16 border-b border-[#1DA9D0]/15 bg-surface/50 backdrop-blur-xl sticky top-0 z-20 px-4 md:px-6 flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             {!isEmployee && (
             <button
               onClick={() => setMobileOpen(true)}
-              className="md:hidden p-2 flex items-center justify-center rounded-lg text-[#F5EACA]/60 hover:text-[#F5EACA] hover:bg-[#1DA9D0]/10 transition-colors"
+              className="md:hidden p-2 flex items-center justify-center rounded-lg text-foreground/60 hover:text-foreground hover:bg-[#1DA9D0]/10 transition-colors"
             >
               <Menu className="w-5 h-5" />
             </button>
             )}
 
-            <div className="text-xs font-semibold text-[#F5EACA]/60 truncate hidden sm:block">
-              Selamat Datang, <span className="text-[#F5EACA] font-bold">{user?.name}</span>
+            <div className="text-xs font-semibold text-foreground/60 truncate hidden sm:block">
+              Selamat Datang, <span className="text-foreground font-bold">{user?.name}</span>
               {user?.storeName && (
                 <span className="text-[#1DA9D0]/70 font-normal ml-1.5">({user.storeName})</span>
               )}
@@ -156,7 +157,8 @@ export default function DashboardLayout({ children, role }: { children: React.Re
           </div>
 
           <div className="flex items-center gap-3">
-            {/* App Window & Fullscreen Controls */}
+            {/* Theme Toggle & Window Controls */}
+            <ThemeToggle />
             <AppWindowControls />
 
             {isEmployee && (
@@ -170,7 +172,7 @@ export default function DashboardLayout({ children, role }: { children: React.Re
               </>
             )}
 
-            <span className="text-xs px-3 py-1 rounded-full bg-[#013D66] border border-[#1DA9D0]/25 text-[#F5EACA]/80 font-medium hidden md:inline-block">
+            <span className="text-xs px-3 py-1 rounded-full bg-muted border border-[#1DA9D0]/25 text-foreground/80 font-medium hidden md:inline-block">
               {user?.role}
             </span>
           </div>
@@ -186,7 +188,7 @@ export default function DashboardLayout({ children, role }: { children: React.Re
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.2 }}
-                className="fixed inset-0 bg-[#010E1C]/85 backdrop-blur-sm" 
+                className="fixed inset-0 bg-background/85 backdrop-blur-sm" 
                 onClick={() => setMobileOpen(false)} 
               />
               <motion.aside 
@@ -195,11 +197,11 @@ export default function DashboardLayout({ children, role }: { children: React.Re
                 animate={{ x: 0 }}
                 exit={{ x: '-100%' }}
                 transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-                className="relative flex-1 max-w-xs bg-[#012040] border-r border-[#1DA9D0]/15 p-6 flex flex-col"
+                className="relative flex-1 max-w-xs bg-surface border-r border-[#1DA9D0]/15 p-6 flex flex-col"
               >
                 <div className="flex items-center justify-between pb-4 mb-4 border-b border-[#1DA9D0]/15">
                   <BrandLogo size="sm" storeName={user?.storeName} storeLogo={user?.storeLogo} />
-                  <button onClick={() => setMobileOpen(false)} className="p-2 text-[#F5EACA]/60 hover:text-[#F5EACA] rounded-lg hover:bg-[#1DA9D0]/10 transition-colors">
+                  <button onClick={() => setMobileOpen(false)} className="p-2 text-foreground/60 hover:text-foreground rounded-lg hover:bg-[#1DA9D0]/10 transition-colors">
                     <AnimatePresence mode="wait">
                       <motion.div 
                         key="close" 
@@ -225,8 +227,8 @@ export default function DashboardLayout({ children, role }: { children: React.Re
                         onClick={() => setMobileOpen(false)}
                         className={`flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-semibold transition-colors ${
                           isActive
-                            ? 'bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] text-[#010E1C] font-bold shadow-md shadow-[#1DA9D0]/20'
-                            : 'text-[#F5EACA]/60 hover:text-[#F5EACA] hover:bg-[#1DA9D0]/10'
+                            ? 'bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] text-background font-bold shadow-md shadow-[#1DA9D0]/20'
+                            : 'text-foreground/60 hover:text-foreground hover:bg-[#1DA9D0]/10'
                         }`}
                       >
                         <Icon className="w-4 h-4" />

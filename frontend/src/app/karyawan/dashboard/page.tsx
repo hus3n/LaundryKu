@@ -57,7 +57,7 @@ export default function KaryawanDashboard() {
       icon: PlusCircle,
       href: '/karyawan/laundry/new',
       color: 'from-[#1DA9D0] to-[#43D5CC]',
-      textColor: 'text-[#010E1C]'
+      textColor: 'text-background'
     },
     {
       title: 'Manajemen Cucian',
@@ -74,7 +74,7 @@ export default function KaryawanDashboard() {
       icon: Users,
       href: '/karyawan/customers',
       color: 'from-[#013D66] to-[#012040]',
-      textColor: 'text-[#F5EACA]',
+      textColor: 'text-foreground',
       border: 'border border-[#1DA9D0]/25'
     },
     {
@@ -83,7 +83,7 @@ export default function KaryawanDashboard() {
       icon: Package,
       href: '/karyawan/packages',
       color: 'from-[#013D66] to-[#012040]',
-      textColor: 'text-[#F5EACA]/80',
+      textColor: 'text-foreground/80',
       border: 'border border-[#1DA9D0]/25'
     },
     {
@@ -103,8 +103,8 @@ export default function KaryawanDashboard() {
         
         {/* Header Title */}
         <div>
-          <h1 className="text-2xl font-bold text-[#F5EACA]">Dashboard Kasir</h1>
-          <p className="text-xs text-[#F5EACA]/60 mt-1">
+          <h1 className="text-2xl font-bold text-foreground">Dashboard Kasir</h1>
+          <p className="text-xs text-foreground/60 mt-1">
             Tekan salah satu menu di bawah untuk mulai bekerja.
           </p>
         </div>
@@ -118,31 +118,31 @@ export default function KaryawanDashboard() {
           </div>
           
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="bg-[#010E1C] p-4 rounded-2xl border border-[#1DA9D0]/15">
-              <div className="text-[10px] text-[#F5EACA]/50 uppercase font-semibold mb-1">Target Selesai</div>
+            <div className="bg-background p-4 rounded-2xl border border-[#1DA9D0]/15">
+              <div className="text-[10px] text-foreground/50 uppercase font-semibold mb-1">Target Selesai</div>
               <div className="text-3xl font-black text-[#EA8803]">
                 {tasks ? tasks.targetSelesai : '-'}
               </div>
-              <div className="text-[10px] text-[#F5EACA]/40 mt-1">Nota belum rampung</div>
+              <div className="text-[10px] text-foreground/40 mt-1">Nota belum rampung</div>
             </div>
             
-            <div className="bg-[#010E1C] p-4 rounded-2xl border border-[#1DA9D0]/15">
-              <div className="text-[10px] text-[#F5EACA]/50 uppercase font-semibold mb-1">Antrean Cuci</div>
+            <div className="bg-background p-4 rounded-2xl border border-[#1DA9D0]/15">
+              <div className="text-[10px] text-foreground/50 uppercase font-semibold mb-1">Antrean Cuci</div>
               <div className="text-3xl font-black text-[#1DA9D0]">
                 {tasks ? tasks.antreanCuci : '-'}
               </div>
-              <div className="text-[10px] text-[#F5EACA]/40 mt-1">Baru / antre dicuci</div>
+              <div className="text-[10px] text-foreground/40 mt-1">Baru / antre dicuci</div>
             </div>
 
-            <div className="bg-[#010E1C] p-4 rounded-2xl border border-[#1DA9D0]/15">
-              <div className="text-[10px] text-[#F5EACA]/50 uppercase font-semibold mb-1">Masuk Hari Ini</div>
-              <div className="text-3xl font-black text-[#F5EACA]">
+            <div className="bg-background p-4 rounded-2xl border border-[#1DA9D0]/15">
+              <div className="text-[10px] text-foreground/50 uppercase font-semibold mb-1">Masuk Hari Ini</div>
+              <div className="text-3xl font-black text-foreground">
                 {tasks ? tasks.masukHariIni : '-'}
               </div>
-              <div className="text-[10px] text-[#F5EACA]/40 mt-1">Orderan tercatat</div>
+              <div className="text-[10px] text-foreground/40 mt-1">Orderan tercatat</div>
             </div>
 
-            <div className="bg-[#010E1C] p-4 rounded-2xl border border-[#43D5CC]/20 shadow-lg shadow-[#43D5CC]/5">
+            <div className="bg-background p-4 rounded-2xl border border-[#43D5CC]/20 shadow-lg shadow-[#43D5CC]/5">
               <div className="text-[10px] text-[#43D5CC]/70 uppercase font-semibold mb-1">Diambil Hari Ini</div>
               <div className="text-3xl font-black text-[#43D5CC]">
                 {tasks ? tasks.diambilHariIni : '-'}

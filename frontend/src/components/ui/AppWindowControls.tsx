@@ -101,7 +101,7 @@ export default function AppWindowControls() {
             whileTap={{ scale: 0.97 }}
             onClick={handleInstallClick}
             title="Instal / Buka sebagai Aplikasi Tanpa Tab Browser"
-            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-[#1DA9D0]/10 border border-[#1DA9D0]/30 text-[#43D5CC] hover:bg-[#1DA9D0]/20 hover:text-[#F5EACA] text-xs font-medium transition-all shadow-sm"
+            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-[#1DA9D0]/10 border border-[#1DA9D0]/30 text-[#43D5CC] hover:bg-[#1DA9D0]/20 hover:text-foreground text-xs font-medium transition-all shadow-sm"
           >
             <Download className="w-3.5 h-3.5 text-[#43D5CC]" />
             <span className="hidden sm:inline">Mode Aplikasi (Tanpa Tab)</span>
@@ -117,7 +117,7 @@ export default function AppWindowControls() {
           className={`p-2 rounded-lg border transition-all ${
             isFullscreen
               ? 'bg-[#EA8803]/15 border-[#EA8803]/30 text-[#EA8803] shadow-[#EA8803]/20 shadow-sm'
-              : 'bg-[#013D66]/80 border-[#1DA9D0]/25 text-[#F5EACA]/80 hover:text-[#F5EACA] hover:bg-[#013D66]'
+              : 'bg-muted/80 border-[#1DA9D0]/25 text-foreground/80 hover:text-foreground hover:bg-muted'
           }`}
         >
           {isFullscreen ? (
@@ -137,7 +137,7 @@ export default function AppWindowControls() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setShowGuideModal(false)}
-              className="fixed inset-0 bg-[#010E1C]/85 backdrop-blur-md"
+              className="fixed inset-0 bg-background/85 backdrop-blur-md"
             />
 
             <motion.div
@@ -145,7 +145,7 @@ export default function AppWindowControls() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 15 }}
               transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-              className="relative w-full max-w-lg bg-[#012040] border border-[#1DA9D0]/25 rounded-2xl p-6 shadow-2xl z-10 text-[#F5EACA] overflow-hidden"
+              className="relative w-full max-w-lg bg-surface border border-[#1DA9D0]/25 rounded-2xl p-6 shadow-2xl z-10 text-foreground overflow-hidden"
             >
               {/* Header */}
               <div className="flex items-start justify-between pb-4 mb-4 border-b border-[#1DA9D0]/15">
@@ -154,45 +154,45 @@ export default function AppWindowControls() {
                     <Monitor className="w-5 h-5" />
                   </div>
                   <div>
-                    <h3 className="text-base font-bold text-[#F5EACA] flex items-center gap-2">
+                    <h3 className="text-base font-bold text-foreground flex items-center gap-2">
                       Jalankan Tanpa Tab Browser
                     </h3>
-                    <p className="text-xs text-[#F5EACA]/60">
+                    <p className="text-xs text-foreground/60">
                       Tampilan seperti software aplikasi desktop asli (POS Mandiri)
                     </p>
                   </div>
                 </div>
                 <button
                   onClick={() => setShowGuideModal(false)}
-                  className="p-1.5 text-[#F5EACA]/60 hover:text-[#F5EACA] rounded-lg hover:bg-[#1DA9D0]/10 transition-colors"
+                  className="p-1.5 text-foreground/60 hover:text-foreground rounded-lg hover:bg-[#1DA9D0]/10 transition-colors"
                 >
                   <X className="w-5 h-5" />
                 </button>
               </div>
 
               {/* Options Guide */}
-              <div className="space-y-3.5 text-xs text-[#F5EACA]/80">
+              <div className="space-y-3.5 text-xs text-foreground/80">
                 {/* Method 1: Layar Penuh (F11) */}
-                <div className="p-3.5 rounded-xl bg-[#013D66]/50 border border-[#1DA9D0]/20 flex gap-3">
+                <div className="p-3.5 rounded-xl bg-muted/50 border border-[#1DA9D0]/20 flex gap-3">
                   <div className="w-7 h-7 rounded-lg bg-[#EA8803]/20 text-[#EA8803] flex items-center justify-center font-bold shrink-0 text-xs">
                     1
                   </div>
                   <div className="flex-1">
-                    <div className="font-semibold text-[#F5EACA] mb-1 flex items-center justify-between">
+                    <div className="font-semibold text-foreground mb-1 flex items-center justify-between">
                       <span>Mode Layar Penuh Seketika (Shortcut F11)</span>
                       <span className="text-[10px] bg-[#EA8803]/20 text-[#EA8803] px-2 py-0.5 rounded font-mono font-bold">
                         F11
                       </span>
                     </div>
-                    <p className="text-[#F5EACA]/60 leading-relaxed">
-                      Tekan tombol <kbd className="px-1.5 py-0.5 bg-[#013D66] border border-[#1DA9D0]/30 rounded text-[#F5EACA] font-mono">F11</kbd> di keyboard atau klik tombol di bawah untuk menyembunyikan semua tab dan bilah alamat browser seketika.
+                    <p className="text-foreground/60 leading-relaxed">
+                      Tekan tombol <kbd className="px-1.5 py-0.5 bg-muted border border-[#1DA9D0]/30 rounded text-foreground font-mono">F11</kbd> di keyboard atau klik tombol di bawah untuk menyembunyikan semua tab dan bilah alamat browser seketika.
                     </p>
                     <button
                       onClick={() => {
                         toggleFullscreen();
                         setShowGuideModal(false);
                       }}
-                      className="mt-2.5 px-3 py-1.5 rounded-lg bg-[#EA8803] text-[#010E1C] font-bold text-xs hover:bg-[#EA8803]/90 transition-colors flex items-center gap-1.5 shadow-sm"
+                      className="mt-2.5 px-3 py-1.5 rounded-lg bg-[#EA8803] text-background font-bold text-xs hover:bg-[#EA8803]/90 transition-colors flex items-center gap-1.5 shadow-sm"
                     >
                       <Maximize className="w-3.5 h-3.5" />
                       Aktifkan Layar Penuh Sekarang
@@ -201,39 +201,39 @@ export default function AppWindowControls() {
                 </div>
 
                 {/* Method 2: Install PWA (Chrome / Edge) */}
-                <div className="p-3.5 rounded-xl bg-[#013D66]/50 border border-[#1DA9D0]/20 flex gap-3">
+                <div className="p-3.5 rounded-xl bg-muted/50 border border-[#1DA9D0]/20 flex gap-3">
                   <div className="w-7 h-7 rounded-lg bg-[#1DA9D0]/20 text-[#43D5CC] flex items-center justify-center font-bold shrink-0 text-xs">
                     2
                   </div>
                   <div className="flex-1">
-                    <div className="font-semibold text-[#F5EACA] mb-1">
+                    <div className="font-semibold text-foreground mb-1">
                       Instal Aplikasi (Desktop / HP)
                     </div>
-                    <p className="text-[#F5EACA]/60 leading-relaxed mb-2">
+                    <p className="text-foreground/60 leading-relaxed mb-2">
                       Aplikasi akan memiliki ikon sendiri di Desktop & Taskbar tanpa membuka tab web:
                     </p>
-                    <ul className="list-disc list-inside space-y-1 text-[#F5EACA]/60 pl-1">
+                    <ul className="list-disc list-inside space-y-1 text-foreground/60 pl-1">
                       <li>
-                        <strong className="text-[#F5EACA]">Google Chrome / Edge (Laptop/PC):</strong> Klik ikon <span className="text-[#43D5CC] font-medium">Instal LaundryKu</span> (ikon komputer/download) di ujung kanan bilah alamat (URL bar) browser Anda.
+                        <strong className="text-foreground">Google Chrome / Edge (Laptop/PC):</strong> Klik ikon <span className="text-[#43D5CC] font-medium">Instal LaundryKu</span> (ikon komputer/download) di ujung kanan bilah alamat (URL bar) browser Anda.
                       </li>
                       <li>
-                        <strong className="text-[#F5EACA]">Android / iPhone:</strong> Buka Menu browser ⋮ atau Share ➔ pilih <span className="text-[#43D5CC] font-medium">&quot;Tambahkan ke Layar Utama&quot;</span>.
+                        <strong className="text-foreground">Android / iPhone:</strong> Buka Menu browser ⋮ atau Share ➔ pilih <span className="text-[#43D5CC] font-medium">&quot;Tambahkan ke Layar Utama&quot;</span>.
                       </li>
                     </ul>
                   </div>
                 </div>
 
                 {/* Method 3: Chrome App Window Shortcut */}
-                <div className="p-3.5 rounded-xl bg-[#013D66]/50 border border-[#1DA9D0]/20 flex gap-3">
+                <div className="p-3.5 rounded-xl bg-muted/50 border border-[#1DA9D0]/20 flex gap-3">
                   <div className="w-7 h-7 rounded-lg bg-[#1DA9D0]/20 text-[#43D5CC] flex items-center justify-center font-bold shrink-0 text-xs">
                     3
                   </div>
                   <div className="flex-1">
-                    <div className="font-semibold text-[#F5EACA] mb-1">
+                    <div className="font-semibold text-foreground mb-1">
                       Menu Browser ➔ Simpan &amp; Pasang sebagai Aplikasi
                     </div>
-                    <p className="text-[#F5EACA]/60 leading-relaxed">
-                      Di Chrome: Klik menu titik tiga <span className="text-[#F5EACA] font-bold">⋮</span> di pojok kanan atas browser ➔ Pilih <strong className="text-[#F5EACA]">Simpan dan Bagikan</strong> ➔ Klik <strong className="text-[#43D5CC]">Instal LaundryKu</strong>.
+                    <p className="text-foreground/60 leading-relaxed">
+                      Di Chrome: Klik menu titik tiga <span className="text-foreground font-bold">⋮</span> di pojok kanan atas browser ➔ Pilih <strong className="text-foreground">Simpan dan Bagikan</strong> ➔ Klik <strong className="text-[#43D5CC]">Instal LaundryKu</strong>.
                     </p>
                   </div>
                 </div>
@@ -243,7 +243,7 @@ export default function AppWindowControls() {
               <div className="mt-5 pt-4 border-t border-[#1DA9D0]/15 flex justify-end">
                 <button
                   onClick={() => setShowGuideModal(false)}
-                  className="px-4 py-2 rounded-xl bg-[#013D66] text-[#F5EACA]/80 hover:text-[#F5EACA] hover:bg-[#014775] font-medium text-xs transition-colors"
+                  className="px-4 py-2 rounded-xl bg-muted text-foreground/80 hover:text-foreground hover:bg-muted-hover font-medium text-xs transition-colors"
                 >
                   Mengerti &amp; Tutup
                 </button>

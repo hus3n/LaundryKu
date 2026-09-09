@@ -103,13 +103,13 @@ export default function ExpensesPage() {
         {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <div>
-            <h1 className="text-2xl font-bold text-[#F5EACA]">Catatan Pengeluaran</h1>
-            <p className="text-xs text-[#F5EACA]/60 mt-1">Kelola dan pantau pengeluaran operasional toko laundry</p>
+            <h1 className="text-2xl font-bold text-foreground">Catatan Pengeluaran</h1>
+            <p className="text-xs text-foreground/60 mt-1">Kelola dan pantau pengeluaran operasional toko laundry</p>
           </div>
           <div className="flex flex-wrap gap-3">
             <button
               onClick={() => setShowForm(true)}
-              className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] hover:opacity-95 text-[#010E1C] font-bold text-xs shadow-lg shadow-[#1DA9D0]/20 transition-all flex items-center gap-2"
+              className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] hover:opacity-95 text-background font-bold text-xs shadow-lg shadow-[#1DA9D0]/20 transition-all flex items-center gap-2"
             >
               <Plus className="w-4 h-4" /> Tambah Pengeluaran
             </button>
@@ -120,11 +120,11 @@ export default function ExpensesPage() {
         <div className="glass-card-dark p-4 rounded-2xl border border-[#1DA9D0]/15 flex flex-col md:flex-row gap-4 items-end md:items-center justify-between">
           <div className="flex gap-4 items-center w-full md:w-auto">
             <div>
-              <label className="block text-[10px] font-semibold text-[#F5EACA]/60 mb-1">Bulan</label>
+              <label className="block text-[10px] font-semibold text-foreground/60 mb-1">Bulan</label>
               <select
                 value={filterMonth}
                 onChange={(e) => setFilterMonth(parseInt(e.target.value))}
-                className="bg-[#012040] border border-[#1DA9D0]/25 text-[#F5EACA] text-xs rounded-xl px-3 py-2 focus:outline-none focus:border-[#1DA9D0] min-w-[120px]"
+                className="bg-surface border border-[#1DA9D0]/25 text-foreground text-xs rounded-xl px-3 py-2 focus:outline-none focus:border-[#1DA9D0] min-w-[120px]"
               >
                 {Array.from({ length: 12 }, (_, i) => (
                   <option key={i + 1} value={i + 1}>
@@ -134,11 +134,11 @@ export default function ExpensesPage() {
               </select>
             </div>
             <div>
-              <label className="block text-[10px] font-semibold text-[#F5EACA]/60 mb-1">Tahun</label>
+              <label className="block text-[10px] font-semibold text-foreground/60 mb-1">Tahun</label>
               <select
                 value={filterYear}
                 onChange={(e) => setFilterYear(parseInt(e.target.value))}
-                className="bg-[#012040] border border-[#1DA9D0]/25 text-[#F5EACA] text-xs rounded-xl px-3 py-2 focus:outline-none focus:border-[#1DA9D0] min-w-[100px]"
+                className="bg-surface border border-[#1DA9D0]/25 text-foreground text-xs rounded-xl px-3 py-2 focus:outline-none focus:border-[#1DA9D0] min-w-[100px]"
               >
                 {[2024, 2025, 2026, 2027].map(y => (
                   <option key={y} value={y}>{y}</option>
@@ -170,39 +170,39 @@ export default function ExpensesPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="border-b border-[#1DA9D0]/15 bg-[#012040]/50 text-xs">
-                  <th className="py-4 px-6 font-semibold text-[#F5EACA]/80">Tanggal</th>
-                  <th className="py-4 px-6 font-semibold text-[#F5EACA]/80">Kategori</th>
-                  <th className="py-4 px-6 font-semibold text-[#F5EACA]/80">Keterangan</th>
-                  <th className="py-4 px-6 font-semibold text-[#F5EACA]/80 text-right">Jumlah (Rp)</th>
-                  <th className="py-4 px-6 font-semibold text-[#F5EACA]/80 text-center">Aksi</th>
+                <tr className="border-b border-[#1DA9D0]/15 bg-surface/50 text-xs">
+                  <th className="py-4 px-6 font-semibold text-foreground/80">Tanggal</th>
+                  <th className="py-4 px-6 font-semibold text-foreground/80">Kategori</th>
+                  <th className="py-4 px-6 font-semibold text-foreground/80">Keterangan</th>
+                  <th className="py-4 px-6 font-semibold text-foreground/80 text-right">Jumlah (Rp)</th>
+                  <th className="py-4 px-6 font-semibold text-foreground/80 text-center">Aksi</th>
                 </tr>
               </thead>
               <tbody>
                 {loading ? (
                   <tr>
-                    <td colSpan={5} className="py-8 text-center text-xs text-[#F5EACA]/60">
+                    <td colSpan={5} className="py-8 text-center text-xs text-foreground/60">
                       Memuat data pengeluaran...
                     </td>
                   </tr>
                 ) : expenses.length === 0 ? (
                   <tr>
-                    <td colSpan={5} className="py-8 text-center text-xs text-[#F5EACA]/60">
+                    <td colSpan={5} className="py-8 text-center text-xs text-foreground/60">
                       Belum ada data pengeluaran untuk periode ini.
                     </td>
                   </tr>
                 ) : (
                   expenses.map((expense) => (
-                    <tr key={expense.id} className="border-b border-[#1DA9D0]/10 hover:bg-[#013D66]/50 transition-colors">
-                      <td className="py-3 px-6 text-xs text-[#F5EACA]/80">
+                    <tr key={expense.id} className="border-b border-[#1DA9D0]/10 hover:bg-muted/50 transition-colors">
+                      <td className="py-3 px-6 text-xs text-foreground/80">
                         {new Date(expense.date).toLocaleDateString('id-ID', {
                           day: 'numeric', month: 'short', year: 'numeric'
                         })}
                       </td>
-                      <td className="py-3 px-6 text-xs font-semibold text-[#F5EACA]">
+                      <td className="py-3 px-6 text-xs font-semibold text-foreground">
                         {expense.category}
                       </td>
-                      <td className="py-3 px-6 text-xs text-[#F5EACA]/60">
+                      <td className="py-3 px-6 text-xs text-foreground/60">
                         {expense.description || '-'}
                       </td>
                       <td className="py-3 px-6 text-sm font-bold text-rose-400 text-right">
@@ -229,18 +229,18 @@ export default function ExpensesPage() {
       {/* Modal Tambah */}
       <AnimatePresence>
         {showForm && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#010E1C]/85 backdrop-blur-sm">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/85 backdrop-blur-sm">
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 10 }}
-              className="bg-[#012040] p-6 rounded-3xl border border-[#1DA9D0]/25 w-full max-w-md relative shadow-2xl"
+              className="bg-surface p-6 rounded-3xl border border-[#1DA9D0]/25 w-full max-w-md relative shadow-2xl"
             >
               <div className="flex justify-between items-center mb-6">
-                <h3 className="text-lg font-bold text-[#F5EACA]">Tambah Pengeluaran</h3>
+                <h3 className="text-lg font-bold text-foreground">Tambah Pengeluaran</h3>
                 <button
                   onClick={() => setShowForm(false)}
-                  className="p-2 rounded-xl hover:bg-[#013D66] text-[#F5EACA]/60 transition-colors"
+                  className="p-2 rounded-xl hover:bg-muted text-foreground/60 transition-colors"
                 >
                   <X className="w-4 h-4" />
                 </button>
@@ -248,30 +248,30 @@ export default function ExpensesPage() {
 
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                  <label className="block text-xs font-semibold text-[#F5EACA]/80 mb-1.5">Tanggal</label>
+                  <label className="block text-xs font-semibold text-foreground/80 mb-1.5">Tanggal</label>
                   <input
                     type="date"
                     required
                     value={form.date}
                     onChange={(e) => setForm({ ...form, date: e.target.value })}
-                    className="w-full px-4 py-2.5 rounded-xl bg-[#013D66] border border-[#1DA9D0]/25 text-xs text-[#F5EACA] focus:outline-none focus:border-[#1DA9D0]"
+                    className="w-full px-4 py-2.5 rounded-xl bg-muted border border-[#1DA9D0]/25 text-xs text-foreground focus:outline-none focus:border-[#1DA9D0]"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-[#F5EACA]/80 mb-1.5">Kategori *</label>
+                  <label className="block text-xs font-semibold text-foreground/80 mb-1.5">Kategori *</label>
                   <input
                     type="text"
                     required
                     placeholder="Contoh: Listrik, Gaji, Sabun..."
                     value={form.category}
                     onChange={(e) => setForm({ ...form, category: e.target.value })}
-                    className="w-full px-4 py-2.5 rounded-xl bg-[#013D66] border border-[#1DA9D0]/25 text-xs text-[#F5EACA] placeholder-[#1DA9D0]/50 focus:outline-none focus:border-[#1DA9D0]"
+                    className="w-full px-4 py-2.5 rounded-xl bg-muted border border-[#1DA9D0]/25 text-xs text-foreground placeholder-[#1DA9D0]/50 focus:outline-none focus:border-[#1DA9D0]"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-[#F5EACA]/80 mb-1.5">Jumlah (Rp) *</label>
+                  <label className="block text-xs font-semibold text-foreground/80 mb-1.5">Jumlah (Rp) *</label>
                   <input
                     type="number"
                     required
@@ -279,18 +279,18 @@ export default function ExpensesPage() {
                     placeholder="Contoh: 150000"
                     value={form.amount}
                     onChange={(e) => setForm({ ...form, amount: e.target.value })}
-                    className="w-full px-4 py-2.5 rounded-xl bg-[#013D66] border border-[#1DA9D0]/25 text-xs text-[#F5EACA] placeholder-[#1DA9D0]/50 focus:outline-none focus:border-[#1DA9D0]"
+                    className="w-full px-4 py-2.5 rounded-xl bg-muted border border-[#1DA9D0]/25 text-xs text-foreground placeholder-[#1DA9D0]/50 focus:outline-none focus:border-[#1DA9D0]"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-[#F5EACA]/80 mb-1.5">Keterangan (Opsional)</label>
+                  <label className="block text-xs font-semibold text-foreground/80 mb-1.5">Keterangan (Opsional)</label>
                   <textarea
                     rows={2}
                     placeholder="Contoh: Bayar token listrik bulan Agustus"
                     value={form.description}
                     onChange={(e) => setForm({ ...form, description: e.target.value })}
-                    className="w-full px-4 py-2.5 rounded-xl bg-[#013D66] border border-[#1DA9D0]/25 text-xs text-[#F5EACA] placeholder-[#1DA9D0]/50 focus:outline-none focus:border-[#1DA9D0]"
+                    className="w-full px-4 py-2.5 rounded-xl bg-muted border border-[#1DA9D0]/25 text-xs text-foreground placeholder-[#1DA9D0]/50 focus:outline-none focus:border-[#1DA9D0]"
                   />
                 </div>
 
@@ -298,14 +298,14 @@ export default function ExpensesPage() {
                   <button
                     type="button"
                     onClick={() => setShowForm(false)}
-                    className="flex-1 px-4 py-2.5 rounded-xl bg-[#013D66] hover:bg-[#014775] text-[#F5EACA]/80 font-semibold text-xs border border-[#1DA9D0]/25 transition-colors"
+                    className="flex-1 px-4 py-2.5 rounded-xl bg-muted hover:bg-muted-hover text-foreground/80 font-semibold text-xs border border-[#1DA9D0]/25 transition-colors"
                   >
                     Batal
                   </button>
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="flex-1 px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] hover:opacity-95 text-[#010E1C] font-bold text-xs transition-all disabled:opacity-50"
+                    className="flex-1 px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] hover:opacity-95 text-background font-bold text-xs transition-all disabled:opacity-50"
                   >
                     {isSubmitting ? 'Menyimpan...' : 'Simpan'}
                   </button>

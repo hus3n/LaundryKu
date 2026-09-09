@@ -58,7 +58,7 @@ export default function CreateTrialModal({ isOpen, onClose, onSuccess }: CreateT
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.2 }}
-        className="fixed inset-0 z-[60] bg-[#010E1C]/80 backdrop-blur-sm"
+        className="fixed inset-0 z-[60] bg-background/80 backdrop-blur-sm"
         onClick={handleClose}
       />
       <motion.div
@@ -80,13 +80,13 @@ export default function CreateTrialModal({ isOpen, onClose, onSuccess }: CreateT
                 </span>
                 <Zap className="w-4 h-4 text-[#EA8803]" />
               </div>
-              <h3 className="text-base font-bold text-[#F5EACA]">Buat Akun Trial Admin</h3>
-              <p className="text-xs text-[#F5EACA]/60 mt-0.5">Tidak memerlukan pembayaran dimuka</p>
+              <h3 className="text-base font-bold text-foreground">Buat Akun Trial Admin</h3>
+              <p className="text-xs text-foreground/60 mt-0.5">Tidak memerlukan pembayaran dimuka</p>
             </div>
             <motion.button 
               whileTap={{ scale: 0.9 }} 
               onClick={handleClose} 
-              className="p-1.5 rounded-lg text-[#F5EACA]/60 hover:text-[#F5EACA] hover:bg-[#013D66] transition-colors"
+              className="p-1.5 rounded-lg text-foreground/60 hover:text-foreground hover:bg-muted transition-colors"
             >
               <X className="w-4 h-4" />
             </motion.button>
@@ -101,59 +101,59 @@ export default function CreateTrialModal({ isOpen, onClose, onSuccess }: CreateT
         <form onSubmit={handleSubmit} className="space-y-3">
 
           <div>
-            <label className="block text-xs font-semibold text-[#F5EACA]/80 mb-1">
+            <label className="block text-xs font-semibold text-foreground/80 mb-1">
               Nama Toko Laundry <span className="text-rose-400">*</span>
             </label>
             <input type="text" required value={storeName} onChange={(e) => setStoreName(e.target.value)}
               placeholder="Contoh: Bersih Jaya Laundry"
-              className="w-full px-3.5 py-2 rounded-xl bg-[#012040] border border-[#1DA9D0]/25 text-xs text-[#F5EACA] placeholder-[#1DA9D0]/40 focus:outline-none focus:border-[#EA8803] transition-colors"
+              className="w-full px-3.5 py-2 rounded-xl bg-surface border border-[#1DA9D0]/25 text-xs text-foreground placeholder-[#1DA9D0]/40 focus:outline-none focus:border-[#EA8803] transition-colors"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-[#F5EACA]/80 mb-1">
+            <label className="block text-xs font-semibold text-foreground/80 mb-1">
               Nama Pemilik / Admin <span className="text-rose-400">*</span>
             </label>
             <input type="text" required value={name} onChange={(e) => setName(e.target.value)}
               placeholder="Contoh: Bpk. Hendra"
-              className="w-full px-3.5 py-2 rounded-xl bg-[#012040] border border-[#1DA9D0]/25 text-xs text-[#F5EACA] placeholder-[#1DA9D0]/40 focus:outline-none focus:border-[#EA8803] transition-colors"
+              className="w-full px-3.5 py-2 rounded-xl bg-surface border border-[#1DA9D0]/25 text-xs text-foreground placeholder-[#1DA9D0]/40 focus:outline-none focus:border-[#EA8803] transition-colors"
             />
           </div>
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-semibold text-[#F5EACA]/80 mb-1">
+              <label className="block text-xs font-semibold text-foreground/80 mb-1">
                 Email Login <span className="text-rose-400">*</span>
               </label>
               <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)}
                 placeholder="hendra@laundry.com"
-                className="w-full px-3.5 py-2 rounded-xl bg-[#012040] border border-[#1DA9D0]/25 text-xs text-[#F5EACA] focus:outline-none focus:border-[#EA8803] transition-colors"
+                className="w-full px-3.5 py-2 rounded-xl bg-surface border border-[#1DA9D0]/25 text-xs text-foreground focus:outline-none focus:border-[#EA8803] transition-colors"
               />
             </div>
             <div>
-              <label className="block text-xs font-semibold text-[#F5EACA]/80 mb-1">
+              <label className="block text-xs font-semibold text-foreground/80 mb-1">
                 Password <span className="text-rose-400">*</span>
               </label>
               <input type="password" required value={password} onChange={(e) => setPassword(e.target.value)}
                 placeholder="Min. 6 karakter"
-                className="w-full px-3.5 py-2 rounded-xl bg-[#012040] border border-[#1DA9D0]/25 text-xs text-[#F5EACA] focus:outline-none focus:border-[#EA8803] transition-colors"
+                className="w-full px-3.5 py-2 rounded-xl bg-surface border border-[#1DA9D0]/25 text-xs text-foreground focus:outline-none focus:border-[#EA8803] transition-colors"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-[#F5EACA]/80 mb-1">
+            <label className="block text-xs font-semibold text-foreground/80 mb-1">
               No. WhatsApp Pemilik <span className="text-rose-400">*</span>
             </label>
             <input type="text" required value={phone} onChange={(e) => setPhone(e.target.value)}
               placeholder="081234567890"
-              className="w-full px-3.5 py-2 rounded-xl bg-[#012040] border border-[#1DA9D0]/25 text-xs text-[#F5EACA] focus:outline-none focus:border-[#EA8803] transition-colors"
+              className="w-full px-3.5 py-2 rounded-xl bg-surface border border-[#1DA9D0]/25 text-xs text-foreground focus:outline-none focus:border-[#EA8803] transition-colors"
             />
-            <p className="text-[10px] text-[#F5EACA]/50 mt-1">Digunakan untuk notifikasi WhatsApp otomatis</p>
+            <p className="text-[10px] text-foreground/50 mt-1">Digunakan untuk notifikasi WhatsApp otomatis</p>
           </div>
 
           <div>
-            <label className="flex items-center gap-1.5 text-xs font-semibold text-[#F5EACA]/80 mb-1.5">
+            <label className="flex items-center gap-1.5 text-xs font-semibold text-foreground/80 mb-1.5">
               <Clock className="w-3.5 h-3.5 text-[#EA8803]" />
               Durasi Trial <span className="text-rose-400">*</span>
             </label>
@@ -163,7 +163,7 @@ export default function CreateTrialModal({ isOpen, onClose, onSuccess }: CreateT
                   className={`py-2.5 rounded-xl border text-xs font-bold transition-all ${
                     trialDays === days
                       ? 'bg-[#EA8803]/20 border-[#EA8803]/60 text-[#EA8803]'
-                      : 'bg-[#012040] border-[#1DA9D0]/25 text-[#F5EACA]/60 hover:border-[#1DA9D0]/50'
+                      : 'bg-surface border-[#1DA9D0]/25 text-foreground/60 hover:border-[#1DA9D0]/50'
                   }`}
                 >
                   {days} Hari
@@ -180,7 +180,7 @@ export default function CreateTrialModal({ isOpen, onClose, onSuccess }: CreateT
               whileTap={{ scale: 0.95 }}
               type="button" 
               onClick={handleClose}
-              className="px-4 py-2 rounded-xl bg-[#013D66] text-[#F5EACA]/80 text-xs font-semibold hover:bg-[#014775] transition-colors"
+              className="px-4 py-2 rounded-xl bg-muted text-foreground/80 text-xs font-semibold hover:bg-muted-hover transition-colors"
             >
               Batal
             </motion.button>
@@ -188,10 +188,10 @@ export default function CreateTrialModal({ isOpen, onClose, onSuccess }: CreateT
               whileTap={{ scale: 0.95 }}
               type="submit" 
               disabled={isSubmitting}
-              className="px-5 py-2 rounded-xl bg-gradient-to-r from-[#EA8803] to-[#EA8803]/80 hover:opacity-95 text-[#010E1C] font-bold text-xs disabled:opacity-50 transition-all shadow-md shadow-[#EA8803]/20 inline-flex items-center gap-2"
+              className="px-5 py-2 rounded-xl bg-gradient-to-r from-[#EA8803] to-[#EA8803]/80 hover:opacity-95 text-background font-bold text-xs disabled:opacity-50 transition-all shadow-md shadow-[#EA8803]/20 inline-flex items-center gap-2"
             >
               {isSubmitting ? (
-                <><span className="w-3 h-3 border border-[#010E1C]/30 border-t-[#010E1C] rounded-full animate-spin" />Membuat...</>
+                <><span className="w-3 h-3 border border-background/30 border-t-[#010E1C] rounded-full animate-spin" />Membuat...</>
               ) : (
                 <><Zap className="w-3.5 h-3.5" />Buat Akun Trial</>
               )}

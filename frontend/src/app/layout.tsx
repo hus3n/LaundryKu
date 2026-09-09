@@ -2,11 +2,15 @@ import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { AuthProvider } from '@/contexts/AuthContext';
+import { ThemeProvider } from '@/components/ThemeProvider';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export const viewport: Viewport = {
-  themeColor: '#020617',
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#F5FAFF' },
+    { media: '(prefers-color-scheme: dark)', color: '#010E1C' },
+  ],
   width: 'device-width',
   initialScale: 1,
   maximumScale: 1,
@@ -86,7 +90,7 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="id" className="scroll-smooth">
+    <html lang="id" className="scroll-smooth" suppressHydrationWarning>
       <head>
         <script
           type="application/ld+json"
@@ -94,7 +98,14 @@ export default function RootLayout({
         />
       </head>
       <body className={inter.className}>
-        <AuthProvider>{children}</AuthProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="light"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <AuthProvider>{children}</AuthProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

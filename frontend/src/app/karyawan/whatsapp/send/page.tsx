@@ -38,8 +38,8 @@ export default function KaryawanSendWAMessage() {
     <DashboardLayout>
       <div className="max-w-2xl mx-auto space-y-6">
         <div>
-          <h1 className="text-2xl font-bold text-[#F5EACA]">Kirim Pesan WhatsApp</h1>
-          <p className="text-xs text-[#F5EACA]/60 mt-1">
+          <h1 className="text-2xl font-bold text-foreground">Kirim Pesan WhatsApp</h1>
+          <p className="text-xs text-foreground/60 mt-1">
             Kirim pesan informasi tambahan ke pelanggan secara manual (misal: pakaian luntur, dll).
           </p>
         </div>
@@ -48,7 +48,7 @@ export default function KaryawanSendWAMessage() {
           <form onSubmit={handleSendCustomMessage} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-[10px] font-semibold text-[#F5EACA]/60 mb-2 uppercase tracking-wider">
+                <label className="block text-[10px] font-semibold text-foreground/60 mb-2 uppercase tracking-wider">
                   Nama Pelanggan / Tujuan <span className="text-rose-400">*</span>
                 </label>
                 <input
@@ -56,12 +56,12 @@ export default function KaryawanSendWAMessage() {
                   required
                   value={customName}
                   onChange={(e) => setCustomName(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-xl bg-[#010E1C] border border-[#1DA9D0]/25 text-[#F5EACA] focus:outline-none focus:border-[#1DA9D0] text-sm"
+                  className="w-full px-4 py-2.5 rounded-xl bg-background border border-[#1DA9D0]/25 text-foreground focus:outline-none focus:border-[#1DA9D0] text-sm"
                   placeholder="Misal: Budi"
                 />
               </div>
               <div>
-                <label className="block text-[10px] font-semibold text-[#F5EACA]/60 mb-2 uppercase tracking-wider">
+                <label className="block text-[10px] font-semibold text-foreground/60 mb-2 uppercase tracking-wider">
                   Nomor Handphone (WA) <span className="text-rose-400">*</span>
                 </label>
                 <input
@@ -69,14 +69,14 @@ export default function KaryawanSendWAMessage() {
                   required
                   value={customPhone}
                   onChange={(e) => setCustomPhone(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-xl bg-[#010E1C] border border-[#1DA9D0]/25 text-[#F5EACA] focus:outline-none focus:border-[#1DA9D0] text-sm"
+                  className="w-full px-4 py-2.5 rounded-xl bg-background border border-[#1DA9D0]/25 text-foreground focus:outline-none focus:border-[#1DA9D0] text-sm"
                   placeholder="Misal: 08123456789"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-[10px] font-semibold text-[#F5EACA]/60 mb-2 uppercase tracking-wider">
+              <label className="block text-[10px] font-semibold text-foreground/60 mb-2 uppercase tracking-wider">
                 Isi Pesan <span className="text-rose-400">*</span>
               </label>
               <textarea
@@ -84,7 +84,7 @@ export default function KaryawanSendWAMessage() {
                 rows={5}
                 value={customMsg}
                 onChange={(e) => setCustomMsg(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl bg-[#010E1C] border border-[#1DA9D0]/25 text-[#F5EACA] focus:outline-none focus:border-[#1DA9D0] text-sm resize-none"
+                className="w-full px-4 py-3 rounded-xl bg-background border border-[#1DA9D0]/25 text-foreground focus:outline-none focus:border-[#1DA9D0] text-sm resize-none"
                 placeholder="Ketik pesan di sini..."
               />
             </div>
@@ -104,11 +104,11 @@ export default function KaryawanSendWAMessage() {
             <button
               type="submit"
               disabled={sendingMsg}
-              className="w-full px-4 py-3 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] hover:opacity-90 text-[#010E1C] font-bold text-sm transition-all inline-flex items-center justify-center gap-2 disabled:opacity-50"
+              className="w-full px-4 py-3 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] hover:opacity-90 text-background font-bold text-sm transition-all inline-flex items-center justify-center gap-2 disabled:opacity-50"
             >
               {sendingMsg ? (
                 <>
-                  <div className="w-4 h-4 border-2 border-[#010E1C]/30 border-t-[#010E1C] rounded-full animate-spin" />
+                  <div className="w-4 h-4 border-2 border-background/30 border-t-[#010E1C] rounded-full animate-spin" />
                   Mengirim...
                 </>
               ) : (

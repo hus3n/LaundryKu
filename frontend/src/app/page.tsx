@@ -99,10 +99,10 @@ export default function LandingPage() {
   const y3 = useTransform(scrollYProgress, [0, 1], [0, 100]);
 
   return (
-    <div className="min-h-screen bg-[#010E1C] text-[#F5EACA] selection:bg-[#1DA9D0] selection:text-[#010E1C] overflow-hidden relative">
+    <div className="min-h-screen bg-background text-foreground selection:bg-[#1DA9D0] selection:text-background overflow-hidden relative">
       {/* Background Glow Spheres (Parallax) */}
       <motion.div style={{ y: y1 }} className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-[#1DA9D0]/15 rounded-full blur-[120px] pointer-events-none" />
-      <motion.div style={{ y: y2 }} className="absolute top-1/3 right-10 w-[400px] h-[400px] bg-[#015383]/20 rounded-full blur-[100px] pointer-events-none" />
+      <motion.div style={{ y: y2 }} className="absolute top-1/3 right-10 w-[400px] h-[400px] bg-orient/20 rounded-full blur-[100px] pointer-events-none" />
       <motion.div style={{ y: y3 }} className="absolute bottom-10 left-10 w-[600px] h-[600px] bg-[#43D5CC]/10 rounded-full blur-[140px] pointer-events-none" />
 
       {/* Navbar */}
@@ -112,16 +112,16 @@ export default function LandingPage() {
       <section className="relative pt-20 pb-32 max-w-7xl mx-auto px-6">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <motion.div variants={containerVariants} initial="hidden" animate="visible" className="space-y-8">
-            <motion.div variants={itemVariants} className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#012040] border border-[#1DA9D0]/25 text-xs font-semibold text-[#43D5CC] backdrop-blur-md">
+            <motion.div variants={itemVariants} className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-surface border border-[#1DA9D0]/25 text-xs font-semibold text-[#43D5CC] backdrop-blur-md">
               <Sparkles className="w-4 h-4 text-[#43D5CC] animate-pulse" />
               Platform Pencatatan Laundry Masa Depan
             </motion.div>
 
-            <motion.h1 variants={itemVariants} className="text-[32px] sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-[#F5EACA] leading-tight sm:leading-[1.15]">
+            <motion.h1 variants={itemVariants} className="text-[32px] sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-foreground leading-tight sm:leading-[1.15]">
               Kelola Usaha Laundry Lebih <span className="bg-gradient-to-r from-[#1DA9D0] via-[#43D5CC] to-[#F5EACA] bg-clip-text text-transparent">Cepat, Rapi & Otomatis</span>
             </motion.h1>
 
-            <motion.p variants={itemVariants} className="text-sm sm:text-lg text-[#F5EACA]/60 leading-relaxed max-w-xl">
+            <motion.p variants={itemVariants} className="text-sm sm:text-lg text-foreground/60 leading-relaxed max-w-xl">
               Tinggalkan pencatatan manual di buku. LaundryKu v1.0 menghadirkan notifikasi WhatsApp otomatis ke pelanggan, grafik analitik pendapatan, dan manajemen staf dalam satu aplikasi terpadu.
             </motion.p>
 
@@ -130,7 +130,7 @@ export default function LandingPage() {
                 whileHover={{ scale: 1.02, y: -2, transition: { type: 'spring', stiffness: 400, damping: 20 } }}
                 whileTap={{ scale: 0.96 }}
                 onClick={handleRegisterClick()}
-                className="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-[#1DA9D0] via-[#015383] to-[#43D5CC] hover:opacity-95 text-[#010E1C] font-bold text-base shadow-xl shadow-[#1DA9D0]/20 flex items-center justify-center gap-3 group"
+                className="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-[#1DA9D0] via-[#015383] to-[#43D5CC] hover:opacity-95 text-background font-bold text-base shadow-xl shadow-[#1DA9D0]/20 flex items-center justify-center gap-3 group"
               >
                 Coba Gratis via WhatsApp
                 <motion.span whileHover={{ x: 4 }}><ArrowRight className="w-5 h-5" /></motion.span>
@@ -139,7 +139,7 @@ export default function LandingPage() {
                 <motion.div
                   whileHover={{ scale: 1.02, y: -2, transition: { type: 'spring', stiffness: 400, damping: 20 } }}
                   whileTap={{ scale: 0.96 }}
-                  className="w-full sm:w-auto px-8 py-4 rounded-xl bg-[#013D66] text-[#F5EACA] border border-[#1DA9D0]/25 font-semibold text-base text-center hover:bg-[#014775] transition-colors"
+                  className="w-full sm:w-auto px-8 py-4 rounded-xl bg-muted text-foreground border border-[#1DA9D0]/25 font-semibold text-base text-center hover:bg-muted-hover transition-colors"
                 >
                   Login Aplikasi
                 </motion.div>
@@ -147,17 +147,17 @@ export default function LandingPage() {
             </motion.div>
 
             <motion.div variants={itemVariants} className="pt-6 grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 border-t border-[#1DA9D0]/15 text-center sm:text-left">
-              <div className="bg-[#012040]/30 sm:bg-transparent p-4 sm:p-0 rounded-xl sm:rounded-none">
-                <div className="text-xl sm:text-2xl font-bold text-[#F5EACA]">100%</div>
-                <div className="text-xs text-[#F5EACA]/60 mt-1">Otomatisasi WA</div>
+              <div className="bg-surface/30 sm:bg-transparent p-4 sm:p-0 rounded-xl sm:rounded-none">
+                <div className="text-xl sm:text-2xl font-bold text-foreground">100%</div>
+                <div className="text-xs text-foreground/60 mt-1">Otomatisasi WA</div>
               </div>
-              <div className="bg-[#012040]/30 sm:bg-transparent p-4 sm:p-0 rounded-xl sm:rounded-none">
-                <div className="text-xl sm:text-2xl font-bold text-[#F5EACA]">3 Role</div>
-                <div className="text-xs text-[#F5EACA]/60 mt-1">SuperAdmin, Admin, Staf</div>
+              <div className="bg-surface/30 sm:bg-transparent p-4 sm:p-0 rounded-xl sm:rounded-none">
+                <div className="text-xl sm:text-2xl font-bold text-foreground">3 Role</div>
+                <div className="text-xs text-foreground/60 mt-1">SuperAdmin, Admin, Staf</div>
               </div>
-              <div className="bg-[#012040]/30 sm:bg-transparent p-4 sm:p-0 rounded-xl sm:rounded-none">
-                <div className="text-xl sm:text-2xl font-bold text-[#F5EACA]">24/7</div>
-                <div className="text-xs text-[#F5EACA]/60 mt-1">Akses Real-time</div>
+              <div className="bg-surface/30 sm:bg-transparent p-4 sm:p-0 rounded-xl sm:rounded-none">
+                <div className="text-xl sm:text-2xl font-bold text-foreground">24/7</div>
+                <div className="text-xs text-foreground/60 mt-1">Akses Real-time</div>
               </div>
             </motion.div>
           </motion.div>
@@ -181,8 +181,8 @@ export default function LandingPage() {
                       <Shirt className="w-5 h-5 text-[#43D5CC]" />
                     </div>
                     <div>
-                      <div className="text-sm font-semibold text-[#F5EACA]">Cucian #LK-2026-089</div>
-                      <p className="text-[11px] sm:text-xs text-[#F5EACA]/60">Pelanggan: Ibu Rina (0812-3456-7890)</p>
+                      <div className="text-sm font-semibold text-foreground">Cucian #LK-2026-089</div>
+                      <p className="text-[11px] sm:text-xs text-foreground/60">Pelanggan: Ibu Rina (0812-3456-7890)</p>
                     </div>
                   </div>
                   <span className="px-3 py-1 text-[10px] sm:text-xs font-semibold rounded-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 whitespace-nowrap">
@@ -190,17 +190,17 @@ export default function LandingPage() {
                   </span>
                 </div>
 
-                <div className="space-y-3 text-xs text-[#F5EACA]/80 mb-6">
+                <div className="space-y-3 text-xs text-foreground/80 mb-6">
                   <div className="flex justify-between py-1.5 border-b border-[#1DA9D0]/10">
-                    <span className="text-[#F5EACA]/60">Paket Cucian</span>
-                    <span className="font-semibold text-[#F5EACA]">Cuci Komplit Kiloan (5 kg)</span>
+                    <span className="text-foreground/60">Paket Cucian</span>
+                    <span className="font-semibold text-foreground">Cuci Komplit Kiloan (5 kg)</span>
                   </div>
                   <div className="flex justify-between py-1.5 border-b border-[#1DA9D0]/10">
-                    <span className="text-[#F5EACA]/60">Total Harga</span>
+                    <span className="text-foreground/60">Total Harga</span>
                     <span className="font-bold text-[#43D5CC] text-sm">Rp 35.000 (Lunas)</span>
                   </div>
                   <div className="flex justify-between py-1.5">
-                    <span className="text-[#F5EACA]/60">Notifikasi WA</span>
+                    <span className="text-foreground/60">Notifikasi WA</span>
                     <span className="text-emerald-400 flex items-center gap-1">
                       <CheckCircle2 className="w-3.5 h-3.5" /> Terkirim Otomatis
                     </span>
@@ -228,7 +228,7 @@ export default function LandingPage() {
       {/* Features Section */}
       <motion.section 
         id="fitur" 
-        className="py-16 sm:py-24 bg-[#010E1C]/60 border-t border-[#1DA9D0]/15 relative"
+        className="py-16 sm:py-24 bg-background/60 border-t border-[#1DA9D0]/15 relative"
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.2 }}
@@ -236,8 +236,8 @@ export default function LandingPage() {
       >
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center max-w-2xl mx-auto mb-16 space-y-4">
-            <h2 className="text-3xl font-bold text-[#F5EACA]">Fitur Lengkap untuk Skala Usaha Laundry</h2>
-            <p className="text-[#F5EACA]/60 text-sm">Dirancang khusus menjawab kebutuhan operasional harian pemilik laundry dan staf kasir.</p>
+            <h2 className="text-3xl font-bold text-foreground">Fitur Lengkap untuk Skala Usaha Laundry</h2>
+            <p className="text-foreground/60 text-sm">Dirancang khusus menjawab kebutuhan operasional harian pemilik laundry dan staf kasir.</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -249,8 +249,8 @@ export default function LandingPage() {
               <div className="w-12 h-12 rounded-xl bg-[#1DA9D0]/20 border border-[#1DA9D0]/30 flex items-center justify-center text-[#43D5CC] mb-6">
                 <MessageSquare className="w-6 h-6" />
               </div>
-              <h3 className="text-lg font-bold text-[#F5EACA] mb-2">WhatsApp Auto-Notification</h3>
-              <p className="text-[#F5EACA]/60 text-sm leading-relaxed">
+              <h3 className="text-lg font-bold text-foreground mb-2">WhatsApp Auto-Notification</h3>
+              <p className="text-foreground/60 text-sm leading-relaxed">
                 Pelanggan menerima notifikasi otomatis saat cucian diterima, sedang diproses, hingga siap diambil tanpa perlu kirim manual.
               </p>
             </motion.div>
@@ -263,8 +263,8 @@ export default function LandingPage() {
               <div className="w-12 h-12 rounded-xl bg-[#1DA9D0]/20 border border-[#1DA9D0]/30 flex items-center justify-center text-[#43D5CC] mb-6">
                 <TrendingUp className="w-6 h-6" />
               </div>
-              <h3 className="text-lg font-bold text-[#F5EACA] mb-2">Analitik & Grafik Pendapatan</h3>
-              <p className="text-[#F5EACA]/60 text-sm leading-relaxed">
+              <h3 className="text-lg font-bold text-foreground mb-2">Analitik & Grafik Pendapatan</h3>
+              <p className="text-foreground/60 text-sm leading-relaxed">
                 Grafik visual harian, bulanan, dan tahunan serta laporan paket terlaris untuk memantau perkembangan finansial toko.
               </p>
             </motion.div>
@@ -277,8 +277,8 @@ export default function LandingPage() {
               <div className="w-12 h-12 rounded-xl bg-[#1DA9D0]/20 border border-[#1DA9D0]/30 flex items-center justify-center text-[#43D5CC] mb-6">
                 <Users className="w-6 h-6" />
               </div>
-              <h3 className="text-lg font-bold text-[#F5EACA] mb-2">Manajemen 3 Multi-Role</h3>
-              <p className="text-[#F5EACA]/60 text-sm leading-relaxed">
+              <h3 className="text-lg font-bold text-foreground mb-2">Manajemen 3 Multi-Role</h3>
+              <p className="text-foreground/60 text-sm leading-relaxed">
                 Hak akses terpisah antara SuperAdmin (pengelola platform), Admin (pemilik toko), dan Staf/Karyawan (pencatatan harian).
               </p>
             </motion.div>
@@ -291,8 +291,8 @@ export default function LandingPage() {
               <div className="w-12 h-12 rounded-xl bg-[#1DA9D0]/20 border border-[#1DA9D0]/30 flex items-center justify-center text-[#43D5CC] mb-6">
                 <Shirt className="w-6 h-6" />
               </div>
-              <h3 className="text-lg font-bold text-[#F5EACA] mb-2">Kelola Paket & Kategori</h3>
-              <p className="text-[#F5EACA]/60 text-sm leading-relaxed">
+              <h3 className="text-lg font-bold text-foreground mb-2">Kelola Paket & Kategori</h3>
+              <p className="text-foreground/60 text-sm leading-relaxed">
                 Bebas atur paket kiloan, satuan, bed cover, karpet lengkap dengan harga dan estimasi jam pengerjaan.
               </p>
             </motion.div>
@@ -305,8 +305,8 @@ export default function LandingPage() {
               <div className="w-12 h-12 rounded-xl bg-[#EA8803]/20 border border-[#EA8803]/30 flex items-center justify-center text-[#EA8803] mb-6">
                 <Clock className="w-6 h-6" />
               </div>
-              <h3 className="text-lg font-bold text-[#F5EACA] mb-2">Monitoring Masa Aktif Toko</h3>
-              <p className="text-[#F5EACA]/60 text-sm leading-relaxed">
+              <h3 className="text-lg font-bold text-foreground mb-2">Monitoring Masa Aktif Toko</h3>
+              <p className="text-foreground/60 text-sm leading-relaxed">
                 SuperAdmin menerima reminder otomatis via WhatsApp sebelum masa aktif langganan toko berakhir.
               </p>
             </motion.div>
@@ -319,8 +319,8 @@ export default function LandingPage() {
               <div className="w-12 h-12 rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400 mb-6">
                 <ShieldCheck className="w-6 h-6" />
               </div>
-              <h3 className="text-lg font-bold text-[#F5EACA] mb-2">Aman & Terisolasi</h3>
-              <p className="text-[#F5EACA]/60 text-sm leading-relaxed">
+              <h3 className="text-lg font-bold text-foreground mb-2">Aman & Terisolasi</h3>
+              <p className="text-foreground/60 text-sm leading-relaxed">
                 Menggunakan database PostgreSQL terstruktur, MongoDB untuk storage WhatsApp, dan Redis caching super cepat.
               </p>
             </motion.div>
@@ -342,8 +342,8 @@ export default function LandingPage() {
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#1DA9D0]/10 border border-[#1DA9D0]/20 text-xs font-semibold text-[#43D5CC]">
               ⚡ Sederhana & Efisien
             </div>
-            <h2 className="text-3xl font-bold text-[#F5EACA]">4 Langkah Mudah Cara Kerja LaundryKu</h2>
-            <p className="text-[#F5EACA]/60 text-sm">Alur operasional yang dirancang agar kasir dan karyawan dapat memproses orderan dalam hitungan detik.</p>
+            <h2 className="text-3xl font-bold text-foreground">4 Langkah Mudah Cara Kerja LaundryKu</h2>
+            <p className="text-foreground/60 text-sm">Alur operasional yang dirancang agar kasir dan karyawan dapat memproses orderan dalam hitungan detik.</p>
           </div>
 
           <div className="grid md:grid-cols-4 gap-6 relative">
@@ -356,8 +356,8 @@ export default function LandingPage() {
               <div className="w-10 h-10 rounded-xl bg-[#1DA9D0]/20 text-[#43D5CC] font-bold flex items-center justify-center text-base border border-[#1DA9D0]/30">
                 1
               </div>
-              <h3 className="font-bold text-[#F5EACA] text-base">Terima & Input Order</h3>
-              <p className="text-[#F5EACA]/60 text-xs leading-relaxed">
+              <h3 className="font-bold text-foreground text-base">Terima & Input Order</h3>
+              <p className="text-foreground/60 text-xs leading-relaxed">
                 Staf memasukkan nama pelanggan, memilih paket kiloan/satuan, dan menimbang berat pakaian.
               </p>
             </motion.div>
@@ -371,8 +371,8 @@ export default function LandingPage() {
               <div className="w-10 h-10 rounded-xl bg-[#1DA9D0]/20 text-[#43D5CC] font-bold flex items-center justify-center text-base border border-[#1DA9D0]/30">
                 2
               </div>
-              <h3 className="font-bold text-[#F5EACA] text-base">Proses Pencucian</h3>
-              <p className="text-[#F5EACA]/60 text-xs leading-relaxed">
+              <h3 className="font-bold text-foreground text-base">Proses Pencucian</h3>
+              <p className="text-foreground/60 text-xs leading-relaxed">
                 Pakaian diproses (Cuci, Kering, Setrika). Status order diperbarui dari *PENDING* ke *DIPROSES*.
               </p>
             </motion.div>
@@ -386,8 +386,8 @@ export default function LandingPage() {
               <div className="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 font-bold flex items-center justify-center text-base border border-emerald-500/30">
                 3
               </div>
-              <h3 className="font-bold text-[#F5EACA] text-base">Notifikasi WA Otomatis</h3>
-              <p className="text-[#F5EACA]/60 text-xs leading-relaxed">
+              <h3 className="font-bold text-foreground text-base">Notifikasi WA Otomatis</h3>
+              <p className="text-foreground/60 text-xs leading-relaxed">
                 Saat status diubah ke *SELESAI*, sistem langsung mengirimkan pesan WhatsApp otomatis ke pelanggan.
               </p>
             </motion.div>
@@ -398,11 +398,11 @@ export default function LandingPage() {
               transition={{ type: 'spring', stiffness: 200, damping: 20 }}
               className="glass-card-dark p-6 rounded-2xl border border-[#1DA9D0]/15 relative space-y-4"
             >
-              <div className="w-10 h-10 rounded-xl bg-[#015383]/20 text-[#43D5CC] font-bold flex items-center justify-center text-base border border-[#015383]/30">
+              <div className="w-10 h-10 rounded-xl bg-orient/20 text-[#43D5CC] font-bold flex items-center justify-center text-base border border-[#015383]/30">
                 4
               </div>
-              <h3 className="font-bold text-[#F5EACA] text-base">Ambil & Cetak Nota</h3>
-              <p className="text-[#F5EACA]/60 text-xs leading-relaxed">
+              <h3 className="font-bold text-foreground text-base">Ambil & Cetak Nota</h3>
+              <p className="text-foreground/60 text-xs leading-relaxed">
                 Pelanggan mengambil cucian, melakukan pembayaran, dan staf dapat mencetak struk kasir thermal/PDF.
               </p>
             </motion.div>
@@ -413,7 +413,7 @@ export default function LandingPage() {
       {/* Keunggulan Section */}
       <motion.section 
         id="keunggulan" 
-        className="py-16 sm:py-24 bg-[#010E1C]/60 border-t border-[#1DA9D0]/15 relative"
+        className="py-16 sm:py-24 bg-background/60 border-t border-[#1DA9D0]/15 relative"
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.2 }}
@@ -426,11 +426,11 @@ export default function LandingPage() {
                 🏆 Mengapa Memilih LaundryKu?
               </div>
 
-              <h2 className="text-3xl sm:text-4xl font-extrabold text-[#F5EACA] leading-tight">
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-foreground leading-tight">
                 Solusi Terbaik Dibanding Pencatatan Manual / Buku Nota
               </h2>
 
-              <p className="text-[#F5EACA]/60 text-sm leading-relaxed">
+              <p className="text-foreground/60 text-sm leading-relaxed">
                 Dengan LaundryKu, Anda tidak perlu lagi khawatir nota hilang, lupa menagih pembayaran, atau lelah mengirim pesan manual satu per satu ke ratusan pelanggan.
               </p>
 
@@ -440,8 +440,8 @@ export default function LandingPage() {
                     <Check className="w-3.5 h-3.5" />
                   </div>
                   <div>
-                    <h3 className="text-sm font-semibold text-[#F5EACA]">Hemat Waktu 80% Operasional Kasir</h3>
-                    <p className="text-xs text-[#F5EACA]/60 mt-0.5">Input orderan cukup 3 klik, notifikasi terkirim sendiri secara otomatis.</p>
+                    <h3 className="text-sm font-semibold text-foreground">Hemat Waktu 80% Operasional Kasir</h3>
+                    <p className="text-xs text-foreground/60 mt-0.5">Input orderan cukup 3 klik, notifikasi terkirim sendiri secara otomatis.</p>
                   </div>
                 </div>
 
@@ -450,8 +450,8 @@ export default function LandingPage() {
                     <Check className="w-3.5 h-3.5" />
                   </div>
                   <div>
-                    <h3 className="text-sm font-semibold text-[#F5EACA]">Bebas Biaya Per Pesan WA</h3>
-                    <p className="text-xs text-[#F5EACA]/60 mt-0.5">Menggunakan gateway WhatsApp toko sendiri tanpa biaya kredit per pesan SMS/WA.</p>
+                    <h3 className="text-sm font-semibold text-foreground">Bebas Biaya Per Pesan WA</h3>
+                    <p className="text-xs text-foreground/60 mt-0.5">Menggunakan gateway WhatsApp toko sendiri tanpa biaya kredit per pesan SMS/WA.</p>
                   </div>
                 </div>
 
@@ -460,8 +460,8 @@ export default function LandingPage() {
                     <Check className="w-3.5 h-3.5" />
                   </div>
                   <div>
-                    <h3 className="text-sm font-semibold text-[#F5EACA]">Data Tersimpan Aman & Auto-Backup</h3>
-                    <p className="text-xs text-[#F5EACA]/60 mt-0.5">Terintegrasi dengan Telegram Backup untuk mencegah kehilangan data omset.</p>
+                    <h3 className="text-sm font-semibold text-foreground">Data Tersimpan Aman & Auto-Backup</h3>
+                    <p className="text-xs text-foreground/60 mt-0.5">Terintegrasi dengan Telegram Backup untuk mencegah kehilangan data omset.</p>
                   </div>
                 </div>
               </div>
@@ -473,17 +473,17 @@ export default function LandingPage() {
               transition={{ type: 'spring', stiffness: 200, damping: 20 }}
               className="glass-card-dark p-6 sm:p-8 rounded-3xl border border-[#1DA9D0]/15 space-y-6"
             >
-              <h3 className="text-lg font-bold text-[#F5EACA] flex items-center gap-2">
+              <h3 className="text-lg font-bold text-foreground flex items-center gap-2">
                 <Layers className="w-5 h-5 text-[#43D5CC]" /> Perbandingan Sistem
               </h3>
 
               <div className="space-y-3 text-xs">
-                <div className="p-3.5 rounded-xl bg-[#012040] border border-[#1DA9D0]/15 flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-0">
-                  <span className="text-[#F5EACA]/80 font-medium">Buku Nota Manual</span>
+                <div className="p-3.5 rounded-xl bg-surface border border-[#1DA9D0]/15 flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-0">
+                  <span className="text-foreground/80 font-medium">Buku Nota Manual</span>
                   <span className="text-rose-400 font-semibold">Mudah Hilang & Kertas Rusak</span>
                 </div>
-                <div className="p-3.5 rounded-xl bg-[#012040] border border-[#1DA9D0]/15 flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-0">
-                  <span className="text-[#F5EACA]/80 font-medium">Kirim WA Manual</span>
+                <div className="p-3.5 rounded-xl bg-surface border border-[#1DA9D0]/15 flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-0">
+                  <span className="text-foreground/80 font-medium">Kirim WA Manual</span>
                   <span className="text-[#EA8803] font-semibold">Menyita Waktu & Sering Lupa</span>
                 </div>
                 <div className="p-3.5 rounded-xl bg-emerald-950/40 border border-emerald-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-0 text-emerald-300 font-bold">
@@ -505,8 +505,8 @@ export default function LandingPage() {
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#1DA9D0]/10 border border-[#1DA9D0]/20 text-xs font-semibold text-[#43D5CC]">
               💎 Paket Harga Terjangkau
             </div>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#F5EACA]">Investasi Usaha Laundry yang Sangat Ekonomis</h2>
-            <p className="text-[#F5EACA]/60 text-sm">Pilih paket langganan yang paling sesuai dengan kebutuhan skala usaha Anda.</p>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-foreground">Investasi Usaha Laundry yang Sangat Ekonomis</h2>
+            <p className="text-foreground/60 text-sm">Pilih paket langganan yang paling sesuai dengan kebutuhan skala usaha Anda.</p>
           </div>
 
           <motion.div 
@@ -529,7 +529,7 @@ export default function LandingPage() {
                 }`}
               >
                 {plan.isPopular && (
-                  <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] text-[#010E1C] text-[11px] font-bold shadow-lg shadow-[#1DA9D0]/30 uppercase tracking-wider flex items-center gap-1.5">
+                  <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] text-background text-[11px] font-bold shadow-lg shadow-[#1DA9D0]/30 uppercase tracking-wider flex items-center gap-1.5">
                     <Star className="w-3.5 h-3.5 fill-[#010E1C]" />
                     {plan.badgeText}
                   </div>
@@ -537,19 +537,19 @@ export default function LandingPage() {
 
                 <div className="space-y-6">
                   <div>
-                    <h3 className="text-lg font-bold text-[#F5EACA]">{plan.name}</h3>
-                    <p className="text-[#F5EACA]/60 text-xs mt-1 leading-relaxed">{plan.description}</p>
+                    <h3 className="text-lg font-bold text-foreground">{plan.name}</h3>
+                    <p className="text-foreground/60 text-xs mt-1 leading-relaxed">{plan.description}</p>
                   </div>
 
                   <div className="flex items-baseline gap-1 pt-2 border-t border-[#1DA9D0]/15">
-                    <span className="text-3xl font-extrabold text-[#F5EACA]">{plan.price}</span>
-                    <span className="text-xs text-[#F5EACA]/60 font-medium">{plan.period}</span>
+                    <span className="text-3xl font-extrabold text-foreground">{plan.price}</span>
+                    <span className="text-xs text-foreground/60 font-medium">{plan.period}</span>
                   </div>
 
                   <div className="space-y-3 pt-2">
-                    <p className="text-xs font-semibold text-[#F5EACA]/80 uppercase tracking-wider">Fasilitas Termasuk:</p>
+                    <p className="text-xs font-semibold text-foreground/80 uppercase tracking-wider">Fasilitas Termasuk:</p>
                     {plan.features.map((feat, idx) => (
-                      <div key={idx} className="flex items-start gap-2.5 text-xs text-[#F5EACA]/80">
+                      <div key={idx} className="flex items-start gap-2.5 text-xs text-foreground/80">
                         <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
                         <span>{feat}</span>
                       </div>
@@ -564,8 +564,8 @@ export default function LandingPage() {
                     onClick={handleRegisterClick(plan.name)}
                     className={`w-full py-3.5 rounded-xl font-bold text-xs transition-all shadow-lg flex items-center justify-center gap-2 group ${
                       plan.isPopular
-                        ? 'bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] text-[#010E1C] shadow-[#1DA9D0]/25'
-                        : 'bg-[#013D66] text-[#F5EACA] border border-[#1DA9D0]/25 hover:bg-[#014775]'
+                        ? 'bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] text-background shadow-[#1DA9D0]/25'
+                        : 'bg-muted text-foreground border border-[#1DA9D0]/25 hover:bg-muted-hover'
                     }`}
                   >
                     Pilih {plan.name}
@@ -589,17 +589,17 @@ export default function LandingPage() {
         <div className="max-w-5xl mx-auto px-6">
           <div className="glass-card-dark p-8 sm:p-12 rounded-3xl border border-[#1DA9D0]/30 text-center relative overflow-hidden bg-gradient-to-br from-[#012040] via-[#012040] to-[#013D66]">
             <div className="absolute top-0 right-0 w-64 h-64 bg-[#1DA9D0]/20 rounded-full blur-[80px] pointer-events-none" />
-            <h2 className="text-2xl sm:text-4xl font-extrabold text-[#F5EACA] mb-4">
+            <h2 className="text-2xl sm:text-4xl font-extrabold text-foreground mb-4">
               Siap Modernisasi Toko Laundry Anda?
             </h2>
-            <p className="text-sm sm:text-base text-[#F5EACA]/80 max-w-xl mx-auto mb-8">
+            <p className="text-sm sm:text-base text-foreground/80 max-w-xl mx-auto mb-8">
               Hubungi SuperAdmin via WhatsApp di <strong className="text-[#43D5CC]">+62 852-2992-5593</strong> untuk mendaftarkan toko Anda dan langsung mulai gunakan LaundryKu v1.0 hari ini.
             </p>
             <motion.button
               whileHover={{ scale: 1.04, transition: { type: 'spring', stiffness: 400, damping: 15 } }}
               whileTap={{ scale: 0.96 }}
               onClick={handleRegisterClick()}
-              className="px-8 py-4 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] hover:opacity-95 text-[#010E1C] font-bold text-base shadow-xl shadow-[#1DA9D0]/30 inline-flex items-center gap-3 group"
+              className="px-8 py-4 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] hover:opacity-95 text-background font-bold text-base shadow-xl shadow-[#1DA9D0]/30 inline-flex items-center gap-3 group"
             >
               Hubungi SuperAdmin di WhatsApp (085229925593)
               <motion.span whileHover={{ x: 4 }}><ArrowRight className="w-5 h-5" /></motion.span>

@@ -32,7 +32,7 @@ export default function BrandLogo({
   if (storeLogo && !imageError) {
     return (
       <div className={`flex items-center gap-3 ${className}`}>
-        <div className="relative overflow-hidden rounded-xl bg-[#013D66] border border-[#1DA9D0]/25 shadow-md p-0.5 flex items-center justify-center shrink-0 w-10 h-10">
+        <div className="relative overflow-hidden rounded-xl bg-muted border border-[#1DA9D0]/25 shadow-md p-0.5 flex items-center justify-center shrink-0 w-10 h-10">
           <img
             src={getFullApiUrl(storeLogo)}
             alt={storeName || 'Logo Toko'}
@@ -42,7 +42,7 @@ export default function BrandLogo({
         </div>
         {variant !== 'icon' && (
           <div className="flex flex-col min-w-0">
-            <span className="font-bold text-[#F5EACA] text-base tracking-tight truncate">
+            <span className="font-bold text-foreground text-base tracking-tight truncate">
               {storeName || 'LaundryKu'}
             </span>
             {showSubtitle && (
@@ -86,7 +86,7 @@ export default function BrandLogo({
       </div>
       <div className="flex flex-col min-w-0">
         <div className="flex items-center gap-1.5">
-          <span className="font-extrabold text-[#F5EACA] tracking-tight text-base">
+          <span className="font-extrabold text-foreground tracking-tight text-base">
             Laundry<span className="bg-gradient-to-r from-[#43D5CC] to-[#1DA9D0] bg-clip-text text-transparent">Ku</span>
           </span>
           <span className="text-[9px] px-1.5 py-0.5 rounded font-bold bg-[#1DA9D0]/20 text-[#43D5CC] border border-[#1DA9D0]/30">

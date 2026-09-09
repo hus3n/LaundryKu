@@ -9,6 +9,12 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        background: 'rgb(var(--background) / <alpha-value>)',
+        foreground: 'rgb(var(--foreground) / <alpha-value>)',
+        surface: 'rgb(var(--surface) / <alpha-value>)',
+        'surface-deep': 'rgb(var(--surface-deep) / <alpha-value>)',
+        muted: 'rgb(var(--muted) / <alpha-value>)',
+        'muted-hover': 'rgb(var(--muted-hover) / <alpha-value>)',
         brand: {
           50: '#e8f9fd',
           100: '#c4f0f8',

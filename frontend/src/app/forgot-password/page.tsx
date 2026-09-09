@@ -28,21 +28,21 @@ export default function ForgotPasswordPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#010E1C] text-[#F5EACA] flex items-center justify-center p-6 relative overflow-hidden">
+    <div className="min-h-screen bg-background text-foreground flex items-center justify-center p-6 relative overflow-hidden">
       <div className="absolute -top-32 -left-32 w-96 h-96 bg-[#1DA9D0]/15 rounded-full blur-[100px] pointer-events-none" />
 
       <div className="w-full max-w-md relative z-10">
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center gap-3">
             <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#1DA9D0] to-[#43D5CC] flex items-center justify-center shadow-lg shadow-[#1DA9D0]/30">
-              <Shirt className="w-7 h-7 text-[#010E1C]" />
+              <Shirt className="w-7 h-7 text-background" />
             </div>
             <span className="text-2xl font-bold bg-gradient-to-r from-[#F5EACA] via-[#F5EACA]/90 to-[#43D5CC] bg-clip-text text-transparent">
               LaundryKu
             </span>
           </Link>
-          <h1 className="text-xl font-bold text-[#F5EACA] mt-6">Reset Password Akun</h1>
-          <p className="text-xs text-[#F5EACA]/60 mt-1">Masukkan email terdaftar untuk menerima link instruksi</p>
+          <h1 className="text-xl font-bold text-foreground mt-6">Reset Password Akun</h1>
+          <p className="text-xs text-foreground/60 mt-1">Masukkan email terdaftar untuk menerima link instruksi</p>
         </div>
 
         <div className="glass-card-dark p-8 rounded-3xl border border-[#1DA9D0]/15 shadow-2xl backdrop-blur-2xl">
@@ -51,8 +51,8 @@ export default function ForgotPasswordPage() {
               <div className="w-14 h-14 rounded-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 flex items-center justify-center mx-auto">
                 <CheckCircle2 className="w-8 h-8" />
               </div>
-              <h3 className="text-lg font-bold text-[#F5EACA]">Instruksi Terkirim</h3>
-              <p className="text-xs text-[#F5EACA]/80 leading-relaxed">
+              <h3 className="text-lg font-bold text-foreground">Instruksi Terkirim</h3>
+              <p className="text-xs text-foreground/80 leading-relaxed">
                 Jika email <span className="text-[#43D5CC] font-semibold">{email}</span> terdaftar di LaundryKu, link reset password telah dikirimkan ke inbox Anda.
               </p>
               <div className="pt-4">
@@ -75,7 +75,7 @@ export default function ForgotPasswordPage() {
               )}
 
               <div>
-                <label className="block text-xs font-semibold text-[#F5EACA]/80 mb-2">
+                <label className="block text-xs font-semibold text-foreground/80 mb-2">
                   Alamat Email Akun
                 </label>
                 <div className="relative">
@@ -86,7 +86,7 @@ export default function ForgotPasswordPage() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="nama@laundryku.com"
-                    className="w-full pl-10 pr-4 py-3 rounded-xl bg-[#012040] border border-[#1DA9D0]/25 text-sm text-[#F5EACA] placeholder-[#1DA9D0]/40 focus:outline-none focus:border-[#1DA9D0] focus:ring-2 focus:ring-[#1DA9D0]/20 transition-all"
+                    className="w-full pl-10 pr-4 py-3 rounded-xl bg-surface border border-[#1DA9D0]/25 text-sm text-foreground placeholder-[#1DA9D0]/40 focus:outline-none focus:border-[#1DA9D0] focus:ring-2 focus:ring-[#1DA9D0]/20 transition-all"
                   />
                 </div>
               </div>
@@ -94,10 +94,10 @@ export default function ForgotPasswordPage() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full py-3.5 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] hover:opacity-95 text-[#010E1C] font-bold text-sm shadow-lg shadow-[#1DA9D0]/25 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+                className="w-full py-3.5 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] hover:opacity-95 text-background font-bold text-sm shadow-lg shadow-[#1DA9D0]/25 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
               >
                 {isSubmitting ? (
-                  <div className="w-5 h-5 border-2 border-[#010E1C]/30 border-t-[#010E1C] rounded-full animate-spin" />
+                  <div className="w-5 h-5 border-2 border-background/30 border-t-[#010E1C] rounded-full animate-spin" />
                 ) : (
                   <>
                     Kirim Link Reset
@@ -109,7 +109,7 @@ export default function ForgotPasswordPage() {
               <div className="pt-2 text-center">
                 <Link
                   href="/login"
-                  className="inline-flex items-center gap-2 text-xs font-medium text-[#F5EACA]/60 hover:text-[#F5EACA]"
+                  className="inline-flex items-center gap-2 text-xs font-medium text-foreground/60 hover:text-foreground"
                 >
                   <ArrowLeft className="w-3.5 h-3.5" />
                   Batal, kembali ke Login

@@ -14,12 +14,12 @@ export function getOrderStatusLabel(status: OrderStatus): string {
 // Tailwind className untuk badge status cucian
 export function getOrderStatusBadgeClass(status: OrderStatus): string {
   const classes: Record<OrderStatus, string> = {
-    RECEIVED: 'bg-[#013D66] text-[#F5EACA]/80 border-[#1DA9D0]/25',
+    RECEIVED: 'bg-muted text-foreground/80 border-[#1DA9D0]/25',
     IN_PROGRESS: 'bg-[#EA8803]/20 text-[#EA8803] border-[#EA8803]/30',
     DONE: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30',
     PICKED_UP: 'bg-[#1DA9D0]/20 text-[#43D5CC] border-[#1DA9D0]/30',
   };
-  return classes[status] ?? 'bg-[#013D66] text-[#F5EACA]/80 border-[#1DA9D0]/25';
+  return classes[status] ?? 'bg-muted text-foreground/80 border-[#1DA9D0]/25';
 }
 
 // Label teks untuk status pembayaran

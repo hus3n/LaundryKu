@@ -79,8 +79,8 @@ function LoginForm() {
             </span>
           </span>
         </Link>
-        <h1 className="text-xl font-bold text-[#F5EACA] mt-6">Masuk ke Akun Anda</h1>
-        <p className="text-xs text-[#F5EACA]/60 mt-1">SuperAdmin, Owner (Admin), atau Staf Karyawan</p>
+        <h1 className="text-xl font-bold text-foreground mt-6">Masuk ke Akun Anda</h1>
+        <p className="text-xs text-foreground/60 mt-1">SuperAdmin, Owner (Admin), atau Staf Karyawan</p>
       </motion.div>
 
       {/* Card Form */}
@@ -122,7 +122,7 @@ function LoginForm() {
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label className="block text-xs font-semibold text-[#F5EACA]/80 mb-2">
+            <label className="block text-xs font-semibold text-foreground/80 mb-2">
               Alamat Email
             </label>
             <div className="relative">
@@ -135,14 +135,14 @@ function LoginForm() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="nama@laundryku.com"
-                className="w-full pl-10 pr-4 py-3 rounded-xl bg-[#012040] border border-[#1DA9D0]/25 text-sm text-[#F5EACA] placeholder-[#1DA9D0]/40 focus:outline-none focus:border-[#1DA9D0] focus:ring-2 focus:ring-[#1DA9D0]/20 transition-all"
+                className="w-full pl-10 pr-4 py-3 rounded-xl bg-surface border border-[#1DA9D0]/25 text-sm text-foreground placeholder-[#1DA9D0]/40 focus:outline-none focus:border-[#1DA9D0] focus:ring-2 focus:ring-[#1DA9D0]/20 transition-all"
               />
             </div>
           </div>
 
           <div>
             <div className="flex items-center justify-between mb-2">
-              <label className="block text-xs font-semibold text-[#F5EACA]/80">
+              <label className="block text-xs font-semibold text-foreground/80">
                 Password
               </label>
               <Link
@@ -162,7 +162,7 @@ function LoginForm() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full pl-10 pr-4 py-3 rounded-xl bg-[#012040] border border-[#1DA9D0]/25 text-sm text-[#F5EACA] placeholder-[#1DA9D0]/40 focus:outline-none focus:border-[#1DA9D0] focus:ring-2 focus:ring-[#1DA9D0]/20 transition-all"
+                className="w-full pl-10 pr-4 py-3 rounded-xl bg-surface border border-[#1DA9D0]/25 text-sm text-foreground placeholder-[#1DA9D0]/40 focus:outline-none focus:border-[#1DA9D0] focus:ring-2 focus:ring-[#1DA9D0]/20 transition-all"
               />
             </div>
           </div>
@@ -173,10 +173,10 @@ function LoginForm() {
             whileTap={{ scale: 0.97 }}
             whileHover={{ scale: 1.02, transition: { type: 'spring', stiffness: 400, damping: 15 } }}
             transition={{ type: 'spring', stiffness: 200, damping: 20 }}
-            className="w-full py-3.5 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] text-[#010E1C] font-bold text-sm shadow-lg shadow-[#1DA9D0]/25 flex items-center justify-center gap-2 disabled:opacity-50"
+            className="w-full py-3.5 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] text-background font-bold text-sm shadow-lg shadow-[#1DA9D0]/25 flex items-center justify-center gap-2 disabled:opacity-50"
           >
             {isSubmitting ? (
-              <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 0.8, ease: 'linear' }} className="w-5 h-5 border-2 border-[#010E1C]/30 border-t-[#010E1C] rounded-full" />
+              <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 0.8, ease: 'linear' }} className="w-5 h-5 border-2 border-background/30 border-t-[#010E1C] rounded-full" />
             ) : (
               <>
                 Masuk Sekarang
@@ -187,7 +187,7 @@ function LoginForm() {
         </form>
 
         <div className="mt-8 pt-6 border-t border-[#1DA9D0]/15 text-center">
-          <p className="text-xs text-[#F5EACA]/60">
+          <p className="text-xs text-foreground/60">
             Belum punya akun laundry toko?{' '}
             <a
               href="https://wa.me/?text=Halo%20SuperAdmin%20LaundryKu,%20saya%20ingin%20mendaftar%20akun%20Admin"
@@ -206,12 +206,12 @@ function LoginForm() {
 
 export default function LoginPage() {
   return (
-    <div className="min-h-screen bg-[#010E1C] text-[#F5EACA] flex items-center justify-center p-6 relative overflow-hidden">
+    <div className="min-h-screen bg-background text-foreground flex items-center justify-center p-6 relative overflow-hidden">
       {/* Background Orbs */}
       <div className="absolute -top-32 -left-32 w-96 h-96 bg-[#1DA9D0]/15 rounded-full blur-[100px] pointer-events-none" />
-      <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-[#015383]/20 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-orient/20 rounded-full blur-[100px] pointer-events-none" />
 
-      <Suspense fallback={<div className="text-xs text-[#F5EACA]/60">Memuat halaman login...</div>}>
+      <Suspense fallback={<div className="text-xs text-foreground/60">Memuat halaman login...</div>}>
         <LoginForm />
       </Suspense>
     </div>

@@ -169,21 +169,21 @@ export default function GlobalLaundryListPage() {
       <div className="space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-bold text-[#F5EACA]">Data Cucian Global</h1>
-            <p className="text-xs text-[#F5EACA]/60 mt-1">Daftar seluruh transaksi cucian toko, update status pengerjaan, dan cetak nota</p>
+            <h1 className="text-2xl font-bold text-foreground">Data Cucian Global</h1>
+            <p className="text-xs text-foreground/60 mt-1">Daftar seluruh transaksi cucian toko, update status pengerjaan, dan cetak nota</p>
           </div>
           <div className="flex items-center gap-3">
             <button
               onClick={handleExport}
               disabled={isExporting}
-              className="px-4 py-2.5 rounded-xl bg-[#013D66] hover:bg-[#014775] text-[#F5EACA]/80 font-semibold text-xs border border-[#1DA9D0]/25 transition-colors inline-flex items-center gap-2 disabled:opacity-50"
+              className="px-4 py-2.5 rounded-xl bg-muted hover:bg-muted-hover text-foreground/80 font-semibold text-xs border border-[#1DA9D0]/25 transition-colors inline-flex items-center gap-2 disabled:opacity-50"
             >
               <Download className="w-4 h-4 text-[#43D5CC]" />
               {isExporting ? 'Mengekspor...' : 'Export CSV'}
             </button>
             <Link
               href="/admin/laundry/new"
-              className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] hover:opacity-95 text-[#010E1C] font-bold text-xs shadow-lg shadow-[#1DA9D0]/20 transition-all inline-flex items-center gap-2"
+              className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] hover:opacity-95 text-background font-bold text-xs shadow-lg shadow-[#1DA9D0]/20 transition-all inline-flex items-center gap-2"
             >
               <PlusCircle className="w-4 h-4" />
               Catat Cucian Baru
@@ -200,7 +200,7 @@ export default function GlobalLaundryListPage() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Cari nota, pelanggan, no WA..."
-              className="w-full pl-10 pr-4 py-2 rounded-xl bg-[#012040] border border-[#1DA9D0]/25 text-xs text-[#F5EACA] placeholder-[#1DA9D0]/50 focus:outline-none focus:border-[#1DA9D0]"
+              className="w-full pl-10 pr-4 py-2 rounded-xl bg-surface border border-[#1DA9D0]/25 text-xs text-foreground placeholder-[#1DA9D0]/50 focus:outline-none focus:border-[#1DA9D0]"
             />
           </form>
 
@@ -208,7 +208,7 @@ export default function GlobalLaundryListPage() {
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="px-3 py-2 rounded-xl bg-[#012040] border border-[#1DA9D0]/25 text-xs text-[#F5EACA]/80 focus:outline-none focus:border-[#1DA9D0]"
+              className="px-3 py-2 rounded-xl bg-surface border border-[#1DA9D0]/25 text-xs text-foreground/80 focus:outline-none focus:border-[#1DA9D0]"
             >
               <option value="">Semua Status Cucian</option>
               <option value="RECEIVED">Masuk</option>
@@ -220,7 +220,7 @@ export default function GlobalLaundryListPage() {
             <select
               value={paymentFilter}
               onChange={(e) => setPaymentFilter(e.target.value)}
-              className="px-3 py-2 rounded-xl bg-[#012040] border border-[#1DA9D0]/25 text-xs text-[#F5EACA]/80 focus:outline-none focus:border-[#1DA9D0]"
+              className="px-3 py-2 rounded-xl bg-surface border border-[#1DA9D0]/25 text-xs text-foreground/80 focus:outline-none focus:border-[#1DA9D0]"
             >
               <option value="">Semua Pembayaran</option>
               <option value="UNPAID">Belum Bayar</option>
@@ -234,9 +234,9 @@ export default function GlobalLaundryListPage() {
           {error ? (
             <div className="text-center py-12 text-xs text-rose-400">⚠️ {error}</div>
           ) : loading ? (
-            <div className="text-center py-12 text-xs text-[#F5EACA]/60">Memuat data cucian...</div>
+            <div className="text-center py-12 text-xs text-foreground/60">Memuat data cucian...</div>
           ) : orders.length === 0 ? (
-            <div className="text-center py-16 text-xs text-[#F5EACA]/60 space-y-3">
+            <div className="text-center py-16 text-xs text-foreground/60 space-y-3">
               <Shirt className="w-12 h-12 mx-auto text-[#1DA9D0]/40" />
               <p>Tidak ada data cucian yang sesuai dengan filter.</p>
             </div>
@@ -262,7 +262,7 @@ export default function GlobalLaundryListPage() {
                         value={order.status}
                         onChange={(e) => handleStatusChangeWithStop(e, order.id)}
                         onClick={(e) => e.stopPropagation()}
-                        className="px-2 py-1 rounded-lg text-[10px] font-semibold border bg-[#013D66] text-[#F5EACA]/80 border-[#1DA9D0]/25 focus:outline-none"
+                        className="px-2 py-1 rounded-lg text-[10px] font-semibold border bg-muted text-foreground/80 border-[#1DA9D0]/25 focus:outline-none"
                       >
                         <option value="RECEIVED">Masuk</option>
                         <option value="IN_PROGRESS">Dikerjakan</option>
@@ -274,11 +274,11 @@ export default function GlobalLaundryListPage() {
                     {/* Baris 2: Pelanggan + Total + Bayar */}
                     <div className="flex items-start justify-between">
                       <div>
-                        <div className="text-[#F5EACA] text-xs font-semibold">{order.customer?.name}</div>
-                        <div className="text-[10px] text-[#F5EACA]/60">{order.customer?.phone}</div>
+                        <div className="text-foreground text-xs font-semibold">{order.customer?.name}</div>
+                        <div className="text-[10px] text-foreground/60">{order.customer?.phone}</div>
                       </div>
                       <div className="text-right">
-                        <div className="text-[#F5EACA] text-xs font-bold">
+                        <div className="text-foreground text-xs font-bold">
                           Rp {Number(order.totalPrice).toLocaleString('id-ID')}
                         </div>
                         <button
@@ -292,7 +292,7 @@ export default function GlobalLaundryListPage() {
                     </div>
 
                     {/* Baris 3: Item paket */}
-                    <div className="text-[10px] text-[#F5EACA]/60">
+                    <div className="text-[10px] text-foreground/60">
                       {order.items?.map((item, i) => (
                         <span key={i}>
                           {item.package?.name} ({item.quantity} {item.package?.unit})
@@ -332,7 +332,7 @@ export default function GlobalLaundryListPage() {
                         )}
                         <button
                           onClick={(e) => handleReceiptClickWithStop(e, order)}
-                          className="px-2.5 py-1 rounded-lg bg-[#013D66] text-[#43D5CC] text-[10px] font-semibold border border-[#1DA9D0]/25 inline-flex items-center gap-1 hover:bg-[#014775]"
+                          className="px-2.5 py-1 rounded-lg bg-muted text-[#43D5CC] text-[10px] font-semibold border border-[#1DA9D0]/25 inline-flex items-center gap-1 hover:bg-muted-hover"
                         >
                           <Printer className="w-3 h-3" /> Struk
                         </button>
@@ -346,7 +346,7 @@ export default function GlobalLaundryListPage() {
               <div className="hidden md:block overflow-x-auto">
               <table className="w-full text-left text-xs">
                 <thead>
-                  <tr className="border-b border-[#1DA9D0]/15 text-[#F5EACA]/60 font-medium bg-[#012040]/40">
+                  <tr className="border-b border-[#1DA9D0]/15 text-foreground/60 font-medium bg-surface/40">
                     <th className="py-3.5 px-4">No. Nota</th>
                     <th className="py-3.5 px-4">Pelanggan & WA</th>
                     <th className="py-3.5 px-4">Outlet</th>
@@ -384,7 +384,7 @@ export default function GlobalLaundryListPage() {
                         )}
                       </td>
                       <td className="py-4 px-4">
-                        <div className="font-semibold text-[#F5EACA]">{order.customer?.name}</div>
+                        <div className="font-semibold text-foreground">{order.customer?.name}</div>
                         <a
                           href={`https://wa.me/${order.customer?.phone}`}
                           target="_blank"
@@ -395,21 +395,21 @@ export default function GlobalLaundryListPage() {
                           {order.customer?.phone}
                         </a>
                       </td>
-                      <td className="py-4 px-4 text-xs text-[#F5EACA]/80">
+                      <td className="py-4 px-4 text-xs text-foreground/80">
                         {order.outlet?.name || '—'}
                       </td>
                       <td className="py-4 px-4 space-y-1">
                         {order.items?.map((item, i) => (
-                          <div key={i} className="text-[11px] text-[#F5EACA]/80">
+                          <div key={i} className="text-[11px] text-foreground/80">
                             • {item.package?.name} ({item.quantity} {item.package?.unit}) —{' '}
-                            <span className="text-[#F5EACA]/60">{item.category?.name}</span>
+                            <span className="text-foreground/60">{item.category?.name}</span>
                           </div>
                         ))}
                       </td>
-                      <td className="py-4 px-4 text-[#F5EACA]/80 space-y-0.5">
+                      <td className="py-4 px-4 text-foreground/80 space-y-0.5">
                         <div>{new Date(order.dateIn).toLocaleDateString('id-ID')}</div>
                         {order.estimatedDone && (
-                          <div className="text-[10px] text-[#F5EACA]/60">
+                          <div className="text-[10px] text-foreground/60">
                             Est: {new Date(order.estimatedDone).toLocaleDateString('id-ID')}
                           </div>
                         )}
@@ -421,10 +421,10 @@ export default function GlobalLaundryListPage() {
                           onChange={(e) => handleStatusChangeWithStop(e, order.id)}
                           className={`px-2.5 py-1 rounded-xl text-[10px] font-semibold border cursor-pointer focus:outline-none ${getOrderStatusBadgeClass(order.status)}`}
                         >
-                          <option value="RECEIVED" className="bg-[#012040] text-[#F5EACA]">Masuk</option>
-                          <option value="IN_PROGRESS" className="bg-[#012040] text-[#F5EACA]">Sedang Dikerjakan</option>
-                          <option value="DONE" className="bg-[#012040] text-[#F5EACA]">Selesai</option>
-                          <option value="PICKED_UP" className="bg-[#012040] text-[#F5EACA]">Diambil Pelanggan</option>
+                          <option value="RECEIVED" className="bg-surface text-foreground">Masuk</option>
+                          <option value="IN_PROGRESS" className="bg-surface text-foreground">Sedang Dikerjakan</option>
+                          <option value="DONE" className="bg-surface text-foreground">Selesai</option>
+                          <option value="PICKED_UP" className="bg-surface text-foreground">Diambil Pelanggan</option>
                         </select>
                       </td>
                       <td className="py-4 px-4">
@@ -436,13 +436,13 @@ export default function GlobalLaundryListPage() {
                           {getPaymentStatusLabel(order.paymentStatus)}
                         </button>
                         {order.paymentStatus === 'PAID' && order.paymentMethod && (
-                          <div className="text-[9px] text-[#F5EACA]/60 mt-0.5 text-center">
+                          <div className="text-[9px] text-foreground/60 mt-0.5 text-center">
                             {order.paymentMethod === 'CASH' ? '💵 Cash' : '📱 QRIS'}
                           </div>
                         )}
                       </td>
                       <td className="py-4 px-4 text-right space-y-1.5">
-                        <div className="font-bold text-[#F5EACA]">
+                        <div className="font-bold text-foreground">
                           Rp {Number(order.totalPrice).toLocaleString('id-ID')}
                         </div>
                         <div className="flex items-center justify-end gap-1.5">
@@ -463,7 +463,7 @@ export default function GlobalLaundryListPage() {
                           )}
                           <button
                             onClick={(e) => handleReceiptClickWithStop(e, order)}
-                            className="px-2.5 py-1 rounded-lg bg-[#013D66] hover:bg-[#014775] text-[#43D5CC] text-[10px] font-semibold inline-flex items-center gap-1 border border-[#1DA9D0]/25"
+                            className="px-2.5 py-1 rounded-lg bg-muted hover:bg-muted-hover text-[#43D5CC] text-[10px] font-semibold inline-flex items-center gap-1 border border-[#1DA9D0]/25"
                           >
                             <Printer className="w-3 h-3" /> Struk
                           </button>

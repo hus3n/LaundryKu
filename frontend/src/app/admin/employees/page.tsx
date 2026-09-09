@@ -103,12 +103,12 @@ export default function EmployeeManagementPage() {
       <div className="space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-bold text-[#F5EACA]">Kelola Data Karyawan</h1>
-            <p className="text-xs text-[#F5EACA]/60 mt-1">Daftar staf/karyawan kasir laundry yang memiliki hak akses aplikasi</p>
+            <h1 className="text-2xl font-bold text-foreground">Kelola Data Karyawan</h1>
+            <p className="text-xs text-foreground/60 mt-1">Daftar staf/karyawan kasir laundry yang memiliki hak akses aplikasi</p>
           </div>
           <button
             onClick={handleOpenCreate}
-            className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] hover:opacity-95 text-[#010E1C] font-bold text-xs shadow-lg shadow-[#1DA9D0]/20 transition-all inline-flex items-center gap-2"
+            className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] hover:opacity-95 text-background font-bold text-xs shadow-lg shadow-[#1DA9D0]/20 transition-all inline-flex items-center gap-2"
           >
             <Plus className="w-4 h-4" />
             Tambah Karyawan
@@ -120,9 +120,9 @@ export default function EmployeeManagementPage() {
           {error ? (
             <div className="col-span-3 text-center py-12 text-xs text-rose-400">⚠️ {error}</div>
           ) : loading ? (
-            <div className="col-span-3 text-center py-12 text-xs text-[#F5EACA]/60">Memuat data karyawan...</div>
+            <div className="col-span-3 text-center py-12 text-xs text-foreground/60">Memuat data karyawan...</div>
           ) : employees.length === 0 ? (
-            <div className="col-span-3 glass-card-dark p-12 rounded-2xl text-center text-xs text-[#F5EACA]/60 space-y-3">
+            <div className="col-span-3 glass-card-dark p-12 rounded-2xl text-center text-xs text-foreground/60 space-y-3">
               <UserCheck className="w-10 h-10 mx-auto text-[#1DA9D0]/40" />
               <p>Belum ada karyawan terdaftar.</p>
             </div>
@@ -135,8 +135,8 @@ export default function EmployeeManagementPage() {
                       {emp.name?.[0]?.toUpperCase()}
                     </div>
                     <div>
-                      <h4 className="font-bold text-[#F5EACA] text-sm">{emp.name}</h4>
-                      <span className="text-[10px] text-[#F5EACA]/60">
+                      <h4 className="font-bold text-foreground text-sm">{emp.name}</h4>
+                      <span className="text-[10px] text-foreground/60">
                         {emp._count?.ordersTaken || 0} Cucian Dicatat
                       </span>
                     </div>
@@ -145,25 +145,25 @@ export default function EmployeeManagementPage() {
                   <div className="flex items-center gap-1">
                     <button
                       onClick={() => handleOpenEdit(emp)}
-                      className="p-1.5 rounded-lg text-[#F5EACA]/60 hover:text-[#43D5CC] hover:bg-[#013D66] transition-colors"
+                      className="p-1.5 rounded-lg text-foreground/60 hover:text-[#43D5CC] hover:bg-muted transition-colors"
                     >
                       <Edit className="w-3.5 h-3.5" />
                     </button>
                     <button
                       onClick={() => handleDelete(emp.id)}
-                      className="p-1.5 rounded-lg text-[#F5EACA]/60 hover:text-rose-400 hover:bg-[#013D66] transition-colors"
+                      className="p-1.5 rounded-lg text-foreground/60 hover:text-rose-400 hover:bg-muted transition-colors"
                     >
                       <Trash2 className="w-3.5 h-3.5" />
                     </button>
                   </div>
                 </div>
 
-                <div className="space-y-1.5 text-xs text-[#F5EACA]/80 pt-2 border-t border-[#1DA9D0]/15">
-                  <div className="flex items-center gap-2 text-[#F5EACA]/60">
+                <div className="space-y-1.5 text-xs text-foreground/80 pt-2 border-t border-[#1DA9D0]/15">
+                  <div className="flex items-center gap-2 text-foreground/60">
                     <Mail className="w-3.5 h-3.5 text-[#1DA9D0]/50" /> {emp.email}
                   </div>
                   {emp.phone && (
-                    <div className="flex items-center gap-2 text-[#F5EACA]/60">
+                    <div className="flex items-center gap-2 text-foreground/60">
                       <Phone className="w-3.5 h-3.5 text-[#1DA9D0]/50" /> {emp.phone}
                     </div>
                   )}
@@ -174,27 +174,27 @@ export default function EmployeeManagementPage() {
         </div>
 
         {modalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#010E1C]/85 backdrop-blur-sm">
-            <div className="bg-[#012040] p-6 rounded-3xl border border-[#1DA9D0]/25 max-w-md w-full space-y-4 shadow-2xl">
-              <h3 className="text-base font-bold text-[#F5EACA]">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/85 backdrop-blur-sm">
+            <div className="bg-surface p-6 rounded-3xl border border-[#1DA9D0]/25 max-w-md w-full space-y-4 shadow-2xl">
+              <h3 className="text-base font-bold text-foreground">
                 {editingId ? 'Edit Karyawan' : 'Tambah Karyawan Baru'}
               </h3>
 
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                  <label className="block text-xs font-semibold text-[#F5EACA]/80 mb-1">Nama Lengkap</label>
+                  <label className="block text-xs font-semibold text-foreground/80 mb-1">Nama Lengkap</label>
                   <input
                     type="text"
                     required
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Contoh: Budi Santoso"
-                    className="w-full px-3.5 py-2 rounded-xl bg-[#013D66] border border-[#1DA9D0]/25 text-xs text-[#F5EACA] placeholder-[#1DA9D0]/50 focus:outline-none focus:border-[#1DA9D0]"
+                    className="w-full px-3.5 py-2 rounded-xl bg-muted border border-[#1DA9D0]/25 text-xs text-foreground placeholder-[#1DA9D0]/50 focus:outline-none focus:border-[#1DA9D0]"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-[#F5EACA]/80 mb-1">Email Karyawan</label>
+                  <label className="block text-xs font-semibold text-foreground/80 mb-1">Email Karyawan</label>
                   <input
                     type="email"
                     required
@@ -202,12 +202,12 @@ export default function EmployeeManagementPage() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="budi@laundryku.com"
-                    className="w-full px-3.5 py-2 rounded-xl bg-[#013D66] border border-[#1DA9D0]/25 text-xs text-[#F5EACA] placeholder-[#1DA9D0]/50 focus:outline-none focus:border-[#1DA9D0] disabled:opacity-50"
+                    className="w-full px-3.5 py-2 rounded-xl bg-muted border border-[#1DA9D0]/25 text-xs text-foreground placeholder-[#1DA9D0]/50 focus:outline-none focus:border-[#1DA9D0] disabled:opacity-50"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-[#F5EACA]/80 mb-1">
+                  <label className="block text-xs font-semibold text-foreground/80 mb-1">
                     {editingId ? 'Password Baru (Kosongkan jika tidak diubah)' : 'Password Karyawan'}
                   </label>
                   <input
@@ -216,18 +216,18 @@ export default function EmployeeManagementPage() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="••••••••"
-                    className="w-full px-3.5 py-2 rounded-xl bg-[#013D66] border border-[#1DA9D0]/25 text-xs text-[#F5EACA] placeholder-[#1DA9D0]/50 focus:outline-none focus:border-[#1DA9D0]"
+                    className="w-full px-3.5 py-2 rounded-xl bg-muted border border-[#1DA9D0]/25 text-xs text-foreground placeholder-[#1DA9D0]/50 focus:outline-none focus:border-[#1DA9D0]"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-[#F5EACA]/80 mb-1">No. WhatsApp / HP</label>
+                  <label className="block text-xs font-semibold text-foreground/80 mb-1">No. WhatsApp / HP</label>
                   <input
                     type="text"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     placeholder="081234567890"
-                    className="w-full px-3.5 py-2 rounded-xl bg-[#013D66] border border-[#1DA9D0]/25 text-xs text-[#F5EACA] placeholder-[#1DA9D0]/50 focus:outline-none focus:border-[#1DA9D0]"
+                    className="w-full px-3.5 py-2 rounded-xl bg-muted border border-[#1DA9D0]/25 text-xs text-foreground placeholder-[#1DA9D0]/50 focus:outline-none focus:border-[#1DA9D0]"
                   />
                 </div>
 
@@ -235,14 +235,14 @@ export default function EmployeeManagementPage() {
                   <button
                     type="button"
                     onClick={() => setModalOpen(false)}
-                    className="px-4 py-2 rounded-xl bg-[#013D66] text-[#F5EACA]/80 text-xs font-semibold hover:bg-[#014775] border border-[#1DA9D0]/25 transition-colors"
+                    className="px-4 py-2 rounded-xl bg-muted text-foreground/80 text-xs font-semibold hover:bg-muted-hover border border-[#1DA9D0]/25 transition-colors"
                   >
                     Batal
                   </button>
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="px-5 py-2 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] hover:opacity-95 text-[#010E1C] font-bold text-xs disabled:opacity-50 transition-all"
+                    className="px-5 py-2 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] hover:opacity-95 text-background font-bold text-xs disabled:opacity-50 transition-all"
                   >
                     {editingId ? 'Simpan' : 'Tambah'}
                   </button>
