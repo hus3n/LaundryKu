@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
+  Home,
   Shirt,
   LayoutDashboard,
   ClipboardList,
@@ -38,6 +39,7 @@ export default function DashboardLayout({ children, role }: { children: React.Re
   const pathname = usePathname();
   const { user, logout } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const isEmployee = user?.role === 'EMPLOYEE';
 
   let navItems: SidebarItem[] = [];
 
@@ -59,19 +61,17 @@ export default function DashboardLayout({ children, role }: { children: React.Re
     ];
   } else {
     // EMPLOYEE
-    navItems = [
-      { label: 'Data Cucian', href: '/karyawan/laundry', icon: ClipboardList },
-      { label: 'Catat Cucian Baru', href: '/karyawan/laundry/new', icon: PlusCircle },
-    ];
+    navItems = [];
   }
 
   return (
     <div className="min-h-screen bg-[#010E1C] text-[#F5EACA] flex">
       {/* Desktop Sidebar */}
+      {!isEmployee && (
       <aside className="hidden md:flex flex-col w-64 bg-[#012040]/80 border-r border-[#1DA9D0]/15 p-5 sticky top-0 h-screen z-30 backdrop-blur-xl">
         {/* Brand */}
         <div className="pb-5 mb-3 border-b border-[#1DA9D0]/15">
-          <Link href={user?.role === 'SUPERADMIN' ? '/superadmin/dashboard' : user?.role === 'ADMIN' ? '/admin/dashboard' : '/karyawan/laundry'}>
+          <Link href={user?.role === 'SUPERADMIN' ? '/superadmin/dashboard' : user?.role === 'ADMIN' ? '/admin/dashboard' : '/karyawan/dashboard'}>
             <BrandLogo storeName={user?.storeName} storeLogo={user?.storeLogo} />
           </Link>
         </div>
@@ -131,18 +131,21 @@ export default function DashboardLayout({ children, role }: { children: React.Re
           </motion.button>
         </div>
       </aside>
+      )}
 
       {/* Main Area */}
       <div className="flex-1 flex flex-col min-w-0">
         {/* Top Header */}
         <header className="h-16 border-b border-[#1DA9D0]/15 bg-[#012040]/50 backdrop-blur-xl sticky top-0 z-20 px-4 md:px-6 flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
+            {!isEmployee && (
             <button
               onClick={() => setMobileOpen(true)}
               className="md:hidden p-2 flex items-center justify-center rounded-lg text-[#F5EACA]/60 hover:text-[#F5EACA] hover:bg-[#1DA9D0]/10 transition-colors"
             >
               <Menu className="w-5 h-5" />
             </button>
+            )}
 
             <div className="text-xs font-semibold text-[#F5EACA]/60 truncate hidden sm:block">
               Selamat Datang, <span className="text-[#F5EACA] font-bold">{user?.name}</span>
@@ -155,6 +158,17 @@ export default function DashboardLayout({ children, role }: { children: React.Re
           <div className="flex items-center gap-3">
             {/* App Window & Fullscreen Controls */}
             <AppWindowControls />
+
+            {isEmployee && (
+              <>
+                <Link href="/karyawan/dashboard" className="p-2 text-[#1DA9D0] hover:bg-[#1DA9D0]/10 rounded-lg transition-colors" title="Kembali ke Dashboard">
+                  <Home className="w-5 h-5" />
+                </Link>
+                <button onClick={logout} className="p-2 text-rose-400 hover:bg-rose-500/10 rounded-lg transition-colors" title="Keluar">
+                  <LogOut className="w-5 h-5" />
+                </button>
+              </>
+            )}
 
             <span className="text-xs px-3 py-1 rounded-full bg-[#013D66] border border-[#1DA9D0]/25 text-[#F5EACA]/80 font-medium hidden md:inline-block">
               {user?.role}

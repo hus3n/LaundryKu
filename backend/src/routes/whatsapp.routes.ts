@@ -59,8 +59,8 @@ router.post(
 router.get('/templates', authorize('ADMIN', 'SUPERADMIN'), getTemplates);
 router.put('/templates/:id', authorize('ADMIN', 'SUPERADMIN'), validate(updateTemplateSchema), updateTemplate);
 
-router.post('/send-custom', authorize('ADMIN'), validate(sendCustomMessageSchema), sendCustomMessage);
-router.post('/send-nota-image', authorize('ADMIN'), sendNotaImage);
+router.post('/send-custom', authorize('ADMIN', 'EMPLOYEE'), validate(sendCustomMessageSchema), sendCustomMessage);
+router.post('/send-nota-image', authorize('ADMIN', 'EMPLOYEE'), sendNotaImage);
 router.get('/logs', authorize('ADMIN', 'SUPERADMIN'), getMessageLogs);
 
 export default router;

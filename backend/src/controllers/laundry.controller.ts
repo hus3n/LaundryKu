@@ -134,6 +134,68 @@ export async function getOrderLogs(req: AuthenticatedRequest, res: Response, nex
   }
 }
 
+export async function getEmployeeTodayTasks(req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> {
+  try {
+    const adminId = req.user?.adminId;
+    if (!adminId) {
+      res.status(400).json({ success: false, error: 'ID Toko tidak ditemukan.' });
+      return;
+    }
+
+    const todayStart = new Date();
+    todayStart.setHours(0, 0, 0, 0);
+
+    const todayEnd = new Date();
+    todayEnd.setHours(23, 59, 59, 999);
+
+    // 1. Target Selesai Hari Ini (Est Done is before todayEnd, and status not DONE/PICKED_UP)
+    const targetSelesai = await prisma.laundryOrder.count({
+      where: {
+        adminId,
+        estimatedDone: { lte: todayEnd },
+        status: { in: ['RECEIVED', 'IN_PROGRESS'] },
+      },
+    });
+
+    // 2. Berapa yang harus di cuci (Masih RECEIVED/IN_PROGRESS kesuluruhan yang belum diambil)
+    const antreanCuci = await prisma.laundryOrder.count({
+      where: {
+        adminId,
+        status: 'RECEIVED',
+      },
+    });
+
+    // 3. Masuk Hari Ini
+    const masukHariIni = await prisma.laundryOrder.count({
+      where: {
+        adminId,
+        dateIn: { gte: todayStart, lte: todayEnd },
+      },
+    });
+
+    // 4. Diambil Hari Ini (Diambil hari ini, dateOut ada hari ini)
+    const diambilHariIni = await prisma.laundryOrder.count({
+      where: {
+        adminId,
+        status: 'PICKED_UP',
+        dateOut: { gte: todayStart, lte: todayEnd },
+      },
+    });
+
+    res.json({
+      success: true,
+      data: {
+        targetSelesai,
+        antreanCuci,
+        masukHariIni,
+        diambilHariIni,
+      }
+    });
+  } catch (error: any) {
+    next(error);
+  }
+}
+
 export async function exportOrders(req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> {
   try {
     const adminId = req.user?.adminId;
