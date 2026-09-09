@@ -17,6 +17,8 @@ import {
   Star,
   Layers
 } from 'lucide-react';
+import Header from '@/components/landing/Header';
+import Footer from '@/components/landing/Footer';
 
 const PRICING_PLANS = [
   {
@@ -104,48 +106,7 @@ export default function LandingPage() {
       <motion.div style={{ y: y3 }} className="absolute bottom-10 left-10 w-[600px] h-[600px] bg-[#43D5CC]/10 rounded-full blur-[140px] pointer-events-none" />
 
       {/* Navbar */}
-      <header className="sticky top-0 z-50 backdrop-blur-xl bg-[#010E1C]/80 border-b border-[#1DA9D0]/15">
-        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <img
-              src="/logo/laundryku-icon.svg"
-              alt="LaundryKu"
-              className="w-10 h-10 rounded-xl shadow-lg shadow-[#1DA9D0]/30"
-            />
-            <span className="text-xl font-extrabold bg-gradient-to-r from-[#F5EACA] via-[#F5EACA]/90 to-[#43D5CC] bg-clip-text text-transparent">
-              Laundry<span className="bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] bg-clip-text text-transparent">Ku</span>{' '}
-              <span className="text-xs px-2 py-0.5 rounded-full bg-[#1DA9D0]/20 border border-[#1DA9D0]/30 text-[#43D5CC] ml-1 font-semibold">
-                v1.0
-              </span>
-            </span>
-          </div>
-
-          <nav className="hidden md:flex items-center gap-8 text-sm text-[#F5EACA]/80 font-medium">
-            <a href="#fitur" className="hover:text-[#43D5CC] transition-colors">Fitur Utama</a>
-            <a href="#cara-kerja" className="hover:text-[#43D5CC] transition-colors">Cara Kerja</a>
-            <a href="#keunggulan" className="hover:text-[#43D5CC] transition-colors">Keunggulan</a>
-            <a href="#harga" className="hover:text-[#43D5CC] transition-colors">Harga</a>
-          </nav>
-
-          <div className="flex items-center gap-2 sm:gap-4">
-            <Link
-              href="/login"
-              className="px-3 py-2 sm:px-5 sm:py-2.5 text-xs sm:text-sm font-medium text-[#F5EACA]/80 hover:text-[#F5EACA] transition-colors"
-            >
-              Masuk
-            </Link>
-            <motion.button
-              whileHover={{ scale: 1.04, transition: { type: 'spring', stiffness: 400, damping: 15 } }}
-              whileTap={{ scale: 0.96 }}
-              onClick={handleRegisterClick()}
-              className="px-3 py-2 sm:px-5 sm:py-2.5 text-xs sm:text-sm font-bold rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] hover:opacity-95 text-[#010E1C] shadow-lg shadow-[#1DA9D0]/25 flex items-center gap-1 sm:gap-2 group whitespace-nowrap"
-            >
-              Daftar <span className="hidden sm:inline">Sekarang</span>
-              <motion.span whileHover={{ x: 4 }}><ArrowRight className="w-3 h-3 sm:w-4 sm:h-4" /></motion.span>
-            </motion.button>
-          </div>
-        </div>
-      </header>
+      <Header />
 
       {/* Hero Section */}
       <section className="relative pt-20 pb-32 max-w-7xl mx-auto px-6">
@@ -648,18 +609,7 @@ export default function LandingPage() {
       </motion.section>
 
       {/* Footer */}
-      <footer className="py-8 border-t border-[#1DA9D0]/15 text-center text-xs text-[#F5EACA]/50">
-        <div className="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div>© 2026 LaundryKu v1.0. All rights reserved.</div>
-          <div className="flex gap-6">
-            <Link href="/login" className="hover:text-[#F5EACA] transition-colors">Login Portal</Link>
-            <a href="#fitur" className="hover:text-[#F5EACA] transition-colors">Fitur</a>
-            <a href="#cara-kerja" className="hover:text-[#F5EACA] transition-colors">Cara Kerja</a>
-            <a href="#keunggulan" className="hover:text-[#F5EACA] transition-colors">Keunggulan</a>
-            <a href="#harga" className="hover:text-[#F5EACA] transition-colors">Harga</a>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
