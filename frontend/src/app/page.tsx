@@ -127,10 +127,10 @@ export default function LandingPage() {
             <a href="#harga" className="hover:text-[#43D5CC] transition-colors">Harga</a>
           </nav>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 sm:gap-4">
             <Link
               href="/login"
-              className="px-5 py-2.5 text-sm font-medium text-[#F5EACA]/80 hover:text-[#F5EACA] transition-colors"
+              className="px-3 py-2 sm:px-5 sm:py-2.5 text-xs sm:text-sm font-medium text-[#F5EACA]/80 hover:text-[#F5EACA] transition-colors"
             >
               Masuk
             </Link>
@@ -138,10 +138,10 @@ export default function LandingPage() {
               whileHover={{ scale: 1.04, transition: { type: 'spring', stiffness: 400, damping: 15 } }}
               whileTap={{ scale: 0.96 }}
               onClick={handleRegisterClick()}
-              className="px-5 py-2.5 text-sm font-bold rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] hover:opacity-95 text-[#010E1C] shadow-lg shadow-[#1DA9D0]/25 flex items-center gap-2 group"
+              className="px-3 py-2 sm:px-5 sm:py-2.5 text-xs sm:text-sm font-bold rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] hover:opacity-95 text-[#010E1C] shadow-lg shadow-[#1DA9D0]/25 flex items-center gap-1 sm:gap-2 group whitespace-nowrap"
             >
-              Daftar Sekarang
-              <motion.span whileHover={{ x: 4 }}><ArrowRight className="w-4 h-4" /></motion.span>
+              Daftar <span className="hidden sm:inline">Sekarang</span>
+              <motion.span whileHover={{ x: 4 }}><ArrowRight className="w-3 h-3 sm:w-4 sm:h-4" /></motion.span>
             </motion.button>
           </div>
         </div>
@@ -169,33 +169,33 @@ export default function LandingPage() {
                 whileHover={{ scale: 1.02, y: -2, transition: { type: 'spring', stiffness: 400, damping: 20 } }}
                 whileTap={{ scale: 0.96 }}
                 onClick={handleRegisterClick()}
-                className="px-8 py-4 rounded-xl bg-gradient-to-r from-[#1DA9D0] via-[#015383] to-[#43D5CC] hover:opacity-95 text-[#010E1C] font-bold text-base shadow-xl shadow-[#1DA9D0]/20 flex items-center justify-center gap-3 group"
+                className="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-[#1DA9D0] via-[#015383] to-[#43D5CC] hover:opacity-95 text-[#010E1C] font-bold text-base shadow-xl shadow-[#1DA9D0]/20 flex items-center justify-center gap-3 group"
               >
                 Coba Gratis via WhatsApp
                 <motion.span whileHover={{ x: 4 }}><ArrowRight className="w-5 h-5" /></motion.span>
               </motion.button>
-              <Link href="/login" className="flex-1 sm:flex-none">
+              <Link href="/login" className="w-full sm:w-auto flex-1 sm:flex-none">
                 <motion.div
                   whileHover={{ scale: 1.02, y: -2, transition: { type: 'spring', stiffness: 400, damping: 20 } }}
                   whileTap={{ scale: 0.96 }}
-                  className="px-8 py-4 rounded-xl bg-[#013D66] text-[#F5EACA] border border-[#1DA9D0]/25 font-semibold text-base text-center hover:bg-[#014775] transition-colors"
+                  className="w-full sm:w-auto px-8 py-4 rounded-xl bg-[#013D66] text-[#F5EACA] border border-[#1DA9D0]/25 font-semibold text-base text-center hover:bg-[#014775] transition-colors"
                 >
                   Login Aplikasi
                 </motion.div>
               </Link>
             </motion.div>
 
-            <motion.div variants={itemVariants} className="pt-6 grid grid-cols-3 gap-6 border-t border-[#1DA9D0]/15">
-              <div>
-                <div className="text-2xl font-bold text-[#F5EACA]">100%</div>
+            <motion.div variants={itemVariants} className="pt-6 grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 border-t border-[#1DA9D0]/15 text-center sm:text-left">
+              <div className="bg-[#012040]/30 sm:bg-transparent p-4 sm:p-0 rounded-xl sm:rounded-none">
+                <div className="text-xl sm:text-2xl font-bold text-[#F5EACA]">100%</div>
                 <div className="text-xs text-[#F5EACA]/60 mt-1">Otomatisasi WA</div>
               </div>
-              <div>
-                <div className="text-2xl font-bold text-[#F5EACA]">3 Role</div>
+              <div className="bg-[#012040]/30 sm:bg-transparent p-4 sm:p-0 rounded-xl sm:rounded-none">
+                <div className="text-xl sm:text-2xl font-bold text-[#F5EACA]">3 Role</div>
                 <div className="text-xs text-[#F5EACA]/60 mt-1">SuperAdmin, Admin, Staf</div>
               </div>
-              <div>
-                <div className="text-2xl font-bold text-[#F5EACA]">24/7</div>
+              <div className="bg-[#012040]/30 sm:bg-transparent p-4 sm:p-0 rounded-xl sm:rounded-none">
+                <div className="text-xl sm:text-2xl font-bold text-[#F5EACA]">24/7</div>
                 <div className="text-xs text-[#F5EACA]/60 mt-1">Akses Real-time</div>
               </div>
             </motion.div>
@@ -212,19 +212,19 @@ export default function LandingPage() {
               <motion.div 
                 animate={{ y: [0, -10, 0] }}
                 transition={{ repeat: Infinity, duration: 6, ease: 'easeInOut' }}
-                className="glass-card-dark p-6 rounded-3xl border border-[#1DA9D0]/25 shadow-2xl relative z-20 backdrop-blur-xl"
+                className="glass-card-dark p-4 sm:p-6 rounded-3xl border border-[#1DA9D0]/25 shadow-2xl relative z-20 backdrop-blur-xl"
               >
-                <div className="flex items-center justify-between mb-6 pb-4 border-b border-[#1DA9D0]/15">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-2 mb-6 pb-4 border-b border-[#1DA9D0]/15">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-[#1DA9D0]/20 border border-[#1DA9D0]/30 flex items-center justify-center">
+                    <div className="w-10 h-10 shrink-0 rounded-xl bg-[#1DA9D0]/20 border border-[#1DA9D0]/30 flex items-center justify-center">
                       <Shirt className="w-5 h-5 text-[#43D5CC]" />
                     </div>
                     <div>
                       <h4 className="text-sm font-semibold text-[#F5EACA]">Cucian #LK-2026-089</h4>
-                      <p className="text-xs text-[#F5EACA]/60">Pelanggan: Ibu Rina (0812-3456-7890)</p>
+                      <p className="text-[11px] sm:text-xs text-[#F5EACA]/60">Pelanggan: Ibu Rina (0812-3456-7890)</p>
                     </div>
                   </div>
-                  <span className="px-3 py-1 text-xs font-semibold rounded-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-300">
+                  <span className="px-3 py-1 text-[10px] sm:text-xs font-semibold rounded-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 whitespace-nowrap">
                     Selesai & Siap Diambil
                   </span>
                 </div>
@@ -267,7 +267,7 @@ export default function LandingPage() {
       {/* Features Section */}
       <motion.section 
         id="fitur" 
-        className="py-24 bg-[#010E1C]/60 border-t border-[#1DA9D0]/15 relative"
+        className="py-16 sm:py-24 bg-[#010E1C]/60 border-t border-[#1DA9D0]/15 relative"
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.2 }}
@@ -283,7 +283,7 @@ export default function LandingPage() {
             <motion.div 
               whileHover={{ y: -6, scale: 1.02, transition: { type: 'spring', stiffness: 400, damping: 20 } }}
               transition={{ type: 'spring', stiffness: 200, damping: 20 }}
-              className="glass-card-dark p-8 rounded-2xl border border-[#1DA9D0]/15"
+              className="glass-card-dark p-6 sm:p-8 rounded-2xl border border-[#1DA9D0]/15"
             >
               <div className="w-12 h-12 rounded-xl bg-[#1DA9D0]/20 border border-[#1DA9D0]/30 flex items-center justify-center text-[#43D5CC] mb-6">
                 <MessageSquare className="w-6 h-6" />
@@ -297,7 +297,7 @@ export default function LandingPage() {
             <motion.div 
               whileHover={{ y: -6, scale: 1.02, transition: { type: 'spring', stiffness: 400, damping: 20 } }}
               transition={{ type: 'spring', stiffness: 200, damping: 20 }}
-              className="glass-card-dark p-8 rounded-2xl border border-[#1DA9D0]/15"
+              className="glass-card-dark p-6 sm:p-8 rounded-2xl border border-[#1DA9D0]/15"
             >
               <div className="w-12 h-12 rounded-xl bg-[#1DA9D0]/20 border border-[#1DA9D0]/30 flex items-center justify-center text-[#43D5CC] mb-6">
                 <TrendingUp className="w-6 h-6" />
@@ -311,7 +311,7 @@ export default function LandingPage() {
             <motion.div 
               whileHover={{ y: -6, scale: 1.02, transition: { type: 'spring', stiffness: 400, damping: 20 } }}
               transition={{ type: 'spring', stiffness: 200, damping: 20 }}
-              className="glass-card-dark p-8 rounded-2xl border border-[#1DA9D0]/15"
+              className="glass-card-dark p-6 sm:p-8 rounded-2xl border border-[#1DA9D0]/15"
             >
               <div className="w-12 h-12 rounded-xl bg-[#1DA9D0]/20 border border-[#1DA9D0]/30 flex items-center justify-center text-[#43D5CC] mb-6">
                 <Users className="w-6 h-6" />
@@ -325,7 +325,7 @@ export default function LandingPage() {
             <motion.div 
               whileHover={{ y: -6, scale: 1.02, transition: { type: 'spring', stiffness: 400, damping: 20 } }}
               transition={{ type: 'spring', stiffness: 200, damping: 20 }}
-              className="glass-card-dark p-8 rounded-2xl border border-[#1DA9D0]/15"
+              className="glass-card-dark p-6 sm:p-8 rounded-2xl border border-[#1DA9D0]/15"
             >
               <div className="w-12 h-12 rounded-xl bg-[#1DA9D0]/20 border border-[#1DA9D0]/30 flex items-center justify-center text-[#43D5CC] mb-6">
                 <Shirt className="w-6 h-6" />
@@ -339,7 +339,7 @@ export default function LandingPage() {
             <motion.div 
               whileHover={{ y: -6, scale: 1.02, transition: { type: 'spring', stiffness: 400, damping: 20 } }}
               transition={{ type: 'spring', stiffness: 200, damping: 20 }}
-              className="glass-card-dark p-8 rounded-2xl border border-[#1DA9D0]/15"
+              className="glass-card-dark p-6 sm:p-8 rounded-2xl border border-[#1DA9D0]/15"
             >
               <div className="w-12 h-12 rounded-xl bg-[#EA8803]/20 border border-[#EA8803]/30 flex items-center justify-center text-[#EA8803] mb-6">
                 <Clock className="w-6 h-6" />
@@ -353,7 +353,7 @@ export default function LandingPage() {
             <motion.div 
               whileHover={{ y: -6, scale: 1.02, transition: { type: 'spring', stiffness: 400, damping: 20 } }}
               transition={{ type: 'spring', stiffness: 200, damping: 20 }}
-              className="glass-card-dark p-8 rounded-2xl border border-[#1DA9D0]/15"
+              className="glass-card-dark p-6 sm:p-8 rounded-2xl border border-[#1DA9D0]/15"
             >
               <div className="w-12 h-12 rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400 mb-6">
                 <ShieldCheck className="w-6 h-6" />
@@ -370,7 +370,7 @@ export default function LandingPage() {
       {/* Cara Kerja Section */}
       <motion.section 
         id="cara-kerja" 
-        className="py-24 relative"
+        className="py-16 sm:py-24 relative"
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.2 }}
@@ -452,7 +452,7 @@ export default function LandingPage() {
       {/* Keunggulan Section */}
       <motion.section 
         id="keunggulan" 
-        className="py-24 bg-[#010E1C]/60 border-t border-[#1DA9D0]/15 relative"
+        className="py-16 sm:py-24 bg-[#010E1C]/60 border-t border-[#1DA9D0]/15 relative"
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.2 }}
@@ -510,25 +510,25 @@ export default function LandingPage() {
             <motion.div 
               whileHover={{ scale: 1.02, transition: { type: 'spring', stiffness: 300, damping: 20 } }}
               transition={{ type: 'spring', stiffness: 200, damping: 20 }}
-              className="glass-card-dark p-8 rounded-3xl border border-[#1DA9D0]/15 space-y-6"
+              className="glass-card-dark p-6 sm:p-8 rounded-3xl border border-[#1DA9D0]/15 space-y-6"
             >
               <h3 className="text-lg font-bold text-[#F5EACA] flex items-center gap-2">
                 <Layers className="w-5 h-5 text-[#43D5CC]" /> Perbandingan Sistem
               </h3>
 
               <div className="space-y-3 text-xs">
-                <div className="p-3.5 rounded-xl bg-[#012040] border border-[#1DA9D0]/15 flex justify-between items-center">
+                <div className="p-3.5 rounded-xl bg-[#012040] border border-[#1DA9D0]/15 flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-0">
                   <span className="text-[#F5EACA]/80 font-medium">Buku Nota Manual</span>
                   <span className="text-rose-400 font-semibold">Mudah Hilang & Kertas Rusak</span>
                 </div>
-                <div className="p-3.5 rounded-xl bg-[#012040] border border-[#1DA9D0]/15 flex justify-between items-center">
+                <div className="p-3.5 rounded-xl bg-[#012040] border border-[#1DA9D0]/15 flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-0">
                   <span className="text-[#F5EACA]/80 font-medium">Kirim WA Manual</span>
                   <span className="text-[#EA8803] font-semibold">Menyita Waktu & Sering Lupa</span>
                 </div>
-                <div className="p-3.5 rounded-xl bg-emerald-950/40 border border-emerald-500/30 flex justify-between items-center text-emerald-300 font-bold">
+                <div className="p-3.5 rounded-xl bg-emerald-950/40 border border-emerald-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-0 text-emerald-300 font-bold">
                   <span>Aplikasi LaundryKu v1.0</span>
                   <span className="flex items-center gap-1 text-emerald-400">
-                    <CheckCircle2 className="w-4 h-4" /> Serba Otomatis & Terpusat
+                    <CheckCircle2 className="w-4 h-4 shrink-0" /> Serba Otomatis & Terpusat
                   </span>
                 </div>
               </div>
@@ -538,7 +538,7 @@ export default function LandingPage() {
       </motion.section>
 
       {/* Pricing Section (Harga) */}
-      <section id="harga" className="py-24 border-t border-[#1DA9D0]/15 relative">
+      <section id="harga" className="py-16 sm:py-24 border-t border-[#1DA9D0]/15 relative">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center max-w-2xl mx-auto mb-16 space-y-4">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#1DA9D0]/10 border border-[#1DA9D0]/20 text-xs font-semibold text-[#43D5CC]">
@@ -561,7 +561,7 @@ export default function LandingPage() {
                 variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0 } }}
                 whileHover={{ y: -8, transition: { type: 'spring', stiffness: 300, damping: 18 } }}
                 transition={{ type: 'spring', stiffness: 200, damping: 20 }}
-                className={`glass-card-dark p-8 rounded-3xl border relative flex flex-col justify-between ${
+                className={`glass-card-dark p-6 sm:p-8 rounded-3xl border relative flex flex-col justify-between ${
                   plan.isPopular
                     ? 'border-[#1DA9D0] shadow-2xl shadow-[#1DA9D0]/20 bg-gradient-to-b from-[#012040] via-[#012040] to-[#013D66]/40'
                     : 'border-[#1DA9D0]/15'
@@ -626,12 +626,12 @@ export default function LandingPage() {
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       >
         <div className="max-w-5xl mx-auto px-6">
-          <div className="glass-card-dark p-12 rounded-3xl border border-[#1DA9D0]/30 text-center relative overflow-hidden bg-gradient-to-br from-[#012040] via-[#012040] to-[#013D66]">
+          <div className="glass-card-dark p-8 sm:p-12 rounded-3xl border border-[#1DA9D0]/30 text-center relative overflow-hidden bg-gradient-to-br from-[#012040] via-[#012040] to-[#013D66]">
             <div className="absolute top-0 right-0 w-64 h-64 bg-[#1DA9D0]/20 rounded-full blur-[80px] pointer-events-none" />
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#F5EACA] mb-4">
+            <h2 className="text-2xl sm:text-4xl font-extrabold text-[#F5EACA] mb-4">
               Siap Modernisasi Toko Laundry Anda?
             </h2>
-            <p className="text-[#F5EACA]/80 text-base max-w-xl mx-auto mb-8">
+            <p className="text-sm sm:text-base text-[#F5EACA]/80 max-w-xl mx-auto mb-8">
               Hubungi SuperAdmin via WhatsApp di <strong className="text-[#43D5CC]">+62 852-2992-5593</strong> untuk mendaftarkan toko Anda dan langsung mulai gunakan LaundryKu v1.0 hari ini.
             </p>
             <motion.button

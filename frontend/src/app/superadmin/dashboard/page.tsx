@@ -15,7 +15,10 @@ import {
   Clock, 
   Shirt, 
   ArrowUpRight,
-  RefreshCw
+  RefreshCw,
+  QrCode,
+  Bot,
+  Database
 } from 'lucide-react';
 import type { AdminUser } from '@/types';
 
@@ -151,6 +154,37 @@ export default function SuperAdminDashboardPage() {
             <p className="text-[11px] text-rose-400 mt-4">Masa aktif telah habis</p>
           </motion.div>
         </motion.div>
+
+        {/* Akses Cepat */}
+        <div className="glass-card-dark p-6 rounded-2xl border border-[#1DA9D0]/15">
+          <h3 className="text-base font-bold text-[#F5EACA] mb-4">Akses Cepat Pengaturan</h3>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <Link href="/superadmin/admins" className="group p-4 rounded-xl bg-[#012040]/50 border border-[#1DA9D0]/15 hover:border-[#43D5CC]/50 hover:bg-[#1DA9D0]/10 transition-all flex flex-col items-center justify-center text-center gap-3">
+              <div className="w-12 h-12 rounded-full bg-[#1DA9D0]/20 flex items-center justify-center text-[#43D5CC] group-hover:scale-110 transition-transform">
+                <Users className="w-6 h-6" />
+              </div>
+              <span className="text-xs font-semibold text-[#F5EACA]/80 group-hover:text-[#F5EACA]">Kelola Admin</span>
+            </Link>
+            <Link href="/superadmin/whatsapp" className="group p-4 rounded-xl bg-[#012040]/50 border border-[#1DA9D0]/15 hover:border-[#43D5CC]/50 hover:bg-[#1DA9D0]/10 transition-all flex flex-col items-center justify-center text-center gap-3">
+              <div className="w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400 group-hover:scale-110 transition-transform">
+                <QrCode className="w-6 h-6" />
+              </div>
+              <span className="text-xs font-semibold text-[#F5EACA]/80 group-hover:text-[#F5EACA]">Pairing WA</span>
+            </Link>
+            <Link href="/superadmin/bot-settings" className="group p-4 rounded-xl bg-[#012040]/50 border border-[#1DA9D0]/15 hover:border-[#43D5CC]/50 hover:bg-[#1DA9D0]/10 transition-all flex flex-col items-center justify-center text-center gap-3">
+              <div className="w-12 h-12 rounded-full bg-[#015383]/40 flex items-center justify-center text-[#43D5CC] group-hover:scale-110 transition-transform">
+                <Bot className="w-6 h-6" />
+              </div>
+              <span className="text-xs font-semibold text-[#F5EACA]/80 group-hover:text-[#F5EACA]">Pengaturan Bot</span>
+            </Link>
+            <Link href="/superadmin/backup" className="group p-4 rounded-xl bg-[#012040]/50 border border-[#1DA9D0]/15 hover:border-[#43D5CC]/50 hover:bg-[#1DA9D0]/10 transition-all flex flex-col items-center justify-center text-center gap-3">
+              <div className="w-12 h-12 rounded-full bg-[#EA8803]/20 flex items-center justify-center text-[#EA8803] group-hover:scale-110 transition-transform">
+                <Database className="w-6 h-6" />
+              </div>
+              <span className="text-xs font-semibold text-[#F5EACA]/80 group-hover:text-[#F5EACA]">Backup Data</span>
+            </Link>
+          </div>
+        </div>
 
         {/* Admins Overview Table */}
         <div className="glass-card-dark p-6 rounded-2xl border border-[#1DA9D0]/15">

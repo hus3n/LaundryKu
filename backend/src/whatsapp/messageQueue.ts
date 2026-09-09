@@ -19,7 +19,6 @@ const QUEUE_FILE = path.resolve(process.cwd(), 'wa-sessions', 'pending-queue.jso
 class WAMessageQueue {
   private queue: WAJob[] = [];
   private isProcessing = false;
-  private delayMs = 10000; // 10 seconds safe rate-limit delay between messages
 
   constructor() {
     this.loadQueueFromDisk();
@@ -161,11 +160,15 @@ class WAMessageQueue {
       console.error(`❌ Failed sending WA message to ${job?.recipientPhone}:`, error.message);
     }
 
-    // Mandatory 10 seconds delay before processing next message in queue
-    console.log(`⏳ Waiting 10s delay for WA rate-limit safety... (${this.queue.length} left in queue)`);
+    // Dynamic delay between 10s and 20s (in steps of 0.5s) for WA rate-limit safety
+    const randomStep = Math.floor(Math.random() * 21) + 20; // Random integer between 20 and 40
+    const dynamicDelayMs = randomStep * 500;
+    const dynamicDelaySec = (dynamicDelayMs / 1000).toFixed(1);
+
+    console.log(`⏳ Waiting ${dynamicDelaySec}s delay for WA rate-limit safety... (${this.queue.length} left in queue)`);
     setTimeout(() => {
       this.processQueue();
-    }, this.delayMs);
+    }, dynamicDelayMs);
   }
 }
 

@@ -85,8 +85,8 @@ export default function BotSettingsPage() {
     isGreetingActive: false,
     aiApiKey: '',
     aiProvider: 'openai',
-    aiBaseUrl: '',
-    aiModel: '',
+    aiBaseUrl: AI_PRESETS['openai'].baseUrl,
+    aiModel: AI_PRESETS['openai'].defaultModel,
     aiSystemPrompt: '',
     isAiActive: false,
   });
@@ -118,11 +118,14 @@ export default function BotSettingsPage() {
         api.get('/bot/auto-replies'),
       ]);
       const loaded = confRes.data.data || {};
+      const provider = loaded.aiProvider || 'openai';
+      const preset = AI_PRESETS[provider];
+
       setConfig({
         ...loaded,
-        aiProvider: loaded.aiProvider || 'openai',
-        aiBaseUrl: loaded.aiBaseUrl || '',
-        aiModel: loaded.aiModel || '',
+        aiProvider: provider,
+        aiBaseUrl: loaded.aiBaseUrl || (preset ? preset.baseUrl : ''),
+        aiModel: loaded.aiModel || (preset ? preset.defaultModel : ''),
         aiSystemPrompt:
           loaded.aiSystemPrompt ||
           'Anda adalah asisten AI ramah dan profesional untuk layanan LaundryKu. Jawab pertanyaan pelanggan dengan sopan, jelas, dan informatif.',
