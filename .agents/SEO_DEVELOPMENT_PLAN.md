@@ -12,14 +12,14 @@ Fase ini berfokus pada melengkapi informasi dasar eksistensi layanan yang dicari
 - [x] **Halaman Edukasi:** Pembuatan `/faq` untuk menjawab keraguan konsumen di awal pencarian.
 - [x] **Halaman Legalitas:** Pembuatan dokumen `/kebijakan-privasi` dan `/syarat-ketentuan`.
 
-## 🚧 Fase 2: Optimasi On-Page, Meta Data & Indexing (Prioritas Berikutnya)
+## ✅ Fase 2: Optimasi On-Page, Meta Data & Indexing (Selesai)
 Fase ini berfokus pada aspek teknikal SEO di Next.js App Router agar halaman publik mudah diindeks.
 
-- [ ] **Optimasi Metadata (Title & Deskripsi Lanjutan):** Menargetkan varian *keywords* yang spesifik di halaman baru. (Misal: Title FAQ diubah menjadi "FAQ - Pertanyaan Seputar Aplikasi Kasir LaundryKu").
-- [ ] **robots.txt & Sitemaps:** 
+- [x] **Optimasi Metadata (Title & Deskripsi Lanjutan):** Menargetkan varian *keywords* yang spesifik di halaman baru. (Misal: Title FAQ diubah menjadi "FAQ - Pertanyaan Seputar Aplikasi Kasir LaundryKu").
+- [x] **robots.txt & Sitemaps:** 
   - Memastikan *bot* mesin pencari memiliki arahan indeksasi pada URL `sitemap.xml`.
   - Secara ketat mencegah *bot* merayapi folder rute internal seperti `/admin`, `/superadmin`, `/karyawan` untuk menjaga keamanan dan menghindari indeksasi URL yang harusnya di balik otentikasi (hindari isu "*Soft 404*").
-- [ ] **Audit Semantic HTML & Aksesibilitas (A11y):**
+- [x] **Audit Semantic HTML & Aksesibilitas (A11y):**
   - Penerapan alt-text deskriptif pada semua `<img />`.
   - Pemanfaatan heading tag yang berurutan (`H1`, `H2`, `H3`) di *landing page*.
 

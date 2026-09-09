@@ -5,8 +5,8 @@ import { Metadata } from 'next';
 import { Mail, MessageSquare, MapPin } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Kontak',
-  description: 'Hubungi tim operasional dan dukungan LaundryKu.',
+  title: 'Hubungi Kami - Tim Support LaundryKu',
+  description: 'Hubungi tim operasional dan dukungan aplikasi kasir LaundryKu untuk bantuan, keluhan pemasaran maupun instalasi sistem.',
 };
 
 export default function ContactPage() {

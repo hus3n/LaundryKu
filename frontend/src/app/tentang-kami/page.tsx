@@ -5,8 +5,8 @@ import { Metadata } from 'next';
 import { Sparkles } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Tentang Kami',
-  description: 'Mengenal visi LaundryKu sebagai platform digitalisasi UMKM laundry Indonesia.',
+  title: 'Tentang Kami - Startup Aplikasi Manajemen Laundry Digital',
+  description: 'Mengenal visi LaundryKu sebagai platform aplikasi kasir dan digitalisasi UMKM laundry di Indonesia.',
 };
 
 export default function AboutPage() {

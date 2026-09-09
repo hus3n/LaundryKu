@@ -49,6 +49,9 @@ export const metadata: Metadata = {
     title: 'LaundryKu - Sistem Manajemen Laundry Digital',
     description: 'Sistem pesanan otomatis dan pembukuan keuangan untuk pengusaha laundry cerdas.',
   },
+  verification: {
+    google: '96kbXzz1KBySpd-ssTyVX3ATgRdcm3gFMe6LpKOJy_s',
+  },
   robots: {
     index: true,
     follow: true,

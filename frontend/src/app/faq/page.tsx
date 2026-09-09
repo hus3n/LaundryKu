@@ -5,8 +5,8 @@ import { Metadata } from 'next';
 import { HelpCircle } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'FAQ - Pertanyaan Umum',
-  description: 'Tanya jawab seputar sistem dan layanan LaundryKu.',
+  title: 'FAQ - Pertanyaan Seputar Aplikasi Kasir LaundryKu',
+  description: 'Tanya jawab seputar sistem, fitur, harga, dan layanan aplikasi kasir serta manajemen LaundryKu.',
 };
 
 export default function FAQPage() {

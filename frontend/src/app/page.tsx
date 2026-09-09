@@ -181,7 +181,7 @@ export default function LandingPage() {
                       <Shirt className="w-5 h-5 text-[#43D5CC]" />
                     </div>
                     <div>
-                      <h4 className="text-sm font-semibold text-[#F5EACA]">Cucian #LK-2026-089</h4>
+                      <div className="text-sm font-semibold text-[#F5EACA]">Cucian #LK-2026-089</div>
                       <p className="text-[11px] sm:text-xs text-[#F5EACA]/60">Pelanggan: Ibu Rina (0812-3456-7890)</p>
                     </div>
                   </div>
@@ -440,7 +440,7 @@ export default function LandingPage() {
                     <Check className="w-3.5 h-3.5" />
                   </div>
                   <div>
-                    <h4 className="text-sm font-semibold text-[#F5EACA]">Hemat Waktu 80% Operasional Kasir</h4>
+                    <h3 className="text-sm font-semibold text-[#F5EACA]">Hemat Waktu 80% Operasional Kasir</h3>
                     <p className="text-xs text-[#F5EACA]/60 mt-0.5">Input orderan cukup 3 klik, notifikasi terkirim sendiri secara otomatis.</p>
                   </div>
                 </div>
@@ -450,7 +450,7 @@ export default function LandingPage() {
                     <Check className="w-3.5 h-3.5" />
                   </div>
                   <div>
-                    <h4 className="text-sm font-semibold text-[#F5EACA]">Bebas Biaya Per Pesan WA</h4>
+                    <h3 className="text-sm font-semibold text-[#F5EACA]">Bebas Biaya Per Pesan WA</h3>
                     <p className="text-xs text-[#F5EACA]/60 mt-0.5">Menggunakan gateway WhatsApp toko sendiri tanpa biaya kredit per pesan SMS/WA.</p>
                   </div>
                 </div>
@@ -460,7 +460,7 @@ export default function LandingPage() {
                     <Check className="w-3.5 h-3.5" />
                   </div>
                   <div>
-                    <h4 className="text-sm font-semibold text-[#F5EACA]">Data Tersimpan Aman & Auto-Backup</h4>
+                    <h3 className="text-sm font-semibold text-[#F5EACA]">Data Tersimpan Aman & Auto-Backup</h3>
                     <p className="text-xs text-[#F5EACA]/60 mt-0.5">Terintegrasi dengan Telegram Backup untuk mencegah kehilangan data omset.</p>
                   </div>
                 </div>

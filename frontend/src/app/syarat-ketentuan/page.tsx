@@ -5,8 +5,8 @@ import { Metadata } from 'next';
 import { CheckCircle2 } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Syarat & Ketentuan',
-  description: 'Syarat dan ketentuan layanan sistem aplikasi LaundryKu.',
+  title: 'Syarat & Ketentuan Layanan Aplikasi Kasir LaundryKu',
+  description: 'Syarat dan ketentuan penggunaan sistem aplikasi, platform kasir, dan layanan WhatsApp otomatis dari LaundryKu.',
 };
 
 export default function TermsPage() {

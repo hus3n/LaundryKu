@@ -8,7 +8,7 @@ export default function Header() {
         <Link href="/" className="flex items-center gap-3">
           <img
             src="/logo/laundryku-icon.svg"
-            alt="LaundryKu"
+            alt="Logo Aplikasi Kasir LaundryKu"
             className="w-10 h-10 rounded-xl shadow-lg shadow-[#1DA9D0]/30"
           />
           <span className="text-xl font-extrabold bg-gradient-to-r from-[#F5EACA] via-[#F5EACA]/90 to-[#43D5CC] bg-clip-text text-transparent">

@@ -5,8 +5,8 @@ import { Metadata } from 'next';
 import { ShieldCheck } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Kebijakan Privasi',
-  description: 'Kebijakan privasi dan keamanan data LaundryKu.',
+  title: 'Kebijakan Privasi - Keamanan Data Aplikasi LaundryKu',
+  description: 'Informasi lengkap terkait kebijakan privasi dan standar keamanan data pada sistem manajemen LaundryKu.',
 };
 
 export default function PrivacyPolicyPage() {
