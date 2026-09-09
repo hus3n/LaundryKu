@@ -46,21 +46,15 @@ export default function DashboardLayout({ children, role }: { children: React.Re
       { label: 'Dashboard', href: '/superadmin/dashboard', icon: LayoutDashboard },
       { label: 'Kelola Admin', href: '/superadmin/admins', icon: Users },
       { label: 'Pairing WA', href: '/superadmin/whatsapp', icon: QrCode },
-      { label: 'Pengaturan Bot WA', href: '/superadmin/bot-settings', icon: Bot },
+      { label: 'Pengaturan Bot', href: '/superadmin/bot-settings', icon: Bot },
       { label: 'Backup & Restore', href: '/superadmin/backup', icon: Database },
     ];
   } else if (user?.role === 'ADMIN') {
     navItems = [
-      { label: 'Dashboard', href: '/admin/dashboard', icon: LayoutDashboard },
-      { label: 'Data Cucian', href: '/admin/laundry', icon: ClipboardList },
-      { label: 'Catat Cucian', href: '/admin/laundry/new', icon: PlusCircle },
-      { label: 'Kelola Paket', href: '/admin/packages', icon: Package },
-      { label: 'Kategori Cucian', href: '/admin/categories', icon: Layers },
-      { label: 'Kelola Outlet', href: '/admin/outlets', icon: Building2 },
-      { label: 'Catatan Pengeluaran', href: '/admin/expenses', icon: FileText },
-      { label: 'Data Pelanggan', href: '/admin/customers', icon: Users },
-      { label: 'Data Karyawan', href: '/admin/employees', icon: UserCheck },
-      { label: 'Pairing WA Toko', href: '/admin/whatsapp', icon: QrCode },
+      { label: 'Dashboard Utama', href: '/admin/dashboard', icon: LayoutDashboard },
+      { label: 'Transaksi Cucian', href: '/admin/laundry', icon: ClipboardList },
+      { label: 'Catat Cucian Baru', href: '/admin/laundry/new', icon: PlusCircle },
+      { label: 'Laporan Keuangan', href: '/admin/expenses', icon: FileText },
       { label: 'Pengaturan Toko', href: '/admin/settings', icon: Store },
     ];
   } else {

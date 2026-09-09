@@ -156,11 +156,11 @@ export default function LandingPage() {
               Platform Pencatatan Laundry Masa Depan
             </motion.div>
 
-            <motion.h1 variants={itemVariants} className="text-4xl sm:text-6xl font-extrabold tracking-tight text-[#F5EACA] leading-[1.15]">
+            <motion.h1 variants={itemVariants} className="text-[32px] sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-[#F5EACA] leading-tight sm:leading-[1.15]">
               Kelola Usaha Laundry Lebih <span className="bg-gradient-to-r from-[#1DA9D0] via-[#43D5CC] to-[#F5EACA] bg-clip-text text-transparent">Cepat, Rapi & Otomatis</span>
             </motion.h1>
 
-            <motion.p variants={itemVariants} className="text-lg text-[#F5EACA]/60 leading-relaxed max-w-xl">
+            <motion.p variants={itemVariants} className="text-sm sm:text-lg text-[#F5EACA]/60 leading-relaxed max-w-xl">
               Tinggalkan pencatatan manual di buku. LaundryKu v1.0 menghadirkan notifikasi WhatsApp otomatis ke pelanggan, grafik analitik pendapatan, dan manajemen staf dalam satu aplikasi terpadu.
             </motion.p>
 

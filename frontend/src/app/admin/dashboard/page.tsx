@@ -17,7 +17,11 @@ import {
   ArrowUpRight, 
   Package, 
   QrCode,
-  DollarSign
+  DollarSign,
+  Layers,
+  Users,
+  UserCheck,
+  Building2
 } from 'lucide-react';
 
 import type { LaundryOrder } from '@/types';
@@ -178,6 +182,34 @@ export default function AdminDashboardPage() {
           </motion.div>
         </motion.div>
 
+        {/* Quick Access / Master Data Level (New) */}
+        <div className="space-y-4">
+          <h3 className="text-base font-bold text-[#F5EACA]">Akses Cepat Master Data</h3>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+            {[
+              { label: 'Paket', href: '/admin/packages', icon: Package, color: 'text-blue-400', bg: 'bg-blue-400/20', border: 'border-blue-400/30' },
+              { label: 'Kategori', href: '/admin/categories', icon: Layers, color: 'text-indigo-400', bg: 'bg-indigo-400/20', border: 'border-indigo-400/30' },
+              { label: 'Pelanggan', href: '/admin/customers', icon: Users, color: 'text-emerald-400', bg: 'bg-emerald-400/20', border: 'border-emerald-400/30' },
+              { label: 'Karyawan', href: '/admin/employees', icon: UserCheck, color: 'text-orange-400', bg: 'bg-orange-400/20', border: 'border-orange-400/30' },
+              { label: 'Cabang', href: '/admin/outlets', icon: Building2, color: 'text-purple-400', bg: 'bg-purple-400/20', border: 'border-purple-400/30' },
+              { label: 'WhatsApp', href: '/admin/whatsapp', icon: QrCode, color: 'text-[#43D5CC]', bg: 'bg-[#43D5CC]/20', border: 'border-[#43D5CC]/30' },
+            ].map((item, i) => (
+              <Link key={i} href={item.href}>
+                <motion.div 
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="glass-card-dark p-4 flex flex-col items-center justify-center text-center gap-3 rounded-2xl border border-[#1DA9D0]/15 hover:border-[#1DA9D0]/40 transition-colors"
+                >
+                  <div className={`w-10 h-10 rounded-xl ${item.bg} ${item.border} border flex items-center justify-center ${item.color}`}>
+                    <item.icon className="w-5 h-5" />
+                  </div>
+                  <span className="text-xs font-semibold text-[#F5EACA]">{item.label}</span>
+                </motion.div>
+              </Link>
+            ))}
+          </div>
+        </div>
+
         {/* Chart Section */}
         <div className="glass-card-dark p-6 rounded-2xl border border-[#1DA9D0]/15">
           <div className="flex items-center justify-between mb-6">
@@ -238,47 +270,79 @@ export default function AdminDashboardPage() {
               </Link>
             </div>
           ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs">
-                <thead>
-                  <tr className="border-b border-[#1DA9D0]/15 text-[#F5EACA]/60 font-medium">
-                    <th className="py-3 px-4">No. Nota</th>
-                    <th className="py-3 px-4">Pelanggan</th>
-                    <th className="py-3 px-4">Tanggal Masuk</th>
-                    <th className="py-3 px-4">Status Cucian</th>
-                    <th className="py-3 px-4">Pembayaran</th>
-                    <th className="py-3 px-4 text-right">Total Harga</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-[#1DA9D0]/10">
-                  {orders.slice(0, 5).map((order) => (
-                    <tr key={order.id} className="hover:bg-[#1DA9D0]/5 transition-colors">
-                      <td className="py-3.5 px-4 font-bold text-[#43D5CC]">#{order.orderNumber}</td>
-                      <td className="py-3.5 px-4">
-                        <div className="font-semibold text-[#F5EACA]">{order.customer?.name}</div>
-                        <div className="text-[10px] text-[#F5EACA]/60">{order.customer?.phone}</div>
-                      </td>
-                      <td className="py-3.5 px-4 text-[#F5EACA]/80">
-                        {new Date(order.dateIn).toLocaleDateString('id-ID')}
-                      </td>
-                      <td className="py-3.5 px-4">
-                        <span className={`px-2.5 py-1 rounded-full text-[10px] font-semibold border ${getOrderStatusBadgeClass(order.status)}`}>
-                          {getOrderStatusLabel(order.status)}
-                        </span>
-                      </td>
-                      <td className="py-3.5 px-4">
+            <>
+              {/* Mobile Card Layout (Hidden on md and up) */}
+              <div className="grid grid-cols-1 gap-4 md:hidden">
+                {orders.slice(0, 5).map((order) => (
+                  <div key={order.id} className="bg-[#012040]/50 p-4 rounded-xl border border-[#1DA9D0]/10 flex flex-col gap-3">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <div className="font-bold text-[#43D5CC] text-sm">#{order.orderNumber}</div>
+                        <div className="font-semibold text-[#F5EACA] text-xs mt-1">{order.customer?.name}</div>
+                      </div>
+                      <span className={`px-2.5 py-1 rounded-full text-[10px] font-semibold border ${getOrderStatusBadgeClass(order.status)}`}>
+                        {getOrderStatusLabel(order.status)}
+                      </span>
+                    </div>
+                    
+                    <div className="flex justify-between items-center text-xs border-t border-[#1DA9D0]/10 pt-3">
+                      <div>
+                        <p className="text-[#F5EACA]/60 mb-1">Total Biaya</p>
+                        <p className="font-bold text-[#F5EACA]">Rp {Number(order.totalPrice).toLocaleString('id-ID')}</p>
+                      </div>
+                      <div className="text-right">
                         <span className={`px-2.5 py-1 rounded-full text-[10px] font-semibold border ${getPaymentStatusBadgeClass(order.paymentStatus)}`}>
                           {getPaymentStatusLabel(order.paymentStatus)}
                         </span>
-                      </td>
-                      <td className="py-3.5 px-4 text-right font-bold text-[#F5EACA]">
-                        Rp {Number(order.totalPrice).toLocaleString('id-ID')}
-                      </td>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Desktop Table Layout (Hidden on mobile) */}
+              <div className="hidden md:block overflow-x-auto">
+                <table className="w-full text-left text-xs">
+                  <thead>
+                    <tr className="border-b border-[#1DA9D0]/15 text-[#F5EACA]/60 font-medium">
+                      <th className="py-3 px-4">No. Nota</th>
+                      <th className="py-3 px-4">Pelanggan</th>
+                      <th className="py-3 px-4">Tanggal Masuk</th>
+                      <th className="py-3 px-4">Status Cucian</th>
+                      <th className="py-3 px-4">Pembayaran</th>
+                      <th className="py-3 px-4 text-right">Total Harga</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                  </thead>
+                  <tbody className="divide-y divide-[#1DA9D0]/10">
+                    {orders.slice(0, 5).map((order) => (
+                      <tr key={order.id} className="hover:bg-[#1DA9D0]/5 transition-colors">
+                        <td className="py-3.5 px-4 font-bold text-[#43D5CC]">#{order.orderNumber}</td>
+                        <td className="py-3.5 px-4">
+                          <div className="font-semibold text-[#F5EACA]">{order.customer?.name}</div>
+                          <div className="text-[10px] text-[#F5EACA]/60">{order.customer?.phone}</div>
+                        </td>
+                        <td className="py-3.5 px-4 text-[#F5EACA]/80">
+                          {new Date(order.dateIn).toLocaleDateString('id-ID')}
+                        </td>
+                        <td className="py-3.5 px-4">
+                          <span className={`px-2.5 py-1 rounded-full text-[10px] font-semibold border ${getOrderStatusBadgeClass(order.status)}`}>
+                            {getOrderStatusLabel(order.status)}
+                          </span>
+                        </td>
+                        <td className="py-3.5 px-4">
+                          <span className={`px-2.5 py-1 rounded-full text-[10px] font-semibold border ${getPaymentStatusBadgeClass(order.paymentStatus)}`}>
+                            {getPaymentStatusLabel(order.paymentStatus)}
+                          </span>
+                        </td>
+                        <td className="py-3.5 px-4 text-right font-bold text-[#F5EACA]">
+                          Rp {Number(order.totalPrice).toLocaleString('id-ID')}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </>
           )}
         </div>
       </div>
