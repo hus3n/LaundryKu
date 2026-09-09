@@ -37,7 +37,7 @@ export default function ForgotPasswordPage() {
             <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#1DA9D0] to-[#43D5CC] flex items-center justify-center shadow-lg shadow-[#1DA9D0]/30">
               <Shirt className="w-7 h-7 text-background" />
             </div>
-            <span className="text-2xl font-bold bg-gradient-to-r from-[#F5EACA] via-[#F5EACA]/90 to-[#43D5CC] bg-clip-text text-transparent">
+            <span className="text-2xl font-bold bg-gradient-to-r from-foreground via-foreground/90 to-[#43D5CC] bg-clip-text text-transparent">
               LaundryKu
             </span>
           </Link>

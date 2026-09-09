@@ -72,7 +72,7 @@ function LoginForm() {
             alt="LaundryKu"
             className="w-12 h-12 rounded-2xl shadow-lg shadow-[#1DA9D0]/30 transition-transform duration-300 group-hover:scale-105"
           />
-          <span className="text-2xl font-extrabold bg-gradient-to-r from-[#F5EACA] via-[#F5EACA]/90 to-[#43D5CC] bg-clip-text text-transparent">
+          <span className="text-2xl font-extrabold bg-gradient-to-r from-foreground via-foreground/90 to-[#43D5CC] bg-clip-text text-transparent">
             Laundry<span className="bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] bg-clip-text text-transparent">Ku</span>{' '}
             <span className="text-xs px-2 py-0.5 rounded-full bg-[#1DA9D0]/20 border border-[#1DA9D0]/30 text-[#43D5CC] ml-1 font-semibold">
               v1.0

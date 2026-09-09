@@ -8,7 +8,7 @@ export default function Footer() {
         <div className="col-span-1 md:col-span-1">
           <div className="flex items-center gap-3 mb-4">
             <img src="/logo/laundryku-icon.svg" alt="Logo Footer LaundryKu Software Laundry" className="w-8 h-8 rounded-lg shadow-lg shadow-[#1DA9D0]/30" />
-            <span className="text-lg font-extrabold bg-gradient-to-r from-[#F5EACA] to-[#43D5CC] bg-clip-text text-transparent">LaundryKu</span>
+            <span className="text-lg font-extrabold bg-gradient-to-r from-foreground to-[#43D5CC] bg-clip-text text-transparent">LaundryKu</span>
           </div>
           <p className="text-xs text-foreground/50 leading-relaxed">
             Sistem manajemen POS dan kasir laundry digital terintegrasi WhatsApp yang dirancang khusus untuk mempercepat pertumbuhan UMKM Laundry di Indonesia.
