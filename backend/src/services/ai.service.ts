@@ -278,21 +278,41 @@ ${packageList || '(Belum ada daftar layanan, beri tahu pelanggan untuk konsul ke
 `;
     const finalSystemPrompt = `${dynamicContext}\n\n[INSTRUKSI / KEPRIBADIAN BOT]\n${config.aiSystemPrompt}`;
 
-    const res = await queryAiAssistant({
-      apiKey,
-      provider: superConfig.provider,
-      userMessage,
-      systemPrompt: finalSystemPrompt
-    });
+    const modelsToTry = superConfig.models && superConfig.models.length > 0 
+      ? superConfig.models 
+      : ['']; // array with empty string to trigger default model in queryAiAssistant if not set
 
-    if (res.success && res.reply) {
+    let aiResponse = null;
+    let lastError = null;
+
+    for (const model of modelsToTry) {
+      const res = await queryAiAssistant({
+        apiKey,
+        provider: superConfig.provider,
+        baseUrl: superConfig.baseUrl,
+        model: model ? model : undefined,
+        userMessage,
+        systemPrompt: finalSystemPrompt
+      });
+
+      if (res.success && res.reply) {
+        aiResponse = res;
+        break;
+      } else {
+        lastError = res.error;
+        console.log(`[AI Fallback] Model ${model || 'default'} failed:`, res.error);
+        // Continue to the next model in the loop
+      }
+    }
+
+    if (aiResponse && aiResponse.reply) {
       // Increment Quota
       config.aiUsageToday += 1;
       await config.save();
-      return { success: true, reply: res.reply };
+      return { success: true, reply: aiResponse.reply };
     }
     
-    console.log(`[AI Error] AI response failed:`, res.error);
+    console.log(`[AI Error] All models failed. Last Error:`, lastError);
     return { success: false, fallback: true };
 
   } catch (err: any) {

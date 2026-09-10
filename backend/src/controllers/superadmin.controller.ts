@@ -165,11 +165,8 @@ export async function getGlobalBotConfig(req: AuthenticatedRequest, res: Respons
   try {
     let config = await SuperadminConfig.findOne();
     if (!config) {
-      config = await SuperadminConfig.create({ apiKeys: [], provider: 'gemini' });
+      config = await SuperadminConfig.create({ apiKeys: [], provider: 'custom', baseUrl: '', models: [] });
     }
-    // Only return lengths for security, or full depending on need.
-    // For superadmin dashboard, we might want them to see it or just replace it.
-    // Let's send the full object so they can manage them.
     res.json({ success: true, data: config });
   } catch (error: any) {
     next(error);
@@ -178,13 +175,15 @@ export async function getGlobalBotConfig(req: AuthenticatedRequest, res: Respons
 
 export async function updateGlobalBotConfig(req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> {
   try {
-    const { apiKeys, provider } = req.body;
+    const { apiKeys, provider, baseUrl, models } = req.body;
     let config = await SuperadminConfig.findOne();
     if (!config) {
-      config = new SuperadminConfig({ apiKeys, provider: provider || 'gemini' });
+      config = new SuperadminConfig({ apiKeys, provider: provider || 'custom', baseUrl: baseUrl || '', models: models || [] });
     } else {
       config.apiKeys = apiKeys;
-      if (provider) config.provider = provider;
+      if (provider !== undefined) config.provider = provider;
+      if (baseUrl !== undefined) config.baseUrl = baseUrl;
+      if (models !== undefined) config.models = models;
     }
     await config.save();
     res.json({ success: true, message: 'Global Bot Config saved.', data: config });

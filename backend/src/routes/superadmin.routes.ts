@@ -61,6 +61,8 @@ const globalBotConfigSchema = z.object({
   body: z.object({
     apiKeys: z.array(z.string()),
     provider: z.string().optional(),
+    baseUrl: z.string().optional(),
+    models: z.array(z.string()).optional(),
   }),
 });
 
