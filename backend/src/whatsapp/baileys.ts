@@ -26,6 +26,26 @@ import NodeCache from 'node-cache';
 
 const msgRetryCounterCache = new NodeCache();
 
+function extractWhatsAppText(msg: any): string {
+  if (!msg || !msg.message) return '';
+  let m = msg.message;
+
+  // Unwrap ephemeral or viewOnce messages
+  if (m.ephemeralMessage?.message) m = m.ephemeralMessage.message;
+  if (m.viewOnceMessage?.message) m = m.viewOnceMessage.message;
+  if (m.viewOnceMessageV2?.message) m = m.viewOnceMessageV2.message;
+  if (m.documentWithCaptionMessage?.message) m = m.documentWithCaptionMessage.message;
+
+  return (
+    m.conversation ||
+    m.extendedTextMessage?.text ||
+    m.imageMessage?.caption ||
+    m.videoMessage?.caption ||
+    m.documentMessage?.caption ||
+    ''
+  ).trim();
+}
+
 interface ActiveSession {
   socket?: WASocket;
   status: 'DISCONNECTED' | 'CONNECTING' | 'CONNECTED';
@@ -220,13 +240,7 @@ export async function initiateWAPairing(adminId: string) {
       for (const msg of m.messages) {
         if (msg.key.fromMe || !msg.message || msg.key.remoteJid === 'status@broadcast') continue;
 
-        const actualMessage = msg.message.ephemeralMessage?.message || msg.message;
-        const rawText = (
-          actualMessage.conversation ||
-          actualMessage.extendedTextMessage?.text ||
-          actualMessage.imageMessage?.caption ||
-          ''
-        ).trim();
+        const rawText = extractWhatsAppText(msg);
 
         if (!rawText) continue;
 
@@ -343,7 +357,7 @@ ${order.notes ? `📝 *CATATAN*: ${order.notes}\n` : ''}
 Terima kasih telah mempercayakan pakaian Anda kepada kami! Jika ada pertanyaan lebih lanjut, silakan balas pesan ini. 🙏😊`;
 
           if (msg.key.remoteJid) {
-            await sock.sendMessage(msg.key.remoteJid, { text: replyMessage });
+            await sock.sendMessage(msg.key.remoteJid, { text: replyMessage }, { quoted: msg });
           }
         } else if (isMongoConnected()) {
           // Check keyword auto-replies first
@@ -353,7 +367,7 @@ Terima kasih telah mempercayakan pakaian Anda kepada kami! Jika ada pertanyaan l
           for (const ar of autoReplies) {
             if (rawText.toLowerCase().includes(ar.keyword.toLowerCase())) {
               if (msg.key.remoteJid) {
-                await sock.sendMessage(msg.key.remoteJid, { text: ar.reply });
+                await sock.sendMessage(msg.key.remoteJid, { text: ar.reply }, { quoted: msg });
               }
               keywordReplied = true;
               break;
@@ -365,7 +379,7 @@ Terima kasih telah mempercayakan pakaian Anda kepada kami! Jika ada pertanyaan l
 
             if (aiResult.success && aiResult.reply) {
               if (msg.key.remoteJid) {
-                await sock.sendMessage(msg.key.remoteJid, { text: aiResult.reply });
+                await sock.sendMessage(msg.key.remoteJid, { text: aiResult.reply }, { quoted: msg });
                 console.log(`🤖 Central AI replied to ${msg.key.remoteJid}`);
               }
             } else {
@@ -381,10 +395,13 @@ Terima kasih telah mempercayakan pakaian Anda kepada kami! Jika ada pertanyaan l
                   textLower.includes('pagi') ||
                   textLower.includes('siang') ||
                   textLower.includes('malam') ||
+                  textLower.includes('tes') ||
+                  textLower.includes('test') ||
+                  textLower.includes('ping') ||
                   textLower === 'p')
               ) {
                 if (msg.key.remoteJid) {
-                  await sock.sendMessage(msg.key.remoteJid, { text: botConfig.greetingMessage });
+                  await sock.sendMessage(msg.key.remoteJid, { text: botConfig.greetingMessage }, { quoted: msg });
                 }
               }
             }

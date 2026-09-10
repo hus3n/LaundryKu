@@ -26,6 +26,7 @@ import expenseRoutes from './routes/expense.routes.js';
 import botConfigRoutes from './routes/botConfig.routes.js';
 
 const app = express();
+app.set('trust proxy', 1); // Fix for express-rate-limit behind reverse proxy
 
 // Middleware
 app.use(cors({

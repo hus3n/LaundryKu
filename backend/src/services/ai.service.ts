@@ -160,12 +160,16 @@ export async function queryAiAssistant(options: AiRequestOptions): Promise<AiRes
       }
     }
 
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 20000); // 20s timeout for AI
+
     const res = await fetch(chatEndpoint, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${apiKey.trim()}`,
       },
+      signal: controller.signal,
       body: JSON.stringify({
         model,
         messages: [
@@ -176,6 +180,8 @@ export async function queryAiAssistant(options: AiRequestOptions): Promise<AiRes
         max_tokens: 1000,
       }),
     });
+    
+    clearTimeout(timeoutId);
 
     if (!res.ok) {
       const errText = await res.text();
