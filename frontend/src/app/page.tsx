@@ -99,7 +99,7 @@ export default function LandingPage() {
   const y3 = useTransform(scrollYProgress, [0, 1], [0, 100]);
 
   return (
-    <div className="min-h-screen bg-background text-foreground selection:bg-[#1DA9D0] selection:text-background overflow-hidden relative">
+    <div className="min-h-screen bg-background text-foreground selection:bg-[#1DA9D0] selection:text-[#010E1C] overflow-hidden relative">
       {/* Background Glow Spheres (Parallax) */}
       <motion.div style={{ y: y1 }} className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-[#1DA9D0]/15 rounded-full blur-[120px] pointer-events-none" />
       <motion.div style={{ y: y2 }} className="absolute top-1/3 right-10 w-[400px] h-[400px] bg-orient/20 rounded-full blur-[100px] pointer-events-none" />
@@ -130,7 +130,7 @@ export default function LandingPage() {
                 whileHover={{ scale: 1.02, y: -2, transition: { type: 'spring', stiffness: 400, damping: 20 } }}
                 whileTap={{ scale: 0.96 }}
                 onClick={handleRegisterClick()}
-                className="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-[#1DA9D0] via-[#015383] to-[#43D5CC] hover:opacity-95 text-background font-bold text-base shadow-xl shadow-[#1DA9D0]/20 flex items-center justify-center gap-3 group"
+                className="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-[#1DA9D0] via-[#015383] to-[#43D5CC] hover:opacity-95 text-[#010E1C] font-bold text-base shadow-xl shadow-[#1DA9D0]/20 flex items-center justify-center gap-3 group"
               >
                 Coba Gratis via WhatsApp
                 <motion.span whileHover={{ x: 4 }}><ArrowRight className="w-5 h-5" /></motion.span>
@@ -524,12 +524,12 @@ export default function LandingPage() {
                 transition={{ type: 'spring', stiffness: 200, damping: 20 }}
                 className={`glass-card-dark p-6 sm:p-8 rounded-3xl border relative flex flex-col justify-between ${
                   plan.isPopular
-                    ? 'border-[#1DA9D0] shadow-2xl shadow-[#1DA9D0]/20 bg-gradient-to-b from-[#012040] via-[#012040] to-[#013D66]/40'
+                    ? 'border-[#1DA9D0] shadow-2xl shadow-[#1DA9D0]/20 bg-gradient-to-b from-surface via-surface to-surface-deep/40'
                     : 'border-[#1DA9D0]/15'
                 }`}
               >
                 {plan.isPopular && (
-                  <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] text-background text-[11px] font-bold shadow-lg shadow-[#1DA9D0]/30 uppercase tracking-wider flex items-center gap-1.5">
+                  <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] text-[#010E1C] text-[11px] font-bold shadow-lg shadow-[#1DA9D0]/30 uppercase tracking-wider flex items-center gap-1.5">
                     <Star className="w-3.5 h-3.5 fill-[#010E1C]" />
                     {plan.badgeText}
                   </div>
@@ -564,7 +564,7 @@ export default function LandingPage() {
                     onClick={handleRegisterClick(plan.name)}
                     className={`w-full py-3.5 rounded-xl font-bold text-xs transition-all shadow-lg flex items-center justify-center gap-2 group ${
                       plan.isPopular
-                        ? 'bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] text-background shadow-[#1DA9D0]/25'
+                        ? 'bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] text-[#010E1C] shadow-[#1DA9D0]/25'
                         : 'bg-muted text-foreground border border-[#1DA9D0]/25 hover:bg-muted-hover'
                     }`}
                   >
@@ -587,7 +587,7 @@ export default function LandingPage() {
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       >
         <div className="max-w-5xl mx-auto px-6">
-          <div className="glass-card-dark p-8 sm:p-12 rounded-3xl border border-[#1DA9D0]/30 text-center relative overflow-hidden bg-gradient-to-br from-[#012040] via-[#012040] to-[#013D66]">
+          <div className="glass-card-dark p-8 sm:p-12 rounded-3xl border border-[#1DA9D0]/30 text-center relative overflow-hidden bg-gradient-to-br from-surface via-surface to-surface-deep">
             <div className="absolute top-0 right-0 w-64 h-64 bg-[#1DA9D0]/20 rounded-full blur-[80px] pointer-events-none" />
             <h2 className="text-2xl sm:text-4xl font-extrabold text-foreground mb-4">
               Siap Modernisasi Toko Laundry Anda?
@@ -599,7 +599,7 @@ export default function LandingPage() {
               whileHover={{ scale: 1.04, transition: { type: 'spring', stiffness: 400, damping: 15 } }}
               whileTap={{ scale: 0.96 }}
               onClick={handleRegisterClick()}
-              className="px-8 py-4 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] hover:opacity-95 text-background font-bold text-base shadow-xl shadow-[#1DA9D0]/30 inline-flex items-center gap-3 group"
+              className="px-8 py-4 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] hover:opacity-95 text-[#010E1C] font-bold text-base shadow-xl shadow-[#1DA9D0]/30 inline-flex items-center gap-3 group"
             >
               Hubungi SuperAdmin di WhatsApp (085229925593)
               <motion.span whileHover={{ x: 4 }}><ArrowRight className="w-5 h-5" /></motion.span>

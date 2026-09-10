@@ -283,7 +283,7 @@ export default function BotSettingsPage() {
               <button
                 onClick={handleSaveConfig}
                 disabled={savingConfig}
-                className="px-4 py-2 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] text-background font-bold text-xs shadow-lg transition-all flex items-center gap-2 disabled:opacity-50"
+                className="px-4 py-2 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] text-[#010E1C] font-bold text-xs shadow-lg transition-all flex items-center gap-2 disabled:opacity-50"
               >
                 <Save className="w-4 h-4" /> Simpan Pesan Sapaan
               </button>
@@ -514,7 +514,7 @@ export default function BotSettingsPage() {
                 <button
                   type="submit"
                   disabled={isAddingReply}
-                  className="px-4 py-2 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] text-background font-bold text-xs transition-all flex items-center gap-2 disabled:opacity-50"
+                  className="px-4 py-2 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] text-[#010E1C] font-bold text-xs transition-all flex items-center gap-2 disabled:opacity-50"
                 >
                   <Plus className="w-4 h-4" /> Tambah Kata Kunci
                 </button>

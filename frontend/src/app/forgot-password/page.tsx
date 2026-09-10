@@ -35,7 +35,7 @@ export default function ForgotPasswordPage() {
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center gap-3">
             <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#1DA9D0] to-[#43D5CC] flex items-center justify-center shadow-lg shadow-[#1DA9D0]/30">
-              <Shirt className="w-7 h-7 text-background" />
+              <Shirt className="w-7 h-7 text-[#010E1C]" />
             </div>
             <span className="text-2xl font-bold bg-gradient-to-r from-foreground via-foreground/90 to-[#43D5CC] bg-clip-text text-transparent">
               LaundryKu
@@ -94,7 +94,7 @@ export default function ForgotPasswordPage() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full py-3.5 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] hover:opacity-95 text-background font-bold text-sm shadow-lg shadow-[#1DA9D0]/25 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+                className="w-full py-3.5 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] hover:opacity-95 text-[#010E1C] font-bold text-sm shadow-lg shadow-[#1DA9D0]/25 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
               >
                 {isSubmitting ? (
                   <div className="w-5 h-5 border-2 border-background/30 border-t-[#010E1C] rounded-full animate-spin" />

@@ -109,7 +109,7 @@ export default function ExpensesPage() {
           <div className="flex flex-wrap gap-3">
             <button
               onClick={() => setShowForm(true)}
-              className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] hover:opacity-95 text-background font-bold text-xs shadow-lg shadow-[#1DA9D0]/20 transition-all flex items-center gap-2"
+              className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] hover:opacity-95 text-[#010E1C] font-bold text-xs shadow-lg shadow-[#1DA9D0]/20 transition-all flex items-center gap-2"
             >
               <Plus className="w-4 h-4" /> Tambah Pengeluaran
             </button>
@@ -305,7 +305,7 @@ export default function ExpensesPage() {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="flex-1 px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] hover:opacity-95 text-background font-bold text-xs transition-all disabled:opacity-50"
+                    className="flex-1 px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] hover:opacity-95 text-[#010E1C] font-bold text-xs transition-all disabled:opacity-50"
                   >
                     {isSubmitting ? 'Menyimpan...' : 'Simpan'}
                   </button>

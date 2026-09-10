@@ -57,43 +57,48 @@ export default function KaryawanDashboard() {
       icon: PlusCircle,
       href: '/karyawan/laundry/new',
       color: 'from-[#1DA9D0] to-[#43D5CC]',
-      textColor: 'text-background'
+      textColor: 'text-[#010E1C]',
+      iconBg: 'bg-white/20 shadow-sm'
     },
     {
       title: 'Manajemen Cucian',
       desc: 'Update status & cetak tagihan',
       icon: ClipboardList,
       href: '/karyawan/laundry',
-      color: 'from-[#013D66] to-[#012040]',
+      color: 'from-surface-deep to-surface',
       textColor: 'text-[#43D5CC]',
-      border: 'border border-[#1DA9D0]/25'
+      border: 'border border-[#1DA9D0]/25',
+      iconBg: 'bg-[#1DA9D0]/10'
     },
     {
       title: 'Buku Pelanggan',
       desc: 'Cari & lihat data nomor WA',
       icon: Users,
       href: '/karyawan/customers',
-      color: 'from-[#013D66] to-[#012040]',
+      color: 'from-surface-deep to-surface',
       textColor: 'text-foreground',
-      border: 'border border-[#1DA9D0]/25'
+      border: 'border border-[#1DA9D0]/25',
+      iconBg: 'bg-foreground/5'
     },
     {
       title: 'Katalog Paket',
       desc: 'Cek daftar layanan & harga',
       icon: Package,
       href: '/karyawan/packages',
-      color: 'from-[#013D66] to-[#012040]',
+      color: 'from-surface-deep to-surface',
       textColor: 'text-foreground/80',
-      border: 'border border-[#1DA9D0]/25'
+      border: 'border border-[#1DA9D0]/25',
+      iconBg: 'bg-foreground/5'
     },
     {
       title: 'Kirim Info WA',
       desc: 'Pesan kustom ke pelanggan',
       icon: MessageCircle,
       href: '/karyawan/whatsapp/send',
-      color: 'from-[#013D66] to-[#012040]',
+      color: 'from-surface-deep to-surface',
       textColor: 'text-[#1DA9D0]',
-      border: 'border border-[#1DA9D0]/25'
+      border: 'border border-[#1DA9D0]/25',
+      iconBg: 'bg-[#1DA9D0]/10'
     }
   ];
 
@@ -164,7 +169,7 @@ export default function KaryawanDashboard() {
                   className={`p-6 rounded-3xl h-full flex flex-col justify-between bg-gradient-to-br ${item.color} ${item.border || ''} shadow-lg shadow-[#010E1C]/50 cursor-pointer transition-all group`}
                 >
                   <div className="flex items-start justify-between">
-                    <div className={`p-3 rounded-2xl bg-white/10 backdrop-blur-md`}>
+                    <div className={`p-3 rounded-2xl ${item.iconBg || 'bg-black/5 dark:bg-white/10'} backdrop-blur-md`}>
                       <Icon className={`w-8 h-8 ${item.textColor}`} />
                     </div>
                     <ArrowRight className={`w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity ${item.textColor}`} />

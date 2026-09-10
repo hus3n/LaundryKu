@@ -188,7 +188,7 @@ export default function CreateTrialModal({ isOpen, onClose, onSuccess }: CreateT
               whileTap={{ scale: 0.95 }}
               type="submit" 
               disabled={isSubmitting}
-              className="px-5 py-2 rounded-xl bg-gradient-to-r from-[#EA8803] to-[#EA8803]/80 hover:opacity-95 text-background font-bold text-xs disabled:opacity-50 transition-all shadow-md shadow-[#EA8803]/20 inline-flex items-center gap-2"
+              className="px-5 py-2 rounded-xl bg-gradient-to-r from-[#EA8803] to-[#EA8803]/80 hover:opacity-95 text-[#010E1C] font-bold text-xs disabled:opacity-50 transition-all shadow-md shadow-[#EA8803]/20 inline-flex items-center gap-2"
             >
               {isSubmitting ? (
                 <><span className="w-3 h-3 border border-background/30 border-t-[#010E1C] rounded-full animate-spin" />Membuat...</>

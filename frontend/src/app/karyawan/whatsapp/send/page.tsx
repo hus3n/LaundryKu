@@ -104,7 +104,7 @@ export default function KaryawanSendWAMessage() {
             <button
               type="submit"
               disabled={sendingMsg}
-              className="w-full px-4 py-3 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] hover:opacity-90 text-background font-bold text-sm transition-all inline-flex items-center justify-center gap-2 disabled:opacity-50"
+              className="w-full px-4 py-3 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] hover:opacity-90 text-[#010E1C] font-bold text-sm transition-all inline-flex items-center justify-center gap-2 disabled:opacity-50"
             >
               {sendingMsg ? (
                 <>

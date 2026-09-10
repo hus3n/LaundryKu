@@ -138,14 +138,14 @@ export default function AdminStoreManagementPage() {
           <div className="flex items-center gap-3">
             <button
               onClick={() => setIsTrialModalOpen(true)}
-              className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#EA8803] to-[#EA8803]/80 hover:opacity-95 text-background font-bold text-xs shadow-lg shadow-[#EA8803]/20 transition-all inline-flex items-center gap-2"
+              className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#EA8803] to-[#EA8803]/80 hover:opacity-95 text-[#010E1C] font-bold text-xs shadow-lg shadow-[#EA8803]/20 transition-all inline-flex items-center gap-2"
             >
               <Zap className="w-4 h-4" />
               Buat Akun Trial
             </button>
             <button
               onClick={handleOpenCreate}
-              className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] hover:opacity-95 text-background font-bold text-xs shadow-lg shadow-[#1DA9D0]/20 transition-all inline-flex items-center gap-2"
+              className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] hover:opacity-95 text-[#010E1C] font-bold text-xs shadow-lg shadow-[#1DA9D0]/20 transition-all inline-flex items-center gap-2"
             >
               <Plus className="w-4 h-4" />
               Daftarkan Admin Toko Baru
@@ -377,7 +377,7 @@ export default function AdminStoreManagementPage() {
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="px-5 py-2 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] text-background text-xs font-bold disabled:opacity-50"
+                      className="px-5 py-2 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] text-[#010E1C] text-xs font-bold disabled:opacity-50"
                     >
                       Daftarkan Admin Toko
                     </button>

@@ -39,7 +39,7 @@ export default function AboutPage() {
               LaundryKu lahir dari keresahan nyata di lapangan; untuk menjembatani sistem pembukuan terisolasi kuat berformat digital yang super mudah (User-Friendly) untuk pengguna awam.
             </p>
           </div>
-          <div className="glass-card-dark p-8 rounded-3xl border border-[#1DA9D0]/30 shadow-2xl shadow-[#1DA9D0]/10 bg-gradient-to-tr from-[#012040] to-transparent">
+          <div className="glass-card-dark p-8 rounded-3xl border border-[#1DA9D0]/30 shadow-2xl shadow-[#1DA9D0]/10 bg-gradient-to-tr from-surface-deep to-transparent">
             <h3 className="text-xl font-bold text-foreground mb-4">Misi LaundryKu</h3>
             <ul className="space-y-4 text-sm text-foreground/80">
               <li className="flex items-start gap-3">

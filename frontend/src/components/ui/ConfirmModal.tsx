@@ -38,11 +38,11 @@ export default function ConfirmModal({
     },
     warning: {
       bgIcon: 'bg-[#EA8803]/20 text-[#EA8803] border-[#EA8803]/30',
-      btn: 'bg-gradient-to-r from-[#EA8803] to-[#EA8803]/80 hover:opacity-95 text-background font-bold shadow-[#EA8803]/30',
+      btn: 'bg-gradient-to-r from-[#EA8803] to-[#EA8803]/80 hover:opacity-95 text-[#010E1C] font-bold shadow-[#EA8803]/30',
     },
     info: {
       bgIcon: 'bg-[#1DA9D0]/20 text-[#43D5CC] border-[#1DA9D0]/30',
-      btn: 'bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] hover:opacity-95 text-background font-bold shadow-[#1DA9D0]/30',
+      btn: 'bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] hover:opacity-95 text-[#010E1C] font-bold shadow-[#1DA9D0]/30',
     },
   }[type];
 

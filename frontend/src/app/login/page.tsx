@@ -173,7 +173,7 @@ function LoginForm() {
             whileTap={{ scale: 0.97 }}
             whileHover={{ scale: 1.02, transition: { type: 'spring', stiffness: 400, damping: 15 } }}
             transition={{ type: 'spring', stiffness: 200, damping: 20 }}
-            className="w-full py-3.5 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] text-background font-bold text-sm shadow-lg shadow-[#1DA9D0]/25 flex items-center justify-center gap-2 disabled:opacity-50"
+            className="w-full py-3.5 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] text-[#010E1C] font-bold text-sm shadow-lg shadow-[#1DA9D0]/25 flex items-center justify-center gap-2 disabled:opacity-50"
           >
             {isSubmitting ? (
               <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 0.8, ease: 'linear' }} className="w-5 h-5 border-2 border-background/30 border-t-[#010E1C] rounded-full" />

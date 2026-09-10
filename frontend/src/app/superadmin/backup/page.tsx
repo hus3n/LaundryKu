@@ -223,7 +223,7 @@ export default function BackupRestorePage() {
         {/* Header */}
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#1DA9D0] to-[#43D5CC] flex items-center justify-center shadow-lg shadow-[#1DA9D0]/20">
-            <Database className="w-5 h-5 text-background" />
+            <Database className="w-5 h-5 text-[#010E1C]" />
           </div>
           <div>
             <h1 className="text-xl font-bold text-foreground">Backup & Restore</h1>
@@ -325,7 +325,7 @@ export default function BackupRestorePage() {
                 <button
                   onClick={handleConnectBot}
                   disabled={connectingBot || !botToken.trim()}
-                  className="w-full py-3 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] hover:opacity-95 text-background font-bold text-xs shadow-lg shadow-[#1DA9D0]/20 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+                  className="w-full py-3 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] hover:opacity-95 text-[#010E1C] font-bold text-xs shadow-lg shadow-[#1DA9D0]/20 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
                 >
                   {connectingBot ? (
                     <Loader2 className="w-4 h-4 animate-spin" />
@@ -430,7 +430,7 @@ export default function BackupRestorePage() {
                 <button
                   onClick={handleRestore}
                   disabled={restoring || !restoreFile}
-                  className="w-full py-3 rounded-xl bg-gradient-to-r from-[#EA8803] to-[#EA8803]/80 hover:opacity-95 text-background font-bold text-xs shadow-lg shadow-[#EA8803]/20 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+                  className="w-full py-3 rounded-xl bg-gradient-to-r from-[#EA8803] to-[#EA8803]/80 hover:opacity-95 text-[#010E1C] font-bold text-xs shadow-lg shadow-[#EA8803]/20 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
                 >
                   {restoring ? (
                     <>

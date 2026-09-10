@@ -94,7 +94,7 @@ export default function AdminDashboardPage() {
           </div>
           <Link
             href="/admin/laundry/new"
-            className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] hover:opacity-95 text-background font-bold text-xs shadow-lg shadow-[#1DA9D0]/20 transition-all inline-flex items-center gap-2"
+            className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] hover:opacity-95 text-[#010E1C] font-bold text-xs shadow-lg shadow-[#1DA9D0]/20 transition-all inline-flex items-center gap-2"
           >
             <PlusCircle className="w-4 h-4" />
             Catat Cucian Baru
@@ -264,7 +264,7 @@ export default function AdminDashboardPage() {
               <p>Belum ada cucian tercatat hari ini.</p>
               <Link
                 href="/admin/laundry/new"
-                className="inline-block px-4 py-2 rounded-xl bg-[#1DA9D0] hover:bg-[#43D5CC] text-background font-bold text-xs transition-colors"
+                className="inline-block px-4 py-2 rounded-xl bg-[#1DA9D0] hover:bg-[#43D5CC] text-[#010E1C] font-bold text-xs transition-colors"
               >
                 Catat Cucian Pertama
               </Link>

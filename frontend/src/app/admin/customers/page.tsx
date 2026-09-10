@@ -145,7 +145,7 @@ export default function CustomerManagementPage() {
             </button>
             <button
               onClick={handleOpenCreate}
-              className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] hover:opacity-95 text-background font-bold text-xs shadow-lg shadow-[#1DA9D0]/20 transition-all inline-flex items-center gap-2"
+              className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] hover:opacity-95 text-[#010E1C] font-bold text-xs shadow-lg shadow-[#1DA9D0]/20 transition-all inline-flex items-center gap-2"
             >
               <Plus className="w-4 h-4" />
               Tambah Pelanggan
@@ -310,7 +310,7 @@ export default function CustomerManagementPage() {
                         whileTap={{ scale: 0.95 }}
                         type="submit"
                         disabled={isSubmitting}
-                        className="px-5 py-2 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] hover:opacity-95 text-background font-bold text-xs disabled:opacity-50 transition-all"
+                        className="px-5 py-2 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] hover:opacity-95 text-[#010E1C] font-bold text-xs disabled:opacity-50 transition-all"
                       >
                         {editingId ? 'Simpan' : 'Tambah'}
                       </motion.button>

@@ -192,7 +192,7 @@ export default function AppWindowControls() {
                         toggleFullscreen();
                         setShowGuideModal(false);
                       }}
-                      className="mt-2.5 px-3 py-1.5 rounded-lg bg-[#EA8803] text-background font-bold text-xs hover:bg-[#EA8803]/90 transition-colors flex items-center gap-1.5 shadow-sm"
+                      className="mt-2.5 px-3 py-1.5 rounded-lg bg-[#EA8803] text-[#010E1C] font-bold text-xs hover:bg-[#EA8803]/90 transition-colors flex items-center gap-1.5 shadow-sm"
                     >
                       <Maximize className="w-3.5 h-3.5" />
                       Aktifkan Layar Penuh Sekarang

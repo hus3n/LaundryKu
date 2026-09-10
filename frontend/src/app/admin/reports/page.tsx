@@ -120,7 +120,7 @@ export default function ReportsAndAnalyticsPage() {
               <button
                 onClick={() => setPeriod('daily')}
                 className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                  period === 'daily' ? 'bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] text-background font-bold shadow' : 'text-foreground/60 hover:text-foreground'
+                  period === 'daily' ? 'bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] text-[#010E1C] font-bold shadow' : 'text-foreground/60 hover:text-foreground'
                 }`}
               >
                 Harian
@@ -128,7 +128,7 @@ export default function ReportsAndAnalyticsPage() {
               <button
                 onClick={() => setPeriod('monthly')}
                 className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                  period === 'monthly' ? 'bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] text-background font-bold shadow' : 'text-foreground/60 hover:text-foreground'
+                  period === 'monthly' ? 'bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] text-[#010E1C] font-bold shadow' : 'text-foreground/60 hover:text-foreground'
                 }`}
               >
                 Bulanan
@@ -136,7 +136,7 @@ export default function ReportsAndAnalyticsPage() {
               <button
                 onClick={() => setPeriod('yearly')}
                 className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                  period === 'yearly' ? 'bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] text-background font-bold shadow' : 'text-foreground/60 hover:text-foreground'
+                  period === 'yearly' ? 'bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] text-[#010E1C] font-bold shadow' : 'text-foreground/60 hover:text-foreground'
                 }`}
               >
                 Tahunan
@@ -272,7 +272,7 @@ export default function ReportsAndAnalyticsPage() {
             <button
               onClick={downloadLaporanGabungan}
               disabled={isDownloading}
-              className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] hover:opacity-95 text-background font-bold text-xs transition-all inline-flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-[#1DA9D0]/20"
+              className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] hover:opacity-95 text-[#010E1C] font-bold text-xs transition-all inline-flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-[#1DA9D0]/20"
             >
               {isDownloading ? (
                 <>

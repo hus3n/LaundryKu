@@ -87,7 +87,7 @@ export default function DashboardLayout({ children, role }: { children: React.Re
                 key={item.href}
                 href={item.href}
                 className={`relative flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-semibold transition-colors group ${
-                  isActive ? 'text-background font-bold' : 'text-foreground/60 hover:text-foreground'
+                  isActive ? 'text-[#010E1C] font-bold' : 'text-foreground/60 hover:text-foreground'
                 }`}
               >
                 {isActive && (
@@ -227,7 +227,7 @@ export default function DashboardLayout({ children, role }: { children: React.Re
                         onClick={() => setMobileOpen(false)}
                         className={`flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-semibold transition-colors ${
                           isActive
-                            ? 'bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] text-background font-bold shadow-md shadow-[#1DA9D0]/20'
+                            ? 'bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] text-[#010E1C] font-bold shadow-md shadow-[#1DA9D0]/20'
                             : 'text-foreground/60 hover:text-foreground hover:bg-[#1DA9D0]/10'
                         }`}
                       >
