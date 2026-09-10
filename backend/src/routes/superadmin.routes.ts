@@ -12,6 +12,7 @@ import {
   updateGlobalBotConfig,
   getAdminsBotConfig,
   updateAdminBotConfig,
+  getSystemErrorLogs,
 } from '../controllers/superadmin.controller.js';
 import { authenticate } from '../middleware/auth.js';
 import { authorize } from '../middleware/rbac.js';
@@ -78,6 +79,7 @@ router.use(authorize('SUPERADMIN'));
 
 router.get('/dashboard', getDashboard);
 router.get('/admins', getAdmins);
+router.get('/error-logs', getSystemErrorLogs);
 router.post('/admins', validate(createAdminSchema), addAdmin);
 router.post('/admins/trial', validate(createTrialSchema), createTrial);
 router.patch('/admins/:id/extend', validate(extendSchema), extendSubscription);

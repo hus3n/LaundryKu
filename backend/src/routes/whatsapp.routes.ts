@@ -12,6 +12,8 @@ import {
   sendNotaImage,
   clearPendingQueue,
   retryPendingQueue,
+  testDirectMessage,
+  getAdminErrorLogs,
 } from '../controllers/whatsapp.controller.js';
 import { authenticate } from '../middleware/auth.js';
 import { authorize } from '../middleware/rbac.js';
@@ -34,6 +36,13 @@ const sendCustomMessageSchema = z.object({
   }),
 });
 
+const sendTestDirectSchema = z.object({
+  body: z.object({
+    recipientPhone: z.string().min(8, 'Nomor WA penerima tidak valid'),
+    message: z.string().min(2, 'Isi pesan wajib diisi'),
+  }),
+});
+
 router.use(authenticate);
 
 // Status dan disconnect TIDAK memerlukan pengecekan langganan
@@ -41,6 +50,8 @@ router.get('/status', authorize('ADMIN', 'SUPERADMIN'), getStatus);
 router.post('/disconnect', authorize('ADMIN', 'SUPERADMIN'), disconnect);
 router.post('/clear-queue', authorize('ADMIN', 'SUPERADMIN'), clearPendingQueue);
 router.post('/retry-queue', authorize('ADMIN', 'SUPERADMIN'), retryPendingQueue);
+router.post('/test-direct', authorize('ADMIN', 'SUPERADMIN'), validate(sendTestDirectSchema), testDirectMessage);
+router.get('/error-logs', authorize('ADMIN', 'SUPERADMIN'), getAdminErrorLogs);
 
 // Connect dan confirm-simulated MEMERLUKAN pengecekan langganan berbayar
 router.post(

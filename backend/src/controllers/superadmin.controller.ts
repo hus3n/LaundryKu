@@ -243,3 +243,40 @@ export async function updateAdminBotConfig(req: AuthenticatedRequest, res: Respo
     next(error);
   }
 }
+
+// GET /api/superadmin/error-logs
+export async function getSystemErrorLogs(req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> {
+  try {
+    const { page = 1, limit = 20, type } = req.query;
+    const pageNum = parseInt(page as string, 10);
+    const limitNum = parseInt(limit as string, 10);
+    
+    // Lazy import inside function to avoid circular or missing dependencies initialization bugs
+    const { AppErrorLog } = await import('../models-nosql/appErrorLog.model.js');
+
+    const query: any = {};
+    if (type) query.type = type;
+
+    const logs = await AppErrorLog.find(query)
+      .sort({ createdAt: -1 })
+      .skip((pageNum - 1) * limitNum)
+      .limit(limitNum);
+
+    const total = await AppErrorLog.countDocuments(query);
+
+    res.json({
+      success: true,
+      data: {
+        logs,
+        pagination: {
+          total,
+          page: pageNum,
+          limit: limitNum,
+          totalPages: Math.ceil(total / limitNum),
+        },
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+}

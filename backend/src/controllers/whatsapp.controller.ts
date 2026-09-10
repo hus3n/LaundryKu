@@ -312,3 +312,49 @@ export async function retryPendingQueue(req: AuthenticatedRequest, res: Response
   }
 }
 
+
+// POST /api/whatsapp/test-direct
+export async function testDirectMessage(req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> {
+  try {
+    const adminId = getTargetAdminId(req);
+    const { recipientPhone, message } = req.body;
+
+    if (!adminId) {
+      res.status(400).json({ success: false, error: 'ID Admin tidak valid.' });
+      return;
+    }
+    
+    // Import helper lazily to avoid init circle
+    const { sendRealWAMessage, isWAConnected } = await import('../whatsapp/baileys.js');
+    
+    if (!isWAConnected(adminId)) {
+      res.status(400).json({ success: false, error: 'WhatsApp tidak terkoneksi dengan aktif.' });
+      return;
+    }
+
+    const sent = await sendRealWAMessage(adminId, recipientPhone, message);
+    if (sent) {
+      res.json({ success: true, message: 'Pesan tes langsung berhasil dikirim ke tujuan.' });
+    } else {
+      res.status(500).json({ success: false, error: 'Gagal mengirim pesan tes (Timeout / Jaringan / Nomor tidak valid).' });
+    }
+  } catch (error) {
+    next(error);
+  }
+}
+
+// GET /api/whatsapp/error-logs
+export async function getAdminErrorLogs(req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> {
+  try {
+    const adminId = getTargetAdminId(req);
+    if (!adminId) {
+      res.status(400).json({ success: false, error: 'ID Admin tidak valid.' });
+      return;
+    }
+    const { AppErrorLog } = await import('../models-nosql/appErrorLog.model.js');
+    const logs = await AppErrorLog.find({ adminId }).sort({ createdAt: -1 }).limit(50);
+    res.json({ success: true, data: logs });
+  } catch (error) {
+    next(error);
+  }
+}

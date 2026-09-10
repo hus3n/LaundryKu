@@ -17,6 +17,8 @@ import { generateNotaImage } from '../utils/generateNotaImage.js';
 import { formatOrderForNota } from '../utils/formatOrderForNota.js';
 import { AutoReply } from '../models-nosql/autoReply.model.js';
 import { BotConfig } from '../models-nosql/botConfig.model.js';
+import { AppErrorLog } from '../models-nosql/appErrorLog.model.js';
+import { withTimeout } from '../utils/withTimeout.js';
 import { queryAiAssistant, processAiMessageWithCentralConfig } from '../services/ai.service.js';
 import pino from 'pino';
 import os from 'os';
@@ -40,11 +42,15 @@ if (!fs.existsSync(SESSIONS_DIR)) {
 
 export function isWAConnected(adminId: string): boolean {
   const active = activeSessions[adminId];
-  if (!active || active.status !== 'CONNECTED') {
+  if (!active || active.status !== 'CONNECTED' || !active.socket) {
     return false;
   }
-  // Trust the internal Baileys event manager. 
-  // If status is CONNECTED, it is connected. Baileys will fire 'close' connection event if it drops.
+  
+  // Real-time ping logic: Ensure the underlying WebSocket is still open
+  if (active.socket.ws && !active.socket.ws.isOpen) {
+    return false;
+  }
+
   return true;
 }
 
@@ -214,9 +220,11 @@ export async function initiateWAPairing(adminId: string) {
       for (const msg of m.messages) {
         if (msg.key.fromMe || !msg.message || msg.key.remoteJid === 'status@broadcast') continue;
 
+        const actualMessage = msg.message.ephemeralMessage?.message || msg.message;
         const rawText = (
-          msg.message.conversation ||
-          msg.message.extendedTextMessage?.text ||
+          actualMessage.conversation ||
+          actualMessage.extendedTextMessage?.text ||
+          actualMessage.imageMessage?.caption ||
           ''
         ).trim();
 
@@ -414,7 +422,11 @@ export async function sendRealWAMessage(adminId: string, phone: string, message:
 
   if (active?.socket && active.status === 'CONNECTED') {
     try {
-      await active.socket.sendMessage(jid, { text: message });
+      await withTimeout(
+        active.socket.sendMessage(jid, { text: message }),
+        15000,
+        'WhatsApp sendMessage timeout after 15 seconds'
+      );
       console.log(`📱 Real Baileys WA sent to ${formattedPhone}`);
       return true;
     } catch (err: any) {
@@ -427,6 +439,14 @@ export async function sendRealWAMessage(adminId: string, phone: string, message:
 
       if (isAuthError) {
         console.log(`❌ Session invalid/expired for ${adminId}. Resetting session.`);
+        if (isMongoConnected()) {
+          AppErrorLog.create({
+            adminId,
+            type: 'WHATSAPP_AUTH_FAIL',
+            errorMessage: 'Session WhatsApp tertolak atau kadaluarsa, memaksa disconnect otomatis.',
+            details: { phone, rawError: err.message },
+          }).catch(() => {});
+        }
         await disconnectWASession(adminId);
       }
       return false;
@@ -627,11 +647,15 @@ export async function sendOrderWANotificationWithImage(
       ORDER_PICKED_UP: `✅ Terima kasih telah mengambil cucian!\nNota #${order.orderNumber}`,
     };
 
-    await active.socket.sendMessage(jid, {
-      image: { url: tempPath },
-      caption: captions[type] || `Nota #${order.orderNumber}`,
-      mimetype: 'image/png',
-    });
+    await withTimeout(
+      active.socket.sendMessage(jid, {
+        image: { url: tempPath },
+        caption: captions[type] || `Nota #${order.orderNumber}`,
+        mimetype: 'image/png',
+      }),
+      25000,
+      'WhatsApp sendImage timeout after 25 seconds'
+    );
 
     console.log(`🖼️ Nota image sent via WA to ${formattedPhone} for order #${order.orderNumber}`);
 

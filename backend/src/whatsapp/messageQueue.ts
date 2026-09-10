@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { WAMessageLog } from '../models-nosql/waMessageLog.model.js';
+import { AppErrorLog } from '../models-nosql/appErrorLog.model.js';
 import { sendRealWAMessage, isWAConnected } from './baileys.js';
 import { isMongoConnected } from '../config/mongodb.js';
 
@@ -151,6 +152,12 @@ class WAMessageQueue {
                 message: job.message,
                 status: 'FAILED',
                 sentAt: new Date(),
+              });
+              await AppErrorLog.create({
+                adminId: job.adminId,
+                type: 'WHATSAPP_QUEUE_FAIL',
+                errorMessage: `Gagal mengirim pesan WA ke ${job.recipientName} (${job.recipientPhone}) setelah 3x percobaan. Sistem akan membuang pesan ini.`,
+                details: { recipientPhone: job.recipientPhone, message: job.message },
               });
             }
           } catch (e) {}
