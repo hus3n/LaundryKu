@@ -3,6 +3,7 @@ import { Role } from '@prisma/client';
 import { prisma } from '../config/database.js';
 import { isMongoConnected } from '../config/mongodb.js';
 import { WASession } from '../models-nosql/waSession.model.js';
+import { isWAConnected } from '../whatsapp/baileys.js';
 
 const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000;
 const ONE_DAY_MS = 24 * 60 * 60 * 1000;
@@ -76,10 +77,24 @@ export async function getAllAdmins() {
 
     return admins.map((admin) => {
       const wa = waMap.get(admin.id);
+      
+      let finalStatus = 'DISCONNECTED';
+      let phoneConnected = null;
+
+      if (wa) {
+        if (wa.status === 'CONNECTED') {
+          // Verify with in-memory Baileys state to prevent stale MongoDB data
+          finalStatus = isWAConnected(admin.id) ? 'CONNECTED' : 'DISCONNECTED';
+        } else {
+          finalStatus = wa.status;
+        }
+        phoneConnected = wa.phoneConnected;
+      }
+
       return {
         ...admin,
-        waStatus: wa ? wa.status : 'DISCONNECTED',
-        waPhone: wa ? wa.phoneConnected : null,
+        waStatus: finalStatus,
+        waPhone: phoneConnected,
       };
     });
   } catch (err) {

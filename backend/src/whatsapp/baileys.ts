@@ -43,12 +43,11 @@ export function isWAConnected(adminId: string): boolean {
   if (!active.socket && active.status === 'CONNECTED') {
     return true;
   }
-  // Real socket check: verify user ID exists and websocket is not closed
+  // Real socket check: verify websocket is not closed (don't strictly demand socket.user as it might be delayed)
   if (active.socket) {
-    const hasUser = !!active.socket.user?.id;
     const ws = (active.socket as any).ws;
     const isWsOpen = ws ? ws.readyState === 1 : true;
-    return hasUser && isWsOpen;
+    return isWsOpen;
   }
   return false;
 }
