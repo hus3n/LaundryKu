@@ -17,7 +17,7 @@ import { generateNotaImage } from '../utils/generateNotaImage.js';
 import { formatOrderForNota } from '../utils/formatOrderForNota.js';
 import { AutoReply } from '../models-nosql/autoReply.model.js';
 import { BotConfig } from '../models-nosql/botConfig.model.js';
-import { queryAiAssistant } from '../services/ai.service.js';
+import { queryAiAssistant, processAiMessageWithCentralConfig } from '../services/ai.service.js';
 import os from 'os';
 
 interface ActiveSession {
@@ -349,37 +349,31 @@ Terima kasih telah mempercayakan pakaian Anda kepada kami! Jika ada pertanyaan l
           }
 
           if (!keywordReplied) {
-            const botConfig = await BotConfig.findOne({ adminId });
+            const aiResult = await processAiMessageWithCentralConfig(adminId, rawText);
 
-            // AI Fallback
-            if (botConfig?.isAiActive && botConfig.aiApiKey) {
-              const aiRes = await queryAiAssistant({
-                apiKey: botConfig.aiApiKey,
-                provider: botConfig.aiProvider,
-                baseUrl: botConfig.aiBaseUrl,
-                model: botConfig.aiModel,
-                systemPrompt: botConfig.aiSystemPrompt,
-                userMessage: rawText,
-              });
-
-              if (aiRes.success && aiRes.reply && msg.key.remoteJid) {
-                await sock.sendMessage(msg.key.remoteJid, { text: aiRes.reply });
-                console.log(`🤖 AI replied via ${aiRes.providerUsed || 'custom'} (${aiRes.modelUsed}) to ${msg.key.remoteJid}`);
-              }
-            } else if (
-              botConfig?.isGreetingActive &&
-              botConfig.greetingMessage &&
-              (textLower.includes('halo') ||
-                textLower.includes('hai') ||
-                textLower.includes('selamat') ||
-                textLower.includes('pagi') ||
-                textLower.includes('siang') ||
-                textLower.includes('malam') ||
-                textLower === 'p')
-            ) {
-              // Greeting fallback
+            if (aiResult.success && aiResult.reply) {
               if (msg.key.remoteJid) {
-                await sock.sendMessage(msg.key.remoteJid, { text: botConfig.greetingMessage });
+                await sock.sendMessage(msg.key.remoteJid, { text: aiResult.reply });
+                console.log(`🤖 Central AI replied to ${msg.key.remoteJid}`);
+              }
+            } else {
+              // AI Fallback failed or not active, try standard greeting fallback
+              const botConfig = await BotConfig.findOne({ adminId });
+              
+              if (
+                botConfig?.isGreetingActive &&
+                botConfig.greetingMessage &&
+                (textLower.includes('halo') ||
+                  textLower.includes('hai') ||
+                  textLower.includes('selamat') ||
+                  textLower.includes('pagi') ||
+                  textLower.includes('siang') ||
+                  textLower.includes('malam') ||
+                  textLower === 'p')
+              ) {
+                if (msg.key.remoteJid) {
+                  await sock.sendMessage(msg.key.remoteJid, { text: botConfig.greetingMessage });
+                }
               }
             }
           }

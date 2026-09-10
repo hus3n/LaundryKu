@@ -49,7 +49,8 @@ export default function DashboardLayout({ children, role }: { children: React.Re
       { label: 'Dashboard', href: '/superadmin/dashboard', icon: LayoutDashboard },
       { label: 'Kelola Admin', href: '/superadmin/admins', icon: Users },
       { label: 'Pairing WA', href: '/superadmin/whatsapp', icon: QrCode },
-      { label: 'Pengaturan Bot', href: '/superadmin/bot-settings', icon: Bot },
+      { label: 'AI Subscriptions', href: '/superadmin/ai-subscriptions', icon: Bot },
+      { label: 'API Key Global', href: '/superadmin/bot-settings', icon: Database },
       { label: 'Backup & Restore', href: '/superadmin/backup', icon: Database },
     ];
   } else if (user?.role === 'ADMIN') {
@@ -57,6 +58,7 @@ export default function DashboardLayout({ children, role }: { children: React.Re
       { label: 'Dashboard Utama', href: '/admin/dashboard', icon: LayoutDashboard },
       { label: 'Transaksi Cucian', href: '/admin/laundry', icon: ClipboardList },
       { label: 'Catat Cucian Baru', href: '/admin/laundry/new', icon: PlusCircle },
+      { label: 'Pengaturan Bot AI', href: '/admin/bot-settings', icon: Bot },
       { label: 'Laporan Keuangan', href: '/admin/expenses', icon: FileText },
       { label: 'Pengaturan Toko', href: '/admin/settings', icon: Store },
     ];

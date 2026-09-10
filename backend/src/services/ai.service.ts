@@ -1,3 +1,7 @@
+import { SuperadminConfig } from '../models-nosql/superadminConfig.model.js';
+import { BotConfig } from '../models-nosql/botConfig.model.js';
+import { prisma } from '../config/database.js';
+
 export interface AiRequestOptions {
   apiKey: string;
   provider?: string | null;
@@ -207,4 +211,92 @@ export async function testAiConnection(options: Omit<AiRequestOptions, 'userMess
     ...options,
     userMessage: 'Halo! Tolong jawab dengan 1 kalimat singkat bahwa koneksi AI berhasil terhubung ke LaundryKu.',
   });
+}
+
+export async function processAiMessageWithCentralConfig(
+  adminId: string, 
+  userMessage: string
+): Promise<{ success: boolean; reply?: string; fallback?: boolean }> {
+  try {
+    const config = await BotConfig.findOne({ adminId });
+    if (!config || !config.isAiActive || !config.isAiEnabledBySuperadmin) {
+      return { success: false, fallback: true };
+    }
+
+    // Lazy Reset Check
+    const todayStr = new Date().toDateString();
+    const lastUsedStr = config.aiLastUsedDate ? new Date(config.aiLastUsedDate).toDateString() : '';
+    if (todayStr !== lastUsedStr) {
+      config.aiUsageToday = 0;
+      config.aiLastUsedDate = new Date();
+      await config.save();
+    }
+
+    // Quota Check
+    const dailyLimit = config.aiDailyLimit || 100;
+    if (config.aiUsageToday >= dailyLimit) {
+      console.log(`[AI Quota Exceeded] Admin ${adminId} hit ${config.aiUsageToday}/${dailyLimit}`);
+      return { success: false, fallback: true };
+    }
+
+    // Global Config Check
+    const superConfig = await SuperadminConfig.findOne();
+    if (!superConfig || !superConfig.apiKeys || superConfig.apiKeys.length === 0) {
+      console.log(`[AI Error] Superadmin Config or API Keys missing.`);
+      return { success: false, fallback: true };
+    }
+
+    // Round Robin Key Fetch
+    const keyIndex = superConfig.currentKeyIndex % superConfig.apiKeys.length;
+    const apiKey = superConfig.apiKeys[keyIndex];
+    superConfig.currentKeyIndex = (keyIndex + 1) % superConfig.apiKeys.length;
+    await superConfig.save();
+
+    // Persona/Context Injection setup from Prisma
+    const adminData = await prisma.admin.findUnique({
+      where: { id: adminId },
+      include: {
+        packages: { where: { isActive: true } },
+      }
+    });
+
+    if (!adminData) {
+      return { success: false, fallback: true };
+    }
+
+    const packageList = adminData.packages
+      .map((p) => `- ${p.name}: Rp${Number(p.price)}/${p.unit} (Estimasi ${p.estimatedDuration} Jam)`)
+      .join('\n');
+
+    const dynamicContext = `
+[INFORMASI TOKO (HARUS DIGUNAKAN SEBAGAI KONTEKS ABSOLUT/TIDAK BOLEH MENGARANG)]
+Nama Toko: ${adminData.storeName}
+Alamat: ${adminData.storeAddress || 'Tidak spesifik'}
+Kontak Toko: ${adminData.storePhone || 'Tidak spesifik'}
+Layanan & Harga Aktif:
+${packageList || '(Belum ada daftar layanan, beri tahu pelanggan untuk konsul ke admin manual)'}
+`;
+    const finalSystemPrompt = `${dynamicContext}\n\n[INSTRUKSI / KEPRIBADIAN BOT]\n${config.aiSystemPrompt}`;
+
+    const res = await queryAiAssistant({
+      apiKey,
+      provider: superConfig.provider,
+      userMessage,
+      systemPrompt: finalSystemPrompt
+    });
+
+    if (res.success && res.reply) {
+      // Increment Quota
+      config.aiUsageToday += 1;
+      await config.save();
+      return { success: true, reply: res.reply };
+    }
+    
+    console.log(`[AI Error] AI response failed:`, res.error);
+    return { success: false, fallback: true };
+
+  } catch (err: any) {
+    console.error(`[AI Hook Error]`, err.message);
+    return { success: false, fallback: true };
+  }
 }

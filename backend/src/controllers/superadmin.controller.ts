@@ -11,6 +11,8 @@ import {
 } from '../services/superadmin.service.js';
 import { waQueue } from '../whatsapp/messageQueue.js';
 import { env } from '../config/env.js';
+import { SuperadminConfig } from '../models-nosql/superadminConfig.model.js';
+import { BotConfig } from '../models-nosql/botConfig.model.js';
 
 function buildTrialWelcomeMessage(params: {
   userName: string;
@@ -154,6 +156,90 @@ export async function createTrial(
       message: `Akun trial ${trialDays} hari untuk toko "${admin.storeName}" berhasil dibuat.`,
       data: result,
     });
+  } catch (error: any) {
+    next(error);
+  }
+}
+
+export async function getGlobalBotConfig(req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> {
+  try {
+    let config = await SuperadminConfig.findOne();
+    if (!config) {
+      config = await SuperadminConfig.create({ apiKeys: [], provider: 'gemini' });
+    }
+    // Only return lengths for security, or full depending on need.
+    // For superadmin dashboard, we might want them to see it or just replace it.
+    // Let's send the full object so they can manage them.
+    res.json({ success: true, data: config });
+  } catch (error: any) {
+    next(error);
+  }
+}
+
+export async function updateGlobalBotConfig(req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> {
+  try {
+    const { apiKeys, provider } = req.body;
+    let config = await SuperadminConfig.findOne();
+    if (!config) {
+      config = new SuperadminConfig({ apiKeys, provider: provider || 'gemini' });
+    } else {
+      config.apiKeys = apiKeys;
+      if (provider) config.provider = provider;
+    }
+    await config.save();
+    res.json({ success: true, message: 'Global Bot Config saved.', data: config });
+  } catch (error: any) {
+    next(error);
+  }
+}
+
+export async function getAdminsBotConfig(req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> {
+  try {
+    const admins = await getAllAdmins();
+    const adminIds = admins.map(a => a.id);
+    const botConfigs = await BotConfig.find({ adminId: { $in: adminIds } }).lean();
+    const configMap = new Map(botConfigs.map(c => [c.adminId, c]));
+
+    const data = admins.map(admin => {
+      const config = configMap.get(admin.id);
+      return {
+        id: admin.id,
+        storeName: admin.storeName,
+        ownerName: admin.user?.name,
+        isAiEnabledBySuperadmin: config?.isAiEnabledBySuperadmin || false,
+        aiDailyLimit: config?.aiDailyLimit || 100,
+        aiUsageToday: config?.aiUsageToday || 0,
+        aiLastUsedDate: config?.aiLastUsedDate || null,
+        isAiActiveByAdmin: config?.isAiActive || false,
+      };
+    });
+
+    res.json({ success: true, data });
+  } catch (error: any) {
+    next(error);
+  }
+}
+
+export async function updateAdminBotConfig(req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> {
+  try {
+    const { id } = req.params;
+    const { isAiEnabledBySuperadmin, aiDailyLimit } = req.body;
+
+    let config = await BotConfig.findOne({ adminId: id });
+    if (!config) {
+      config = new BotConfig({
+        adminId: id,
+        isAiEnabledBySuperadmin,
+        aiDailyLimit,
+        isAiActive: false,
+      });
+    } else {
+      config.isAiEnabledBySuperadmin = isAiEnabledBySuperadmin;
+      config.aiDailyLimit = aiDailyLimit;
+    }
+    await config.save();
+    
+    res.json({ success: true, message: 'Admin AI config updated', data: config });
   } catch (error: any) {
     next(error);
   }

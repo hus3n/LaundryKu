@@ -10,6 +10,10 @@ export interface IBotConfig extends Document {
   aiModel?: string | null;
   aiSystemPrompt?: string | null;
   isAiActive: boolean;
+  isAiEnabledBySuperadmin: boolean;
+  aiDailyLimit: number;
+  aiUsageToday: number;
+  aiLastUsedDate?: Date | null;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -32,6 +36,10 @@ const BotConfigSchema = new Schema<IBotConfig>(
         'Anda adalah asisten AI ramah dan profesional untuk layanan LaundryKu. Jawab pertanyaan pelanggan dengan sopan, jelas, dan informatif mengenai layanan laundry, harga, estimasi waktu pengerjaan, dan operasional toko.',
     },
     isAiActive: { type: Boolean, default: false },
+    isAiEnabledBySuperadmin: { type: Boolean, default: false },
+    aiDailyLimit: { type: Number, default: 100 },
+    aiUsageToday: { type: Number, default: 0 },
+    aiLastUsedDate: { type: Date, default: null },
   },
   { timestamps: true }
 );
