@@ -9,6 +9,7 @@ import {
 } from '../whatsapp/baileys.js';
 import { prisma } from '../config/database.js';
 import { WATemplate } from '../models-nosql/waTemplate.model.js';
+import { ensureDefaultTemplates } from '../whatsapp/templates.js';
 import { isMongoConnected } from '../config/mongodb.js';
 import { WAMessageLog } from '../models-nosql/waMessageLog.model.js';
 import { waQueue } from '../whatsapp/messageQueue.js';
@@ -90,6 +91,9 @@ export async function getTemplates(req: AuthenticatedRequest, res: Response, nex
       res.json({ success: true, data: [] });
       return;
     }
+
+    // Ensure templates exist before fetching
+    await ensureDefaultTemplates(adminId);
 
     const templates = await WATemplate.find({ adminId });
     res.json({ success: true, data: templates });
