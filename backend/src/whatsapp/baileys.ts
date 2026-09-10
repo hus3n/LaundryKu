@@ -39,17 +39,9 @@ export function isWAConnected(adminId: string): boolean {
   if (!active || active.status !== 'CONNECTED') {
     return false;
   }
-  // Simulated mode (connected without socket)
-  if (!active.socket && active.status === 'CONNECTED') {
-    return true;
-  }
-  // Real socket check: verify websocket is not closed (don't strictly demand socket.user as it might be delayed)
-  if (active.socket) {
-    const ws = (active.socket as any).ws;
-    const isWsOpen = ws ? ws.readyState === 1 : true;
-    return isWsOpen;
-  }
-  return false;
+  // Trust the internal Baileys event manager. 
+  // If status is CONNECTED, it is connected. Baileys will fire 'close' connection event if it drops.
+  return true;
 }
 
 export async function getWASessionStatus(adminId: string) {
