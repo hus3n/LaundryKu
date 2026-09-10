@@ -238,7 +238,15 @@ export async function initiateWAPairing(adminId: string) {
       if (m.type !== 'notify') return;
 
       for (const msg of m.messages) {
-        if (msg.key.fromMe || !msg.message || msg.key.remoteJid === 'status@broadcast') continue;
+        if (
+          msg.key.fromMe || 
+          !msg.message || 
+          msg.key.remoteJid === 'status@broadcast' || 
+          msg.key.remoteJid?.endsWith('@g.us') ||
+          msg.key.remoteJid?.endsWith('@newsletter')
+        ) {
+          continue;
+        }
 
         const rawText = extractWhatsAppText(msg);
 
