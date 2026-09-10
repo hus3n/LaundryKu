@@ -79,6 +79,8 @@ export async function disconnect(req: AuthenticatedRequest, res: Response, next:
   }
 }
 
+import { DEFAULT_TEMPLATES } from '../whatsapp/templates.js';
+
 export async function getTemplates(req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> {
   try {
     const adminId = getTargetAdminId(req);
@@ -87,16 +89,38 @@ export async function getTemplates(req: AuthenticatedRequest, res: Response, nex
       return;
     }
 
+    // Prepare default list
+    const defaultList = Object.entries(DEFAULT_TEMPLATES).map(([key, val]) => ({
+      _id: key, // Use key as fallback ID for UI selection
+      adminId,
+      type: key,
+      name: val.name,
+      content: val.content,
+      isDefault: true,
+    }));
+
     if (!isMongoConnected()) {
-      res.json({ success: true, data: [] });
+      // Fallback: Show defaults if DB is offline
+      res.json({ success: true, data: defaultList });
       return;
     }
 
-    // Ensure templates exist before fetching
+    // Ensure templates exist in DB
     await ensureDefaultTemplates(adminId);
 
-    const templates = await WATemplate.find({ adminId });
-    res.json({ success: true, data: templates });
+    // Fetch from DB
+    const dbTemplates = await WATemplate.find({ adminId });
+    
+    // Merge DB content over defaults to guarantee UI never goes blank
+    const mergedTemplates = defaultList.map(defTmpl => {
+      const dbMatch = dbTemplates.find(db => db.type === defTmpl.type);
+      if (dbMatch) {
+        return dbMatch.toObject ? dbMatch.toObject() : dbMatch;
+      }
+      return defTmpl;
+    });
+
+    res.json({ success: true, data: mergedTemplates });
   } catch (error: any) {
     next(error);
   }
@@ -105,7 +129,7 @@ export async function getTemplates(req: AuthenticatedRequest, res: Response, nex
 export async function updateTemplate(req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> {
   try {
     const adminId = getTargetAdminId(req);
-    const { id } = req.params;
+    const id = req.params.id as string; // Ensure string type 
     const { content } = req.body;
 
     if (!adminId) {
@@ -118,11 +142,30 @@ export async function updateTemplate(req: AuthenticatedRequest, res: Response, n
       return;
     }
 
-    const updated = await WATemplate.findOneAndUpdate(
-      { _id: id, adminId },
-      { content },
-      { new: true }
-    );
+    // Determine query: If `id` doesn't look like an ObjectId, assume it's a `type` string.
+    const isObjectId = id.match(/^[0-9a-fA-F]{24}$/);
+    const query = isObjectId ? { _id: id, adminId } : { type: id, adminId };
+    
+    // Find first to see if it exists
+    let updated = await WATemplate.findOne(query);
+    if (!updated) {
+      if (!isObjectId && DEFAULT_TEMPLATES[id as keyof typeof DEFAULT_TEMPLATES]) {
+        // If not found and it's a default type, create it
+        updated = await WATemplate.create({
+          adminId,
+          type: id,
+          name: DEFAULT_TEMPLATES[id as keyof typeof DEFAULT_TEMPLATES].name,
+          content,
+          isDefault: true
+        });
+      } else {
+        res.status(404).json({ success: false, error: 'Template tidak ditemukan.' });
+        return;
+      }
+    } else {
+      updated.content = content;
+      await updated.save();
+    }
 
     res.json({ success: true, message: 'Template pesan disimpan.', data: updated });
   } catch (error: any) {

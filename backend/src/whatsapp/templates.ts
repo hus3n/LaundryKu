@@ -99,40 +99,23 @@ import { isMongoConnected } from '../config/mongodb.js';
 export async function ensureDefaultTemplates(adminId: string) {
   if (!isMongoConnected()) return;
   try {
-    const existingCount = await WATemplate.countDocuments({ adminId });
-    if (existingCount === 0) {
-      await WATemplate.create([
-        {
+    const existingTemplates = await WATemplate.find({ adminId }).exec();
+    const existingTypes = existingTemplates.map(t => t.type);
+
+    const neededTypes = Object.keys(DEFAULT_TEMPLATES) as Array<keyof typeof DEFAULT_TEMPLATES>;
+    
+    for (const type of neededTypes) {
+      if (!existingTypes.includes(type)) {
+        await WATemplate.create({
           adminId,
-          type: 'ORDER_RECEIVED',
-          name: DEFAULT_TEMPLATES.ORDER_RECEIVED.name,
-          content: DEFAULT_TEMPLATES.ORDER_RECEIVED.content,
+          type,
+          name: DEFAULT_TEMPLATES[type].name,
+          content: DEFAULT_TEMPLATES[type].content,
           isDefault: true,
-        },
-        {
-          adminId,
-          type: 'ORDER_IN_PROGRESS',
-          name: DEFAULT_TEMPLATES.ORDER_IN_PROGRESS.name,
-          content: DEFAULT_TEMPLATES.ORDER_IN_PROGRESS.content,
-          isDefault: true,
-        },
-        {
-          adminId,
-          type: 'ORDER_DONE',
-          name: DEFAULT_TEMPLATES.ORDER_DONE.name,
-          content: DEFAULT_TEMPLATES.ORDER_DONE.content,
-          isDefault: true,
-        },
-        {
-          adminId,
-          type: 'ORDER_PICKED_UP',
-          name: DEFAULT_TEMPLATES.ORDER_PICKED_UP.name,
-          content: DEFAULT_TEMPLATES.ORDER_PICKED_UP.content,
-          isDefault: true,
-        },
-      ]);
+        });
+      }
     }
   } catch (e) {
-    // Skip if Mongo is offline in local dev
+    // Skip if Mongo is offline or error occurs
   }
 }
