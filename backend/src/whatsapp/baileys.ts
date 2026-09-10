@@ -18,7 +18,11 @@ import { formatOrderForNota } from '../utils/formatOrderForNota.js';
 import { AutoReply } from '../models-nosql/autoReply.model.js';
 import { BotConfig } from '../models-nosql/botConfig.model.js';
 import { queryAiAssistant, processAiMessageWithCentralConfig } from '../services/ai.service.js';
+import pino from 'pino';
 import os from 'os';
+import NodeCache from 'node-cache';
+
+const msgRetryCounterCache = new NodeCache();
 
 interface ActiveSession {
   socket?: WASocket;
@@ -110,6 +114,15 @@ export async function initiateWAPairing(adminId: string) {
     auth: state,
     printQRInTerminal: false,
     defaultQueryTimeoutMs: 60000,
+    markOnlineOnConnect: true,
+    logger: pino({ level: 'silent' }) as any,
+    msgRetryCounterCache,
+    getMessage: async (key) => {
+      // Always return a dummy valid message to bypass the requirement and force a retry
+      return {
+        conversation: 'hello'
+      };
+    },
   });
 
   activeSessions[adminId] = {
