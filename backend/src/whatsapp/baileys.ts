@@ -243,6 +243,12 @@ export async function initiateWAPairing(adminId: string) {
         const rawText = extractWhatsAppText(msg);
 
         if (!rawText) continue;
+        
+        // Mark message as read to prevent Meta server throttling MD replies
+        try {
+          await sock.readMessages([msg.key]);
+          await sock.sendPresenceUpdate('composing', msg.key.remoteJid!);
+        } catch (e) {}
 
         const textLower = rawText.toLowerCase().replace(/[^a-z0-9]/g, ' ');
         const digitsOnly = rawText.replace(/[^0-9]/g, '');
