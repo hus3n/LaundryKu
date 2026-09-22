@@ -9,7 +9,7 @@ const router = Router();
 
 const loginSchema = z.object({
   body: z.object({
-    email: z.string().email('Email tidak valid'),
+    email: z.string().trim().toLowerCase().email('Email tidak valid'),
     password: z.string().min(1, 'Password wajib diisi'),
   }),
 });

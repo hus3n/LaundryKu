@@ -6,8 +6,14 @@ import { env } from '../config/env.js';
 import { crypto } from '../utils/crypto.js';
 
 export async function loginService(email: string, pass: string) {
-  const user = await prisma.user.findUnique({
-    where: { email },
+  const normalizedEmail = (email || '').trim().toLowerCase();
+  const user = await prisma.user.findFirst({
+    where: {
+      email: {
+        equals: normalizedEmail,
+        mode: 'insensitive',
+      },
+    },
     include: {
       adminRef: true,
       adminOwner: true,

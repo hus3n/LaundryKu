@@ -7,16 +7,17 @@ dotenv.config();
 const prisma = new PrismaClient();
 
 async function main() {
-  const superAdminEmail = process.env.SUPERADMIN_EMAIL || 'superadmin@laundryku.com';
+  const superAdminEmail = (process.env.SUPERADMIN_EMAIL || 'superadmin@laundryku.com').trim().toLowerCase();
   const superAdminPassword = process.env.SUPERADMIN_PASSWORD || 'SuperAdmin@2026';
   const superAdminName = process.env.SUPERADMIN_NAME || 'Super Admin';
+
+  const hashedPassword = await bcrypt.hash(superAdminPassword, 10);
 
   const existing = await prisma.user.findUnique({
     where: { email: superAdminEmail },
   });
 
   if (!existing) {
-    const hashedPassword = await bcrypt.hash(superAdminPassword, 10);
     const superAdmin = await prisma.user.create({
       data: {
         email: superAdminEmail,
@@ -31,7 +32,17 @@ async function main() {
     console.log(`   Email: ${superAdmin.email}`);
     console.log(`   Password: ${superAdminPassword}`);
   } else {
-    console.log('ℹ️ SuperAdmin already exists.');
+    await prisma.user.update({
+      where: { email: superAdminEmail },
+      data: {
+        password: hashedPassword,
+        role: 'SUPERADMIN' as any,
+        isActive: true,
+      },
+    });
+    console.log('✅ SuperAdmin password updated successfully:');
+    console.log(`   Email: ${superAdminEmail}`);
+    console.log(`   Password: ${superAdminPassword}`);
   }
 }
 

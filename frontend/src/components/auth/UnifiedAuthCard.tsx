@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { AnimatePresence } from 'framer-motion';
-import { X } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import RegisterSuccessModal from '@/app/register/components/RegisterSuccessModal';
 import { RegisterFormData, RegisterErrors, PlanType } from '@/app/register/types';
@@ -17,7 +16,6 @@ interface UnifiedAuthCardProps {
   activeMode?: 'login' | 'register';
   onModeChange?: (mode: 'login' | 'register') => void;
   isSplitView?: boolean;
-  onClose?: () => void;
 }
 
 export default function UnifiedAuthCard({
@@ -25,7 +23,6 @@ export default function UnifiedAuthCard({
   activeMode: controlledMode,
   onModeChange,
   isSplitView = false,
-  onClose,
 }: UnifiedAuthCardProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -95,7 +92,7 @@ export default function UnifiedAuthCard({
     setIsLoginSubmitting(true);
 
     try {
-      const loggedUser = await login(loginEmail, loginPassword);
+      const loggedUser = await login(loginEmail.trim(), loginPassword);
       if (loggedUser.role === 'SUPERADMIN') {
         router.push('/superadmin/dashboard');
       } else if (loggedUser.role === 'ADMIN') {
@@ -193,18 +190,6 @@ export default function UnifiedAuthCard({
 
   return (
     <div className="w-full max-w-xl mx-auto relative">
-      {/* Split-View Close Button */}
-      {isSplitView && onClose && (
-        <button
-          onClick={onClose}
-          type="button"
-          aria-label="Tutup Panel Auth"
-          className="absolute -top-3 right-0 sm:top-2 sm:right-2 z-30 p-2 rounded-full bg-white dark:bg-[#012040] border border-slate-200 dark:border-[#1DA9D0]/30 text-slate-500 dark:text-[#F5EACA]/70 hover:text-slate-900 dark:hover:text-[#F5EACA] hover:bg-slate-100 dark:hover:bg-[#013D66] shadow-md transition-all cursor-pointer"
-        >
-          <X className="w-4 h-4 sm:w-5 sm:h-5" />
-        </button>
-      )}
-
       {/* Main Glass Card */}
       <div className="glass-card-dark p-4 sm:p-7 md:p-8 rounded-2xl sm:rounded-3xl border border-slate-200 dark:border-[#1DA9D0]/20 shadow-2xl backdrop-blur-2xl relative overflow-hidden transition-all">
         {/* Glow Accent */}

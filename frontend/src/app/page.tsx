@@ -91,7 +91,6 @@ function LandingPageContent() {
                 activeMode={authMode}
                 onModeChange={setAuthMode}
                 isSplitView
-                onClose={closeAuth}
               />
             </div>
           </motion.aside>
@@ -119,6 +118,16 @@ function LandingPageContent() {
               transition={{ type: 'spring', stiffness: 280, damping: 28 }}
               className="relative w-full max-h-[92vh] overflow-y-auto rounded-t-3xl bg-white dark:bg-[#012040] p-4 sm:p-6 border-t border-slate-200 dark:border-[#1DA9D0]/30 shadow-2xl z-50 flex flex-col items-center"
             >
+              {/* Mobile Close Button */}
+              <button
+                onClick={closeAuth}
+                type="button"
+                className="absolute top-4 right-4 p-2 rounded-full bg-slate-100 dark:bg-[#013D66] border border-slate-200 dark:border-[#1DA9D0]/30 text-slate-500 dark:text-[#F5EACA]/70 hover:text-slate-900 dark:hover:text-[#F5EACA] shadow-sm transition-all cursor-pointer z-40"
+                title="Tutup"
+              >
+                <X className="w-4 h-4" />
+              </button>
+
               {/* Drag handle */}
               <div className="w-12 h-1.5 rounded-full bg-slate-300 dark:bg-[#1DA9D0]/30 mb-4 self-center" />
 
@@ -127,7 +136,6 @@ function LandingPageContent() {
                   activeMode={authMode}
                   onModeChange={setAuthMode}
                   isSplitView
-                  onClose={closeAuth}
                 />
               </div>
             </motion.div>
