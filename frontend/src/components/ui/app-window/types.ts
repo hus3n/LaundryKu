@@ -7,4 +7,7 @@ export interface AppGuideModalProps {
   isOpen: boolean;
   onClose: () => void;
   onToggleFullscreen: () => void;
+  deferredPrompt?: BeforeInstallPromptEvent | null;
+  onDirectInstall?: () => void;
 }
+

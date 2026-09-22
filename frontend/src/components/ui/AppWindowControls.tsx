@@ -60,14 +60,18 @@ export default function AppWindowControls() {
 
   const handleInstallClick = async () => {
     if (deferredPrompt) {
-      deferredPrompt.prompt();
-      const { outcome } = await deferredPrompt.userChoice;
-      if (outcome === 'accepted') {
-        setDeferredPrompt(null);
+      try {
+        await deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        if (outcome === 'accepted') {
+          setDeferredPrompt(null);
+          return;
+        }
+      } catch (err) {
+        console.warn('Direct install failed:', err);
       }
-    } else {
-      setShowGuideModal(true);
     }
+    setShowGuideModal(true);
   };
 
   return (
@@ -117,6 +121,8 @@ export default function AppWindowControls() {
         isOpen={showGuideModal}
         onClose={() => setShowGuideModal(false)}
         onToggleFullscreen={toggleFullscreen}
+        deferredPrompt={deferredPrompt}
+        onDirectInstall={handleInstallClick}
       />
     </>
   );
