@@ -8,10 +8,11 @@ import {
   BarChart3, 
   Package, 
   UserCheck, 
-  Download, 
   Calendar, 
-  DollarSign 
+  DollarSign,
+  FileSpreadsheet
 } from 'lucide-react';
+import DownloadAllDataButton from '@/components/ui/DownloadAllDataButton';
 
 export default function ReportsAndAnalyticsPage() {
   const [period, setPeriod] = useState<'daily' | 'monthly' | 'yearly'>('daily');
@@ -19,11 +20,6 @@ export default function ReportsAndAnalyticsPage() {
   const [packageStats, setPackageStats] = useState<any[]>([]);
   const [employeeStats, setEmployeeStats] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-
-  // States for Combined Financial Report Download
-  const [reportMonth, setReportMonth] = useState<number>(new Date().getMonth() + 1);
-  const [reportYear, setReportYear] = useState<number>(new Date().getFullYear());
-  const [isDownloading, setIsDownloading] = useState(false);
 
   const loadAnalytics = async () => {
     setLoading(true);
@@ -48,47 +44,6 @@ export default function ReportsAndAnalyticsPage() {
     loadAnalytics();
   }, [period]);
 
-  const handleExportCSV = () => {
-    if (!revenueData || revenueData.labels.length === 0) {
-      alert('Tidak ada data untuk diekspor.');
-      return;
-    }
-
-    let csvContent = 'data:text/csv;charset=utf-8,Periode,Total Pendapatan (Rp)\n';
-    revenueData.labels.forEach((label: string, idx: number) => {
-      csvContent += `${label},${revenueData.data[idx]}\n`;
-    });
-
-    const encodedUri = encodeURI(csvContent);
-    const link = document.createElement('a');
-    link.setAttribute('href', encodedUri);
-    link.setAttribute('download', `Laporan_Pendapatan_LaundryKu_${period}_${Date.now()}.csv`);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
-
-  const downloadLaporanGabungan = async () => {
-    try {
-      setIsDownloading(true);
-      const token = localStorage.getItem('token');
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4001';
-      const url = `${apiUrl}/api/expenses/export/combined?month=${reportMonth}&year=${reportYear}`;
-      const response = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
-      if (!response.ok) throw new Error('Gagal mendownload laporan');
-      const blob = await response.blob();
-      const bulanNama = new Date(reportYear, reportMonth - 1, 1).toLocaleString('id-ID', { month: 'long' });
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = `laporan-keuangan-${bulanNama}-${reportYear}.csv`;
-      link.click();
-    } catch {
-      alert('Gagal mendownload laporan. Coba lagi.');
-    } finally {
-      setIsDownloading(false);
-    }
-  };
-
   const maxRevenueVal = revenueData?.data?.length ? Math.max(...revenueData.data, 1) : 1;
 
   return (
@@ -96,31 +51,25 @@ export default function ReportsAndAnalyticsPage() {
       <div className="space-y-8">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-bold text-[#F5EACA]">Analitik & Laporan Pendapatan</h1>
-            <p className="text-xs text-[#F5EACA]/60 mt-1">Grafik performa keuangan, paket terlaris, dan statistik karyawan</p>
+            <h1 className="text-2xl font-bold dark:text-[#F5EACA] text-slate-900">Analitik & Laporan Pendapatan</h1>
+            <p className="text-xs dark:text-[#F5EACA]/60 text-slate-500 mt-1">Grafik performa keuangan, paket terlaris, dan statistik karyawan</p>
           </div>
-          <button
-            onClick={handleExportCSV}
-            className="px-5 py-2.5 rounded-xl bg-[#013D66] hover:bg-[#014775] text-[#F5EACA] font-semibold text-xs border border-[#1DA9D0]/25 transition-all inline-flex items-center gap-2"
-          >
-            <Download className="w-4 h-4 text-[#43D5CC]" />
-            Ekspor Laporan (CSV)
-          </button>
+          <DownloadAllDataButton />
         </div>
 
         {/* Revenue Analytics Chart Container */}
-        <div className="glass-card-dark p-6 rounded-3xl border border-[#1DA9D0]/15 space-y-6">
+        <div className="glass-card-dark p-6 rounded-3xl border dark:border-[#1DA9D0]/15 border-slate-200 space-y-6 shadow-sm">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <h3 className="text-base font-bold text-[#F5EACA] flex items-center gap-2">
-              <BarChart3 className="w-5 h-5 text-[#43D5CC]" /> Grafik Pendapatan
+            <h3 className="text-base font-bold dark:text-[#F5EACA] text-slate-900 flex items-center gap-2">
+              <BarChart3 className="w-5 h-5 dark:text-[#43D5CC] text-teal-600" /> Grafik Pendapatan
             </h3>
 
             {/* Filter Period Tabs */}
-            <div className="flex bg-[#012040] p-1 rounded-xl border border-[#1DA9D0]/15 self-start sm:self-auto">
+            <div className="flex dark:bg-[#012040] bg-slate-100 p-1 rounded-xl border dark:border-[#1DA9D0]/15 border-slate-200 self-start sm:self-auto">
               <button
                 onClick={() => setPeriod('daily')}
                 className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                  period === 'daily' ? 'bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] text-[#010E1C] font-bold shadow' : 'text-[#F5EACA]/60 hover:text-[#F5EACA]'
+                  period === 'daily' ? 'bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] text-[#010E1C] font-bold shadow' : 'dark:text-[#F5EACA]/60 text-slate-600 dark:hover:text-[#F5EACA] hover:text-slate-900'
                 }`}
               >
                 Harian
@@ -128,7 +77,7 @@ export default function ReportsAndAnalyticsPage() {
               <button
                 onClick={() => setPeriod('monthly')}
                 className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                  period === 'monthly' ? 'bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] text-[#010E1C] font-bold shadow' : 'text-[#F5EACA]/60 hover:text-[#F5EACA]'
+                  period === 'monthly' ? 'bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] text-[#010E1C] font-bold shadow' : 'dark:text-[#F5EACA]/60 text-slate-600 dark:hover:text-[#F5EACA] hover:text-slate-900'
                 }`}
               >
                 Bulanan
@@ -136,7 +85,7 @@ export default function ReportsAndAnalyticsPage() {
               <button
                 onClick={() => setPeriod('yearly')}
                 className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                  period === 'yearly' ? 'bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] text-[#010E1C] font-bold shadow' : 'text-[#F5EACA]/60 hover:text-[#F5EACA]'
+                  period === 'yearly' ? 'bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] text-[#010E1C] font-bold shadow' : 'dark:text-[#F5EACA]/60 text-slate-600 dark:hover:text-[#F5EACA] hover:text-slate-900'
                 }`}
               >
                 Tahunan
@@ -145,13 +94,13 @@ export default function ReportsAndAnalyticsPage() {
           </div>
 
           {loading ? (
-            <div className="text-center py-16 text-xs text-[#F5EACA]/60">Memuat grafik analitik...</div>
+            <div className="text-center py-16 text-xs dark:text-[#F5EACA]/60 text-slate-500">Memuat grafik analitik...</div>
           ) : !revenueData || revenueData.labels.length === 0 ? (
-            <div className="text-center py-16 text-xs text-[#F5EACA]/60">Belum ada data transaksi tercatat.</div>
+            <div className="text-center py-16 text-xs dark:text-[#F5EACA]/60 text-slate-500">Belum ada data transaksi tercatat.</div>
           ) : (
             <div className="space-y-4">
               {/* Custom CSS Bar Chart */}
-              <div className="h-64 flex items-end gap-3 pt-8 pb-2 px-2 border-b border-[#1DA9D0]/15 overflow-x-auto">
+              <div className="h-64 flex items-end gap-3 pt-8 pb-2 px-2 border-b dark:border-[#1DA9D0]/15 border-slate-200 overflow-x-auto">
                 {revenueData.labels.map((label: string, idx: number) => {
                   const val = revenueData.data[idx];
                   const heightPercent = Math.max((val / maxRevenueVal) * 100, 4);
@@ -159,7 +108,7 @@ export default function ReportsAndAnalyticsPage() {
                   return (
                     <div key={idx} className="flex-1 flex flex-col items-center gap-2 min-w-[40px] group relative">
                       {/* Tooltip on hover */}
-                      <div className="absolute -top-10 opacity-0 group-hover:opacity-100 transition-opacity bg-[#012040] border border-[#1DA9D0]/30 text-[#F5EACA] text-[10px] py-1 px-2 rounded shadow-lg pointer-events-none whitespace-nowrap z-10 font-bold">
+                      <div className="absolute -top-10 opacity-0 group-hover:opacity-100 transition-opacity dark:bg-[#012040] bg-white border dark:border-[#1DA9D0]/30 border-slate-300 dark:text-[#F5EACA] text-slate-900 text-[10px] py-1 px-2 rounded shadow-lg pointer-events-none whitespace-nowrap z-10 font-bold">
                         Rp {val.toLocaleString('id-ID')}
                       </div>
 
@@ -167,7 +116,7 @@ export default function ReportsAndAnalyticsPage() {
                         style={{ height: `${heightPercent}%` }}
                         className="w-full bg-gradient-to-t from-[#015383] via-[#1DA9D0] to-[#43D5CC] rounded-t-lg transition-all group-hover:brightness-125"
                       />
-                      <span className="text-[10px] text-[#F5EACA]/60 truncate max-w-[60px]">{label}</span>
+                      <span className="text-[10px] dark:text-[#F5EACA]/60 text-slate-500 truncate max-w-[60px]">{label}</span>
                     </div>
                   );
                 })}
@@ -178,22 +127,22 @@ export default function ReportsAndAnalyticsPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Package Breakdown */}
-          <div className="glass-card-dark p-6 rounded-3xl border border-[#1DA9D0]/15 space-y-4">
-            <h3 className="text-base font-bold text-[#F5EACA] flex items-center gap-2">
-              <Package className="w-5 h-5 text-[#43D5CC]" /> Pendapatan Berdasarkan Paket
+          <div className="glass-card-dark p-6 rounded-3xl border dark:border-[#1DA9D0]/15 border-slate-200 space-y-4 shadow-sm">
+            <h3 className="text-base font-bold dark:text-[#F5EACA] text-slate-900 flex items-center gap-2">
+              <Package className="w-5 h-5 dark:text-[#43D5CC] text-teal-600" /> Pendapatan Berdasarkan Paket
             </h3>
 
             {packageStats.length === 0 ? (
-              <div className="text-xs text-[#F5EACA]/60 py-8 text-center">Belum ada data paket.</div>
+              <div className="text-xs dark:text-[#F5EACA]/60 text-slate-500 py-8 text-center">Belum ada data paket.</div>
             ) : (
               <div className="space-y-3">
                 {packageStats.map((pkg, idx) => (
-                  <div key={idx} className="p-3.5 rounded-xl bg-[#012040] border border-[#1DA9D0]/15 flex justify-between items-center text-xs">
+                  <div key={idx} className="p-3.5 rounded-xl dark:bg-[#012040] bg-slate-50 border dark:border-[#1DA9D0]/15 border-slate-200 flex justify-between items-center text-xs">
                     <div>
-                      <div className="font-bold text-[#F5EACA]">{pkg.name}</div>
-                      <div className="text-[10px] text-[#F5EACA]/60">{pkg.count} kali transaksi</div>
+                      <div className="font-bold dark:text-[#F5EACA] text-slate-900">{pkg.name}</div>
+                      <div className="text-[10px] dark:text-[#F5EACA]/60 text-slate-500">{pkg.count} kali transaksi</div>
                     </div>
-                    <div className="text-right font-bold text-[#43D5CC]">
+                    <div className="text-right font-bold dark:text-[#43D5CC] text-teal-600">
                       Rp {Number(pkg.revenue).toLocaleString('id-ID')}
                     </div>
                   </div>
@@ -203,24 +152,24 @@ export default function ReportsAndAnalyticsPage() {
           </div>
 
           {/* Employee Performance Stats */}
-          <div className="glass-card-dark p-6 rounded-3xl border border-[#1DA9D0]/15 space-y-4">
-            <h3 className="text-base font-bold text-[#F5EACA] flex items-center gap-2">
-              <UserCheck className="w-5 h-5 text-[#43D5CC]" /> Statistik Performa Karyawan
+          <div className="glass-card-dark p-6 rounded-3xl border dark:border-[#1DA9D0]/15 border-slate-200 space-y-4 shadow-sm">
+            <h3 className="text-base font-bold dark:text-[#F5EACA] text-slate-900 flex items-center gap-2">
+              <UserCheck className="w-5 h-5 dark:text-[#43D5CC] text-teal-600" /> Statistik Performa Karyawan
             </h3>
 
             {employeeStats.length === 0 ? (
-              <div className="text-xs text-[#F5EACA]/60 py-8 text-center">Belum ada data karyawan.</div>
+              <div className="text-xs dark:text-[#F5EACA]/60 text-slate-500 py-8 text-center">Belum ada data karyawan.</div>
             ) : (
               <div className="space-y-3">
                 {employeeStats.map((emp, idx) => (
-                  <div key={idx} className="p-3.5 rounded-xl bg-[#012040] border border-[#1DA9D0]/15 flex justify-between items-center text-xs">
+                  <div key={idx} className="p-3.5 rounded-xl dark:bg-[#012040] bg-slate-50 border dark:border-[#1DA9D0]/15 border-slate-200 flex justify-between items-center text-xs">
                     <div>
-                      <div className="font-bold text-[#F5EACA]">{emp.name}</div>
-                      <div className="text-[10px] text-[#F5EACA]/60">
+                      <div className="font-bold dark:text-[#F5EACA] text-slate-900">{emp.name}</div>
+                      <div className="text-[10px] dark:text-[#F5EACA]/60 text-slate-500">
                         {emp.completedOrders} selesai / {emp.totalOrders} total cucian
                       </div>
                     </div>
-                    <div className="text-right font-bold text-[#43D5CC]">
+                    <div className="text-right font-bold dark:text-[#43D5CC] text-teal-600">
                       Rp {Number(emp.totalRevenueHandled).toLocaleString('id-ID')}
                     </div>
                   </div>
@@ -230,67 +179,47 @@ export default function ReportsAndAnalyticsPage() {
           </div>
         </div>
 
-        {/* Section Download Laporan Keuangan */}
-        <div className="glass-card-dark p-6 rounded-3xl border border-[#1DA9D0]/15">
-          <div className="flex items-center gap-2 mb-1">
-            <Download className="w-5 h-5 text-[#43D5CC]" />
-            <h2 className="text-base font-bold text-[#F5EACA]">Download Laporan Keuangan</h2>
-          </div>
-          <p className="text-xs text-[#F5EACA]/60 mb-5">
-            Download rekap pemasukan dan pengeluaran dalam <strong className="text-[#F5EACA]/90">1 file CSV gabungan</strong> berdasarkan bulan & tahun. File dapat dibuka langsung di Microsoft Excel atau Google Sheets.
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-4 items-end">
-            <div>
-              <label className="block text-[10px] font-semibold text-[#F5EACA]/60 mb-1.5 uppercase tracking-wide">Bulan</label>
-              <select
-                value={reportMonth}
-                onChange={(e) => setReportMonth(parseInt(e.target.value))}
-                className="bg-[#012040] border border-[#1DA9D0]/25 text-[#F5EACA] text-xs rounded-xl px-3 py-2 focus:outline-none focus:border-[#1DA9D0] min-w-[140px]"
-              >
-                {Array.from({ length: 12 }, (_, i) => (
-                  <option key={i + 1} value={i + 1}>
-                    {new Date(0, i).toLocaleString('id-ID', { month: 'long' })}
-                  </option>
-                ))}
-              </select>
+        {/* Section Download Seluruh Data Excel */}
+        <div className="glass-card-dark p-6 sm:p-8 rounded-3xl border dark:border-[#1DA9D0]/15 border-slate-200 shadow-sm space-y-5">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="flex items-start gap-3">
+              <div className="p-3 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-500">
+                <FileSpreadsheet className="w-6 h-6" />
+              </div>
+              <div>
+                <h2 className="text-base font-bold dark:text-[#F5EACA] text-slate-900">
+                  Ekspor Seluruh Data Laundry (1 File Excel Terpadu)
+                </h2>
+                <p className="text-xs dark:text-[#F5EACA]/60 text-slate-600 mt-1 max-w-2xl">
+                  Unduh seluruh database operasional toko dalam 1 file buku kerja Excel (.xlsx) komprehensif. Terdiri dari 6 lembar kerja (worksheet) terpisah:
+                </p>
+              </div>
             </div>
-
-            <div>
-              <label className="block text-[10px] font-semibold text-[#F5EACA]/60 mb-1.5 uppercase tracking-wide">Tahun</label>
-              <select
-                value={reportYear}
-                onChange={(e) => setReportYear(parseInt(e.target.value))}
-                className="bg-[#012040] border border-[#1DA9D0]/25 text-[#F5EACA] text-xs rounded-xl px-3 py-2 focus:outline-none focus:border-[#1DA9D0] min-w-[100px]"
-              >
-                {[2024, 2025, 2026, 2027].map((y) => (
-                  <option key={y} value={y}>{y}</option>
-                ))}
-              </select>
+            <div className="self-start sm:self-center">
+              <DownloadAllDataButton label="Download Seluruh Data (Excel)" />
             </div>
-
-            <button
-              onClick={downloadLaporanGabungan}
-              disabled={isDownloading}
-              className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] hover:opacity-95 text-[#010E1C] font-bold text-xs transition-all inline-flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-[#1DA9D0]/20"
-            >
-              {isDownloading ? (
-                <>
-                  <div className="w-4 h-4 border-2 border-[#010E1C]/30 border-t-[#010E1C] rounded-full animate-spin" />
-                  Memproses...
-                </>
-              ) : (
-                <>
-                  <Download className="w-4 h-4" />
-                  Download Laporan Gabungan (CSV)
-                </>
-              )}
-            </button>
           </div>
 
-          <p className="text-[10px] text-[#F5EACA]/50 mt-3">
-            💡 File berisi 3 section: Pemasukan · Pengeluaran · Ringkasan Keuangan
-          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 pt-2">
+            <div className="p-3 rounded-xl dark:bg-[#012040]/50 bg-slate-50 border dark:border-[#1DA9D0]/10 border-slate-200 text-xs">
+              <span className="font-bold text-emerald-600 dark:text-emerald-400">Sheet 1:</span> Ringkasan & Grafik Tren Keuangan
+            </div>
+            <div className="p-3 rounded-xl dark:bg-[#012040]/50 bg-slate-50 border dark:border-[#1DA9D0]/10 border-slate-200 text-xs">
+              <span className="font-bold text-emerald-600 dark:text-emerald-400">Sheet 2:</span> Database Lengkap Pelanggan
+            </div>
+            <div className="p-3 rounded-xl dark:bg-[#012040]/50 bg-slate-50 border dark:border-[#1DA9D0]/10 border-slate-200 text-xs">
+              <span className="font-bold text-emerald-600 dark:text-emerald-400">Sheet 3:</span> Data Transaksi Cucian Global
+            </div>
+            <div className="p-3 rounded-xl dark:bg-[#012040]/50 bg-slate-50 border dark:border-[#1DA9D0]/10 border-slate-200 text-xs">
+              <span className="font-bold text-emerald-600 dark:text-emerald-400">Sheet 4:</span> Riwayat Status & Audit Trail Cucian
+            </div>
+            <div className="p-3 rounded-xl dark:bg-[#012040]/50 bg-slate-50 border dark:border-[#1DA9D0]/10 border-slate-200 text-xs">
+              <span className="font-bold text-emerald-600 dark:text-emerald-400">Sheet 5:</span> Laporan Detail Pemasukan Toko
+            </div>
+            <div className="p-3 rounded-xl dark:bg-[#012040]/50 bg-slate-50 border dark:border-[#1DA9D0]/10 border-slate-200 text-xs">
+              <span className="font-bold text-emerald-600 dark:text-emerald-400">Sheet 6:</span> Laporan Detail Pengeluaran Toko
+            </div>
+          </div>
         </div>
       </div>
     </DashboardLayout>

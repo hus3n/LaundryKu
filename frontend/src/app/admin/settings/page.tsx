@@ -130,33 +130,33 @@ export default function StoreSettingsPage() {
     <DashboardLayout>
       <div className="max-w-3xl mx-auto space-y-6">
         <div>
-          <h1 className="text-2xl font-bold text-[#F5EACA]">Pengaturan Toko Laundry</h1>
-          <p className="text-xs text-[#F5EACA]/60 mt-1">Atur profil toko, alamat, dan kontak yang akan tampil di nota/struk</p>
+          <h1 className="text-2xl font-bold dark:text-[#F5EACA] text-slate-900">Pengaturan Toko Laundry</h1>
+          <p className="text-xs dark:text-[#F5EACA]/60 text-slate-500 mt-1">Atur profil toko, alamat, dan kontak yang akan tampil di nota/struk</p>
         </div>
 
         {message && (
-          <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs flex items-center gap-2">
-            <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+          <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-700 dark:text-emerald-300 text-xs flex items-center gap-2">
+            <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
             {message}
           </div>
         )}
 
         {error && (
-          <div className="p-4 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs flex items-center gap-2">
-            <AlertCircle className="w-4 h-4 text-rose-400 shrink-0" />
+          <div className="p-4 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-700 dark:text-rose-300 text-xs flex items-center gap-2">
+            <AlertCircle className="w-4 h-4 text-rose-500 shrink-0" />
             {error}
           </div>
         )}
 
-        <div className="glass-card-dark p-6 rounded-3xl border border-[#1DA9D0]/15 space-y-6">
+        <div className="glass-card-dark p-6 rounded-3xl border dark:border-[#1DA9D0]/15 border-slate-200 space-y-6 shadow-sm">
           {loading ? (
-            <div className="text-center py-8 text-xs text-[#F5EACA]/60">Memuat profil toko...</div>
+            <div className="text-center py-8 text-xs dark:text-[#F5EACA]/60 text-slate-500">Memuat profil toko...</div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4">
               
               {/* Upload Logo */}
-              <div className="mb-6 p-4 rounded-2xl bg-[#012040]/50 border border-[#1DA9D0]/15">
-                <label className="block text-xs font-semibold text-[#F5EACA]/80 mb-3">Logo Toko</label>
+              <div className="mb-6 p-4 rounded-2xl dark:bg-[#012040]/50 bg-slate-50 border dark:border-[#1DA9D0]/15 border-slate-200">
+                <label className="block text-xs font-semibold dark:text-[#F5EACA]/80 text-slate-700 mb-3">Logo Toko</label>
                 
                 {/* Preview Logo */}
                 <div className="mb-4">
@@ -164,10 +164,10 @@ export default function StoreSettingsPage() {
                     <img
                       src={getLogoDisplayUrl()!}
                       alt="Logo Toko"
-                      className="w-24 h-24 object-contain border border-[#1DA9D0]/25 bg-white rounded-xl shadow-sm"
+                      className="w-24 h-24 object-contain border dark:border-[#1DA9D0]/25 border-slate-300 bg-white rounded-xl shadow-sm"
                     />
                   ) : (
-                    <div className="w-24 h-24 border-2 border-dashed border-[#1DA9D0]/25 rounded-xl flex items-center justify-center text-[#F5EACA]/50 text-xs text-center">
+                    <div className="w-24 h-24 border-2 border-dashed dark:border-[#1DA9D0]/25 border-slate-300 rounded-xl flex items-center justify-center dark:text-[#F5EACA]/50 text-slate-400 text-xs text-center">
                       Belum ada logo
                     </div>
                   )}
@@ -184,7 +184,7 @@ export default function StoreSettingsPage() {
                 <div className="flex gap-3 items-center">
                   <label
                     htmlFor="logoUpload"
-                    className="cursor-pointer px-4 py-2 border border-[#1DA9D0]/25 rounded-lg text-xs font-medium text-[#F5EACA]/80 hover:bg-[#013D66] transition-colors"
+                    className="cursor-pointer px-4 py-2 border dark:border-[#1DA9D0]/25 border-slate-300 rounded-lg text-xs font-medium dark:text-[#F5EACA]/80 text-slate-700 dark:hover:bg-[#013D66] hover:bg-slate-200 transition-colors"
                   >
                     Pilih File
                   </label>
@@ -193,56 +193,56 @@ export default function StoreSettingsPage() {
                       type="button"
                       onClick={handleUploadLogo}
                       disabled={isUploadingLogo}
-                      className="px-4 py-2 bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] text-[#010E1C] font-bold rounded-lg text-xs hover:opacity-95 disabled:opacity-50 transition-all"
+                      className="px-4 py-2 bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] text-[#010E1C] font-bold rounded-lg text-xs hover:opacity-95 disabled:opacity-50 transition-all shadow-sm"
                     >
                       {isUploadingLogo ? 'Mengupload...' : 'Upload Logo'}
                     </button>
                   )}
                 </div>
                 {logoFile && (
-                  <p className="text-[10px] text-[#43D5CC] mt-2">File dipilih: {logoFile.name}</p>
+                  <p className="text-[10px] dark:text-[#43D5CC] text-teal-600 mt-2">File dipilih: {logoFile.name}</p>
                 )}
-                <p className="text-[10px] text-[#F5EACA]/50 mt-1">Format: JPG, PNG, WebP. Maks 2MB.</p>
+                <p className="text-[10px] dark:text-[#F5EACA]/50 text-slate-400 mt-1">Format: JPG, PNG, WebP. Maks 2MB.</p>
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-[#F5EACA]/80 mb-1.5">Nama Toko Laundry *</label>
+                <label className="block text-xs font-semibold dark:text-[#F5EACA]/80 text-slate-700 mb-1.5">Nama Toko Laundry *</label>
                 <input
                   type="text"
                   required
                   value={storeName}
                   onChange={(e) => setStoreName(e.target.value)}
                   placeholder="Contoh: FreshClean Laundry 24"
-                  className="w-full px-4 py-2.5 rounded-xl bg-[#012040] border border-[#1DA9D0]/25 text-xs text-[#F5EACA] placeholder-[#1DA9D0]/50 focus:outline-none focus:border-[#1DA9D0]"
+                  className="w-full px-4 py-2.5 rounded-xl dark:bg-[#012040] bg-white border dark:border-[#1DA9D0]/25 border-slate-300 text-xs dark:text-[#F5EACA] text-slate-900 dark:placeholder-[#1DA9D0]/50 placeholder-slate-400 focus:outline-none focus:border-[#1DA9D0]"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-[#F5EACA]/80 mb-1.5">Nomor Telepon / WA Toko</label>
+                <label className="block text-xs font-semibold dark:text-[#F5EACA]/80 text-slate-700 mb-1.5">Nomor Telepon / WA Toko</label>
                 <input
                   type="text"
                   value={storePhone}
                   onChange={(e) => setStorePhone(e.target.value)}
                   placeholder="081234567890"
-                  className="w-full px-4 py-2.5 rounded-xl bg-[#012040] border border-[#1DA9D0]/25 text-xs text-[#F5EACA] placeholder-[#1DA9D0]/50 focus:outline-none focus:border-[#1DA9D0]"
+                  className="w-full px-4 py-2.5 rounded-xl dark:bg-[#012040] bg-white border dark:border-[#1DA9D0]/25 border-slate-300 text-xs dark:text-[#F5EACA] text-slate-900 dark:placeholder-[#1DA9D0]/50 placeholder-slate-400 focus:outline-none focus:border-[#1DA9D0]"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-[#F5EACA]/80 mb-1.5">Alamat Toko Lengkap</label>
+                <label className="block text-xs font-semibold dark:text-[#F5EACA]/80 text-slate-700 mb-1.5">Alamat Toko Lengkap</label>
                 <textarea
                   rows={3}
                   value={storeAddress}
                   onChange={(e) => setStoreAddress(e.target.value)}
                   placeholder="Jl. Merdeka No. 45, Kecamatan Gambir, Jakarta Pusat"
-                  className="w-full px-4 py-2.5 rounded-xl bg-[#012040] border border-[#1DA9D0]/25 text-xs text-[#F5EACA] placeholder-[#1DA9D0]/50 focus:outline-none focus:border-[#1DA9D0]"
+                  className="w-full px-4 py-2.5 rounded-xl dark:bg-[#012040] bg-white border dark:border-[#1DA9D0]/25 border-slate-300 text-xs dark:text-[#F5EACA] text-slate-900 dark:placeholder-[#1DA9D0]/50 placeholder-slate-400 focus:outline-none focus:border-[#1DA9D0]"
                 />
               </div>
 
               {subscriptionEnd && (
-                <div className="p-4 rounded-xl bg-[#012040] border border-[#1DA9D0]/15 flex justify-between items-center text-xs">
-                  <span className="text-[#F5EACA]/60">Masa Aktif Berlangganan Toko:</span>
-                  <span className="font-bold text-[#EA8803]">
+                <div className="p-4 rounded-xl dark:bg-[#012040] bg-slate-50 border dark:border-[#1DA9D0]/15 border-slate-200 flex justify-between items-center text-xs">
+                  <span className="dark:text-[#F5EACA]/60 text-slate-500">Masa Aktif Berlangganan Toko:</span>
+                  <span className="font-bold dark:text-[#EA8803] text-amber-600">
                     {new Date(subscriptionEnd).toLocaleDateString('id-ID', {
                       day: 'numeric',
                       month: 'long',

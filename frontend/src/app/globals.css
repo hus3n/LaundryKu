@@ -4,34 +4,66 @@
 
 @layer base {
   :root {
+    --background: 210 40% 98%;
+    --foreground: 222 47% 11%;
+  }
+
+  .dark {
     --background: 216 93% 5%;
     --foreground: 44 76% 91%;
   }
 
   body {
-    @apply bg-[#010E1C] text-[#F5EACA] antialiased selection:bg-brand-500 selection:text-white min-h-screen;
+    @apply bg-slate-50 text-slate-900 dark:bg-[#010E1C] dark:text-[#F5EACA] antialiased selection:bg-brand-500 selection:text-white min-h-screen transition-colors duration-150;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
 
 /* Glassmorphism Utilities */
 .glass-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  color: #0f172a;
+}
+
+.dark .glass-card {
   background: rgba(1, 83, 131, 0.35);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(67, 213, 204, 0.18);
   box-shadow: 0 8px 32px rgba(1, 14, 28, 0.4);
+  color: #F5EACA;
 }
 
 .glass-card-dark {
+  background: #ffffff;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  color: #0f172a;
+}
+
+.dark .glass-card-dark {
   background: rgba(1, 32, 64, 0.88);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(29, 169, 208, 0.2);
   box-shadow: 0 10px 40px rgba(1, 14, 28, 0.5);
+  color: #F5EACA;
 }
 
 .glass-input {
+  background: #ffffff;
+  backdrop-filter: blur(12px);
+  border: 1px solid #cbd5e1;
+  color: #0f172a;
+}
+
+.dark .glass-input {
   background: rgba(1, 61, 102, 0.45);
   backdrop-filter: blur(12px);
   border: 1px solid rgba(29, 169, 208, 0.25);
@@ -39,6 +71,12 @@
 }
 
 .glass-input:focus {
+  background: #ffffff;
+  border-color: #0284c7;
+  box-shadow: 0 0 0 4px rgba(2, 132, 199, 0.15);
+}
+
+.dark .glass-input:focus {
   background: rgba(1, 61, 102, 0.8);
   border-color: #1DA9D0;
   box-shadow: 0 0 0 4px rgba(29, 169, 208, 0.2);

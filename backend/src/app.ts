@@ -24,6 +24,7 @@ import backupRoutes from './routes/backup.routes.js';
 import outletRoutes from './routes/outlet.routes.js';
 import expenseRoutes from './routes/expense.routes.js';
 import botConfigRoutes from './routes/botConfig.routes.js';
+import reviewRoutes from './routes/review.routes.js';
 
 const app = express();
 
@@ -64,6 +65,7 @@ app.use('/api/backup', backupRoutes);
 app.use('/api/outlets', outletRoutes);
 app.use('/api/expenses', expenseRoutes);
 app.use('/api/bot', botConfigRoutes);
+app.use('/api/reviews', reviewRoutes);
 
 import { initAllSavedWASessions } from './whatsapp/baileys.js';
 

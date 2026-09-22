@@ -52,6 +52,7 @@ model Admin {
   customers       Customer[]
   orders          LaundryOrder[]
   outlets         Outlet[]
+  expenses        Expense[]
 }
 
 model Outlet {
@@ -85,6 +86,7 @@ model LaundryOrder {
   totalPrice    Float
   notes         String?
   fragrance     String?
+  clothesCount  Int?
   dateIn        DateTime      @default(now())
   estimatedDone DateTime?
   dateOut       DateTime?
@@ -167,4 +169,29 @@ model Notification {
   isRead    Boolean  @default(false)
   type      String   @default("INFO")
   createdAt DateTime @default(now())
+}
+
+model Expense {
+  id          String   @id @default(uuid())
+  adminId     String
+  admin       Admin    @relation(fields: [adminId], references: [id], onDelete: Cascade)
+  category    String
+  amount      Float
+  date        DateTime
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Review {
+  id          String   @id @default(uuid())
+  name        String
+  storeName   String?
+  role        String?  @default("Pengguna")
+  rating      Int      @default(5)
+  comment     String
+  imageUrl    String?
+  isPublished Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }

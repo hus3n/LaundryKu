@@ -138,6 +138,19 @@ export interface ActivityLog {
   user: { id: string; name: string; role: UserRole };
 }
 
+export interface Review {
+  id: string;
+  name: string;
+  storeName?: string | null;
+  role?: string | null;
+  rating: number;
+  comment: string;
+  imageUrl?: string | null;
+  isPublished: boolean;
+  createdAt: string;
+  updatedAt?: string;
+}
+
 // --- API Response wrapper ---
 
 export interface ApiResponse<T> {

@@ -20,6 +20,7 @@ import {
   X,
   PlusCircle,
   FileText,
+  BarChart3,
   User,
   Database,
   Bot,
@@ -27,6 +28,7 @@ import {
 import { useAuth } from '@/contexts/AuthContext';
 import BrandLogo from '@/components/ui/BrandLogo';
 import AppWindowControls from '@/components/ui/AppWindowControls';
+import ThemeToggle from '@/components/ui/ThemeToggle';
 
 interface SidebarItem {
   label: string;
@@ -58,6 +60,7 @@ export default function DashboardLayout({ children, role }: { children: React.Re
       { label: 'Kategori Cucian', href: '/admin/categories', icon: Layers },
       { label: 'Kelola Outlet', href: '/admin/outlets', icon: Building2 },
       { label: 'Catatan Pengeluaran', href: '/admin/expenses', icon: FileText },
+      { label: 'Laporan & Analitik', href: '/admin/reports', icon: BarChart3 },
       { label: 'Data Pelanggan', href: '/admin/customers', icon: Users },
       { label: 'Data Karyawan', href: '/admin/employees', icon: UserCheck },
       { label: 'Pairing WA Toko', href: '/admin/whatsapp', icon: QrCode },
@@ -72,11 +75,11 @@ export default function DashboardLayout({ children, role }: { children: React.Re
   }
 
   return (
-    <div className="min-h-screen bg-[#010E1C] text-[#F5EACA] flex">
+    <div className="min-h-screen dark:bg-[#010E1C] bg-slate-50 dark:text-[#F5EACA] text-slate-900 flex transition-colors duration-150">
       {/* Desktop Sidebar */}
-      <aside className="hidden md:flex flex-col w-64 bg-[#012040]/80 border-r border-[#1DA9D0]/15 p-5 sticky top-0 h-screen z-30 backdrop-blur-xl">
+      <aside className="hidden md:flex flex-col w-64 dark:bg-[#012040]/80 bg-white border-r dark:border-[#1DA9D0]/15 border-slate-200 p-5 sticky top-0 h-screen z-30 backdrop-blur-xl shadow-sm">
         {/* Brand */}
-        <div className="pb-5 mb-3 border-b border-[#1DA9D0]/15">
+        <div className="pb-5 mb-3 border-b dark:border-[#1DA9D0]/15 border-slate-200">
           <Link href={user?.role === 'SUPERADMIN' ? '/superadmin/dashboard' : user?.role === 'ADMIN' ? '/admin/dashboard' : '/karyawan/laundry'}>
             <BrandLogo storeName={user?.storeName} storeLogo={user?.storeLogo} />
           </Link>
@@ -92,7 +95,7 @@ export default function DashboardLayout({ children, role }: { children: React.Re
                 key={item.href}
                 href={item.href}
                 className={`relative flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-semibold transition-colors group ${
-                  isActive ? 'text-[#010E1C] font-bold' : 'text-[#F5EACA]/60 hover:text-[#F5EACA]'
+                  isActive ? 'text-[#010E1C] font-bold' : 'dark:text-[#F5EACA]/60 text-slate-600 dark:hover:text-[#F5EACA] hover:text-slate-900'
                 }`}
               >
                 {isActive && (
@@ -103,7 +106,7 @@ export default function DashboardLayout({ children, role }: { children: React.Re
                   />
                 )}
                 {!isActive && (
-                  <div className="absolute inset-0 rounded-xl bg-[#1DA9D0]/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <div className="absolute inset-0 rounded-xl dark:bg-[#1DA9D0]/10 bg-slate-100 opacity-0 group-hover:opacity-100 transition-opacity" />
                 )}
                 <span className="relative z-10 flex items-center gap-3">
                   <Icon className="w-4 h-4 shrink-0" />
@@ -115,14 +118,14 @@ export default function DashboardLayout({ children, role }: { children: React.Re
         </nav>
 
         {/* User Info & Logout */}
-        <div className="pt-4 mt-4 border-t border-[#1DA9D0]/15 flex items-center justify-between">
+        <div className="pt-4 mt-4 border-t dark:border-[#1DA9D0]/15 border-slate-200 flex items-center justify-between">
           <div className="flex items-center gap-3 overflow-hidden">
-            <div className="w-9 h-9 rounded-xl bg-[#013D66] border border-[#1DA9D0]/25 flex items-center justify-center font-bold text-[#43D5CC] shrink-0">
+            <div className="w-9 h-9 rounded-xl dark:bg-[#013D66] bg-slate-100 border dark:border-[#1DA9D0]/25 border-slate-200 flex items-center justify-center font-bold dark:text-[#43D5CC] text-sky-600 shrink-0">
               {user?.name?.[0]?.toUpperCase() || 'U'}
             </div>
             <div className="truncate">
-              <div className="text-xs font-semibold text-[#F5EACA] truncate">{user?.name}</div>
-              <div className="text-[10px] text-[#F5EACA]/50 truncate">{user?.email}</div>
+              <div className="text-xs font-semibold dark:text-[#F5EACA] text-slate-900 truncate">{user?.name}</div>
+              <div className="text-[10px] dark:text-[#F5EACA]/50 text-slate-500 truncate">{user?.email}</div>
             </div>
           </div>
 
@@ -131,7 +134,7 @@ export default function DashboardLayout({ children, role }: { children: React.Re
             whileTap={{ scale: 0.9 }}
             onClick={logout}
             title="Keluar / Logout"
-            className="p-2 rounded-lg text-[#F5EACA]/60 hover:text-rose-400 hover:bg-rose-500/10 transition-colors"
+            className="p-2 rounded-lg dark:text-[#F5EACA]/60 text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-500/10 transition-colors"
           >
             <LogOut className="w-4 h-4" />
           </motion.button>
@@ -141,28 +144,31 @@ export default function DashboardLayout({ children, role }: { children: React.Re
       {/* Main Area */}
       <div className="flex-1 flex flex-col min-w-0">
         {/* Top Header */}
-        <header className="h-16 border-b border-[#1DA9D0]/15 bg-[#012040]/50 backdrop-blur-xl sticky top-0 z-20 px-4 md:px-6 flex items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
+        <header className="h-14 sm:h-16 border-b dark:border-[#1DA9D0]/15 border-slate-200 dark:bg-[#012040]/50 bg-white/80 backdrop-blur-xl sticky top-0 z-20 px-3 sm:px-4 md:px-6 flex items-center justify-between gap-3 shadow-sm">
+          <div className="flex items-center gap-2 sm:gap-3">
             <button
               onClick={() => setMobileOpen(true)}
-              className="md:hidden p-2 flex items-center justify-center rounded-lg text-[#F5EACA]/60 hover:text-[#F5EACA] hover:bg-[#1DA9D0]/10 transition-colors"
+              className="md:hidden p-1.5 sm:p-2 flex items-center justify-center rounded-lg dark:text-[#F5EACA]/60 text-slate-600 dark:hover:text-[#F5EACA] hover:text-slate-900 dark:hover:bg-[#1DA9D0]/10 hover:bg-slate-100 transition-colors"
             >
               <Menu className="w-5 h-5" />
             </button>
 
-            <div className="text-xs font-semibold text-[#F5EACA]/60 truncate hidden sm:block">
-              Selamat Datang, <span className="text-[#F5EACA] font-bold">{user?.name}</span>
+            <div className="text-xs font-semibold dark:text-[#F5EACA]/60 text-slate-500 truncate hidden sm:block">
+              Selamat Datang, <span className="dark:text-[#F5EACA] text-slate-900 font-bold">{user?.name}</span>
               {user?.storeName && (
-                <span className="text-[#1DA9D0]/70 font-normal ml-1.5">({user.storeName})</span>
+                <span className="dark:text-[#1DA9D0]/70 text-sky-600 font-normal ml-1.5">({user.storeName})</span>
               )}
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
+            {/* Theme Toggle (☀️ Light / 🌙 Dark) */}
+            <ThemeToggle />
+
             {/* App Window & Fullscreen Controls */}
             <AppWindowControls />
 
-            <span className="text-xs px-3 py-1 rounded-full bg-[#013D66] border border-[#1DA9D0]/25 text-[#F5EACA]/80 font-medium hidden md:inline-block">
+            <span className="text-[11px] sm:text-xs px-2.5 py-1 rounded-full dark:bg-[#013D66] bg-slate-100 border dark:border-[#1DA9D0]/25 border-slate-200 dark:text-[#F5EACA]/80 text-slate-700 font-medium hidden md:inline-block">
               {user?.role}
             </span>
           </div>
@@ -178,7 +184,7 @@ export default function DashboardLayout({ children, role }: { children: React.Re
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.2 }}
-                className="fixed inset-0 bg-[#010E1C]/85 backdrop-blur-sm" 
+                className="fixed inset-0 bg-slate-900/60 dark:bg-[#010E1C]/85 backdrop-blur-sm" 
                 onClick={() => setMobileOpen(false)} 
               />
               <motion.aside 
@@ -187,26 +193,29 @@ export default function DashboardLayout({ children, role }: { children: React.Re
                 animate={{ x: 0 }}
                 exit={{ x: '-100%' }}
                 transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-                className="relative flex-1 max-w-xs bg-[#012040] border-r border-[#1DA9D0]/15 p-6 flex flex-col"
+                className="relative flex-1 max-w-[280px] dark:bg-[#012040] bg-white border-r dark:border-[#1DA9D0]/15 border-slate-200 p-4 sm:p-5 flex flex-col shadow-2xl"
               >
-                <div className="flex items-center justify-between pb-4 mb-4 border-b border-[#1DA9D0]/15">
+                <div className="flex items-center justify-between pb-3 mb-3 border-b dark:border-[#1DA9D0]/15 border-slate-200">
                   <BrandLogo size="sm" storeName={user?.storeName} storeLogo={user?.storeLogo} />
-                  <button onClick={() => setMobileOpen(false)} className="p-2 text-[#F5EACA]/60 hover:text-[#F5EACA] rounded-lg hover:bg-[#1DA9D0]/10 transition-colors">
-                    <AnimatePresence mode="wait">
-                      <motion.div 
-                        key="close" 
-                        initial={{ rotate: -90, opacity: 0 }} 
-                        animate={{ rotate: 0, opacity: 1 }} 
-                        exit={{ rotate: 90, opacity: 0 }} 
-                        transition={{ duration: 0.15 }}
-                      >
-                        <X className="w-5 h-5" />
-                      </motion.div>
-                    </AnimatePresence>
-                  </button>
+                  <div className="flex items-center gap-1">
+                    <ThemeToggle />
+                    <button onClick={() => setMobileOpen(false)} className="p-1.5 dark:text-[#F5EACA]/60 text-slate-500 dark:hover:text-[#F5EACA] hover:text-slate-900 rounded-lg hover:bg-slate-100 dark:hover:bg-[#1DA9D0]/10 transition-colors">
+                      <AnimatePresence mode="wait">
+                        <motion.div 
+                          key="close" 
+                          initial={{ rotate: -90, opacity: 0 }} 
+                          animate={{ rotate: 0, opacity: 1 }} 
+                          exit={{ rotate: 90, opacity: 0 }} 
+                          transition={{ duration: 0.15 }}
+                        >
+                          <X className="w-5 h-5" />
+                        </motion.div>
+                      </AnimatePresence>
+                    </button>
+                  </div>
                 </div>
 
-                <nav className="flex-1 space-y-1.5 overflow-y-auto">
+                <nav className="flex-1 space-y-1 overflow-y-auto">
                   {navItems.map((item) => {
                     const Icon = item.icon;
                     const isActive = pathname === item.href;
@@ -215,10 +224,10 @@ export default function DashboardLayout({ children, role }: { children: React.Re
                         key={item.href}
                         href={item.href}
                         onClick={() => setMobileOpen(false)}
-                        className={`flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-semibold transition-colors ${
+                        className={`flex items-center gap-2.5 px-3 py-2 sm:py-2.5 rounded-xl text-xs font-semibold transition-colors ${
                           isActive
                             ? 'bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] text-[#010E1C] font-bold shadow-md shadow-[#1DA9D0]/20'
-                            : 'text-[#F5EACA]/60 hover:text-[#F5EACA] hover:bg-[#1DA9D0]/10'
+                            : 'dark:text-[#F5EACA]/60 text-slate-600 dark:hover:text-[#F5EACA] hover:text-slate-900 dark:hover:bg-[#1DA9D0]/10 hover:bg-slate-100'
                         }`}
                       >
                         <Icon className="w-4 h-4" />
@@ -231,7 +240,7 @@ export default function DashboardLayout({ children, role }: { children: React.Re
                 <motion.button
                   whileTap={{ scale: 0.96 }}
                   onClick={logout}
-                  className="mt-6 flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-rose-500/10 text-rose-400 hover:bg-rose-500/20 text-xs font-semibold border border-rose-500/20 transition-colors"
+                  className="mt-4 flex items-center justify-center gap-2 w-full py-2.5 rounded-xl dark:bg-rose-500/10 bg-rose-50 dark:text-rose-400 text-rose-600 hover:bg-rose-100 dark:hover:bg-rose-500/20 text-xs font-semibold border dark:border-rose-500/20 border-rose-200 transition-colors"
                 >
                   <LogOut className="w-4 h-4" />
                   Keluar Aplikasi
@@ -242,7 +251,7 @@ export default function DashboardLayout({ children, role }: { children: React.Re
         </AnimatePresence>
 
         {/* Dynamic Page Content */}
-        <main className="p-6 md:p-8 flex-1 overflow-y-auto">{children}</main>
+        <main className="p-3 sm:p-4 md:p-6 lg:p-8 flex-1 overflow-y-auto">{children}</main>
       </div>
     </div>
   );

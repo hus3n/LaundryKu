@@ -5,28 +5,14 @@ import Link from 'next/link';
 import DashboardLayout from '@/components/layouts/DashboardLayout';
 import ReceiptModal from '@/components/ui/ReceiptModal';
 import OrderLogModal from '@/components/ui/OrderLogModal';
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
 import { api } from '@/lib/api';
-import { 
-  Shirt, 
-  Search, 
-  PlusCircle, 
-  CheckCircle2, 
-  Clock, 
-  DollarSign, 
-  Filter,
-  Printer,
-  Download
-} from 'lucide-react';
-import { exportToCSV } from '@/lib/export';
+import { Shirt, PlusCircle } from 'lucide-react';
 import type { LaundryOrder, StoreSettings } from '@/types';
-import { 
-  getOrderStatusBadgeClass, 
-  getOrderStatusLabel, 
-  getPaymentStatusBadgeClass, 
-  getPaymentStatusLabel 
-} from '@/lib/orderUtils';
 import { getApiErrorMessage } from '@/lib/utils';
+import LaundryFilterBar from './components/LaundryFilterBar';
+import LaundryOrderMobileCard from './components/LaundryOrderMobileCard';
+import LaundryOrderDesktopTable from './components/LaundryOrderDesktopTable';
 
 export default function GlobalLaundryListPage() {
   const [orders, setOrders] = useState<LaundryOrder[]>([]);
@@ -40,7 +26,6 @@ export default function GlobalLaundryListPage() {
 
   const [selectedReceiptOrder, setSelectedReceiptOrder] = useState<LaundryOrder | null>(null);
   const [selectedLogOrder, setSelectedLogOrder] = useState<LaundryOrder | null>(null);
-  const [isExporting, setIsExporting] = useState(false);
   const [isSendingNota, setIsSendingNota] = useState<string | null>(null);
 
   const loadOrders = async () => {
@@ -100,6 +85,11 @@ export default function GlobalLaundryListPage() {
     }
   };
 
+  const handlePaymentClickWithStop = (e: React.MouseEvent, orderId: string, currentStatus: string) => {
+    e.stopPropagation();
+    handleUpdatePayment(orderId, currentStatus);
+  };
+
   const handleSendNotaImage = async (e: React.MouseEvent, order: LaundryOrder) => {
     e.stopPropagation();
     const phone = order.customer?.phone;
@@ -121,365 +111,76 @@ export default function GlobalLaundryListPage() {
     }
   };
 
-  const handlePaymentClickWithStop = (e: React.MouseEvent, orderId: string, currentStatus: string) => {
-    e.stopPropagation();
-    handleUpdatePayment(orderId, currentStatus);
-  };
-
   const handleReceiptClickWithStop = (e: React.MouseEvent, order: LaundryOrder) => {
     e.stopPropagation();
     setSelectedReceiptOrder(order);
   };
 
-  const handleExport = async () => {
-    setIsExporting(true);
-    try {
-      const res = await api.get('/laundry/export/all');
-      const allOrders = res.data.data || [];
-      if (allOrders.length === 0) {
-        alert('Tidak ada data untuk diexport.');
-        return;
-      }
-
-      const csvData = allOrders.map((o: any) => ({
-        'No. Nota': o.orderNumber,
-        'Tanggal Masuk': new Date(o.dateIn).toLocaleDateString('id-ID'),
-        'Nama Pelanggan': o.customer?.name || '',
-        'Nomor WA': o.customer?.phone || '',
-        'Outlet': o.outlet?.name || 'Pusat',
-        'Status Cucian': o.status,
-        'Status Pembayaran': o.paymentStatus,
-        'Metode Pembayaran': o.paymentMethod || '',
-        'Total Harga (Rp)': o.totalPrice,
-        'Catatan': o.notes || '',
-        'Parfum': o.fragrance || '',
-      }));
-
-      exportToCSV(`Export_Cucian_${new Date().getTime()}.csv`, csvData);
-    } catch (err) {
-      alert('Gagal mengekspor data.');
-      console.error(err);
-    } finally {
-      setIsExporting(false);
-    }
-  };
-
   return (
     <DashboardLayout>
-      <div className="space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="space-y-3.5 sm:space-y-4 md:space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
           <div>
-            <h1 className="text-2xl font-bold text-[#F5EACA]">Data Cucian Global</h1>
-            <p className="text-xs text-[#F5EACA]/60 mt-1">Daftar seluruh transaksi cucian toko, update status pengerjaan, dan cetak nota</p>
+            <h1 className="text-lg sm:text-xl md:text-2xl font-bold dark:text-[#F5EACA] text-slate-900">Data Cucian Global</h1>
+            <p className="text-[11px] sm:text-xs dark:text-[#F5EACA]/60 text-slate-500 mt-0.5 sm:mt-1">
+              Daftar seluruh transaksi cucian toko, update status pengerjaan, dan cetak nota
+            </p>
           </div>
-          <div className="flex items-center gap-3">
-            <button
-              onClick={handleExport}
-              disabled={isExporting}
-              className="px-4 py-2.5 rounded-xl bg-[#013D66] hover:bg-[#014775] text-[#F5EACA]/80 font-semibold text-xs border border-[#1DA9D0]/25 transition-colors inline-flex items-center gap-2 disabled:opacity-50"
-            >
-              <Download className="w-4 h-4 text-[#43D5CC]" />
-              {isExporting ? 'Mengekspor...' : 'Export CSV'}
-            </button>
+          <div className="flex items-center gap-2 sm:gap-3">
             <Link
               href="/admin/laundry/new"
-              className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] hover:opacity-95 text-[#010E1C] font-bold text-xs shadow-lg shadow-[#1DA9D0]/20 transition-all inline-flex items-center gap-2"
+              className="px-3.5 py-2 sm:px-5 sm:py-2.5 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] hover:opacity-95 text-[#010E1C] font-bold text-xs shadow-md shadow-[#1DA9D0]/20 transition-all inline-flex items-center gap-1.5 sm:gap-2"
             >
-              <PlusCircle className="w-4 h-4" />
+              <PlusCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               Catat Cucian Baru
             </Link>
           </div>
         </div>
 
-        {/* Search & Filter Bar */}
-        <div className="glass-card-dark p-4 rounded-2xl border border-[#1DA9D0]/15 flex flex-col md:flex-row gap-4 justify-between items-center">
-          <form onSubmit={handleSearchSubmit} className="relative w-full md:w-80">
-            <Search className="w-4 h-4 text-[#1DA9D0]/50 absolute left-3.5 top-1/2 -translate-y-1/2" />
-            <input
-              type="text"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder="Cari nota, pelanggan, no WA..."
-              className="w-full pl-10 pr-4 py-2 rounded-xl bg-[#012040] border border-[#1DA9D0]/25 text-xs text-[#F5EACA] placeholder-[#1DA9D0]/50 focus:outline-none focus:border-[#1DA9D0]"
-            />
-          </form>
+        <LaundryFilterBar
+          search={search}
+          setSearch={setSearch}
+          statusFilter={statusFilter}
+          setStatusFilter={setStatusFilter}
+          paymentFilter={paymentFilter}
+          setPaymentFilter={setPaymentFilter}
+          onSearchSubmit={handleSearchSubmit}
+        />
 
-          <div className="flex flex-wrap items-center gap-3 w-full md:w-auto">
-            <select
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
-              className="px-3 py-2 rounded-xl bg-[#012040] border border-[#1DA9D0]/25 text-xs text-[#F5EACA]/80 focus:outline-none focus:border-[#1DA9D0]"
-            >
-              <option value="">Semua Status Cucian</option>
-              <option value="RECEIVED">Masuk</option>
-              <option value="IN_PROGRESS">Sedang Dikerjakan</option>
-              <option value="DONE">Selesai</option>
-              <option value="PICKED_UP">Diambil Pelanggan</option>
-            </select>
-
-            <select
-              value={paymentFilter}
-              onChange={(e) => setPaymentFilter(e.target.value)}
-              className="px-3 py-2 rounded-xl bg-[#012040] border border-[#1DA9D0]/25 text-xs text-[#F5EACA]/80 focus:outline-none focus:border-[#1DA9D0]"
-            >
-              <option value="">Semua Pembayaran</option>
-              <option value="UNPAID">Belum Bayar</option>
-              <option value="PAID">Lunas</option>
-            </select>
-          </div>
-        </div>
-
-        {/* Data Table */}
-        <div className="glass-card-dark rounded-2xl border border-[#1DA9D0]/15 overflow-hidden">
+        <div className="glass-card-dark rounded-2xl border dark:border-[#1DA9D0]/15 border-slate-200 overflow-hidden shadow-sm">
           {error ? (
             <div className="text-center py-12 text-xs text-rose-400">⚠️ {error}</div>
           ) : loading ? (
-            <div className="text-center py-12 text-xs text-[#F5EACA]/60">Memuat data cucian...</div>
+            <div className="text-center py-12 text-xs dark:text-[#F5EACA]/60 text-slate-500">Memuat data cucian...</div>
           ) : orders.length === 0 ? (
-            <div className="text-center py-16 text-xs text-[#F5EACA]/60 space-y-3">
-              <Shirt className="w-12 h-12 mx-auto text-[#1DA9D0]/40" />
+            <div className="text-center py-16 text-xs dark:text-[#F5EACA]/60 text-slate-500 space-y-3">
+              <Shirt className="w-12 h-12 mx-auto dark:text-[#1DA9D0]/40 text-slate-300" />
               <p>Tidak ada data cucian yang sesuai dengan filter.</p>
             </div>
           ) : (
             <>
-              {/* === CARD VIEW — MOBILE ONLY (< md) === */}
-              <div className="md:hidden divide-y divide-[#1DA9D0]/10">
-                {orders.map((order) => (
-                  <div
-                    key={order.id}
-                    className="p-4 space-y-2.5 hover:bg-[#1DA9D0]/5 transition-colors cursor-pointer"
-                    onClick={() => setSelectedLogOrder(order)}
-                  >
-                    {/* Baris 1: No Nota + Status Cucian */}
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <span className="font-bold text-[#43D5CC] text-xs">#{order.orderNumber}</span>
-                        {order.outlet && (
-                          <span className="ml-2 text-[9px] text-[#1DA9D0]/50">{order.outlet.name}</span>
-                        )}
-                      </div>
-                      <select
-                        value={order.status}
-                        onChange={(e) => handleStatusChangeWithStop(e, order.id)}
-                        onClick={(e) => e.stopPropagation()}
-                        className="px-2 py-1 rounded-lg text-[10px] font-semibold border bg-[#013D66] text-[#F5EACA]/80 border-[#1DA9D0]/25 focus:outline-none"
-                      >
-                        <option value="RECEIVED">Masuk</option>
-                        <option value="IN_PROGRESS">Dikerjakan</option>
-                        <option value="DONE">Selesai</option>
-                        <option value="PICKED_UP">Diambil</option>
-                      </select>
-                    </div>
-
-                    {/* Baris 2: Pelanggan + Total + Bayar */}
-                    <div className="flex items-start justify-between">
-                      <div>
-                        <div className="text-[#F5EACA] text-xs font-semibold">{order.customer?.name}</div>
-                        <div className="text-[10px] text-[#F5EACA]/60">{order.customer?.phone}</div>
-                      </div>
-                      <div className="text-right">
-                        <div className="text-[#F5EACA] text-xs font-bold">
-                          Rp {Number(order.totalPrice).toLocaleString('id-ID')}
-                        </div>
-                        <button
-                          onClick={(e) => handlePaymentClickWithStop(e, order.id, order.paymentStatus)}
-                          className={`text-[9px] px-2 py-0.5 rounded-full border mt-0.5 ${getPaymentStatusBadgeClass(order.paymentStatus)}`}
-                        >
-                          {getPaymentStatusLabel(order.paymentStatus)}
-                          {order.paymentStatus === 'PAID' && order.paymentMethod ? ` · ${order.paymentMethod}` : ''}
-                        </button>
-                      </div>
-                    </div>
-
-                    {/* Baris 3: Item paket */}
-                    <div className="text-[10px] text-[#F5EACA]/60">
-                      {order.items?.map((item, i) => (
-                        <span key={i}>
-                          {item.package?.name} ({item.quantity} {item.package?.unit})
-                          {i < order.items.length - 1 ? ', ' : ''}
-                        </span>
-                      ))}
-                    </div>
-
-                    {/* Baris 4: Catatan + Parfum (jika ada) */}
-                    {(order.notes || order.fragrance) && (
-                      <div className="text-[10px] space-y-0.5">
-                        {order.notes && <div className="text-[#EA8803] italic">📝 {order.notes}</div>}
-                        {order.fragrance && <div className="text-[#43D5CC]">🌸 Parfum: {order.fragrance}</div>}
-                      </div>
-                    )}
-
-                    {/* Baris 5: Struk + Tgl Masuk */}
-                    <div className="flex items-center justify-between">
-                      <span className="text-[9px] text-[#1DA9D0]/50">
-                        Masuk: {new Date(order.dateIn).toLocaleDateString('id-ID')}
-                      </span>
-                      <div className="flex items-center gap-1.5">
-                        {order.customer?.phone && (
-                          <button
-                            id={`btn-send-nota-image-mob-${order.id}`}
-                            onClick={(e) => handleSendNotaImage(e, order)}
-                            disabled={isSendingNota === order.id}
-                            className="px-2 py-1 rounded-lg bg-[#43D5CC]/10 hover:bg-[#43D5CC]/20 text-[#43D5CC] text-[10px] font-semibold border border-[#43D5CC]/30 inline-flex items-center gap-1 transition-colors disabled:opacity-50"
-                            title="Kirim Nota sebagai Gambar WA"
-                          >
-                            {isSendingNota === order.id ? (
-                              <div className="w-3 h-3 border-2 border-[#43D5CC]/30 border-t-[#43D5CC] rounded-full animate-spin" />
-                            ) : (
-                              <>📷 WA</>
-                            )}
-                          </button>
-                        )}
-                        <button
-                          onClick={(e) => handleReceiptClickWithStop(e, order)}
-                          className="px-2.5 py-1 rounded-lg bg-[#013D66] text-[#43D5CC] text-[10px] font-semibold border border-[#1DA9D0]/25 inline-flex items-center gap-1 hover:bg-[#014775]"
-                        >
-                          <Printer className="w-3 h-3" /> Struk
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* === TABLE VIEW — DESKTOP ONLY (>= md) === */}
-              <div className="hidden md:block overflow-x-auto">
-              <table className="w-full text-left text-xs">
-                <thead>
-                  <tr className="border-b border-[#1DA9D0]/15 text-[#F5EACA]/60 font-medium bg-[#012040]/40">
-                    <th className="py-3.5 px-4">No. Nota</th>
-                    <th className="py-3.5 px-4">Pelanggan & WA</th>
-                    <th className="py-3.5 px-4">Outlet</th>
-                    <th className="py-3.5 px-4">Detail Paket</th>
-                    <th className="py-3.5 px-4">Tgl Masuk / Estimasi</th>
-                    <th className="py-3.5 px-4">Status Cucian</th>
-                    <th className="py-3.5 px-4">Pembayaran</th>
-                    <th className="py-3.5 px-4 text-right">Total & Struk</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-[#1DA9D0]/10">
-                  <AnimatePresence>
-                    {orders.map((order) => (
-                      <motion.tr 
-                        key={order.id} 
-                        initial={{ opacity: 0, x: -16 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: 16 }}
-                        transition={{ duration: 0.2 }}
-                        layout
-                        onClick={() => setSelectedLogOrder(order)}
-                        className="hover:bg-[#1DA9D0]/5 transition-colors cursor-pointer"
-                      >
-                        <td className="py-4 px-4 font-bold text-[#43D5CC]">
-                        #{order.orderNumber}
-                        {order.notes && (
-                          <div className="text-[10px] text-[#EA8803]/90 mt-1 italic font-normal">
-                            📝 {order.notes}
-                          </div>
-                        )}
-                        {order.fragrance && (
-                          <div className="text-[10px] text-[#43D5CC]/90 mt-0.5 font-normal">
-                            🌸 Parfum: {order.fragrance}
-                          </div>
-                        )}
-                      </td>
-                      <td className="py-4 px-4">
-                        <div className="font-semibold text-[#F5EACA]">{order.customer?.name}</div>
-                        <a
-                          href={`https://wa.me/${order.customer?.phone}`}
-                          target="_blank"
-                          rel="noreferrer"
-                          onClick={(e) => e.stopPropagation()}
-                          className="text-[10px] text-[#43D5CC] hover:underline"
-                        >
-                          {order.customer?.phone}
-                        </a>
-                      </td>
-                      <td className="py-4 px-4 text-xs text-[#F5EACA]/80">
-                        {order.outlet?.name || '—'}
-                      </td>
-                      <td className="py-4 px-4 space-y-1">
-                        {order.items?.map((item, i) => (
-                          <div key={i} className="text-[11px] text-[#F5EACA]/80">
-                            • {item.package?.name} ({item.quantity} {item.package?.unit}) —{' '}
-                            <span className="text-[#F5EACA]/60">{item.category?.name}</span>
-                          </div>
-                        ))}
-                      </td>
-                      <td className="py-4 px-4 text-[#F5EACA]/80 space-y-0.5">
-                        <div>{new Date(order.dateIn).toLocaleDateString('id-ID')}</div>
-                        {order.estimatedDone && (
-                          <div className="text-[10px] text-[#F5EACA]/60">
-                            Est: {new Date(order.estimatedDone).toLocaleDateString('id-ID')}
-                          </div>
-                        )}
-                      </td>
-                      <td className="py-4 px-4">
-                        <select
-                          value={order.status}
-                          onClick={(e) => e.stopPropagation()}
-                          onChange={(e) => handleStatusChangeWithStop(e, order.id)}
-                          className={`px-2.5 py-1 rounded-xl text-[10px] font-semibold border cursor-pointer focus:outline-none ${getOrderStatusBadgeClass(order.status)}`}
-                        >
-                          <option value="RECEIVED" className="bg-[#012040] text-[#F5EACA]">Masuk</option>
-                          <option value="IN_PROGRESS" className="bg-[#012040] text-[#F5EACA]">Sedang Dikerjakan</option>
-                          <option value="DONE" className="bg-[#012040] text-[#F5EACA]">Selesai</option>
-                          <option value="PICKED_UP" className="bg-[#012040] text-[#F5EACA]">Diambil Pelanggan</option>
-                        </select>
-                      </td>
-                      <td className="py-4 px-4">
-                        <button
-                          onClick={(e) => handlePaymentClickWithStop(e, order.id, order.paymentStatus)}
-                          className={`px-2.5 py-1 rounded-xl text-[10px] font-semibold border transition-all ${getPaymentStatusBadgeClass(order.paymentStatus)}`}
-                          title="Klik untuk ubah status bayar"
-                        >
-                          {getPaymentStatusLabel(order.paymentStatus)}
-                        </button>
-                        {order.paymentStatus === 'PAID' && order.paymentMethod && (
-                          <div className="text-[9px] text-[#F5EACA]/60 mt-0.5 text-center">
-                            {order.paymentMethod === 'CASH' ? '💵 Cash' : '📱 QRIS'}
-                          </div>
-                        )}
-                      </td>
-                      <td className="py-4 px-4 text-right space-y-1.5">
-                        <div className="font-bold text-[#F5EACA]">
-                          Rp {Number(order.totalPrice).toLocaleString('id-ID')}
-                        </div>
-                        <div className="flex items-center justify-end gap-1.5">
-                          {order.customer?.phone && (
-                            <button
-                              id={`btn-send-nota-image-${order.id}`}
-                              onClick={(e) => handleSendNotaImage(e, order)}
-                              disabled={isSendingNota === order.id}
-                              className="px-2 py-1 rounded-lg bg-[#43D5CC]/10 hover:bg-[#43D5CC]/20 text-[#43D5CC] text-[10px] font-semibold inline-flex items-center gap-1 border border-[#43D5CC]/30 transition-colors disabled:opacity-50"
-                              title="Kirim Nota sebagai Gambar WA"
-                            >
-                              {isSendingNota === order.id ? (
-                                <div className="w-3 h-3 border-2 border-[#43D5CC]/30 border-t-[#43D5CC] rounded-full animate-spin" />
-                              ) : (
-                                <>📷 WA</>
-                              )}
-                            </button>
-                          )}
-                          <button
-                            onClick={(e) => handleReceiptClickWithStop(e, order)}
-                            className="px-2.5 py-1 rounded-lg bg-[#013D66] hover:bg-[#014775] text-[#43D5CC] text-[10px] font-semibold inline-flex items-center gap-1 border border-[#1DA9D0]/25"
-                          >
-                            <Printer className="w-3 h-3" /> Struk
-                          </button>
-                        </div>
-                      </td>
-                      </motion.tr>
-                    ))}
-                  </AnimatePresence>
-                </tbody>
-              </table>
-            </div>
+              <LaundryOrderMobileCard
+                orders={orders}
+                isSendingNota={isSendingNota}
+                onSelectOrder={setSelectedLogOrder}
+                onUpdateStatus={handleStatusChangeWithStop}
+                onUpdatePayment={handlePaymentClickWithStop}
+                onSendNotaImage={handleSendNotaImage}
+                onOpenReceipt={handleReceiptClickWithStop}
+              />
+              <LaundryOrderDesktopTable
+                orders={orders}
+                isSendingNota={isSendingNota}
+                onSelectOrder={setSelectedLogOrder}
+                onUpdateStatus={handleStatusChangeWithStop}
+                onUpdatePayment={handlePaymentClickWithStop}
+                onSendNotaImage={handleSendNotaImage}
+                onOpenReceipt={handleReceiptClickWithStop}
+              />
             </>
           )}
         </div>
 
-        {/* Thermal Receipt Printable Modal */}
         <AnimatePresence>
           {selectedReceiptOrder && (
             <ReceiptModal

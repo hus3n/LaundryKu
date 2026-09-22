@@ -68,3 +68,33 @@ export async function getLogs(req: AuthenticatedRequest, res: Response, next: Ne
     next(error);
   }
 }
+
+export async function exportAllDataExcel(req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> {
+  try {
+    const adminId = req.user?.adminId;
+    if (!adminId) {
+      res.status(400).json({ success: false, error: 'ID Toko tidak ditemukan.' });
+      return;
+    }
+
+    const { generateAllAdminDataExcel } = await import('../services/excelExport.service.js');
+    const workbook = await generateAllAdminDataExcel(adminId);
+
+    const todayStr = new Date().toISOString().slice(0, 10);
+    const filename = `LaundryKu-Semua-Data-${todayStr}.xlsx`;
+
+    res.setHeader(
+      'Content-Type',
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    );
+    res.setHeader(
+      'Content-Disposition',
+      `attachment; filename="${filename}"`
+    );
+
+    await workbook.xlsx.write(res);
+    res.end();
+  } catch (error: any) {
+    next(error);
+  }
+}

@@ -4,6 +4,7 @@ import {
   getPackageStats,
   getEmployeeStats,
   getLogs,
+  exportAllDataExcel,
 } from '../controllers/analytics.controller.js';
 import { authenticate } from '../middleware/auth.js';
 import { authorize } from '../middleware/rbac.js';
@@ -16,5 +17,6 @@ router.get('/revenue', authorize('ADMIN'), getRevenueChart);
 router.get('/packages', authorize('ADMIN'), getPackageStats);
 router.get('/employees', authorize('ADMIN'), getEmployeeStats);
 router.get('/logs', authorize('ADMIN'), getLogs);
+router.get('/export-excel', authorize('ADMIN', 'SUPERADMIN'), exportAllDataExcel);
 
 export default router;

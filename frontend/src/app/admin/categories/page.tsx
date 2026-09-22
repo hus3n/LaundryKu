@@ -83,8 +83,8 @@ export default function CategoryManagementPage() {
       <div className="space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-bold text-[#F5EACA]">Kelola Kategori Cucian</h1>
-            <p className="text-xs text-[#F5EACA]/60 mt-1">Kategori jenis barang (Kiloan, Satuan, Bed Cover, Karpet, Sepatu, dll)</p>
+            <h1 className="text-2xl font-bold dark:text-[#F5EACA] text-slate-900">Kelola Kategori Cucian</h1>
+            <p className="text-xs dark:text-[#F5EACA]/60 text-slate-500 mt-1">Kategori jenis barang (Kiloan, Satuan, Bed Cover, Karpet, Sepatu, dll)</p>
           </div>
           <button
             onClick={handleOpenCreate}
@@ -97,34 +97,34 @@ export default function CategoryManagementPage() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
           {error ? (
-            <div className="col-span-4 text-center py-12 text-xs text-rose-400">⚠️ {error}</div>
+            <div className="col-span-4 text-center py-12 text-xs text-rose-500">⚠️ {error}</div>
           ) : loading ? (
-            <div className="col-span-4 text-center py-12 text-xs text-[#F5EACA]/60">Memuat data kategori...</div>
+            <div className="col-span-4 text-center py-12 text-xs dark:text-[#F5EACA]/60 text-slate-500">Memuat data kategori...</div>
           ) : categories.length === 0 ? (
-            <div className="col-span-4 glass-card-dark p-12 rounded-2xl text-center text-xs text-[#F5EACA]/60 space-y-3">
-              <Layers className="w-10 h-10 mx-auto text-[#1DA9D0]/40" />
+            <div className="col-span-4 glass-card-dark p-12 rounded-2xl border dark:border-[#1DA9D0]/15 border-slate-200 text-center text-xs dark:text-[#F5EACA]/60 text-slate-500 space-y-3 shadow-sm">
+              <Layers className="w-10 h-10 mx-auto dark:text-[#1DA9D0]/40 text-slate-400" />
               <p>Belum ada kategori cucian. Tambahkan kategori pertama Anda.</p>
             </div>
           ) : (
             categories.map((cat) => (
-              <div key={cat.id} className="glass-card-dark p-5 rounded-2xl border border-[#1DA9D0]/15 flex items-center justify-between">
+              <div key={cat.id} className="glass-card-dark p-5 rounded-2xl border dark:border-[#1DA9D0]/15 border-slate-200 flex items-center justify-between shadow-sm">
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-[#1DA9D0]/20 border border-[#1DA9D0]/30 flex items-center justify-center text-[#43D5CC]">
+                  <div className="w-9 h-9 rounded-xl dark:bg-[#1DA9D0]/20 bg-teal-50 border dark:border-[#1DA9D0]/30 border-teal-200 flex items-center justify-center dark:text-[#43D5CC] text-teal-700">
                     <Layers className="w-4 h-4" />
                   </div>
-                  <span className="font-semibold text-[#F5EACA] text-sm">{cat.name}</span>
+                  <span className="font-semibold dark:text-[#F5EACA] text-slate-900 text-sm">{cat.name}</span>
                 </div>
 
                 <div className="flex items-center gap-1">
                   <button
                     onClick={() => handleOpenEdit(cat)}
-                    className="p-1.5 rounded-lg text-[#F5EACA]/60 hover:text-[#43D5CC] hover:bg-[#013D66] transition-colors"
+                    className="p-1.5 rounded-lg dark:text-[#F5EACA]/60 text-slate-500 dark:hover:text-[#43D5CC] hover:text-teal-600 dark:hover:bg-[#013D66] hover:bg-slate-100 transition-colors"
                   >
                     <Edit className="w-3.5 h-3.5" />
                   </button>
                   <button
                     onClick={() => handleDelete(cat.id)}
-                    className="p-1.5 rounded-lg text-[#F5EACA]/60 hover:text-rose-400 hover:bg-[#013D66] transition-colors"
+                    className="p-1.5 rounded-lg dark:text-[#F5EACA]/60 text-slate-500 hover:text-rose-500 dark:hover:bg-[#013D66] hover:bg-slate-100 transition-colors"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
                   </button>
@@ -135,22 +135,22 @@ export default function CategoryManagementPage() {
         </div>
 
         {modalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#010E1C]/85 backdrop-blur-sm">
-            <div className="bg-[#012040] p-6 rounded-3xl border border-[#1DA9D0]/25 max-w-sm w-full space-y-4 shadow-2xl">
-              <h3 className="text-base font-bold text-[#F5EACA]">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 dark:bg-[#010E1C]/85 bg-slate-900/40 backdrop-blur-sm">
+            <div className="dark:bg-[#012040] bg-white p-6 rounded-3xl border dark:border-[#1DA9D0]/25 border-slate-200 max-w-sm w-full space-y-4 shadow-2xl">
+              <h3 className="text-base font-bold dark:text-[#F5EACA] text-slate-900">
                 {editingId ? 'Edit Kategori' : 'Tambah Kategori Baru'}
               </h3>
 
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                  <label className="block text-xs font-semibold text-[#F5EACA]/80 mb-1">Nama Kategori</label>
+                  <label className="block text-xs font-semibold dark:text-[#F5EACA]/80 text-slate-700 mb-1">Nama Kategori</label>
                   <input
                     type="text"
                     required
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Contoh: Kiloan, Bed Cover, Jas"
-                    className="w-full px-3.5 py-2 rounded-xl bg-[#013D66] border border-[#1DA9D0]/25 text-xs text-[#F5EACA] placeholder-[#1DA9D0]/50 focus:outline-none focus:border-[#1DA9D0]"
+                    className="w-full px-3.5 py-2 rounded-xl dark:bg-[#013D66] bg-slate-50 border dark:border-[#1DA9D0]/25 border-slate-300 text-xs dark:text-[#F5EACA] text-slate-900 dark:placeholder-[#1DA9D0]/50 placeholder-slate-400 focus:outline-none focus:border-[#1DA9D0]"
                   />
                 </div>
 
@@ -158,14 +158,14 @@ export default function CategoryManagementPage() {
                   <button
                     type="button"
                     onClick={() => setModalOpen(false)}
-                    className="px-4 py-2 rounded-xl bg-[#013D66] text-[#F5EACA]/80 text-xs font-semibold hover:bg-[#014775] border border-[#1DA9D0]/25 transition-colors"
+                    className="px-4 py-2 rounded-xl dark:bg-[#013D66] bg-slate-100 dark:text-[#F5EACA]/80 text-slate-700 text-xs font-semibold dark:hover:bg-[#014775] hover:bg-slate-200 border dark:border-[#1DA9D0]/25 border-slate-300 transition-colors"
                   >
                     Batal
                   </button>
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="px-5 py-2 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] hover:opacity-95 text-[#010E1C] font-bold text-xs disabled:opacity-50 transition-all"
+                    className="px-5 py-2 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] hover:opacity-95 text-[#010E1C] font-bold text-xs disabled:opacity-50 transition-all shadow-sm"
                   >
                     {editingId ? 'Simpan' : 'Tambah'}
                   </button>

@@ -1,4 +1,5 @@
-import { Prisma, PaymentStatus, PaymentMethod, OrderStatus } from '@prisma/client';
+import { Prisma } from '@prisma/client';
+import { PaymentStatus, PaymentMethod, OrderStatus } from '../types/enums.js';
 import { prisma } from '../config/database.js';
 import { createCustomer } from './customer.service.js';
 import { sendOrderWANotification } from '../whatsapp/baileys.js';
@@ -194,9 +195,9 @@ export async function getLaundryOrders(
 
   if (query.search && query.search.trim() !== '') {
     where.OR = [
-      { orderNumber: { contains: query.search, mode: 'insensitive' } },
-      { customer: { name: { contains: query.search, mode: 'insensitive' } } },
-      { customer: { phone: { contains: query.search, mode: 'insensitive' } } },
+      { orderNumber: { contains: query.search } as any },
+      { customer: { name: { contains: query.search } as any } },
+      { customer: { phone: { contains: query.search } as any } },
     ];
   }
 

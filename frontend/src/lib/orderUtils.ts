@@ -14,12 +14,12 @@ export function getOrderStatusLabel(status: OrderStatus): string {
 // Tailwind className untuk badge status cucian
 export function getOrderStatusBadgeClass(status: OrderStatus): string {
   const classes: Record<OrderStatus, string> = {
-    RECEIVED: 'bg-[#013D66] text-[#F5EACA]/80 border-[#1DA9D0]/25',
-    IN_PROGRESS: 'bg-[#EA8803]/20 text-[#EA8803] border-[#EA8803]/30',
-    DONE: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30',
-    PICKED_UP: 'bg-[#1DA9D0]/20 text-[#43D5CC] border-[#1DA9D0]/30',
+    RECEIVED: 'dark:bg-[#013D66] bg-slate-100 dark:text-[#F5EACA]/90 text-slate-700 dark:border-[#1DA9D0]/25 border-slate-300',
+    IN_PROGRESS: 'dark:bg-[#EA8803]/20 bg-amber-50 dark:text-[#EA8803] text-amber-700 dark:border-[#EA8803]/30 border-amber-200',
+    DONE: 'dark:bg-emerald-500/20 bg-emerald-50 dark:text-emerald-300 text-emerald-700 dark:border-emerald-500/30 border-emerald-200',
+    PICKED_UP: 'dark:bg-[#1DA9D0]/20 bg-sky-50 dark:text-[#43D5CC] text-sky-700 dark:border-[#1DA9D0]/30 border-sky-200',
   };
-  return classes[status] ?? 'bg-[#013D66] text-[#F5EACA]/80 border-[#1DA9D0]/25';
+  return classes[status] ?? 'dark:bg-[#013D66] bg-slate-100 dark:text-[#F5EACA]/90 text-slate-700 dark:border-[#1DA9D0]/25 border-slate-300';
 }
 
 // Label teks untuk status pembayaran
@@ -30,8 +30,8 @@ export function getPaymentStatusLabel(status: PaymentStatus): string {
 // Tailwind className untuk badge status pembayaran
 export function getPaymentStatusBadgeClass(status: PaymentStatus): string {
   return status === 'PAID'
-    ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30'
-    : 'bg-rose-500/20 text-rose-300 border-rose-500/30';
+    ? 'dark:bg-emerald-500/20 bg-emerald-50 dark:text-emerald-300 text-emerald-700 dark:border-emerald-500/30 border-emerald-200'
+    : 'dark:bg-rose-500/20 bg-rose-50 dark:text-rose-300 text-rose-700 dark:border-rose-500/30 border-rose-200';
 }
 
 // Format currency ke Rupiah

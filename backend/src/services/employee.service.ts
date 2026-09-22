@@ -1,5 +1,6 @@
 import bcrypt from 'bcryptjs';
-import { Role, Prisma } from '@prisma/client';
+import { Prisma } from '@prisma/client';
+import { Role } from '../types/enums.js';
 import { prisma } from '../config/database.js';
 
 export async function getEmployeesByAdmin(adminId: string) {

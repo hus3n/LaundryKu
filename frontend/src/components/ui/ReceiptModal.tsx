@@ -29,7 +29,7 @@ export default function ReceiptModal({ order, store, onClose }: ReceiptModalProp
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.2 }}
-        className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-[#010E1C]/80 backdrop-blur-sm"
+        className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-slate-900/60 dark:bg-[#010E1C]/80 backdrop-blur-sm"
         onClick={onClose}
       />
       <motion.div

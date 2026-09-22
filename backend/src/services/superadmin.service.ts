@@ -1,5 +1,5 @@
 import bcrypt from 'bcryptjs';
-import { Role } from '@prisma/client';
+import { Role } from '../types/enums.js';
 import { prisma } from '../config/database.js';
 import { isMongoConnected } from '../config/mongodb.js';
 import { WASession } from '../models-nosql/waSession.model.js';

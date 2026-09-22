@@ -1,3 +1,33 @@
+export async function downloadAllDataExcel(): Promise<void> {
+  const token = localStorage.getItem('token');
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4001';
+  
+  const response = await fetch(`${apiUrl}/api/analytics/export-excel`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) {
+    const errData = await response.json().catch(() => ({ error: 'Gagal mengunduh file Excel.' }));
+    throw new Error(errData.error || 'Gagal mengunduh file Excel.');
+  }
+
+  const blob = await response.blob();
+  const todayStr = new Date().toISOString().slice(0, 10);
+  const filename = `LaundryKu-Semua-Data-${todayStr}.xlsx`;
+
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+}
+
 export function exportToCSV(filename: string, rows: object[]) {
   if (!rows || !rows.length) return;
 

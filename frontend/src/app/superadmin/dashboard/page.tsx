@@ -61,8 +61,8 @@ export default function SuperAdminDashboardPage() {
       <div className="space-y-8">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-bold text-[#F5EACA]">Dashboard SuperAdmin Platform</h1>
-            <p className="text-xs text-[#F5EACA]/60 mt-1">Monitoring seluruh toko laundry terdaftar dan status masa aktif langganan</p>
+            <h1 className="text-2xl font-bold dark:text-[#F5EACA] text-slate-900">Dashboard SuperAdmin Platform</h1>
+            <p className="text-xs dark:text-[#F5EACA]/60 text-slate-500 mt-1">Monitoring seluruh toko laundry terdaftar dan status masa aktif langganan</p>
           </div>
           <Link
             href="/superadmin/admins"
@@ -82,18 +82,18 @@ export default function SuperAdminDashboardPage() {
           <motion.div 
             variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
             whileHover={{ y: -4, transition: { type: 'spring', stiffness: 400, damping: 20 } }}
-            className="glass-card-dark p-6 rounded-2xl border border-[#1DA9D0]/15 relative overflow-hidden"
+            className="glass-card-dark p-6 rounded-2xl border dark:border-[#1DA9D0]/15 border-slate-200 shadow-sm relative overflow-hidden"
           >
             <div className="flex justify-between items-start">
               <div>
-                <p className="text-xs text-[#F5EACA]/60 font-medium">Total Toko Admin</p>
-                <h3 className="text-2xl font-bold text-[#F5EACA] mt-2">{data?.totalAdmins || 0}</h3>
+                <p className="text-xs dark:text-[#F5EACA]/60 text-slate-500 font-medium">Total Toko Admin</p>
+                <h3 className="text-2xl font-bold dark:text-[#F5EACA] text-slate-900 mt-2">{data?.totalAdmins || 0}</h3>
               </div>
-              <div className="w-10 h-10 rounded-xl bg-[#1DA9D0]/20 border border-[#1DA9D0]/30 flex items-center justify-center text-[#43D5CC]">
+              <div className="w-10 h-10 rounded-xl dark:bg-[#1DA9D0]/20 bg-[#1DA9D0]/10 border dark:border-[#1DA9D0]/30 border-[#1DA9D0]/20 flex items-center justify-center text-[#1DA9D0]">
                 <Users className="w-5 h-5" />
               </div>
             </div>
-            <p className="text-[11px] text-[#43D5CC] mt-4 flex items-center gap-1">
+            <p className="text-[11px] text-[#1DA9D0] dark:text-[#43D5CC] mt-4 flex items-center gap-1">
               <ArrowUpRight className="w-3.5 h-3.5" /> Terdaftar di platform
             </p>
           </motion.div>
@@ -101,35 +101,35 @@ export default function SuperAdminDashboardPage() {
           <motion.div 
             variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
             whileHover={{ y: -4, transition: { type: 'spring', stiffness: 400, damping: 20 } }}
-            className="glass-card-dark p-6 rounded-2xl border border-[#1DA9D0]/15 relative overflow-hidden"
+            className="glass-card-dark p-6 rounded-2xl border dark:border-[#1DA9D0]/15 border-slate-200 shadow-sm relative overflow-hidden"
           >
             <div className="flex justify-between items-start">
               <div>
-                <p className="text-xs text-[#F5EACA]/60 font-medium">Toko Masa Aktif</p>
-                <h3 className="text-2xl font-bold text-emerald-400 mt-2">{data?.activeAdmins || 0}</h3>
+                <p className="text-xs dark:text-[#F5EACA]/60 text-slate-500 font-medium">Toko Masa Aktif</p>
+                <h3 className="text-2xl font-bold text-emerald-600 dark:text-emerald-400 mt-2">{data?.activeAdmins || 0}</h3>
               </div>
-              <div className="w-10 h-10 rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+              <div className="w-10 h-10 rounded-xl bg-emerald-500/10 dark:bg-emerald-500/20 border border-emerald-500/25 dark:border-emerald-500/30 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
                 <CheckCircle2 className="w-5 h-5" />
               </div>
             </div>
-            <p className="text-[11px] text-emerald-400 mt-4">Status aktif & beroperasi</p>
+            <p className="text-[11px] text-emerald-600 dark:text-emerald-400 mt-4">Status aktif & beroperasi</p>
           </motion.div>
 
           <motion.div 
             variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
             whileHover={{ y: -4, transition: { type: 'spring', stiffness: 400, damping: 20 } }}
-            className="glass-card-dark p-6 rounded-2xl border border-[#1DA9D0]/15 relative overflow-hidden"
+            className="glass-card-dark p-6 rounded-2xl border dark:border-[#1DA9D0]/15 border-slate-200 shadow-sm relative overflow-hidden"
           >
             <div className="flex justify-between items-start">
               <div>
-                <p className="text-xs text-[#F5EACA]/60 font-medium">Toko Akan Kedaluwarsa</p>
-                <h3 className="text-2xl font-bold text-[#EA8803] mt-2">{data?.expiringSoon || 0}</h3>
+                <p className="text-xs dark:text-[#F5EACA]/60 text-slate-500 font-medium">Toko Akan Kedaluwarsa</p>
+                <h3 className="text-2xl font-bold text-amber-600 dark:text-[#EA8803] mt-2">{data?.expiringSoon || 0}</h3>
               </div>
-              <div className="w-10 h-10 rounded-xl bg-[#EA8803]/20 border border-[#EA8803]/30 flex items-center justify-center text-[#EA8803]">
+              <div className="w-10 h-10 rounded-xl bg-amber-500/10 dark:bg-[#EA8803]/20 border border-amber-500/25 dark:border-[#EA8803]/30 flex items-center justify-center text-amber-600 dark:text-[#EA8803]">
                 <Clock className="w-5 h-5" />
               </div>
             </div>
-            <p className="text-[11px] text-[#EA8803] mt-4 flex items-center gap-1">
+            <p className="text-[11px] text-amber-600 dark:text-[#EA8803] mt-4 flex items-center gap-1">
               <AlertTriangle className="w-3.5 h-3.5" /> {'<'} 7 hari tersisa
             </p>
           </motion.div>
@@ -137,39 +137,39 @@ export default function SuperAdminDashboardPage() {
           <motion.div 
             variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
             whileHover={{ y: -4, transition: { type: 'spring', stiffness: 400, damping: 20 } }}
-            className="glass-card-dark p-6 rounded-2xl border border-[#1DA9D0]/15 relative overflow-hidden"
+            className="glass-card-dark p-6 rounded-2xl border dark:border-[#1DA9D0]/15 border-slate-200 shadow-sm relative overflow-hidden"
           >
             <div className="flex justify-between items-start">
               <div>
-                <p className="text-xs text-[#F5EACA]/60 font-medium">Toko Tidak Aktif</p>
-                <h3 className="text-2xl font-bold text-rose-400 mt-2">{data?.inactiveAdmins || 0}</h3>
+                <p className="text-xs dark:text-[#F5EACA]/60 text-slate-500 font-medium">Toko Tidak Aktif</p>
+                <h3 className="text-2xl font-bold text-rose-600 dark:text-rose-400 mt-2">{data?.inactiveAdmins || 0}</h3>
               </div>
-              <div className="w-10 h-10 rounded-xl bg-rose-500/20 border border-rose-500/30 flex items-center justify-center text-rose-400">
+              <div className="w-10 h-10 rounded-xl bg-rose-500/10 dark:bg-rose-500/20 border border-rose-500/25 dark:border-rose-500/30 flex items-center justify-center text-rose-600 dark:text-rose-400">
                 <XCircle className="w-5 h-5" />
               </div>
             </div>
-            <p className="text-[11px] text-rose-400 mt-4">Masa aktif telah habis</p>
+            <p className="text-[11px] text-rose-600 dark:text-rose-400 mt-4">Masa aktif telah habis</p>
           </motion.div>
         </motion.div>
 
         {/* Admins Overview Table */}
-        <div className="glass-card-dark p-6 rounded-2xl border border-[#1DA9D0]/15">
+        <div className="glass-card-dark p-6 rounded-2xl border dark:border-[#1DA9D0]/15 border-slate-200 shadow-sm">
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-base font-bold text-[#F5EACA]">Daftar Toko Admin Terdaftar</h3>
-            <Link href="/superadmin/admins" className="text-xs font-semibold text-[#43D5CC] hover:underline">
+            <h3 className="text-base font-bold dark:text-[#F5EACA] text-slate-900">Daftar Toko Admin Terdaftar</h3>
+            <Link href="/superadmin/admins" className="text-xs font-semibold text-[#1DA9D0] dark:text-[#43D5CC] hover:underline">
               Kelola Semua Admin →
             </Link>
           </div>
 
           {error ? (
-            <div className="text-center py-8 text-xs text-rose-400">⚠️ {error}</div>
+            <div className="text-center py-8 text-xs text-rose-500 dark:text-rose-400">⚠️ {error}</div>
           ) : loading ? (
-            <div className="text-center py-8 text-xs text-[#F5EACA]/60">Memuat data Admin...</div>
+            <div className="text-center py-8 text-xs dark:text-[#F5EACA]/60 text-slate-500">Memuat data Admin...</div>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs">
                 <thead>
-                  <tr className="border-b border-[#1DA9D0]/15 text-[#F5EACA]/60 font-medium bg-[#012040]">
+                  <tr className="border-b dark:border-[#1DA9D0]/15 border-slate-200 dark:text-[#F5EACA]/60 text-slate-600 font-medium dark:bg-[#012040] bg-slate-100">
                     <th className="py-3.5 px-4">Nama Toko</th>
                     <th className="py-3.5 px-4">Pemilik & WA</th>
                     <th className="py-3.5 px-4">Masa Aktif Berakhir</th>
@@ -177,20 +177,20 @@ export default function SuperAdminDashboardPage() {
                     <th className="py-3.5 px-4 text-right">Aksi Quick</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[#1DA9D0]/10">
+                <tbody className="divide-y dark:divide-[#1DA9D0]/10 divide-slate-200">
                   {admins.map((admin) => {
                     const isExpired = new Date(admin.subscriptionEnd) < new Date();
                     return (
-                      <tr key={admin.id} className="hover:bg-[#013D66]/50 transition-colors">
-                        <td className="py-4 px-4 font-bold text-[#F5EACA]">{admin.storeName}</td>
+                      <tr key={admin.id} className="dark:hover:bg-[#013D66]/50 hover:bg-slate-50 transition-colors">
+                        <td className="py-4 px-4 font-bold dark:text-[#F5EACA] text-slate-900">{admin.storeName}</td>
                         <td className="py-4 px-4">
-                          <div className="font-semibold text-[#F5EACA]">{admin.user?.name}</div>
-                          <div className="text-[10px] text-[#F5EACA]/60">{admin.user?.email}</div>
+                          <div className="font-semibold dark:text-[#F5EACA] text-slate-800">{admin.user?.name}</div>
+                          <div className="text-[10px] dark:text-[#F5EACA]/60 text-slate-500">{admin.user?.email}</div>
                         </td>
                         <td className="py-4 px-4">
                           <div
                             className={`font-semibold ${
-                              isExpired ? 'text-rose-400' : 'text-emerald-400'
+                              isExpired ? 'text-rose-600 dark:text-rose-400' : 'text-emerald-600 dark:text-emerald-400'
                             }`}
                           >
                             {new Date(admin.subscriptionEnd).toLocaleDateString('id-ID', {
@@ -200,15 +200,15 @@ export default function SuperAdminDashboardPage() {
                             })}
                           </div>
                           {isExpired && (
-                            <span className="text-[10px] text-rose-400 font-bold">EKSPIRASI</span>
+                            <span className="text-[10px] text-rose-600 dark:text-rose-400 font-bold">EKSPIRASI</span>
                           )}
                         </td>
                         <td className="py-4 px-4">
                           <span
                             className={`px-2.5 py-1 rounded-full text-[10px] font-semibold border ${
                               admin.waStatus === 'CONNECTED'
-                                ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30'
-                                : 'bg-[#013D66] text-[#F5EACA]/60 border-[#1DA9D0]/20'
+                                ? 'bg-emerald-500/15 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border-emerald-500/30'
+                                : 'dark:bg-[#013D66] bg-slate-100 dark:text-[#F5EACA]/60 text-slate-600 dark:border-[#1DA9D0]/20 border-slate-300'
                             }`}
                           >
                             {admin.waStatus === 'CONNECTED' ? 'Terhubung' : 'Terputus'}
@@ -217,7 +217,7 @@ export default function SuperAdminDashboardPage() {
                         <td className="py-4 px-4 text-right">
                           <button
                             onClick={() => handleOpenExtend(admin)}
-                            className="px-3 py-1.5 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 text-[11px] font-semibold border border-emerald-500/30 transition-all hover:scale-105"
+                            className="px-3 py-1.5 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 text-[11px] font-semibold border border-emerald-500/30 transition-all hover:scale-105"
                           >
                             Perpanjang (+Bulan)
                           </button>

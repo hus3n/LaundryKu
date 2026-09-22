@@ -55,7 +55,7 @@ export default function ConfirmModal({
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.2 }}
-        className="fixed inset-0 z-[60] bg-[#010E1C]/80 backdrop-blur-md"
+        className="fixed inset-0 z-[60] bg-slate-900/60 dark:bg-[#010E1C]/80 backdrop-blur-md"
         onClick={onClose}
       />
       {/* Panel */}
@@ -67,11 +67,11 @@ export default function ConfirmModal({
         transition={{ type: 'spring', stiffness: 320, damping: 26 }}
         className="fixed inset-0 z-[70] flex items-center justify-center p-4 pointer-events-none"
       >
-        <div className="glass-card-dark p-6 sm:p-7 rounded-3xl border border-[#1DA9D0]/15 max-w-md w-full shadow-2xl relative space-y-5 pointer-events-auto">
+        <div className="glass-card-dark p-6 sm:p-7 rounded-3xl border dark:border-[#1DA9D0]/15 border-slate-200 max-w-md w-full shadow-2xl relative space-y-5 pointer-events-auto">
           <motion.button
             whileTap={{ scale: 0.95 }}
             onClick={onClose}
-            className="absolute top-5 right-5 p-1.5 rounded-xl bg-[#012040] text-[#F5EACA]/60 hover:text-[#F5EACA] hover:bg-[#013D66] transition-colors"
+            className="absolute top-5 right-5 p-1.5 rounded-xl dark:bg-[#012040] bg-slate-100 dark:text-[#F5EACA]/60 text-slate-500 hover:text-slate-900 dark:hover:text-[#F5EACA] dark:hover:bg-[#013D66] hover:bg-slate-200 transition-colors"
           >
             <X className="w-4 h-4" />
           </motion.button>
@@ -81,18 +81,18 @@ export default function ConfirmModal({
               <AlertTriangle className="w-6 h-6" />
             </div>
             <div>
-              <h3 className="text-base font-bold text-[#F5EACA]">{title}</h3>
-              <p className="text-xs text-[#F5EACA]/80 mt-1 leading-relaxed">{message}</p>
+              <h3 className="text-base font-bold dark:text-[#F5EACA] text-slate-900">{title}</h3>
+              <p className="text-xs dark:text-[#F5EACA]/80 text-slate-600 mt-1 leading-relaxed">{message}</p>
             </div>
           </div>
 
-          <div className="flex items-center justify-end gap-3 pt-3 border-t border-[#1DA9D0]/10">
+          <div className="flex items-center justify-end gap-3 pt-3 border-t dark:border-[#1DA9D0]/10 border-slate-200">
             <motion.button
               whileTap={{ scale: 0.95 }}
               type="button"
               onClick={onClose}
               disabled={isSubmitting}
-              className="px-4 py-2.5 rounded-xl bg-[#012040] hover:bg-[#013D66] text-[#F5EACA]/80 text-xs font-semibold border border-[#1DA9D0]/15 transition-colors"
+              className="px-4 py-2.5 rounded-xl dark:bg-[#012040] bg-slate-100 dark:hover:bg-[#013D66] hover:bg-slate-200 dark:text-[#F5EACA]/80 text-slate-700 text-xs font-semibold border dark:border-[#1DA9D0]/15 border-slate-200 transition-colors"
             >
               {cancelText}
             </motion.button>

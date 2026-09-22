@@ -6,8 +6,8 @@ export async function getCustomersByAdmin(adminId: string, search?: string) {
 
   if (search && search.trim() !== '') {
     where.OR = [
-      { name: { contains: search, mode: 'insensitive' } },
-      { phone: { contains: search, mode: 'insensitive' } },
+      { name: { contains: search } as any },
+      { phone: { contains: search } as any },
     ];
   }
 
