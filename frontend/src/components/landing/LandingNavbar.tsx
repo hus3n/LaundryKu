@@ -6,11 +6,8 @@ import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import ThemeToggle from '@/components/ui/ThemeToggle';
 import { getWaRegisterUrl } from './landingData';
-import { useLandingAuth } from '@/contexts/LandingAuthContext';
 
 export default function LandingNavbar() {
-  const { openAuth } = useLandingAuth();
-
   const handleRegisterClick = (e: React.MouseEvent) => {
     e.preventDefault();
     window.open(getWaRegisterUrl(), '_blank');
@@ -48,20 +45,12 @@ export default function LandingNavbar() {
           <ThemeToggle />
           <Link
             href="/login"
-            onClick={(e) => {
-              e.preventDefault();
-              openAuth('login');
-            }}
             className="px-2.5 sm:px-4 py-1.5 sm:py-2.5 text-xs sm:text-sm font-medium text-slate-700 dark:text-[#F5EACA]/80 hover:text-slate-950 dark:hover:text-[#F5EACA] transition-colors"
           >
             Masuk
           </Link>
           <Link
             href="/register"
-            onClick={(e) => {
-              e.preventDefault();
-              openAuth('register');
-            }}
             className="px-3 sm:px-5 py-1.5 sm:py-2.5 text-xs sm:text-sm font-bold rounded-lg sm:rounded-xl bg-[#1DA9D0] dark:bg-gradient-to-r dark:from-[#1DA9D0] dark:to-[#43D5CC] hover:opacity-95 text-[#010E1C] shadow-md shadow-[#1DA9D0]/20 flex items-center gap-1 sm:gap-2 group shrink-0 transition-all"
           >
             <span className="sm:hidden">Daftar</span>

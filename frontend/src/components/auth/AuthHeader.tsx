@@ -9,28 +9,31 @@ interface AuthHeaderProps {
 
 export default function AuthHeader({ mode }: AuthHeaderProps) {
   return (
-    <div className="text-center mb-5 sm:mb-6">
-      <Link href="/" className="inline-flex items-center gap-2 sm:gap-2.5 group mb-2 sm:mb-3">
-        <img
-          src="/logo/laundryku.png"
-          alt="LaundryKu"
-          className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl object-contain shadow-md shadow-[#1DA9D0]/30 transition-transform duration-300 group-hover:scale-105"
-        />
-        <span className="text-xl sm:text-2xl font-black text-slate-900 dark:text-[#F5EACA]">
-          Laundry
-          <span className="text-[#1DA9D0] dark:bg-gradient-to-r dark:from-[#1DA9D0] dark:to-[#43D5CC] dark:bg-clip-text dark:text-transparent">
-            Ku
+    <div className="text-center md:text-left mb-5 sm:mb-6">
+      {/* Brand logo only on mobile (desktop is shown in left pane) */}
+      <div className="md:hidden">
+        <Link href="/" className="inline-flex items-center gap-2 sm:gap-2.5 group mb-2 sm:mb-3">
+          <img
+            src="/logo/laundryku.png"
+            alt="LaundryKu"
+            className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl object-contain shadow-md shadow-[#1DA9D0]/30 transition-transform duration-300 group-hover:scale-105"
+          />
+          <span className="text-xl sm:text-2xl font-black text-slate-900 dark:text-[#F5EACA]">
+            Laundry
+            <span className="text-[#1DA9D0] dark:bg-gradient-to-r dark:from-[#1DA9D0] dark:to-[#43D5CC] dark:bg-clip-text dark:text-transparent">
+              Ku
+            </span>
           </span>
-        </span>
-      </Link>
+        </Link>
+      </div>
 
-      <h1 className="text-base sm:text-xl font-bold text-slate-900 dark:text-[#F5EACA]">
-        {mode === 'login' ? 'Masuk ke Aplikasi LaundryKu' : 'Mulai Usaha Laundry Digital Anda'}
+      <h1 className="text-lg sm:text-2xl font-black text-slate-900 dark:text-[#F5EACA]">
+        {mode === 'login' ? 'Masuk ke LaundryKu' : 'Daftar Toko Laundry Baru'}
       </h1>
-      <p className="text-[11px] sm:text-xs text-slate-500 dark:text-[#F5EACA]/60 mt-0.5">
+      <p className="text-[11px] sm:text-xs text-slate-500 dark:text-[#F5EACA]/60 mt-1">
         {mode === 'login'
-          ? 'Pilih peran kasir, admin toko, atau superadmin'
-          : 'Daftar sekarang dan nikmati akses trial gratis 30 hari'}
+          ? 'Masuk sebagai SuperAdmin, Admin Toko, atau Kasir Karyawan'
+          : 'Mulai dengan Trial 30 Hari akses Premium gratis tanpa komitmen'}
       </p>
     </div>
   );

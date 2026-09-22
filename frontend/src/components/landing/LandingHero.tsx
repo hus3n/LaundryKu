@@ -5,11 +5,8 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Shirt, MessageSquare, CheckCircle2, ArrowRight, Sparkles } from 'lucide-react';
 import { containerVariants, itemVariants, getWaRegisterUrl } from './landingData';
-import { useLandingAuth } from '@/contexts/LandingAuthContext';
 
 export default function LandingHero() {
-  const { openAuth } = useLandingAuth();
-
   const handleRegisterClick = (e: React.MouseEvent) => {
     e.preventDefault();
     window.open(getWaRegisterUrl(), '_blank');
@@ -33,14 +30,7 @@ export default function LandingHero() {
           </motion.p>
 
           <motion.div variants={itemVariants} className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2">
-            <Link
-              href="/register"
-              onClick={(e) => {
-                e.preventDefault();
-                openAuth('register');
-              }}
-              className="flex-1 sm:flex-none"
-            >
+            <Link href="/register" className="flex-1 sm:flex-none">
               <motion.div
                 whileHover={{ scale: 1.02, y: -2, transition: { type: 'spring', stiffness: 400, damping: 20 } }}
                 whileTap={{ scale: 0.96 }}
@@ -50,14 +40,7 @@ export default function LandingHero() {
                 <motion.span whileHover={{ x: 4 }}><ArrowRight className="w-5 h-5" /></motion.span>
               </motion.div>
             </Link>
-            <Link
-              href="/login"
-              onClick={(e) => {
-                e.preventDefault();
-                openAuth('login');
-              }}
-              className="flex-1 sm:flex-none"
-            >
+            <Link href="/login" className="flex-1 sm:flex-none">
               <motion.div
                 whileHover={{ scale: 1.02, y: -2, transition: { type: 'spring', stiffness: 400, damping: 20 } }}
                 whileTap={{ scale: 0.96 }}

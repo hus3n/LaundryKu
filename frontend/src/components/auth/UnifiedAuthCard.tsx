@@ -10,19 +10,18 @@ import AuthHeader from './AuthHeader';
 import AuthTabSelector from './AuthTabSelector';
 import LoginFormView from './LoginFormView';
 import RegisterFormView from './RegisterFormView';
+import AuthBrandPane from './AuthBrandPane';
 
 interface UnifiedAuthCardProps {
   initialMode?: 'login' | 'register';
   activeMode?: 'login' | 'register';
   onModeChange?: (mode: 'login' | 'register') => void;
-  isSplitView?: boolean;
 }
 
 export default function UnifiedAuthCard({
   initialMode = 'login',
   activeMode: controlledMode,
   onModeChange,
-  isSplitView = false,
 }: UnifiedAuthCardProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -189,50 +188,60 @@ export default function UnifiedAuthCard({
   };
 
   return (
-    <div className="w-full max-w-xl mx-auto relative">
-      {/* Main Glass Card */}
-      <div className="glass-card-dark p-4 sm:p-7 md:p-8 rounded-2xl sm:rounded-3xl border border-slate-200 dark:border-[#1DA9D0]/20 shadow-2xl backdrop-blur-2xl relative overflow-hidden transition-all">
+    <div className="w-full max-w-5xl mx-auto relative">
+      {/* Split-Screen Glass Card */}
+      <div className="glass-card-dark p-3 sm:p-5 md:p-6 lg:p-7 rounded-2xl sm:rounded-3xl border border-slate-200 dark:border-[#1DA9D0]/20 shadow-2xl backdrop-blur-2xl relative overflow-hidden transition-all">
         {/* Glow Accent */}
-        <div className="absolute -top-16 -right-16 w-44 h-44 bg-[#1DA9D0]/15 dark:bg-[#1DA9D0]/20 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute -bottom-16 -left-16 w-44 h-44 bg-[#43D5CC]/15 dark:bg-[#015383]/20 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -top-16 -right-16 w-56 h-56 bg-[#1DA9D0]/15 dark:bg-[#1DA9D0]/20 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-16 -left-16 w-56 h-56 bg-[#43D5CC]/15 dark:bg-[#015383]/20 rounded-full blur-3xl pointer-events-none" />
 
-        {/* Brand & Title Header */}
-        <AuthHeader mode={mode} />
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-8 items-stretch relative z-10">
+          {/* Left: Brand Showcase Pane (Desktop / Tablet) */}
+          <div className="hidden md:flex md:col-span-5 lg:col-span-5">
+            <AuthBrandPane />
+          </div>
 
-        {/* Tab Switcher: Masuk vs Daftar */}
-        <AuthTabSelector mode={mode} onChangeMode={setMode} />
+          {/* Right: Interactive Auth Forms Pane */}
+          <div className="md:col-span-7 lg:col-span-7 flex flex-col justify-center py-2 sm:py-3 px-1 sm:px-3">
+            {/* Brand & Title Header */}
+            <AuthHeader mode={mode} />
 
-        {/* Dynamic Forms with Animated Switch */}
-        <AnimatePresence mode="wait">
-          {mode === 'login' ? (
-            <LoginFormView
-              key="auth-login-view"
-              email={loginEmail}
-              setEmail={setLoginEmail}
-              password={loginPassword}
-              setPassword={setLoginPassword}
-              showPassword={showLoginPassword}
-              setShowPassword={setShowLoginPassword}
-              error={loginError}
-              expiredMsg={expiredMsg}
-              isSubmitting={isLoginSubmitting}
-              onSubmit={handleLoginSubmit}
-              onSwitchToRegister={() => setMode('register')}
-            />
-          ) : (
-            <RegisterFormView
-              key="auth-register-view"
-              formData={registerData}
-              errors={registerErrors}
-              isSubmitting={isRegisterSubmitting}
-              onFieldChange={handleRegisterFieldChange}
-              onPlanSelect={handlePlanSelect}
-              onDurationChange={handleDurationChange}
-              onSubmit={handleRegisterSubmit}
-              onSwitchToLogin={() => setMode('login')}
-            />
-          )}
-        </AnimatePresence>
+            {/* Tab Switcher: Masuk vs Daftar */}
+            <AuthTabSelector mode={mode} onChangeMode={setMode} />
+
+            {/* Dynamic Forms with Animated Switch */}
+            <AnimatePresence mode="wait">
+              {mode === 'login' ? (
+                <LoginFormView
+                  key="auth-login-view"
+                  email={loginEmail}
+                  setEmail={setLoginEmail}
+                  password={loginPassword}
+                  setPassword={setLoginPassword}
+                  showPassword={showLoginPassword}
+                  setShowPassword={setShowLoginPassword}
+                  error={loginError}
+                  expiredMsg={expiredMsg}
+                  isSubmitting={isLoginSubmitting}
+                  onSubmit={handleLoginSubmit}
+                  onSwitchToRegister={() => setMode('register')}
+                />
+              ) : (
+                <RegisterFormView
+                  key="auth-register-view"
+                  formData={registerData}
+                  errors={registerErrors}
+                  isSubmitting={isRegisterSubmitting}
+                  onFieldChange={handleRegisterFieldChange}
+                  onPlanSelect={handlePlanSelect}
+                  onDurationChange={handleDurationChange}
+                  onSubmit={handleRegisterSubmit}
+                  onSwitchToLogin={() => setMode('login')}
+                />
+              )}
+            </AnimatePresence>
+          </div>
+        </div>
       </div>
 
       {/* Success Modal */}

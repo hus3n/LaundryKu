@@ -5,10 +5,8 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { getWaRegisterUrl } from './landingData';
-import { useLandingAuth } from '@/contexts/LandingAuthContext';
 
 export default function LandingCta() {
-  const { openAuth } = useLandingAuth();
 
   const handleRegisterClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -35,10 +33,6 @@ export default function LandingCta() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
               href="/register"
-              onClick={(e) => {
-                e.preventDefault();
-                openAuth('register');
-              }}
               className="w-full sm:w-auto px-8 py-4 rounded-xl bg-[#1DA9D0] dark:bg-gradient-to-r dark:from-[#1DA9D0] dark:to-[#43D5CC] hover:opacity-95 text-[#010E1C] font-bold text-base shadow-xl shadow-[#1DA9D0]/30 inline-flex items-center justify-center gap-3 group transition-all cursor-pointer"
             >
               <span>Daftar Akun Baru Sekarang</span>
