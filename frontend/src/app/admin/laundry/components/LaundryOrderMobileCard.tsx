@@ -32,22 +32,22 @@ export default function LaundryOrderMobileCard({
       {orders.map((order) => (
         <div
           key={order.id}
-          className="p-3 sm:p-4 space-y-2 dark:hover:bg-[#1DA9D0]/5 hover:bg-slate-50 transition-colors cursor-pointer"
+          className="p-2.5 sm:p-3.5 space-y-1.5 dark:hover:bg-[#1DA9D0]/5 hover:bg-slate-50 transition-colors cursor-pointer"
           onClick={() => onSelectOrder(order)}
         >
           {/* Baris 1: No Nota + Status Cucian */}
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-1.5 min-w-0">
               <span className="font-bold dark:text-[#43D5CC] text-sky-600 text-xs">#{order.orderNumber}</span>
               {order.outlet && (
-                <span className="text-[9px] dark:text-[#1DA9D0]/50 text-slate-500">({order.outlet.name})</span>
+                <span className="text-[9px] dark:text-[#1DA9D0]/50 text-slate-500 truncate">({order.outlet.name})</span>
               )}
             </div>
             <select
               value={order.status}
               onChange={(e) => onUpdateStatus(e, order.id)}
               onClick={(e) => e.stopPropagation()}
-              className="px-2 py-0.5 rounded-lg text-[10px] font-semibold border dark:bg-[#013D66] bg-white dark:text-[#F5EACA]/80 text-slate-800 dark:border-[#1DA9D0]/25 border-slate-300 focus:outline-none"
+              className="px-1.5 py-0.5 rounded text-[10px] font-semibold border dark:bg-[#013D66] bg-white dark:text-[#F5EACA]/80 text-slate-800 dark:border-[#1DA9D0]/25 border-slate-300 focus:outline-none shrink-0"
             >
               <option value="RECEIVED">Masuk</option>
               <option value="IN_PROGRESS">Dikerjakan</option>
@@ -69,7 +69,7 @@ export default function LaundryOrderMobileCard({
               <button
                 type="button"
                 onClick={(e) => onUpdatePayment(e, order.id, order.paymentStatus)}
-                className={`text-[9px] px-2 py-0.5 rounded-full border mt-0.5 ${getPaymentStatusBadgeClass(order.paymentStatus)}`}
+                className={`text-[9px] px-1.5 py-0.5 rounded-full border mt-0.5 ${getPaymentStatusBadgeClass(order.paymentStatus)}`}
               >
                 {getPaymentStatusLabel(order.paymentStatus)}
                 {order.paymentStatus === 'PAID' && order.paymentMethod ? ` · ${order.paymentMethod}` : ''}

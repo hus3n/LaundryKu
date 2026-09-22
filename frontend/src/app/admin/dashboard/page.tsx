@@ -16,10 +16,10 @@ import {
   CheckCircle2, 
   PlusCircle, 
   ArrowUpRight, 
-  Package, 
-  QrCode,
   DollarSign
 } from 'lucide-react';
+import Card from '@/components/ui/Card';
+import { staggerContainer, slideUp, cardHover } from '@/lib/animations';
 
 import type { LaundryOrder } from '@/types';
 import { 
@@ -84,18 +84,22 @@ export default function AdminDashboardPage() {
 
   return (
     <DashboardLayout>
-      <div className="space-y-4 sm:space-y-6 md:space-y-8">
+      <div className="space-y-3 sm:space-y-5 md:space-y-6">
         {/* Header Title */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-4">
           <div>
-            <h1 className="text-lg sm:text-xl md:text-2xl font-bold dark:text-[#F5EACA] text-slate-900">Dashboard Utama Laundry</h1>
-            <p className="text-[11px] sm:text-xs dark:text-[#F5EACA]/60 text-slate-500 mt-0.5 sm:mt-1">Ringkasan transaksi, pendapatan, dan aktivitas cucian toko Anda</p>
+            <h1 className="text-base sm:text-xl md:text-2xl font-bold dark:text-[#F5EACA] text-slate-900">
+              Dashboard Utama Laundry
+            </h1>
+            <p className="text-[10px] sm:text-xs dark:text-[#F5EACA]/60 text-slate-500 mt-0.5">
+              Ringkasan transaksi, pendapatan, dan aktivitas cucian toko Anda
+            </p>
           </div>
-          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+          <div className="flex flex-wrap items-center gap-1.5 sm:gap-3">
             <DownloadAllDataButton />
             <Link
               href="/admin/laundry/new"
-              className="px-3.5 py-2 sm:px-5 sm:py-2.5 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] hover:opacity-95 text-[#010E1C] font-bold text-xs shadow-md shadow-[#1DA9D0]/20 transition-all inline-flex items-center gap-1.5 sm:gap-2"
+              className="px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-[#1DA9D0] dark:bg-gradient-to-r dark:from-[#1DA9D0] dark:to-[#43D5CC] hover:opacity-95 text-[#010E1C] font-bold text-xs shadow-sm shadow-[#1DA9D0]/20 transition-all inline-flex items-center gap-1.5"
             >
               <PlusCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               Catat Cucian Baru
@@ -105,130 +109,155 @@ export default function AdminDashboardPage() {
 
         {/* Summary Cards Grid */}
         <motion.div 
-          variants={{ visible: { transition: { staggerChildren: 0.08 } }, hidden: {} }}
-          initial="hidden" animate="visible"
-          className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4 md:gap-6"
+          variants={staggerContainer(0.06)}
+          initial="hidden"
+          animate="visible"
+          className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3.5 md:gap-4"
         >
           <motion.div 
-            variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
-            whileHover={{ y: -4, transition: { type: 'spring', stiffness: 400, damping: 20 } }}
-            className="glass-card-dark p-3.5 sm:p-5 md:p-6 rounded-xl sm:rounded-2xl border dark:border-[#1DA9D0]/15 border-slate-200 relative overflow-hidden shadow-sm"
+            variants={slideUp}
+            whileHover={cardHover.hover}
+            className="app-card p-2.5 sm:p-4 rounded-xl sm:rounded-2xl relative overflow-hidden shadow-sm"
           >
             <div className="flex justify-between items-start">
               <div>
-                <p className="text-[10px] sm:text-xs dark:text-[#F5EACA]/60 text-slate-500 font-medium">Total Cucian Masuk</p>
-                <h3 className="text-lg sm:text-xl md:text-2xl font-bold dark:text-[#F5EACA] text-slate-900 mt-1 sm:mt-2">{totalOrders}</h3>
+                <p className="text-[10px] sm:text-xs dark:text-[#F5EACA]/60 text-slate-500 font-medium">
+                  Total Cucian Masuk
+                </p>
+                <h3 className="text-base sm:text-xl md:text-2xl font-bold dark:text-[#F5EACA] text-slate-900 mt-0.5 sm:mt-1.5">
+                  {totalOrders}
+                </h3>
               </div>
-              <div className="w-7 h-7 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-lg sm:rounded-xl dark:bg-[#1DA9D0]/20 bg-sky-50 border dark:border-[#1DA9D0]/30 border-sky-200 flex items-center justify-center dark:text-[#43D5CC] text-sky-600 shrink-0">
-                <Shirt className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5" />
+              <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-lg sm:rounded-xl dark:bg-[#1DA9D0]/20 bg-sky-50 border dark:border-[#1DA9D0]/30 border-sky-200 flex items-center justify-center dark:text-[#43D5CC] text-sky-600 shrink-0">
+                <Shirt className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               </div>
             </div>
-            <p className="text-[10px] sm:text-[11px] dark:text-[#43D5CC] text-sky-600 mt-2 sm:mt-4 flex items-center gap-1 font-medium">
-              <ArrowUpRight className="w-3 h-3 sm:w-3.5 sm:h-3.5" /> Terdaftar di sistem
+            <p className="text-[9px] sm:text-[11px] dark:text-[#43D5CC] text-sky-600 mt-1 sm:mt-2.5 flex items-center gap-1 font-medium">
+              <ArrowUpRight className="w-2.5 h-2.5 sm:w-3 sm:h-3" /> Terdaftar di sistem
             </p>
           </motion.div>
 
           <motion.div 
-            variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
-            whileHover={{ y: -4, transition: { type: 'spring', stiffness: 400, damping: 20 } }}
-            className="glass-card-dark p-3.5 sm:p-5 md:p-6 rounded-xl sm:rounded-2xl border dark:border-[#1DA9D0]/15 border-slate-200 relative overflow-hidden shadow-sm"
+            variants={slideUp}
+            whileHover={cardHover.hover}
+            className="app-card p-2.5 sm:p-4 rounded-xl sm:rounded-2xl relative overflow-hidden shadow-sm"
           >
             <div className="flex justify-between items-start">
-              <div>
-                <p className="text-[10px] sm:text-xs dark:text-[#F5EACA]/60 text-slate-500 font-medium">Total Pendapatan</p>
-                <h3 className="text-base sm:text-xl md:text-2xl font-bold dark:text-[#43D5CC] text-teal-600 mt-1 sm:mt-2 truncate">
+              <div className="min-w-0 flex-1 mr-1">
+                <p className="text-[10px] sm:text-xs dark:text-[#F5EACA]/60 text-slate-500 font-medium">
+                  Total Pendapatan
+                </p>
+                <h3 className="text-sm sm:text-lg md:text-2xl font-bold dark:text-[#43D5CC] text-teal-600 mt-0.5 sm:mt-1.5 truncate">
                   Rp {totalRevenue.toLocaleString('id-ID')}
                 </h3>
               </div>
-              <div className="w-7 h-7 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-lg sm:rounded-xl dark:bg-[#43D5CC]/20 bg-teal-50 border dark:border-[#43D5CC]/30 border-teal-200 flex items-center justify-center dark:text-[#43D5CC] text-teal-600 shrink-0">
-                <DollarSign className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5" />
+              <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-lg sm:rounded-xl dark:bg-[#43D5CC]/20 bg-teal-50 border dark:border-[#43D5CC]/30 border-teal-200 flex items-center justify-center dark:text-[#43D5CC] text-teal-600 shrink-0">
+                <DollarSign className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               </div>
             </div>
-            <p className="text-[10px] sm:text-[11px] dark:text-[#43D5CC] text-teal-600 mt-2 sm:mt-4 flex items-center gap-1 font-medium">
-              <TrendingUp className="w-3 h-3 sm:w-3.5 sm:h-3.5" /> Akumulasi pendapatan
+            <p className="text-[9px] sm:text-[11px] dark:text-[#43D5CC] text-teal-600 mt-1 sm:mt-2.5 flex items-center gap-1 font-medium">
+              <TrendingUp className="w-2.5 h-2.5 sm:w-3 sm:h-3" /> Akumulasi
             </p>
           </motion.div>
 
           <motion.div 
-            variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
-            whileHover={{ y: -4, transition: { type: 'spring', stiffness: 400, damping: 20 } }}
-            className="glass-card-dark p-3.5 sm:p-5 md:p-6 rounded-xl sm:rounded-2xl border dark:border-[#1DA9D0]/15 border-slate-200 relative overflow-hidden shadow-sm"
+            variants={slideUp}
+            whileHover={cardHover.hover}
+            className="app-card p-2.5 sm:p-4 rounded-xl sm:rounded-2xl relative overflow-hidden shadow-sm"
           >
             <div className="flex justify-between items-start">
               <div>
-                <p className="text-[10px] sm:text-xs dark:text-[#F5EACA]/60 text-slate-500 font-medium">Masuk Hari Ini</p>
-                <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-[#EA8803] mt-1 sm:mt-2">{todayOrders}</h3>
+                <p className="text-[10px] sm:text-xs dark:text-[#F5EACA]/60 text-slate-500 font-medium">
+                  Masuk Hari Ini
+                </p>
+                <h3 className="text-base sm:text-xl md:text-2xl font-bold text-[#EA8803] mt-0.5 sm:mt-1.5">
+                  {todayOrders}
+                </h3>
               </div>
-              <div className="w-7 h-7 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-lg sm:rounded-xl dark:bg-[#EA8803]/20 bg-amber-50 border dark:border-[#EA8803]/30 border-amber-200 flex items-center justify-center text-[#EA8803] shrink-0">
-                <Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5" />
+              <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-lg sm:rounded-xl dark:bg-[#EA8803]/20 bg-amber-50 border dark:border-[#EA8803]/30 border-amber-200 flex items-center justify-center text-[#EA8803] shrink-0">
+                <Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               </div>
             </div>
-            <p className="text-[10px] sm:text-[11px] text-[#EA8803] mt-2 sm:mt-4 font-medium truncate">Hari ini: {new Date().toLocaleDateString('id-ID')}</p>
+            <p className="text-[9px] sm:text-[11px] text-[#EA8803] mt-1 sm:mt-2.5 font-medium truncate">
+              Hari ini: {new Date().toLocaleDateString('id-ID')}
+            </p>
           </motion.div>
 
           <motion.div 
-            variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
-            whileHover={{ y: -4, transition: { type: 'spring', stiffness: 400, damping: 20 } }}
-            className="glass-card-dark p-3.5 sm:p-5 md:p-6 rounded-xl sm:rounded-2xl border dark:border-[#1DA9D0]/15 border-slate-200 relative overflow-hidden shadow-sm"
+            variants={slideUp}
+            whileHover={cardHover.hover}
+            className="app-card p-2.5 sm:p-4 rounded-xl sm:rounded-2xl relative overflow-hidden shadow-sm"
           >
             <div className="flex justify-between items-start">
               <div>
-                <p className="text-[10px] sm:text-xs dark:text-[#F5EACA]/60 text-slate-500 font-medium">Siap Diambil</p>
-                <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-[#1DA9D0] mt-1 sm:mt-2">{doneOrders}</h3>
+                <p className="text-[10px] sm:text-xs dark:text-[#F5EACA]/60 text-slate-500 font-medium">
+                  Siap Diambil
+                </p>
+                <h3 className="text-base sm:text-xl md:text-2xl font-bold text-[#1DA9D0] mt-0.5 sm:mt-1.5">
+                  {doneOrders}
+                </h3>
               </div>
-              <div className="w-7 h-7 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-lg sm:rounded-xl dark:bg-[#1DA9D0]/20 bg-sky-50 border dark:border-[#1DA9D0]/30 border-sky-200 flex items-center justify-center text-[#1DA9D0] shrink-0">
-                <CheckCircle2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5" />
+              <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-lg sm:rounded-xl dark:bg-[#1DA9D0]/20 bg-sky-50 border dark:border-[#1DA9D0]/30 border-sky-200 flex items-center justify-center text-[#1DA9D0] shrink-0">
+                <CheckCircle2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               </div>
             </div>
-            <p className="text-[10px] sm:text-[11px] text-[#1DA9D0] mt-2 sm:mt-4 font-medium truncate">Menunggu diambil</p>
+            <p className="text-[9px] sm:text-[11px] text-[#1DA9D0] mt-1 sm:mt-2.5 font-medium truncate">
+              Menunggu diambil
+            </p>
           </motion.div>
         </motion.div>
 
         {/* Chart Section */}
-        <div className="glass-card-dark p-3.5 sm:p-5 md:p-6 rounded-xl sm:rounded-2xl border dark:border-[#1DA9D0]/15 border-slate-200 shadow-sm">
-          <div className="flex items-center justify-between mb-3 sm:mb-6">
-            <h3 className="text-xs sm:text-sm md:text-base font-bold dark:text-[#F5EACA] text-slate-900">Grafik Keuangan</h3>
+        <Card className="p-2.5 sm:p-4 md:p-5">
+          <div className="flex items-center justify-between mb-2 sm:mb-4">
+            <h3 className="text-xs sm:text-sm md:text-base font-bold dark:text-[#F5EACA] text-slate-900">
+              Grafik Keuangan
+            </h3>
             <select 
               value={chartYear} 
               onChange={(e) => setChartYear(parseInt(e.target.value))}
-              className="dark:bg-[#012040] bg-white border dark:border-[#1DA9D0]/25 border-slate-300 dark:text-[#F5EACA] text-slate-900 text-xs rounded-xl px-2.5 py-1 sm:px-3 sm:py-1.5 focus:outline-none focus:border-[#1DA9D0]"
+              className="dark:bg-[#012040] bg-white border dark:border-[#1DA9D0]/25 border-slate-300 dark:text-[#F5EACA] text-slate-900 text-[11px] sm:text-xs rounded-lg px-2 py-0.5 sm:px-3 sm:py-1 focus:outline-none focus:border-[#1DA9D0]"
             >
               {[2024, 2025, 2026, 2027].map((y) => (
-                <option key={y} value={y} className="dark:bg-[#012040] dark:text-[#F5EACA] bg-white text-slate-900">{y}</option>
+                <option key={y} value={y} className="dark:bg-[#012040] dark:text-[#F5EACA] bg-white text-slate-900">
+                  {y}
+                </option>
               ))}
             </select>
           </div>
-          <div className="h-48 sm:h-60 md:h-72 w-full text-xs">
+          <div className="h-36 sm:h-52 md:h-64 w-full text-xs">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={chartData} margin={{ top: 10, right: 10, left: -15, bottom: 0 }}>
+              <BarChart data={chartData} margin={{ top: 6, right: 6, left: -20, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke={isDark ? '#013D66' : '#e2e8f0'} vertical={false} />
                 <XAxis dataKey="name" stroke={isDark ? '#1DA9D0' : '#64748b'} opacity={0.8} fontSize={9} tickLine={false} axisLine={false} />
-                <YAxis stroke={isDark ? '#1DA9D0' : '#64748b'} opacity={0.8} fontSize={9} tickLine={false} axisLine={false} width={50} tickFormatter={(val) => `${(val/1000)}k`} />
+                <YAxis stroke={isDark ? '#1DA9D0' : '#64748b'} opacity={0.8} fontSize={9} tickLine={false} axisLine={false} width={45} tickFormatter={(val) => `${(val/1000)}k`} />
                 <Tooltip 
                   cursor={{ fill: isDark ? 'rgba(29, 169, 208, 0.1)' : 'rgba(29, 169, 208, 0.05)' }} 
                   contentStyle={{ 
                     backgroundColor: isDark ? '#012040' : '#ffffff', 
                     borderColor: isDark ? 'rgba(29, 169, 208, 0.3)' : '#cbd5e1', 
-                    borderRadius: '12px', 
+                    borderRadius: '10px', 
                     fontSize: '11px', 
                     color: isDark ? '#F5EACA' : '#0f172a',
-                    boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)'
+                    boxShadow: '0 8px 12px -3px rgba(0, 0, 0, 0.1)'
                   }} 
                   formatter={(value: any) => new Intl.NumberFormat('id-ID').format(value)}
                 />
-                <Legend iconType="circle" wrapperStyle={{ fontSize: '10px', paddingTop: '6px' }} />
-                <Bar dataKey="Pemasukan" fill="#1DA9D0" radius={[4, 4, 0, 0]} barSize={16} />
-                <Bar dataKey="Pengeluaran" fill="#EA8803" radius={[4, 4, 0, 0]} barSize={16} />
+                <Legend iconType="circle" wrapperStyle={{ fontSize: '9px', paddingTop: '4px' }} />
+                <Bar dataKey="Pemasukan" fill="#1DA9D0" radius={[3, 3, 0, 0]} barSize={14} />
+                <Bar dataKey="Pengeluaran" fill="#EA8803" radius={[3, 3, 0, 0]} barSize={14} />
               </BarChart>
             </ResponsiveContainer>
           </div>
-        </div>
+        </Card>
 
         {/* Recent Orders Section */}
-        <div className="glass-card-dark p-3.5 sm:p-5 md:p-6 rounded-xl sm:rounded-2xl border dark:border-[#1DA9D0]/15 border-slate-200 shadow-sm">
-          <div className="flex items-center justify-between mb-3 sm:mb-5">
-            <h3 className="text-xs sm:text-sm md:text-base font-bold dark:text-[#F5EACA] text-slate-900">Cucian Terbaru</h3>
-            <Link href="/admin/laundry" className="text-[11px] sm:text-xs font-semibold dark:text-[#43D5CC] text-teal-600 hover:underline">
+        <Card className="p-2.5 sm:p-4 md:p-5">
+          <div className="flex items-center justify-between mb-2 sm:mb-4">
+            <h3 className="text-xs sm:text-sm md:text-base font-bold dark:text-[#F5EACA] text-slate-900">
+              Cucian Terbaru
+            </h3>
+            <Link href="/admin/laundry" className="text-[10px] sm:text-xs font-semibold dark:text-[#43D5CC] text-teal-600 hover:underline">
               Lihat Semua Cucian →
             </Link>
           </div>
@@ -328,7 +357,7 @@ export default function AdminDashboardPage() {
               </div>
             </>
           )}
-        </div>
+        </Card>
       </div>
     </DashboardLayout>
   );

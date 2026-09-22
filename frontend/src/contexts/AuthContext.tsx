@@ -12,6 +12,19 @@ export interface User {
   adminId?: string | null;
   storeName?: string | null;
   storeLogo?: string | null;
+  subscriptionEnd?: string | null;
+  isTrial?: boolean;
+}
+
+export interface RegisterData {
+  storeName: string;
+  name: string;
+  phone: string;
+  email: string;
+  password: string;
+  storeAddress?: string;
+  planType: 'TRIAL' | 'DIRECT_SUBSCRIPTION' | 'FREE';
+  durationMonths?: number;
 }
 
 interface AuthContextType {
@@ -19,6 +32,7 @@ interface AuthContextType {
   token: string | null;
   isLoading: boolean;
   login: (email: string, pass: string) => Promise<User>;
+  register: (data: RegisterData) => Promise<{ user: User; message: string; planType: string }>;
   logout: () => void;
   updateUser: (data: Partial<User>) => void;
   isAuthenticated: boolean;
@@ -65,6 +79,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  const register = async (data: RegisterData): Promise<{ user: User; message: string; planType: string }> => {
+    setIsLoading(true);
+    try {
+      const response = await api.post('/auth/register', data);
+      const { token: newToken, user: userData, planType } = response.data.data;
+
+      setToken(newToken);
+      setUser(userData);
+
+      localStorage.setItem('laundryku_token', newToken);
+      localStorage.setItem('laundryku_user', JSON.stringify(userData));
+
+      return { user: userData, message: response.data.message, planType };
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const logout = () => {
     setToken(null);
     setUser(null);
@@ -89,6 +121,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         token,
         isLoading,
         login,
+        register,
         logout,
         updateUser,
         isAuthenticated: !!token && !!user,

@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import {
   loginService,
+  registerAdminService,
   registerAdminRequestService,
   forgotPasswordService,
   resetPasswordService,
@@ -20,6 +21,30 @@ export async function login(req: Request, res: Response, next: NextFunction): Pr
     res.status(400).json({
       success: false,
       error: error.message || 'Login gagal.',
+    });
+  }
+}
+
+export async function register(req: Request, res: Response, next: NextFunction): Promise<void> {
+  try {
+    const result = await registerAdminService(req.body);
+    let message = 'Pendaftaran berhasil.';
+    if (result.planType === 'TRIAL') {
+      message = 'Selamat! Akun toko Anda berhasil dibuat dengan masa Trial 30 Hari akses Premium.';
+    } else if (result.planType === 'DIRECT_SUBSCRIPTION') {
+      message = 'Selamat! Akun toko Anda berhasil dibuat dengan status Langganan Premium.';
+    } else {
+      message = 'Selamat! Akun toko Anda berhasil dibuat dengan akses Paket Gratis.';
+    }
+    res.status(201).json({
+      success: true,
+      message,
+      data: result,
+    });
+  } catch (error: any) {
+    res.status(400).json({
+      success: false,
+      error: error.message || 'Pendaftaran gagal.',
     });
   }
 }

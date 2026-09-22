@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { z } from 'zod';
-import { login, registerRequest, forgotPassword, resetPassword, getMe } from '../controllers/auth.controller.js';
+import { login, register, registerRequest, forgotPassword, resetPassword, getMe } from '../controllers/auth.controller.js';
 import { authenticate } from '../middleware/auth.js';
 import { validate } from '../middleware/validation.js';
 import { authLimiter } from '../middleware/rateLimiter.js';
@@ -11,6 +11,19 @@ const loginSchema = z.object({
   body: z.object({
     email: z.string().email('Email tidak valid'),
     password: z.string().min(1, 'Password wajib diisi'),
+  }),
+});
+
+const registerSchema = z.object({
+  body: z.object({
+    storeName: z.string().min(2, 'Nama toko minimal 2 karakter'),
+    name: z.string().min(2, 'Nama penanggung jawab minimal 2 karakter'),
+    phone: z.string().min(8, 'Nomor WhatsApp tidak valid'),
+    email: z.string().email('Email tidak valid'),
+    password: z.string().min(6, 'Password minimal 6 karakter'),
+    storeAddress: z.string().optional(),
+    planType: z.enum(['TRIAL', 'DIRECT_SUBSCRIPTION', 'FREE']),
+    durationMonths: z.number().int().positive().optional(),
   }),
 });
 
@@ -37,6 +50,7 @@ const resetPasswordSchema = z.object({
 });
 
 router.post('/login', authLimiter, validate(loginSchema), login);
+router.post('/register', authLimiter, validate(registerSchema), register);
 router.post('/register-request', validate(registerRequestSchema), registerRequest);
 router.post('/forgot-password', authLimiter, validate(forgotPasswordSchema), forgotPassword);
 router.post('/reset-password', authLimiter, validate(resetPasswordSchema), resetPassword);

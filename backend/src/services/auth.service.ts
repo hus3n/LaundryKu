@@ -1,5 +1,6 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import { Role } from '@prisma/client';
 import { prisma } from '../config/database.js';
 import { env } from '../config/env.js';
 import { crypto } from '../utils/crypto.js';
@@ -137,4 +138,165 @@ export async function resetPasswordService(token: string, newPass: string) {
   });
 
   return true;
+}
+
+export interface RegisterAdminInput {
+  name: string;
+  email: string;
+  password: string;
+  phone: string;
+  storeName: string;
+  storeAddress?: string;
+  planType: 'TRIAL' | 'DIRECT_SUBSCRIPTION' | 'FREE';
+  durationMonths?: number;
+}
+
+export async function registerAdminService(data: RegisterAdminInput) {
+  const cleanEmail = data.email.toLowerCase().trim();
+  const existingUser = await prisma.user.findUnique({
+    where: { email: cleanEmail },
+  });
+
+  if (existingUser) {
+    throw new Error('Alamat email sudah terdaftar. Silakan login atau gunakan email lain.');
+  }
+
+  const hashedPassword = await bcrypt.hash(data.password, 10);
+
+  let isTrial = false;
+  let trialDays: number | null = null;
+  let subscriptionEnd: Date;
+
+  if (data.planType === 'TRIAL') {
+    isTrial = true;
+    trialDays = 30;
+    subscriptionEnd = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+  } else if (data.planType === 'DIRECT_SUBSCRIPTION') {
+    isTrial = false;
+    trialDays = null;
+    const months = data.durationMonths && data.durationMonths > 0 ? data.durationMonths : 1;
+    subscriptionEnd = new Date();
+    subscriptionEnd.setMonth(subscriptionEnd.getMonth() + months);
+  } else {
+    // FREE Tier
+    isTrial = false;
+    trialDays = 0;
+    subscriptionEnd = new Date('2099-12-31T23:59:59.999Z');
+  }
+
+  const createdData = await prisma.$transaction(async (tx) => {
+    // 1. Create User (Role.ADMIN)
+    const user = await tx.user.create({
+      data: {
+        name: data.name.trim(),
+        email: cleanEmail,
+        password: hashedPassword,
+        phone: data.phone.trim(),
+        role: Role.ADMIN,
+        isActive: true,
+      },
+    });
+
+    // 2. Create Admin Store
+    const admin = await tx.admin.create({
+      data: {
+        userId: user.id,
+        storeName: data.storeName.trim(),
+        storeAddress: data.storeAddress?.trim() || null,
+        storePhone: data.phone.trim(),
+        subscriptionEnd,
+        isActive: true,
+        isTrial,
+        trialDays,
+      },
+    });
+
+    // 3. Create Default Outlet
+    await tx.outlet.create({
+      data: {
+        adminId: admin.id,
+        name: 'Outlet Pusat',
+        address: data.storeAddress?.trim() || null,
+        phone: data.phone.trim(),
+        isActive: true,
+      },
+    });
+
+    // 4. Create Default Categories
+    await tx.category.createMany({
+      data: [
+        { adminId: admin.id, name: 'Kiloan', isActive: true },
+        { adminId: admin.id, name: 'Satuan', isActive: true },
+      ],
+    });
+
+    // 5. Create Default Packages
+    await tx.package.createMany({
+      data: [
+        {
+          adminId: admin.id,
+          name: 'Cuci Komplit Reguler',
+          price: 7000,
+          unit: 'kg',
+          estimatedDuration: 48,
+          isActive: true,
+        },
+        {
+          adminId: admin.id,
+          name: 'Cuci Kering Lipat',
+          price: 5000,
+          unit: 'kg',
+          estimatedDuration: 48,
+          isActive: true,
+        },
+        {
+          adminId: admin.id,
+          name: 'Setrika Saja',
+          price: 4000,
+          unit: 'kg',
+          estimatedDuration: 24,
+          isActive: true,
+        },
+        {
+          adminId: admin.id,
+          name: 'Bed Cover Sedang',
+          price: 25000,
+          unit: 'pcs',
+          estimatedDuration: 72,
+          isActive: true,
+        },
+      ],
+    });
+
+    return { user, admin };
+  });
+
+  const token = jwt.sign(
+    {
+      id: createdData.user.id,
+      email: createdData.user.email,
+      role: createdData.user.role,
+    },
+    env.JWT_SECRET,
+    { expiresIn: env.JWT_EXPIRES_IN as any }
+  );
+
+  return {
+    token,
+    user: {
+      id: createdData.user.id,
+      name: createdData.user.name,
+      email: createdData.user.email,
+      role: createdData.user.role,
+      phone: createdData.user.phone,
+      adminId: createdData.admin.id,
+      storeName: createdData.admin.storeName,
+      storeAddress: createdData.admin.storeAddress,
+      storePhone: createdData.admin.storePhone,
+      subscriptionEnd: createdData.admin.subscriptionEnd,
+      isTrial: createdData.admin.isTrial,
+      trialDays: createdData.admin.trialDays,
+    },
+    planType: data.planType,
+  };
 }

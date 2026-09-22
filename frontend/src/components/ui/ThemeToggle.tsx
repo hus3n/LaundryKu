@@ -22,7 +22,7 @@ export default function ThemeToggle({ className = '', showLabel = false }: Theme
       onClick={toggleTheme}
       title={isDark ? 'Beralih ke Tema Terang (☀️)' : 'Beralih ke Tema Gelap (🌙)'}
       aria-label={isDark ? 'Beralih ke Tema Terang' : 'Beralih ke Tema Gelap'}
-      className={`relative inline-flex items-center gap-2 p-2 rounded-xl border transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-[#1DA9D0]/30 ${
+      className={`relative inline-flex items-center gap-1.5 sm:gap-2 p-1.5 sm:p-2 rounded-lg sm:rounded-xl border shrink-0 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-[#1DA9D0]/30 ${
         isDark
           ? 'bg-[#013D66] border-[#1DA9D0]/25 text-[#F5EACA] hover:bg-[#014775]'
           : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-100 hover:text-slate-900'

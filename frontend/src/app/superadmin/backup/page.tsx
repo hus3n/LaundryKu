@@ -198,7 +198,7 @@ export default function BackupRestorePage() {
     <DashboardLayout role="SUPERADMIN">
       <div className="space-y-6">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#1DA9D0] to-[#43D5CC] flex items-center justify-center shadow-lg shadow-[#1DA9D0]/20">
+          <div className="w-10 h-10 rounded-xl bg-[#1DA9D0] dark:bg-gradient-to-tr dark:from-[#1DA9D0] dark:to-[#43D5CC] flex items-center justify-center shadow-lg shadow-[#1DA9D0]/20">
             <Database className="w-5 h-5 text-[#010E1C]" />
           </div>
           <div>

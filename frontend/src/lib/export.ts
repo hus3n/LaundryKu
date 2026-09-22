@@ -1,8 +1,8 @@
 export async function downloadAllDataExcel(): Promise<void> {
-  const token = localStorage.getItem('token');
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4001';
+  const token = localStorage.getItem('laundryku_token') || localStorage.getItem('token');
+  const apiUrl = typeof window !== 'undefined' ? '/api' : (process.env.INTERNAL_BACKEND_URL ? `${process.env.INTERNAL_BACKEND_URL}/api` : 'http://backend:4001/api');
   
-  const response = await fetch(`${apiUrl}/api/analytics/export-excel`, {
+  const response = await fetch(`${apiUrl}/analytics/export-excel`, {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${token}`,

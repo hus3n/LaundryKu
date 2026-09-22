@@ -196,27 +196,27 @@ export default function WhatsAppPairingPage() {
 
   return (
     <DashboardLayout>
-      <div className="space-y-8">
+      <div className="space-y-3 sm:space-y-6">
         <div>
-          <h1 className="text-2xl font-bold dark:text-[#F5EACA] text-slate-900">Integrasi WhatsApp Toko</h1>
-          <p className="text-xs dark:text-[#F5EACA]/60 text-slate-500 mt-1">
-            Pairing perangkat WhatsApp gateway, atur template pesan, dan pengiriman notifikasi
+          <h1 className="text-base sm:text-2xl font-bold dark:text-[#F5EACA] text-slate-900">Integrasi WhatsApp Toko</h1>
+          <p className="text-[10px] sm:text-xs dark:text-[#F5EACA]/60 text-slate-500 mt-0.5 sm:mt-1">
+            Pairing perangkat WhatsApp gateway, atur template pesan, dan notifikasi
           </p>
         </div>
 
         {subscriptionError && (
-          <div className="p-4 rounded-xl border border-amber-500/30 bg-amber-500/10 mb-6">
-            <div className="flex items-start gap-3">
-              <AlertCircle className="w-5 h-5 dark:text-[#EA8803] text-amber-600 mt-0.5 flex-shrink-0" />
+          <div className="p-3 sm:p-4 rounded-xl border border-amber-500/30 bg-amber-500/10 mb-3 sm:mb-6">
+            <div className="flex items-start gap-2.5 sm:gap-3">
+              <AlertCircle className="w-4 h-4 sm:w-5 sm:h-5 dark:text-[#EA8803] text-amber-600 mt-0.5 flex-shrink-0" />
               <div>
-                <h3 className="font-medium dark:text-[#EA8803] text-amber-700">
+                <h3 className="text-xs sm:text-sm font-medium dark:text-[#EA8803] text-amber-700">
                   {subscriptionCode === 'SUBSCRIPTION_EXPIRED'
                     ? 'Masa Aktif Akun Telah Berakhir'
                     : 'Akun Tidak Aktif'}
                 </h3>
-                <p className="text-sm dark:text-[#F5EACA]/80 text-slate-700 mt-1">{subscriptionError}</p>
+                <p className="text-xs dark:text-[#F5EACA]/80 text-slate-700 mt-0.5 sm:mt-1">{subscriptionError}</p>
                 {subscriptionCode !== 'ACCOUNT_INACTIVE' && (
-                  <p className="text-sm dark:text-[#EA8803] text-amber-700 mt-2">
+                  <p className="text-xs dark:text-[#EA8803] text-amber-700 mt-1 sm:mt-2">
                     Hubungi administrator LaundryKu untuk memperpanjang masa aktif akun.
                   </p>
                 )}
@@ -225,7 +225,7 @@ export default function WhatsAppPairingPage() {
           </div>
         )}
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-6">
           <WaPairingStatusCard
             status={status}
             phoneConnected={phoneConnected}

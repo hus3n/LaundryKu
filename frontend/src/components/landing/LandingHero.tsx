@@ -22,7 +22,7 @@ export default function LandingHero() {
           </motion.div>
 
           <motion.h1 variants={itemVariants} className="text-4xl sm:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-[#F5EACA] leading-[1.15]">
-            Kelola Usaha Laundry Lebih <span className="bg-gradient-to-r from-sky-600 via-teal-600 to-[#1DA9D0] dark:from-[#1DA9D0] dark:via-[#43D5CC] dark:to-[#F5EACA] bg-clip-text text-transparent">Cepat, Rapi & Otomatis</span>
+            Kelola Usaha Laundry Lebih <span className="text-sky-700 dark:bg-gradient-to-r dark:from-[#1DA9D0] dark:via-[#43D5CC] dark:to-[#F5EACA] dark:bg-clip-text dark:text-transparent">Cepat, Rapi & Otomatis</span>
           </motion.h1>
 
           <motion.p variants={itemVariants} className="text-lg text-slate-600 dark:text-[#F5EACA]/70 leading-relaxed max-w-xl">
@@ -30,15 +30,16 @@ export default function LandingHero() {
           </motion.p>
 
           <motion.div variants={itemVariants} className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2">
-            <motion.button
-              whileHover={{ scale: 1.02, y: -2, transition: { type: 'spring', stiffness: 400, damping: 20 } }}
-              whileTap={{ scale: 0.96 }}
-              onClick={handleRegisterClick}
-              className="px-8 py-4 rounded-xl bg-gradient-to-r from-[#1DA9D0] via-[#015383] to-[#43D5CC] hover:opacity-95 text-[#010E1C] font-bold text-base shadow-xl shadow-[#1DA9D0]/20 flex items-center justify-center gap-3 group"
-            >
-              Coba Gratis via WhatsApp
-              <motion.span whileHover={{ x: 4 }}><ArrowRight className="w-5 h-5" /></motion.span>
-            </motion.button>
+            <Link href="/register" className="flex-1 sm:flex-none">
+              <motion.div
+                whileHover={{ scale: 1.02, y: -2, transition: { type: 'spring', stiffness: 400, damping: 20 } }}
+                whileTap={{ scale: 0.96 }}
+                className="px-8 py-4 rounded-xl bg-[#1DA9D0] dark:bg-gradient-to-r dark:from-[#1DA9D0] dark:via-[#015383] dark:to-[#43D5CC] hover:opacity-95 text-[#010E1C] font-bold text-base shadow-xl shadow-[#1DA9D0]/20 flex items-center justify-center gap-3 group transition-all"
+              >
+                <span>Daftar Akun Baru (Trial 30 Hari)</span>
+                <motion.span whileHover={{ x: 4 }}><ArrowRight className="w-5 h-5" /></motion.span>
+              </motion.div>
+            </Link>
             <Link href="/login" className="flex-1 sm:flex-none">
               <motion.div
                 whileHover={{ scale: 1.02, y: -2, transition: { type: 'spring', stiffness: 400, damping: 20 } }}

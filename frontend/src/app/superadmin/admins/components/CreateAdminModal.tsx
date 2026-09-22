@@ -142,7 +142,7 @@ export default function CreateAdminModal({
             <button
               type="submit"
               disabled={isSubmitting}
-              className="px-5 py-2 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] text-[#010E1C] text-xs font-bold disabled:opacity-50"
+              className="px-5 py-2 rounded-xl bg-[#1DA9D0] dark:bg-gradient-to-r dark:from-[#1DA9D0] dark:to-[#43D5CC] text-[#010E1C] text-xs font-bold disabled:opacity-50"
             >
               Daftarkan Admin Toko
             </button>

@@ -1,0 +1,41 @@
+/* Theme Design Tokens - LaundryKu */
+:root {
+  /* Core Brand Colors */
+  --brand-primary: #1DA9D0;
+  --brand-hover: #1590B2;
+  --brand-turquoise: #43D5CC;
+  --brand-tangerine: #EA8803;
+  --brand-sidecar: #F5EACA;
+
+  /* Orient Scale */
+  --orient-main: #015383;
+  --orient-light: #014775;
+  --orient-medium: #013D66;
+  --orient-dark: #012040;
+  --orient-deeper: #011B2E;
+  --orient-darkest: #010E1C;
+
+  /* Semantic Light Mode Tokens */
+  --bg-app: #f8fafc;
+  --bg-surface: #ffffff;
+  --bg-surface-elevated: #f1f5f9;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+  --border-color: #e2e8f0;
+  --border-focus: #1DA9D0;
+  --ring-focus: rgba(29, 169, 208, 0.25);
+}
+
+.dark {
+  /* Semantic Dark Mode Tokens */
+  --bg-app: #010E1C;
+  --bg-surface: #012040;
+  --bg-surface-elevated: #013D66;
+  --text-primary: #F5EACA;
+  --text-secondary: rgba(245, 234, 202, 0.8);
+  --text-muted: rgba(245, 234, 202, 0.6);
+  --border-color: rgba(29, 169, 208, 0.18);
+  --border-focus: #43D5CC;
+  --ring-focus: rgba(67, 213, 204, 0.25);
+}

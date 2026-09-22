@@ -79,7 +79,7 @@ export default function ReviewsPage() {
             <ThemeToggle />
             <button
               onClick={() => setIsModalOpen(true)}
-              className="px-4 py-2 rounded-xl bg-gradient-to-r from-[#EA8803] to-[#F5EACA] text-[#010E1C] font-bold text-xs shadow-lg shadow-[#EA8803]/20 hover:opacity-95 transition-all inline-flex items-center gap-1.5 cursor-pointer"
+              className="px-4 py-2 rounded-xl bg-[#EA8803] dark:bg-gradient-to-r dark:from-[#EA8803] dark:to-[#F5EACA] text-[#010E1C] font-bold text-xs shadow-lg shadow-[#EA8803]/20 hover:opacity-95 transition-all inline-flex items-center gap-1.5 cursor-pointer"
             >
               <Plus className="w-4 h-4" />
               <span>Beri Ulasan</span>
@@ -122,7 +122,7 @@ export default function ReviewsPage() {
           <div className="text-center sm:text-right">
             <button
               onClick={() => setIsModalOpen(true)}
-              className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] text-[#010E1C] font-bold text-xs shadow-lg shadow-[#1DA9D0]/20 hover:opacity-95 transition-all inline-flex items-center gap-2 cursor-pointer"
+              className="px-5 py-2.5 rounded-xl bg-[#1DA9D0] dark:bg-gradient-to-r dark:from-[#1DA9D0] dark:to-[#43D5CC] text-[#010E1C] font-bold text-xs shadow-lg shadow-[#1DA9D0]/20 hover:opacity-95 transition-all inline-flex items-center gap-2 cursor-pointer"
             >
               <Plus className="w-4 h-4" />
               Tulis Pengalaman Anda
@@ -204,7 +204,7 @@ export default function ReviewsPage() {
             </p>
             <button
               onClick={() => setIsModalOpen(true)}
-              className="mt-4 px-4 py-2 rounded-xl bg-gradient-to-r from-[#EA8803] to-[#F5EACA] text-[#010E1C] font-bold text-xs shadow-md"
+              className="mt-4 px-4 py-2 rounded-xl bg-[#EA8803] dark:bg-gradient-to-r dark:from-[#EA8803] dark:to-[#F5EACA] text-[#010E1C] font-bold text-xs shadow-md"
             >
               Beri Ulasan Pertama
             </button>
@@ -229,7 +229,7 @@ export default function ReviewsPage() {
                     {/* Header: User details & Stars */}
                     <div className="flex items-start justify-between gap-3 mb-3">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-[#1DA9D0] to-[#43D5CC] flex items-center justify-center font-bold text-[#010E1C] text-sm shadow-md shrink-0">
+                        <div className="w-10 h-10 rounded-2xl bg-[#1DA9D0] dark:bg-gradient-to-tr dark:from-[#1DA9D0] dark:to-[#43D5CC] flex items-center justify-center font-bold text-[#010E1C] text-sm shadow-md shrink-0">
                           {review.name.charAt(0).toUpperCase()}
                         </div>
                         <div>

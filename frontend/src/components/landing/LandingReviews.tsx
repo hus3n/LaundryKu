@@ -152,7 +152,7 @@ export default function LandingReviews() {
 
               {/* Reviewer identity */}
               <div className="pt-4 border-t dark:border-[#1DA9D0]/10 border-slate-100 flex items-center gap-3">
-                <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-[#1DA9D0] to-[#43D5CC] flex items-center justify-center font-bold text-[#010E1C] text-sm shadow-md shrink-0">
+                <div className="w-11 h-11 rounded-2xl bg-[#1DA9D0] dark:bg-gradient-to-tr dark:from-[#1DA9D0] dark:to-[#43D5CC] flex items-center justify-center font-bold text-[#010E1C] text-sm shadow-md shrink-0">
                   {review.name.charAt(0).toUpperCase()}
                 </div>
                 <div className="min-w-0 flex-1">
@@ -192,7 +192,7 @@ export default function LandingReviews() {
 
           <button
             onClick={() => setIsModalOpen(true)}
-            className="px-6 py-3 rounded-2xl bg-gradient-to-r from-[#EA8803] to-[#F5EACA] text-[#010E1C] font-bold text-xs sm:text-sm shadow-lg shadow-[#EA8803]/20 hover:opacity-95 transition-all inline-flex items-center gap-2 cursor-pointer"
+            className="px-6 py-3 rounded-2xl bg-[#EA8803] dark:bg-gradient-to-r dark:from-[#EA8803] dark:to-[#F5EACA] text-[#010E1C] font-bold text-xs sm:text-sm shadow-lg shadow-[#EA8803]/20 hover:opacity-95 transition-all inline-flex items-center gap-2 cursor-pointer"
           >
             <MessageSquarePlus className="w-4 h-4" />
             <span>Tulis Ulasan Anda</span>

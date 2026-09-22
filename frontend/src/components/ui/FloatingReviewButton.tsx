@@ -33,7 +33,7 @@ export default function FloatingReviewButton() {
           {/* Pulsing Star Icon container */}
           <div className="relative flex items-center justify-center shrink-0">
             <span className="absolute -inset-0.5 sm:-inset-1 rounded-full bg-[#EA8803]/20 animate-ping opacity-75 pointer-events-none" />
-            <div className="relative w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-full bg-gradient-to-tr from-[#EA8803] to-[#F5EACA] flex items-center justify-center shadow-md shadow-[#EA8803]/30">
+            <div className="relative w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-full bg-[#EA8803] dark:bg-gradient-to-tr dark:from-[#EA8803] dark:to-[#F5EACA] flex items-center justify-center shadow-md shadow-[#EA8803]/30">
               <Star className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-[#010E1C] text-[#010E1C]" />
             </div>
           </div>

@@ -157,7 +157,7 @@ export default function RootLayout({
           aria-hidden="true"
         >
           <div
-            className="w-[700px] h-[700px] max-w-[85vw] max-h-[85vh] bg-contain bg-center bg-no-repeat opacity-[0.03] dark:opacity-[0.05] transition-opacity duration-200"
+            className="w-[750px] h-[750px] max-w-[90vw] max-h-[90vh] bg-contain bg-center bg-no-repeat opacity-[0.08] dark:opacity-[0.25] dark:brightness-125 dark:contrast-110 transition-all duration-300"
             style={{ backgroundImage: "url('/logo/laundryku-transparent.png')" }}
           />
         </div>

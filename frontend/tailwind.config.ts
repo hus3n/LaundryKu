@@ -43,6 +43,20 @@ const config: Config = {
           DEFAULT: '#F5EACA',
           muted: '#D4C8A2',
         },
+        app: {
+          bg: 'var(--bg-app)',
+          surface: 'var(--bg-surface)',
+          elevated: 'var(--bg-surface-elevated)',
+        },
+        content: {
+          primary: 'var(--text-primary)',
+          secondary: 'var(--text-secondary)',
+          muted: 'var(--text-muted)',
+        },
+        theme: {
+          border: 'var(--border-color)',
+          focus: 'var(--border-focus)',
+        },
       },
       boxShadow: {
         glass: '0 8px 32px 0 rgba(1, 14, 28, 0.35)',

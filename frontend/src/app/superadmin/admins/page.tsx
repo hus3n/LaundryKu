@@ -140,7 +140,7 @@ export default function AdminStoreManagementPage() {
             <button
               type="button"
               onClick={() => setIsTrialModalOpen(true)}
-              className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#EA8803] to-[#EA8803]/80 hover:opacity-95 text-[#010E1C] font-bold text-xs shadow-lg shadow-[#EA8803]/20 transition-all inline-flex items-center gap-2"
+              className="px-5 py-2.5 rounded-xl bg-[#EA8803] dark:bg-gradient-to-r dark:from-[#EA8803] dark:to-[#EA8803]/80 hover:opacity-95 text-[#010E1C] font-bold text-xs shadow-lg shadow-[#EA8803]/20 transition-all inline-flex items-center gap-2"
             >
               <Zap className="w-4 h-4" />
               Buat Akun Trial
@@ -148,7 +148,7 @@ export default function AdminStoreManagementPage() {
             <button
               type="button"
               onClick={handleOpenCreate}
-              className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] hover:opacity-95 text-[#010E1C] font-bold text-xs shadow-lg shadow-[#1DA9D0]/20 transition-all inline-flex items-center gap-2"
+              className="px-5 py-2.5 rounded-xl bg-[#1DA9D0] dark:bg-gradient-to-r dark:from-[#1DA9D0] dark:to-[#43D5CC] hover:opacity-95 text-[#010E1C] font-bold text-xs shadow-lg shadow-[#1DA9D0]/20 transition-all inline-flex items-center gap-2"
             >
               <Plus className="w-4 h-4" />
               Daftarkan Admin Toko Baru

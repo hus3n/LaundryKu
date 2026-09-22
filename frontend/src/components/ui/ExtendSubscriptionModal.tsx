@@ -108,7 +108,7 @@ export default function ExtendSubscriptionModal({
   
           {/* Modal Header */}
           <div className="flex items-start gap-4">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-500/20 to-teal-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-500 shrink-0">
+          <div className="w-12 h-12 rounded-2xl bg-emerald-50 dark:bg-gradient-to-br dark:from-emerald-500/20 dark:to-teal-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-500 shrink-0">
             <Clock className="w-6 h-6" />
           </div>
           <div>
@@ -199,7 +199,7 @@ export default function ExtendSubscriptionModal({
           </div>
 
           {/* New Expiry Date Preview */}
-          <div className="p-4 rounded-2xl bg-gradient-to-r dark:from-emerald-950/40 dark:to-teal-950/20 from-emerald-50 to-teal-50/50 border dark:border-emerald-500/20 border-emerald-200 flex items-center justify-between text-xs">
+          <div className="p-4 rounded-2xl bg-emerald-50 dark:bg-gradient-to-r dark:from-emerald-950/40 dark:to-teal-950/20 border dark:border-emerald-500/20 border-emerald-200 flex items-center justify-between text-xs">
             <div className="flex items-center gap-2 dark:text-[#F5EACA]/80 text-slate-700">
               <Calendar className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
               <span>Tanggal Kadaluarsa Baru:</span>
@@ -238,7 +238,7 @@ export default function ExtendSubscriptionModal({
             whileTap={{ scale: 0.95 }}
             type="submit"
             disabled={isSubmitting || selectedMonths <= 0}
-            className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white font-semibold text-xs shadow-lg shadow-emerald-900/30 transition-all flex items-center gap-2 disabled:opacity-50"
+            className="px-5 py-2.5 rounded-xl bg-emerald-600 dark:bg-gradient-to-r dark:from-emerald-500 dark:to-teal-600 hover:bg-emerald-500 dark:hover:from-emerald-400 dark:hover:to-teal-500 text-white font-semibold text-xs shadow-lg shadow-emerald-900/30 transition-all flex items-center gap-2 disabled:opacity-50"
           >
             {isSubmitting ? (
               <>

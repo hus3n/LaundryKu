@@ -66,23 +66,23 @@ function LoginForm() {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-        className="text-center mb-8"
+        className="text-center mb-4 sm:mb-8"
       >
-        <Link href="/" className="inline-flex items-center gap-3 group">
+        <Link href="/" className="inline-flex items-center gap-2.5 sm:gap-3 group">
           <img
             src="/logo/laundryku.png"
             alt="LaundryKu"
-            className="w-12 h-12 rounded-2xl object-contain shadow-lg shadow-[#1DA9D0]/30 transition-transform duration-300 group-hover:scale-105"
+            className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl object-contain shadow-lg shadow-[#1DA9D0]/30 transition-transform duration-300 group-hover:scale-105"
           />
-          <span className="text-2xl font-extrabold bg-gradient-to-r dark:from-[#F5EACA] from-slate-900 via-slate-800 dark:via-[#F5EACA]/90 to-[#1DA9D0] dark:to-[#43D5CC] bg-clip-text text-transparent">
-            Laundry<span className="bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] bg-clip-text text-transparent">Ku</span>{' '}
-            <span className="text-xs px-2 py-0.5 rounded-full bg-[#1DA9D0]/20 border border-[#1DA9D0]/30 text-[#1DA9D0] dark:text-[#43D5CC] ml-1 font-semibold">
+          <span className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:bg-gradient-to-r dark:from-[#F5EACA] dark:via-[#F5EACA]/90 dark:to-[#43D5CC] dark:bg-clip-text dark:text-transparent">
+            Laundry<span className="text-[#1DA9D0] dark:bg-gradient-to-r dark:from-[#1DA9D0] dark:to-[#43D5CC] dark:bg-clip-text dark:text-transparent">Ku</span>{' '}
+            <span className="text-[10px] sm:text-xs px-1.5 sm:px-2 py-0.5 rounded-full bg-[#1DA9D0]/20 border border-[#1DA9D0]/30 text-[#1DA9D0] dark:text-[#43D5CC] ml-1 font-semibold">
               v1.0
             </span>
           </span>
         </Link>
-        <h1 className="text-xl font-bold dark:text-[#F5EACA] text-slate-900 mt-6">Masuk ke Akun Anda</h1>
-        <p className="text-xs dark:text-[#F5EACA]/60 text-slate-500 mt-1">SuperAdmin, Owner (Admin), atau Staf Karyawan</p>
+        <h1 className="text-lg sm:text-xl font-bold dark:text-[#F5EACA] text-slate-900 mt-3 sm:mt-6">Masuk ke Akun Anda</h1>
+        <p className="text-[11px] sm:text-xs dark:text-[#F5EACA]/60 text-slate-500 mt-0.5 sm:mt-1">SuperAdmin, Owner (Admin), atau Staf Karyawan</p>
       </motion.div>
 
       {/* Card Form */}
@@ -90,7 +90,7 @@ function LoginForm() {
         initial={{ opacity: 0, scale: 0.96, y: 16 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         transition={{ type: 'spring', stiffness: 280, damping: 22 }}
-        className="glass-card-dark p-8 rounded-3xl border dark:border-[#1DA9D0]/15 border-slate-200 shadow-2xl backdrop-blur-2xl"
+        className="glass-card-dark p-4 sm:p-8 rounded-2xl sm:rounded-3xl border dark:border-[#1DA9D0]/15 border-slate-200 shadow-2xl backdrop-blur-2xl"
       >
         <AnimatePresence>
           {expiredMsg && (
@@ -100,7 +100,7 @@ function LoginForm() {
               animate={{ opacity: 1, height: 'auto', y: 0 }}
               exit={{ opacity: 0, height: 0, y: -8 }}
               transition={{ duration: 0.25 }}
-              className="mb-6 p-3.5 rounded-xl bg-amber-500/10 dark:bg-[#EA8803]/10 border border-amber-500/30 dark:border-[#EA8803]/30 text-amber-700 dark:text-[#EA8803] text-xs flex items-center gap-2.5 overflow-hidden"
+              className="mb-3 sm:mb-6 p-2.5 sm:p-3.5 rounded-lg sm:rounded-xl bg-amber-500/10 dark:bg-[#EA8803]/10 border border-amber-500/30 dark:border-[#EA8803]/30 text-amber-700 dark:text-[#EA8803] text-xs flex items-center gap-2 overflow-hidden"
             >
               <AlertCircle className="w-4 h-4 shrink-0 text-amber-600 dark:text-[#EA8803]" />
               Sesi Anda telah berakhir. Silakan login kembali.
@@ -114,7 +114,7 @@ function LoginForm() {
               animate={{ opacity: 1, height: 'auto', y: 0 }}
               exit={{ opacity: 0, height: 0, y: -8 }}
               transition={{ duration: 0.25 }}
-              className="mb-6 p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-600 dark:text-rose-300 text-xs flex items-start gap-2.5 overflow-hidden"
+              className="mb-3 sm:mb-6 p-2.5 sm:p-3.5 rounded-lg sm:rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-600 dark:text-rose-300 text-xs flex items-start gap-2 overflow-hidden"
             >
               <AlertCircle className="w-4 h-4 shrink-0 text-rose-500 dark:text-rose-400 mt-0.5" />
               <span>{error}</span>
@@ -122,13 +122,13 @@ function LoginForm() {
           )}
         </AnimatePresence>
 
-        <form onSubmit={handleSubmit} className="space-y-5">
+        <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-5">
           <div>
-            <label className="block text-xs font-semibold dark:text-[#F5EACA]/80 text-slate-700 mb-2">
+            <label className="block text-[11px] sm:text-xs font-semibold dark:text-[#F5EACA]/80 text-slate-700 mb-1 sm:mb-2">
               Alamat Email
             </label>
             <div className="relative">
-              <Mail className="w-4 h-4 text-slate-400 dark:text-[#1DA9D0]/40 absolute left-3.5 top-1/2 -translate-y-1/2" />
+              <Mail className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-400 dark:text-[#1DA9D0]/40 absolute left-3 sm:left-3.5 top-1/2 -translate-y-1/2" />
               <motion.input
                 whileFocus={{ scale: 1.01 }}
                 transition={{ type: 'spring', stiffness: 400, damping: 25 }}
@@ -137,25 +137,25 @@ function LoginForm() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="nama@laundryku.com"
-                className="w-full pl-10 pr-4 py-3 rounded-xl dark:bg-[#012040] bg-slate-50 border dark:border-[#1DA9D0]/25 border-slate-300 text-sm dark:text-[#F5EACA] text-slate-900 dark:placeholder-[#1DA9D0]/40 placeholder-slate-400 focus:outline-none focus:border-[#1DA9D0] focus:ring-2 focus:ring-[#1DA9D0]/20 transition-all"
+                className="w-full pl-8.5 sm:pl-10 pr-3 sm:pr-4 py-2 sm:py-3 rounded-lg sm:rounded-xl dark:bg-[#012040] bg-slate-50 border dark:border-[#1DA9D0]/25 border-slate-300 text-xs sm:text-sm dark:text-[#F5EACA] text-slate-900 dark:placeholder-[#1DA9D0]/40 placeholder-slate-400 focus:outline-none focus:border-[#1DA9D0] focus:ring-2 focus:ring-[#1DA9D0]/20 transition-all"
               />
             </div>
           </div>
 
           <div>
-            <div className="flex items-center justify-between mb-2">
-              <label className="block text-xs font-semibold dark:text-[#F5EACA]/80 text-slate-700">
+            <div className="flex items-center justify-between mb-1 sm:mb-2">
+              <label className="block text-[11px] sm:text-xs font-semibold dark:text-[#F5EACA]/80 text-slate-700">
                 Password
               </label>
               <Link
                 href="/forgot-password"
-                className="text-xs text-[#1DA9D0] dark:text-[#43D5CC] hover:underline transition-colors"
+                className="text-[10px] sm:text-xs text-[#1DA9D0] dark:text-[#43D5CC] hover:underline transition-colors"
               >
                 Lupa Password?
               </Link>
             </div>
             <div className="relative">
-              <Lock className="w-4 h-4 text-slate-400 dark:text-[#1DA9D0]/40 absolute left-3.5 top-1/2 -translate-y-1/2" />
+              <Lock className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-400 dark:text-[#1DA9D0]/40 absolute left-3 sm:left-3.5 top-1/2 -translate-y-1/2" />
               <motion.input
                 whileFocus={{ scale: 1.01 }}
                 transition={{ type: 'spring', stiffness: 400, damping: 25 }}
@@ -164,16 +164,16 @@ function LoginForm() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full pl-10 pr-11 py-3 rounded-xl dark:bg-[#012040] bg-slate-50 border dark:border-[#1DA9D0]/25 border-slate-300 text-sm dark:text-[#F5EACA] text-slate-900 dark:placeholder-[#1DA9D0]/40 placeholder-slate-400 focus:outline-none focus:border-[#1DA9D0] focus:ring-2 focus:ring-[#1DA9D0]/20 transition-all"
+                className="w-full pl-8.5 sm:pl-10 pr-10 sm:pr-11 py-2 sm:py-3 rounded-lg sm:rounded-xl dark:bg-[#012040] bg-slate-50 border dark:border-[#1DA9D0]/25 border-slate-300 text-xs sm:text-sm dark:text-[#F5EACA] text-slate-900 dark:placeholder-[#1DA9D0]/40 placeholder-slate-400 focus:outline-none focus:border-[#1DA9D0] focus:ring-2 focus:ring-[#1DA9D0]/20 transition-all"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-[#F5EACA] focus:outline-none p-1 rounded-lg transition-colors"
+                className="absolute right-3 sm:right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-[#F5EACA] focus:outline-none p-1 rounded-lg transition-colors"
                 title={showPassword ? 'Sembunyikan kata sandi' : 'Tampilkan kata sandi'}
                 aria-label={showPassword ? 'Sembunyikan kata sandi' : 'Tampilkan kata sandi'}
               >
-                {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                {showPassword ? <EyeOff className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> : <Eye className="w-3.5 h-3.5 sm:w-4 sm:h-4" />}
               </button>
             </div>
           </div>
@@ -184,31 +184,39 @@ function LoginForm() {
             whileTap={{ scale: 0.97 }}
             whileHover={{ scale: 1.02, transition: { type: 'spring', stiffness: 400, damping: 15 } }}
             transition={{ type: 'spring', stiffness: 200, damping: 20 }}
-            className="w-full py-3.5 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] text-[#010E1C] font-bold text-sm shadow-lg shadow-[#1DA9D0]/25 flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer"
+            className="w-full py-2.5 sm:py-3.5 rounded-lg sm:rounded-xl bg-[#1DA9D0] dark:bg-gradient-to-r dark:from-[#1DA9D0] dark:to-[#43D5CC] text-[#010E1C] font-bold text-xs sm:text-sm shadow-lg shadow-[#1DA9D0]/25 flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer transition-colors"
           >
             {isSubmitting ? (
-              <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 0.8, ease: 'linear' }} className="w-5 h-5 border-2 border-[#010E1C]/30 border-t-[#010E1C] rounded-full" />
+              <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 0.8, ease: 'linear' }} className="w-4 h-4 sm:w-5 sm:h-5 border-2 border-[#010E1C]/30 border-t-[#010E1C] rounded-full" />
             ) : (
               <>
                 Masuk Sekarang
-                <motion.span whileHover={{ x: 4 }}><ArrowRight className="w-4 h-4" /></motion.span>
+                <motion.span whileHover={{ x: 4 }}><ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" /></motion.span>
               </>
             )}
           </motion.button>
         </form>
 
-        <div className="mt-8 pt-6 border-t dark:border-[#1DA9D0]/15 border-slate-200 text-center">
-          <p className="text-xs dark:text-[#F5EACA]/60 text-slate-500">
+        <div className="mt-4 sm:mt-8 pt-4 sm:pt-6 border-t dark:border-[#1DA9D0]/15 border-slate-200 text-center space-y-1.5 sm:space-y-2">
+          <p className="text-[11px] sm:text-xs dark:text-[#F5EACA]/70 text-slate-600">
             Belum punya akun laundry toko?{' '}
+            <Link
+              href="/register"
+              className="text-[#1DA9D0] dark:text-[#43D5CC] font-bold hover:underline"
+            >
+              Daftar Akun Baru (Trial 30 Hari)
+            </Link>
+          </p>
+          <div>
             <a
               href="https://wa.me/?text=Halo%20SuperAdmin%20LaundryKu,%20saya%20ingin%20mendaftar%20akun%20Admin"
               target="_blank"
               rel="noreferrer"
-              className="text-[#1DA9D0] dark:text-[#43D5CC] font-semibold hover:underline"
+              className="text-[10px] sm:text-[11px] text-slate-400 hover:text-slate-600 dark:hover:text-[#F5EACA]/80 transition-colors inline-block"
             >
-              Daftar via WA SuperAdmin
+              atau hubungi SuperAdmin via WhatsApp
             </a>
-          </p>
+          </div>
         </div>
       </motion.div>
     </div>
@@ -217,7 +225,7 @@ function LoginForm() {
 
 export default function LoginPage() {
   return (
-    <div className="min-h-screen dark:bg-[#010E1C] bg-slate-100 text-slate-900 dark:text-[#F5EACA] flex items-center justify-center p-6 relative overflow-hidden transition-colors">
+    <div className="min-h-screen dark:bg-[#010E1C] bg-slate-100 text-slate-900 dark:text-[#F5EACA] flex items-center justify-center p-3 sm:p-6 relative overflow-hidden transition-colors">
       {/* Top right theme toggle */}
       <div className="absolute top-4 right-4 z-50">
         <ThemeToggle />

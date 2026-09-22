@@ -44,11 +44,11 @@ export default function WaPairingStatusCard({
   onRetryQueue,
 }: WaPairingStatusCardProps) {
   return (
-    <div className="md:col-span-1 glass-card-dark p-6 rounded-3xl border dark:border-[#1DA9D0]/15 border-slate-200 space-y-6 text-center shadow-sm">
+    <div className="md:col-span-1 glass-card-dark p-3 sm:p-6 rounded-xl sm:rounded-3xl border dark:border-[#1DA9D0]/15 border-slate-200 space-y-3 sm:space-y-6 text-center shadow-sm">
       <div className="flex justify-between items-center text-xs">
         <span className="dark:text-[#F5EACA]/60 text-slate-500">Status Koneksi WA:</span>
         <span
-          className={`px-3 py-1 rounded-full font-bold flex items-center gap-1.5 ${
+          className={`px-2.5 sm:px-3 py-1 rounded-full font-bold flex items-center gap-1.5 text-[11px] sm:text-xs ${
             status === 'CONNECTED'
               ? 'bg-emerald-500/20 text-emerald-600 dark:text-emerald-300 border border-emerald-500/30'
               : status === 'CONNECTING'
@@ -172,7 +172,7 @@ export default function WaPairingStatusCard({
                 type="button"
                 onClick={onConnect}
                 disabled={loadingStatus}
-                className="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] hover:opacity-95 text-[#010E1C] font-bold text-xs shadow-lg shadow-[#1DA9D0]/20 transition-all flex items-center justify-center gap-1.5 disabled:opacity-50"
+                className="flex-1 py-2.5 rounded-xl bg-[#1DA9D0] dark:bg-gradient-to-r dark:from-[#1DA9D0] dark:to-[#43D5CC] hover:opacity-95 text-[#010E1C] font-bold text-xs shadow-lg shadow-[#1DA9D0]/20 transition-all flex items-center justify-center gap-1.5 disabled:opacity-50"
               >
                 <RefreshCw className={`w-3.5 h-3.5 ${loadingStatus ? 'animate-spin' : ''}`} />
                 Refresh QR
@@ -196,7 +196,7 @@ export default function WaPairingStatusCard({
             type="button"
             onClick={onConnect}
             disabled={loadingStatus || hasSubscriptionError}
-            className="w-full py-2.5 rounded-xl bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] hover:opacity-95 text-[#010E1C] font-bold text-xs shadow-lg shadow-[#1DA9D0]/20 transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full py-2.5 rounded-xl bg-[#1DA9D0] dark:bg-gradient-to-r dark:from-[#1DA9D0] dark:to-[#43D5CC] hover:opacity-95 text-[#010E1C] font-bold text-xs shadow-lg shadow-[#1DA9D0]/20 transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <RefreshCw className={`w-4 h-4 ${loadingStatus ? 'animate-spin' : ''}`} />
             Hubungkan WA Toko

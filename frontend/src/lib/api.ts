@@ -1,14 +1,25 @@
 import axios from 'axios';
 
-const getApiUrl = (): string => {
-  if (process.env.NEXT_PUBLIC_API_URL) {
-    return process.env.NEXT_PUBLIC_API_URL;
-  }
+export const getApiUrl = (): string => {
   if (typeof window !== 'undefined') {
-    const { protocol, hostname } = window.location;
-    return `${protocol}//${hostname}:4001/api`;
+    // If NEXT_PUBLIC_API_URL is an external custom URL (not localhost), use it
+    const envUrl = process.env.NEXT_PUBLIC_API_URL;
+    if (envUrl && !envUrl.includes('localhost') && !envUrl.startsWith('/')) {
+      return envUrl;
+    }
+    // For local IP, mobile browser, or localhost: use relative /api proxied by Next.js
+    return '/api';
   }
-  return 'http://localhost:4001/api';
+  const internal = process.env.INTERNAL_BACKEND_URL || 'http://backend:4001';
+  return `${internal}/api`;
+};
+
+export const getAssetUrl = (assetPath?: string | null): string => {
+  if (!assetPath) return '';
+  if (assetPath.startsWith('http://') || assetPath.startsWith('https://')) {
+    return assetPath;
+  }
+  return assetPath.startsWith('/') ? assetPath : `/${assetPath}`;
 };
 
 export const api = axios.create({

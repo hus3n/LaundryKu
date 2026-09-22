@@ -59,7 +59,7 @@ export default function DatabaseRestoreCard({
           type="button"
           onClick={onRestore}
           disabled={restoring || !restoreFile}
-          className="w-full py-3 rounded-xl bg-gradient-to-r from-[#EA8803] to-[#EA8803]/80 hover:opacity-95 text-[#010E1C] font-bold text-xs shadow-lg shadow-[#EA8803]/20 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+          className="w-full py-3 rounded-xl bg-[#EA8803] dark:bg-gradient-to-r dark:from-[#EA8803] dark:to-[#EA8803]/80 hover:opacity-95 text-[#010E1C] font-bold text-xs shadow-lg shadow-[#EA8803]/20 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
         >
           {restoring ? (
             <>

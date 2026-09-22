@@ -34,15 +34,15 @@ export default function ConfirmModal({
   const colorStyles = {
     danger: {
       bgIcon: 'bg-rose-500/20 text-rose-400 border-rose-500/30',
-      btn: 'bg-gradient-to-r from-rose-600 to-rose-700 hover:from-rose-500 hover:to-rose-600 shadow-rose-900/30 text-white font-semibold',
+      btn: 'bg-rose-600 dark:bg-gradient-to-r dark:from-rose-600 dark:to-rose-700 hover:bg-rose-500 dark:hover:from-rose-500 dark:hover:to-rose-600 shadow-rose-900/30 text-white font-semibold',
     },
     warning: {
       bgIcon: 'bg-[#EA8803]/20 text-[#EA8803] border-[#EA8803]/30',
-      btn: 'bg-gradient-to-r from-[#EA8803] to-[#EA8803]/80 hover:opacity-95 text-[#010E1C] font-bold shadow-[#EA8803]/30',
+      btn: 'bg-[#EA8803] dark:bg-gradient-to-r dark:from-[#EA8803] dark:to-[#EA8803]/80 hover:opacity-95 text-[#010E1C] font-bold shadow-[#EA8803]/30',
     },
     info: {
       bgIcon: 'bg-[#1DA9D0]/20 text-[#43D5CC] border-[#1DA9D0]/30',
-      btn: 'bg-gradient-to-r from-[#1DA9D0] to-[#43D5CC] hover:opacity-95 text-[#010E1C] font-bold shadow-[#1DA9D0]/30',
+      btn: 'bg-[#1DA9D0] dark:bg-gradient-to-r dark:from-[#1DA9D0] dark:to-[#43D5CC] hover:opacity-95 text-[#010E1C] font-bold shadow-[#1DA9D0]/30',
     },
   }[type];
 

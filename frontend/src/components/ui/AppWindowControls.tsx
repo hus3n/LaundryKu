@@ -88,10 +88,10 @@ export default function AppWindowControls() {
 
   return (
     <>
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-1 sm:gap-2 shrink-0">
         {/* Standalone status badge or Install App Button */}
         {isStandalone ? (
-          <span className="hidden lg:flex items-center gap-1.5 px-2.5 py-1 rounded-lg dark:bg-[#43D5CC]/10 bg-teal-50 border dark:border-[#43D5CC]/25 border-teal-200 dark:text-[#43D5CC] text-teal-700 text-[11px] font-medium">
+          <span className="hidden lg:flex items-center gap-1.5 px-2.5 py-1 rounded-lg dark:bg-[#43D5CC]/10 bg-teal-50 border dark:border-[#43D5CC]/25 border-teal-200 dark:text-[#43D5CC] text-teal-700 text-[11px] font-medium shrink-0">
             <Monitor className="w-3.5 h-3.5" />
             Mode Aplikasi
           </span>
@@ -101,9 +101,9 @@ export default function AppWindowControls() {
             whileTap={{ scale: 0.97 }}
             onClick={handleInstallClick}
             title="Instal / Buka sebagai Aplikasi Tanpa Tab Browser"
-            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg dark:bg-[#1DA9D0]/10 bg-sky-50 border dark:border-[#1DA9D0]/30 border-sky-200 dark:text-[#43D5CC] text-sky-700 hover:bg-[#1DA9D0]/20 dark:hover:text-[#F5EACA] hover:text-sky-900 text-xs font-medium transition-all shadow-sm"
+            className="flex items-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 py-1.5 rounded-lg dark:bg-[#1DA9D0]/10 bg-sky-50 border dark:border-[#1DA9D0]/30 border-sky-200 dark:text-[#43D5CC] text-sky-700 hover:bg-[#1DA9D0]/20 dark:hover:text-[#F5EACA] hover:text-sky-900 text-xs font-medium transition-all shadow-sm shrink-0"
           >
-            <Download className="w-3.5 h-3.5" />
+            <Download className="w-3.5 h-3.5 shrink-0" />
             <span className="hidden sm:inline">Mode Aplikasi</span>
           </motion.button>
         )}
@@ -114,16 +114,16 @@ export default function AppWindowControls() {
           whileTap={{ scale: 0.95 }}
           onClick={toggleFullscreen}
           title={isFullscreen ? 'Keluar Mode Layar Penuh (Esc / F11)' : 'Sembunyikan Tab & Masuk Layar Penuh (F11)'}
-          className={`p-2 rounded-lg border transition-all ${
+          className={`p-1.5 sm:p-2 rounded-lg border shrink-0 transition-all ${
             isFullscreen
               ? 'bg-[#EA8803]/15 border-[#EA8803]/30 text-[#EA8803] shadow-[#EA8803]/20 shadow-sm'
               : 'dark:bg-[#013D66]/80 bg-slate-100 border dark:border-[#1DA9D0]/25 border-slate-200 dark:text-[#F5EACA]/80 text-slate-700 dark:hover:text-[#F5EACA] hover:text-slate-900 dark:hover:bg-[#013D66] hover:bg-slate-200'
           }`}
         >
           {isFullscreen ? (
-            <Minimize className="w-4 h-4" />
+            <Minimize className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
           ) : (
-            <Maximize className="w-4 h-4" />
+            <Maximize className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
           )}
         </motion.button>
       </div>
@@ -131,7 +131,7 @@ export default function AppWindowControls() {
       {/* Guide Modal on how to hide browser tabs / open as standalone */}
       <AnimatePresence>
         {showGuideModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4">
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -145,47 +145,99 @@ export default function AppWindowControls() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 15 }}
               transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-              className="relative w-full max-w-lg dark:bg-[#012040] bg-white border dark:border-[#1DA9D0]/25 border-slate-200 rounded-2xl p-6 shadow-2xl z-10 dark:text-[#F5EACA] text-slate-900 overflow-hidden"
+              className="relative w-full max-w-lg max-h-[88vh] sm:max-h-[85vh] flex flex-col dark:bg-[#012040] bg-white border dark:border-[#1DA9D0]/25 border-slate-200 rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-2xl z-10 dark:text-[#F5EACA] text-slate-900"
             >
               {/* Header */}
-              <div className="flex items-start justify-between pb-4 mb-4 border-b dark:border-[#1DA9D0]/15 border-slate-200">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-[#1DA9D0]/20 border border-[#1DA9D0]/30 flex items-center justify-center text-[#43D5CC] dark:text-[#43D5CC] text-sky-600">
-                    <Monitor className="w-5 h-5" />
+              <div className="flex items-start justify-between pb-3 sm:pb-4 mb-3 sm:mb-4 border-b dark:border-[#1DA9D0]/15 border-slate-200 shrink-0">
+                <div className="flex items-center gap-2.5 sm:gap-3">
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-[#1DA9D0]/20 border border-[#1DA9D0]/30 flex items-center justify-center text-[#43D5CC] dark:text-[#43D5CC] text-sky-600 shrink-0">
+                    <Smartphone className="w-4 h-4 sm:w-5 sm:h-5" />
                   </div>
                   <div>
-                    <h3 className="text-base font-bold dark:text-[#F5EACA] text-slate-900 flex items-center gap-2">
-                      Jalankan Tanpa Tab Browser
+                    <h3 className="text-sm sm:text-base font-bold dark:text-[#F5EACA] text-slate-900 flex items-center gap-1.5 sm:gap-2">
+                      Panduan Memasang Aplikasi LaundryKu
                     </h3>
-                    <p className="text-xs dark:text-[#F5EACA]/60 text-slate-500">
-                      Tampilan seperti software aplikasi desktop asli (POS Mandiri)
+                    <p className="text-[11px] sm:text-xs dark:text-[#F5EACA]/60 text-slate-500">
+                      Jalankan sebagai aplikasi mandiri di HP &amp; Komputer tanpa tab browser
                     </p>
                   </div>
                 </div>
                 <button
                   onClick={() => setShowGuideModal(false)}
-                  className="p-1.5 dark:text-[#F5EACA]/60 text-slate-400 dark:hover:text-[#F5EACA] hover:text-slate-700 rounded-lg hover:bg-[#1DA9D0]/10 transition-colors"
+                  className="p-1.5 dark:text-[#F5EACA]/60 text-slate-400 dark:hover:text-[#F5EACA] hover:text-slate-700 rounded-lg hover:bg-[#1DA9D0]/10 transition-colors shrink-0"
+                  aria-label="Tutup Panduan"
                 >
-                  <X className="w-5 h-5" />
+                  <X className="w-4 h-4 sm:w-5 sm:h-5" />
                 </button>
               </div>
 
               {/* Options Guide */}
-              <div className="space-y-3.5 text-xs dark:text-[#F5EACA]/80 text-slate-700">
-                {/* Method 1: Layar Penuh (F11) */}
-                <div className="p-3.5 rounded-xl dark:bg-[#013D66]/50 bg-slate-50 border dark:border-[#1DA9D0]/20 border-slate-200 flex gap-3">
-                  <div className="w-7 h-7 rounded-lg bg-[#EA8803]/20 text-[#EA8803] flex items-center justify-center font-bold shrink-0 text-xs">
+              <div className="flex-1 overflow-y-auto pr-1 sm:pr-2 space-y-3 text-xs dark:text-[#F5EACA]/80 text-slate-700 overscroll-contain">
+                {/* Method 1: HP Android & iPhone */}
+                <div className="p-3 sm:p-3.5 rounded-xl dark:bg-[#013D66]/50 bg-slate-50 border dark:border-[#1DA9D0]/20 border-slate-200 flex gap-2.5 sm:gap-3">
+                  <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-[#1DA9D0]/20 text-[#43D5CC] dark:text-[#43D5CC] text-sky-600 flex items-center justify-center font-bold shrink-0 text-xs">
                     1
                   </div>
-                  <div className="flex-1">
+                  <div className="flex-1 min-w-0">
+                    <div className="font-semibold dark:text-[#F5EACA] text-slate-900 mb-1 flex items-center gap-1.5">
+                      <Smartphone className="w-3.5 h-3.5 text-[#43D5CC] shrink-0" />
+                      <span>Pasang di HP (Android &amp; iPhone)</span>
+                    </div>
+                    <p className="dark:text-[#F5EACA]/70 text-slate-600 leading-relaxed mb-2 text-[11px] sm:text-xs">
+                      Aplikasi akan otomatis terpasang di layar utama HP seperti aplikasi mandiri Play Store / App Store:
+                    </p>
+                    <div className="space-y-1.5 text-[11px] sm:text-xs">
+                      <div className="p-2 rounded-lg dark:bg-[#012040]/70 bg-white border dark:border-[#1DA9D0]/15 border-slate-200">
+                        <strong className="dark:text-[#43D5CC] text-sky-700">📱 HP Android (Chrome):</strong> Tekan tombol menu titik tiga (<span className="font-bold">⋮</span>) di pojok kanan atas browser ➔ pilih <strong className="dark:text-[#F5EACA] text-slate-900">&quot;Instal aplikasi&quot;</strong> atau <strong className="dark:text-[#F5EACA] text-slate-900">&quot;Tambahkan ke Layar Utama&quot;</strong>.
+                      </div>
+                      <div className="p-2 rounded-lg dark:bg-[#012040]/70 bg-white border dark:border-[#1DA9D0]/15 border-slate-200">
+                        <strong className="dark:text-[#EA8803] text-amber-600">🍏 iPhone (Safari):</strong> Tekan ikon <strong className="dark:text-[#F5EACA] text-slate-900">Share / Bagikan</strong> (kotak tanda panah atas) di menu bilah bawah ➔ geser ke bawah dan pilih <strong className="dark:text-[#F5EACA] text-slate-900">&quot;Tambahkan ke Layar Utama&quot; (Add to Home Screen)</strong>.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Method 2: Laptop & Komputer PC */}
+                <div className="p-3 sm:p-3.5 rounded-xl dark:bg-[#013D66]/50 bg-slate-50 border dark:border-[#1DA9D0]/20 border-slate-200 flex gap-2.5 sm:gap-3">
+                  <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-[#1DA9D0]/20 text-[#43D5CC] dark:text-[#43D5CC] text-sky-600 flex items-center justify-center font-bold shrink-0 text-xs">
+                    2
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="font-semibold dark:text-[#F5EACA] text-slate-900 mb-1 flex items-center gap-1.5">
+                      <Monitor className="w-3.5 h-3.5 text-[#43D5CC] shrink-0" />
+                      <span>Pasang di Komputer / Laptop (Desktop App)</span>
+                    </div>
+                    <p className="dark:text-[#F5EACA]/70 text-slate-600 leading-relaxed mb-2 text-[11px] sm:text-xs">
+                      Buka kasir seketika dari Shortcut Desktop &amp; Taskbar tanpa membuka tab peramban web:
+                    </p>
+                    <div className="space-y-1.5 text-[11px] sm:text-xs">
+                      <div className="p-2 rounded-lg dark:bg-[#012040]/70 bg-white border dark:border-[#1DA9D0]/15 border-slate-200">
+                        <strong className="dark:text-[#43D5CC] text-sky-700">💻 Google Chrome &amp; Microsoft Edge:</strong> Klik ikon <strong className="dark:text-[#F5EACA] text-slate-900">&quot;Instal LaundryKu&quot;</strong> (ikon komputer dengan panah ke bawah) yang muncul di ujung kanan bilah alamat (URL bar).
+                      </div>
+                      <div className="p-2 rounded-lg dark:bg-[#012040]/70 bg-white border dark:border-[#1DA9D0]/15 border-slate-200">
+                        Atau klik menu titik tiga (<span className="font-bold">⋮</span>) di pojok kanan atas browser ➔ pilih <strong className="dark:text-[#F5EACA] text-slate-900">Simpan dan Bagikan</strong> ➔ klik <strong className="dark:text-[#43D5CC] text-sky-600">&quot;Instal LaundryKu...&quot;</strong>.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Method 3: Layar Penuh (F11) */}
+                <div className="p-3 sm:p-3.5 rounded-xl dark:bg-[#013D66]/50 bg-slate-50 border dark:border-[#1DA9D0]/20 border-slate-200 flex gap-2.5 sm:gap-3">
+                  <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-[#EA8803]/20 text-[#EA8803] flex items-center justify-center font-bold shrink-0 text-xs">
+                    3
+                  </div>
+                  <div className="flex-1 min-w-0">
                     <div className="font-semibold dark:text-[#F5EACA] text-slate-900 mb-1 flex items-center justify-between">
-                      <span>Mode Layar Penuh Seketika (Shortcut F11)</span>
-                      <span className="text-[10px] bg-[#EA8803]/20 text-[#EA8803] px-2 py-0.5 rounded font-mono font-bold">
+                      <span className="flex items-center gap-1.5">
+                        <Maximize className="w-3.5 h-3.5 text-[#EA8803]" />
+                        Mode Layar Penuh Seketika
+                      </span>
+                      <span className="text-[10px] bg-[#EA8803]/20 text-[#EA8803] px-1.5 py-0.5 rounded font-mono font-bold">
                         F11
                       </span>
                     </div>
-                    <p className="dark:text-[#F5EACA]/60 text-slate-600 leading-relaxed">
-                      Tekan tombol <kbd className="px-1.5 py-0.5 dark:bg-[#013D66] bg-slate-200 border dark:border-[#1DA9D0]/30 border-slate-300 rounded dark:text-[#F5EACA] text-slate-800 font-mono">F11</kbd> di keyboard atau klik tombol di bawah untuk menyembunyikan semua tab dan bilah alamat browser seketika.
+                    <p className="dark:text-[#F5EACA]/70 text-slate-600 leading-relaxed text-[11px] sm:text-xs">
+                      Sembunyikan tab dan bilah alamat seketika dengan menekan tombol <kbd className="px-1.5 py-0.5 dark:bg-[#013D66] bg-slate-200 border dark:border-[#1DA9D0]/30 border-slate-300 rounded font-mono">F11</kbd> pada keyboard atau tekan tombol di bawah ini:
                     </p>
                     <button
                       onClick={() => {
@@ -199,51 +251,16 @@ export default function AppWindowControls() {
                     </button>
                   </div>
                 </div>
-
-                {/* Method 2: Install PWA (Chrome / Edge) */}
-                <div className="p-3.5 rounded-xl dark:bg-[#013D66]/50 bg-slate-50 border dark:border-[#1DA9D0]/20 border-slate-200 flex gap-3">
-                  <div className="w-7 h-7 rounded-lg bg-[#1DA9D0]/20 text-[#43D5CC] dark:text-[#43D5CC] text-sky-600 flex items-center justify-center font-bold shrink-0 text-xs">
-                    2
-                  </div>
-                  <div className="flex-1">
-                    <div className="font-semibold dark:text-[#F5EACA] text-slate-900 mb-1">
-                      Instal Aplikasi (Desktop / HP)
-                    </div>
-                    <p className="dark:text-[#F5EACA]/60 text-slate-600 leading-relaxed mb-2">
-                      Aplikasi akan memiliki ikon sendiri di Desktop & Taskbar tanpa membuka tab web:
-                    </p>
-                    <ul className="list-disc list-inside space-y-1 dark:text-[#F5EACA]/60 text-slate-600 pl-1">
-                      <li>
-                        <strong className="dark:text-[#F5EACA] text-slate-800">Google Chrome / Edge (Laptop/PC):</strong> Klik ikon <span className="dark:text-[#43D5CC] text-sky-600 font-medium">Instal LaundryKu</span> (ikon komputer/download) di ujung kanan bilah alamat (URL bar) browser Anda.
-                      </li>
-                      <li>
-                        <strong className="dark:text-[#F5EACA] text-slate-800">Android / iPhone:</strong> Buka Menu browser ⋮ atau Share ➔ pilih <span className="dark:text-[#43D5CC] text-sky-600 font-medium">&quot;Tambahkan ke Layar Utama&quot;</span>.
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-
-                {/* Method 3: Chrome App Window Shortcut */}
-                <div className="p-3.5 rounded-xl dark:bg-[#013D66]/50 bg-slate-50 border dark:border-[#1DA9D0]/20 border-slate-200 flex gap-3">
-                  <div className="w-7 h-7 rounded-lg bg-[#1DA9D0]/20 text-[#43D5CC] dark:text-[#43D5CC] text-sky-600 flex items-center justify-center font-bold shrink-0 text-xs">
-                    3
-                  </div>
-                  <div className="flex-1">
-                    <div className="font-semibold dark:text-[#F5EACA] text-slate-900 mb-1">
-                      Menu Browser ➔ Simpan &amp; Pasang sebagai Aplikasi
-                    </div>
-                    <p className="dark:text-[#F5EACA]/60 text-slate-600 leading-relaxed">
-                      Di Chrome: Klik menu titik tiga <span className="dark:text-[#F5EACA] text-slate-900 font-bold">⋮</span> di pojok kanan atas browser ➔ Pilih <strong className="dark:text-[#F5EACA] text-slate-800">Simpan dan Bagikan</strong> ➔ Klik <strong className="dark:text-[#43D5CC] text-sky-600">Instal LaundryKu</strong>.
-                    </p>
-                  </div>
-                </div>
               </div>
 
               {/* Footer */}
-              <div className="mt-5 pt-4 border-t dark:border-[#1DA9D0]/15 border-slate-200 flex justify-end">
+              <div className="mt-3 sm:mt-4 pt-3 border-t dark:border-[#1DA9D0]/15 border-slate-200 flex items-center justify-between gap-2 shrink-0">
+                <span className="text-[10px] sm:text-[11px] dark:text-[#F5EACA]/50 text-slate-500">
+                  Didukung teknologi PWA (Progressive Web App)
+                </span>
                 <button
                   onClick={() => setShowGuideModal(false)}
-                  className="px-4 py-2 rounded-xl dark:bg-[#013D66] bg-slate-100 dark:text-[#F5EACA]/80 text-slate-700 dark:hover:text-[#F5EACA] hover:text-slate-900 dark:hover:bg-[#014775] hover:bg-slate-200 font-medium text-xs transition-colors"
+                  className="px-4 py-1.5 sm:py-2 rounded-lg sm:rounded-xl dark:bg-[#1DA9D0] bg-[#013D66] text-white dark:text-[#010E1C] font-bold text-xs hover:opacity-90 transition-opacity"
                 >
                   Mengerti &amp; Tutup
                 </button>

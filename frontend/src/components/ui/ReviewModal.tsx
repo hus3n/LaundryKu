@@ -153,7 +153,7 @@ export default function ReviewModal({ isOpen, onClose, onSuccess }: ReviewModalP
 
           {/* Header */}
           <div className="flex items-center gap-2.5 sm:gap-3 mb-3.5 sm:mb-5">
-            <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-gradient-to-tr from-[#EA8803] to-[#F5EACA] flex items-center justify-center shadow-md shadow-[#EA8803]/25 shrink-0">
+            <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-[#EA8803] dark:bg-gradient-to-tr dark:from-[#EA8803] dark:to-[#F5EACA] flex items-center justify-center shadow-md shadow-[#EA8803]/25 shrink-0">
               <Sparkles className="w-4 h-4 sm:w-6 sm:h-6 text-[#010E1C]" />
             </div>
             <div>
@@ -334,7 +334,7 @@ export default function ReviewModal({ isOpen, onClose, onSuccess }: ReviewModalP
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#EA8803] to-[#F5EACA] text-[#010E1C] font-bold text-xs shadow-lg shadow-[#EA8803]/25 flex items-center gap-2 hover:opacity-95 disabled:opacity-50 transition-all cursor-pointer"
+                  className="px-5 py-2.5 rounded-xl bg-[#EA8803] dark:bg-gradient-to-r dark:from-[#EA8803] dark:to-[#F5EACA] text-[#010E1C] font-bold text-xs shadow-lg shadow-[#EA8803]/25 flex items-center gap-2 hover:opacity-95 disabled:opacity-50 transition-all cursor-pointer"
                 >
                   {isSubmitting ? (
                     <>

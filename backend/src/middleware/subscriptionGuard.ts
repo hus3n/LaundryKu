@@ -36,6 +36,7 @@ export async function requirePaidSubscription(
       select: {
         isActive: true,
         isTrial: true,
+        trialDays: true,
         subscriptionEnd: true,
         storeName: true,
       },
@@ -52,6 +53,16 @@ export async function requirePaidSubscription(
         success: false,
         error: 'Akun Anda tidak aktif. Hubungi administrator untuk mengaktifkan akun.',
         code: 'ACCOUNT_INACTIVE',
+      });
+      return;
+    }
+
+    // Cek apakah akun merupakan paket gratis (trialDays === 0)
+    if (!admin.isTrial && admin.trialDays === 0) {
+      res.status(403).json({
+        success: false,
+        error: 'Fitur WhatsApp otomatis memerlukan paket Premium (Trial 30 Hari atau Langganan). Silakan tingkatkan paket Anda untuk menggunakan WhatsApp bot.',
+        code: 'REQUIRES_PREMIUM_SUBSCRIPTION',
       });
       return;
     }
