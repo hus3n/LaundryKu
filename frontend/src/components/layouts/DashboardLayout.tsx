@@ -24,6 +24,7 @@ import {
   User,
   Database,
   Bot,
+  ArrowLeft,
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import BrandLogo from '@/components/ui/BrandLogo';
@@ -40,6 +41,15 @@ export default function DashboardLayout({ children, role }: { children: React.Re
   const pathname = usePathname();
   const { user, logout } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  const dashboardHref =
+    user?.role === 'SUPERADMIN'
+      ? '/superadmin/dashboard'
+      : user?.role === 'ADMIN'
+      ? '/admin/dashboard'
+      : '/karyawan/dashboard';
+
+  const isDashboard = pathname === dashboardHref;
 
   let navItems: SidebarItem[] = [];
 
@@ -69,6 +79,7 @@ export default function DashboardLayout({ children, role }: { children: React.Re
   } else {
     // EMPLOYEE
     navItems = [
+      { label: 'Dashboard', href: '/karyawan/dashboard', icon: LayoutDashboard },
       { label: 'Data Cucian', href: '/karyawan/laundry', icon: ClipboardList },
       { label: 'Catat Cucian Baru', href: '/karyawan/laundry/new', icon: PlusCircle },
     ];
@@ -80,7 +91,7 @@ export default function DashboardLayout({ children, role }: { children: React.Re
       <aside className="hidden md:flex flex-col w-64 dark:bg-[#012040]/80 bg-white border-r dark:border-[#1DA9D0]/15 border-slate-200 p-5 sticky top-0 h-screen z-30 backdrop-blur-xl shadow-sm">
         {/* Brand */}
         <div className="pb-5 mb-3 border-b dark:border-[#1DA9D0]/15 border-slate-200">
-          <Link href={user?.role === 'SUPERADMIN' ? '/superadmin/dashboard' : user?.role === 'ADMIN' ? '/admin/dashboard' : '/karyawan/laundry'}>
+          <Link href={dashboardHref}>
             <BrandLogo storeName={user?.storeName} storeLogo={user?.storeLogo} />
           </Link>
         </div>
@@ -171,6 +182,19 @@ export default function DashboardLayout({ children, role }: { children: React.Re
                 <span className="dark:text-[#1DA9D0]/70 text-sky-600 font-normal ml-1.5">({user.storeName})</span>
               )}
             </div>
+
+            {/* Back to Dashboard Button on subpages */}
+            {!isDashboard && (
+              <Link
+                href={dashboardHref}
+                className="inline-flex items-center gap-1 sm:gap-1.5 px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-lg sm:rounded-xl text-[11px] sm:text-xs font-bold text-sky-700 dark:text-[#43D5CC] bg-sky-50 dark:bg-[#013D66]/80 hover:bg-sky-100 dark:hover:bg-[#013D66] border border-sky-200 dark:border-[#1DA9D0]/30 shadow-xs transition-all shrink-0 group ml-1"
+                title="Kembali ke Dashboard Utama"
+              >
+                <ArrowLeft className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5 shrink-0" />
+                <span className="hidden sm:inline">Kembali ke Dashboard</span>
+                <span className="sm:hidden">Dashboard</span>
+              </Link>
+            )}
           </div>
 
           <div className="flex items-center gap-1 sm:gap-2 shrink-0">
@@ -227,6 +251,16 @@ export default function DashboardLayout({ children, role }: { children: React.Re
                 </div>
 
                 <nav className="flex-1 space-y-0.5 overflow-y-auto pr-0.5">
+                  {!isDashboard && (
+                    <Link
+                      href={dashboardHref}
+                      onClick={() => setMobileOpen(false)}
+                      className="flex items-center gap-2 px-2.5 py-2 mb-2 rounded-lg text-xs font-bold bg-[#1DA9D0]/15 dark:bg-[#1DA9D0]/20 text-[#1DA9D0] dark:text-[#43D5CC] border border-[#1DA9D0]/30 shadow-xs group transition-all"
+                    >
+                      <ArrowLeft className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5" />
+                      <span>Kembali ke Dashboard</span>
+                    </Link>
+                  )}
                   {navItems.map((item) => {
                     const Icon = item.icon;
                     const isActive = pathname === item.href;

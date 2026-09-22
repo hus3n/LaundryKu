@@ -5,8 +5,11 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Shirt, MessageSquare, CheckCircle2, ArrowRight, Sparkles } from 'lucide-react';
 import { containerVariants, itemVariants, getWaRegisterUrl } from './landingData';
+import { useLandingAuth } from '@/contexts/LandingAuthContext';
 
 export default function LandingHero() {
+  const { openAuth } = useLandingAuth();
+
   const handleRegisterClick = (e: React.MouseEvent) => {
     e.preventDefault();
     window.open(getWaRegisterUrl(), '_blank');
@@ -30,21 +33,35 @@ export default function LandingHero() {
           </motion.p>
 
           <motion.div variants={itemVariants} className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2">
-            <Link href="/register" className="flex-1 sm:flex-none">
+            <Link
+              href="/register"
+              onClick={(e) => {
+                e.preventDefault();
+                openAuth('register');
+              }}
+              className="flex-1 sm:flex-none"
+            >
               <motion.div
                 whileHover={{ scale: 1.02, y: -2, transition: { type: 'spring', stiffness: 400, damping: 20 } }}
                 whileTap={{ scale: 0.96 }}
-                className="px-8 py-4 rounded-xl bg-[#1DA9D0] dark:bg-gradient-to-r dark:from-[#1DA9D0] dark:via-[#015383] dark:to-[#43D5CC] hover:opacity-95 text-[#010E1C] font-bold text-base shadow-xl shadow-[#1DA9D0]/20 flex items-center justify-center gap-3 group transition-all"
+                className="px-8 py-4 rounded-xl bg-[#1DA9D0] dark:bg-gradient-to-r dark:from-[#1DA9D0] dark:via-[#015383] dark:to-[#43D5CC] hover:opacity-95 text-[#010E1C] font-bold text-base shadow-xl shadow-[#1DA9D0]/20 flex items-center justify-center gap-3 group transition-all cursor-pointer"
               >
                 <span>Daftar Akun Baru (Trial 30 Hari)</span>
                 <motion.span whileHover={{ x: 4 }}><ArrowRight className="w-5 h-5" /></motion.span>
               </motion.div>
             </Link>
-            <Link href="/login" className="flex-1 sm:flex-none">
+            <Link
+              href="/login"
+              onClick={(e) => {
+                e.preventDefault();
+                openAuth('login');
+              }}
+              className="flex-1 sm:flex-none"
+            >
               <motion.div
                 whileHover={{ scale: 1.02, y: -2, transition: { type: 'spring', stiffness: 400, damping: 20 } }}
                 whileTap={{ scale: 0.96 }}
-                className="px-8 py-4 rounded-xl bg-white dark:bg-[#013D66] text-slate-800 dark:text-[#F5EACA] border border-slate-200 dark:border-[#1DA9D0]/25 font-semibold text-base text-center hover:bg-slate-50 dark:hover:bg-[#014775] transition-colors shadow-sm dark:shadow-none"
+                className="px-8 py-4 rounded-xl bg-white dark:bg-[#013D66] text-slate-800 dark:text-[#F5EACA] border border-slate-200 dark:border-[#1DA9D0]/25 font-semibold text-base text-center hover:bg-slate-50 dark:hover:bg-[#014775] transition-colors shadow-sm dark:shadow-none cursor-pointer"
               >
                 Login Aplikasi
               </motion.div>

@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import DashboardLayout from '@/components/layouts/DashboardLayout';
 import ExtendSubscriptionModal from '@/components/ui/ExtendSubscriptionModal';
+import QuickAccessMenu from '@/components/dashboard/QuickAccessMenu';
 import { motion, AnimatePresence } from 'framer-motion';
 import { api } from '@/lib/api';
 import { 
@@ -151,6 +152,13 @@ export default function SuperAdminDashboardPage() {
             <p className="text-[11px] text-rose-600 dark:text-rose-400 mt-4">Masa aktif telah habis</p>
           </motion.div>
         </motion.div>
+
+        {/* Akses Cepat SuperAdmin Menu */}
+        <QuickAccessMenu
+          role="SUPERADMIN"
+          title="Akses Cepat SuperAdmin"
+          subtitle="Pintasan administrasi platform, server WhatsApp & pencadangan data"
+        />
 
         {/* Admins Overview Table */}
         <div className="glass-card-dark p-6 rounded-2xl border dark:border-[#1DA9D0]/15 border-slate-200 shadow-sm">

@@ -29,6 +29,7 @@ import {
   getPaymentStatusLabel 
 } from '@/lib/orderUtils';
 import DownloadAllDataButton from '@/components/ui/DownloadAllDataButton';
+import QuickAccessMenu from '@/components/dashboard/QuickAccessMenu';
 
 export default function AdminDashboardPage() {
   const { isDark } = useTheme();
@@ -206,6 +207,9 @@ export default function AdminDashboardPage() {
             </p>
           </motion.div>
         </motion.div>
+
+        {/* Akses Cepat Menu Pintasan */}
+        <QuickAccessMenu role="ADMIN" />
 
         {/* Chart Section */}
         <Card className="p-2.5 sm:p-4 md:p-5">

@@ -5,8 +5,10 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Star, CheckCircle2, ArrowRight } from 'lucide-react';
 import { PRICING_PLANS } from './landingData';
+import { useLandingAuth } from '@/contexts/LandingAuthContext';
 
 export default function LandingPricing() {
+  const { openAuth } = useLandingAuth();
   return (
     <section id="harga" className="py-24 border-t border-slate-200 dark:border-[#1DA9D0]/15 relative">
       <div className="max-w-7xl mx-auto px-6">
@@ -67,7 +69,14 @@ export default function LandingPricing() {
               </div>
 
               <div className="pt-8">
-                <Link href="/register" className="block w-full">
+                <Link
+                  href="/register"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    openAuth('register');
+                  }}
+                  className="block w-full"
+                >
                   <motion.div
                     whileHover={{ scale: 1.04, transition: { type: 'spring', stiffness: 400, damping: 15 } }}
                     whileTap={{ scale: 0.96 }}
