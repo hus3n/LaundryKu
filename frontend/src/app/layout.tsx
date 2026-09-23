@@ -44,13 +44,13 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: '/favicon.ico' },
-      { url: '/logo/laundryku-icon.png', sizes: '192x192', type: 'image/png' },
-      { url: '/logo/laundryku.png', sizes: '512x512', type: 'image/png' },
+      { url: '/favicon.ico?v=2026' },
+      { url: '/logo/laundryku-icon.png?v=2026', sizes: '192x192', type: 'image/png' },
+      { url: '/logo/laundryku.png?v=2026', sizes: '512x512', type: 'image/png' },
     ],
-    shortcut: '/logo/laundryku.png',
+    shortcut: '/logo/laundryku.png?v=2026',
     apple: [
-      { url: '/logo/laundryku.png', sizes: '180x180', type: 'image/png' },
+      { url: '/logo/laundryku.png?v=2026', sizes: '180x180', type: 'image/png' },
     ],
   },
   openGraph: {
@@ -129,6 +129,9 @@ export default function RootLayout({
   return (
     <html lang="id" className="scroll-smooth dark" suppressHydrationWarning>
       <head>
+        <link rel="icon" href="/favicon.ico?v=2026" sizes="any" />
+        <link rel="icon" href="/logo/laundryku-icon.png?v=2026" type="image/png" sizes="192x192" />
+        <link rel="apple-touch-icon" href="/logo/laundryku.png?v=2026" sizes="180x180" />
         <script
           dangerouslySetInnerHTML={{
             __html: `

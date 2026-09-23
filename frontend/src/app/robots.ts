@@ -18,12 +18,15 @@ export default function robots(): MetadataRoute.Robots {
     '/',
     '/llms.txt',
     '/llms-full.txt',
-    '/*.png$',
-    '/*.ico$',
-    '/*.svg$',
-    '/*.jpg$',
-    '/*.jpeg$',
-    '/*.webp$',
+    '/logo/',
+    '/*icon*',
+    '/favicon.ico*',
+    '/*.png',
+    '/*.ico',
+    '/*.svg',
+    '/*.jpg',
+    '/*.jpeg',
+    '/*.webp',
     '/_next/static/',
   ];
 
@@ -33,6 +36,11 @@ export default function robots(): MetadataRoute.Robots {
         userAgent: '*',
         allow: standardAllow,
         disallow: standardDisallow,
+      },
+      {
+        userAgent: 'Googlebot-Image',
+        allow: ['/logo/', '/*icon*', '/*.png', '/*.ico', '/*.svg', '/*.webp', '/*.jpg'],
+        disallow: ['/admin/', '/superadmin/', '/karyawan/'],
       },
       {
         userAgent: [
