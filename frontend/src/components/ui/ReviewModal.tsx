@@ -1,29 +1,15 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Star, X, Upload, Image as ImageIcon, CheckCircle2, AlertCircle, Loader2, Sparkles } from 'lucide-react';
+import { Star, X, CheckCircle2, AlertCircle, Loader2, Sparkles } from 'lucide-react';
 import { api } from '@/lib/api';
-import { Review } from '@/types';
-
-interface ReviewModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onSuccess?: (review: Review) => void;
-}
-
-const RATING_LABELS = [
-  '',
-  'Sangat Buruk 😞',
-  'Kurang Memuaskan 🙁',
-  'Cukup Baik 🙂',
-  'Bagus & Memuaskan 😊',
-  'Luar Biasa / Sangat Puas! 🌟',
-];
+import { ReviewModalProps } from './review-modal/types';
+import StarRatingSelector from './review-modal/StarRatingSelector';
+import ReviewImageUploader from './review-modal/ReviewImageUploader';
 
 export default function ReviewModal({ isOpen, onClose, onSuccess }: ReviewModalProps) {
   const [rating, setRating] = useState<number>(5);
-  const [hoveredRating, setHoveredRating] = useState<number>(0);
   const [name, setName] = useState('');
   const [storeName, setStoreName] = useState('');
   const [role, setRole] = useState('Owner Laundry');
@@ -36,37 +22,28 @@ export default function ReviewModal({ isOpen, onClose, onSuccess }: ReviewModalP
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
 
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    const allowed = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
-    if (!allowed.includes(file.type)) {
-      setError('Format gambar harus JPG, PNG, atau WebP.');
-      return;
-    }
-
-    if (file.size > 5 * 1024 * 1024) {
-      setError('Ukuran gambar maksimal 5MB.');
-      return;
-    }
-
-    setError(null);
+  const handleImageSelect = (file: File) => {
     setImageFile(file);
     setImagePreview(URL.createObjectURL(file));
   };
 
-  const handleRemoveImage = () => {
+  const handleImageRemove = () => {
     setImageFile(null);
     if (imagePreview) {
       URL.revokeObjectURL(imagePreview);
     }
     setImagePreview(null);
-    if (fileInputRef.current) {
-      fileInputRef.current.value = '';
-    }
+  };
+
+  const handleReset = () => {
+    setName('');
+    setStoreName('');
+    setRole('Owner Laundry');
+    setComment('');
+    setRating(5);
+    handleImageRemove();
+    setError(null);
+    setSuccess(false);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -96,9 +73,7 @@ export default function ReviewModal({ isOpen, onClose, onSuccess }: ReviewModalP
       }
 
       const res = await api.post('/reviews', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
+        headers: { 'Content-Type': 'multipart/form-data' },
       });
 
       setSuccess(true);
@@ -117,20 +92,7 @@ export default function ReviewModal({ isOpen, onClose, onSuccess }: ReviewModalP
     }
   };
 
-  const handleReset = () => {
-    setName('');
-    setStoreName('');
-    setRole('Owner Laundry');
-    setComment('');
-    setRating(5);
-    handleRemoveImage();
-    setError(null);
-    setSuccess(false);
-  };
-
   if (!isOpen) return null;
-
-  const currentDisplayRating = hoveredRating || rating;
 
   return (
     <AnimatePresence>
@@ -141,7 +103,6 @@ export default function ReviewModal({ isOpen, onClose, onSuccess }: ReviewModalP
           exit={{ opacity: 0, scale: 0.95, y: 15 }}
           className="relative w-full max-w-lg my-6 sm:my-8 rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-2xl dark:bg-[#011627] bg-white border dark:border-[#1DA9D0]/30 border-slate-200 dark:text-[#F5EACA] text-slate-900 transition-colors"
         >
-          {/* Close button */}
           <button
             type="button"
             onClick={onClose}
@@ -151,7 +112,6 @@ export default function ReviewModal({ isOpen, onClose, onSuccess }: ReviewModalP
             <X className="w-4 h-4 sm:w-5 sm:h-5" />
           </button>
 
-          {/* Header */}
           <div className="flex items-center gap-2.5 sm:gap-3 mb-3.5 sm:mb-5">
             <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-[#EA8803] dark:bg-gradient-to-tr dark:from-[#EA8803] dark:to-[#F5EACA] flex items-center justify-center shadow-md shadow-[#EA8803]/25 shrink-0">
               <Sparkles className="w-4 h-4 sm:w-6 sm:h-6 text-[#010E1C]" />
@@ -187,38 +147,8 @@ export default function ReviewModal({ isOpen, onClose, onSuccess }: ReviewModalP
                 </div>
               )}
 
-              {/* Star Rating selector */}
-              <div className="p-2.5 sm:p-3 rounded-xl sm:rounded-2xl dark:bg-[#012040]/70 bg-slate-50 border dark:border-[#1DA9D0]/20 border-slate-200 text-center">
-                <label className="block text-[11px] sm:text-xs font-semibold dark:text-[#F5EACA]/90 text-slate-700 mb-1.5">
-                  Penilaian Bintang Anda *
-                </label>
-                <div className="flex items-center justify-center gap-1.5 sm:gap-2">
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <button
-                      type="button"
-                      key={star}
-                      onMouseEnter={() => setHoveredRating(star)}
-                      onMouseLeave={() => setHoveredRating(0)}
-                      onClick={() => setRating(star)}
-                      className="p-1 transition-transform hover:scale-125 focus:outline-none"
-                      title={`${star} Bintang`}
-                    >
-                      <Star
-                        className={`w-6 h-6 sm:w-7 sm:h-7 transition-colors ${
-                          star <= currentDisplayRating
-                            ? 'fill-[#EA8803] text-[#EA8803] drop-shadow-md'
-                            : 'text-slate-300 dark:text-slate-600'
-                        }`}
-                      />
-                    </button>
-                  ))}
-                </div>
-                <div className="mt-1 text-[11px] sm:text-xs font-medium text-[#EA8803]">
-                  {RATING_LABELS[currentDisplayRating]}
-                </div>
-              </div>
+              <StarRatingSelector rating={rating} onChange={setRating} />
 
-              {/* Inputs */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
                 <div>
                   <label className="block text-xs font-semibold dark:text-[#F5EACA]/80 text-slate-700 mb-1">
@@ -279,50 +209,13 @@ export default function ReviewModal({ isOpen, onClose, onSuccess }: ReviewModalP
                 />
               </div>
 
-              {/* Image Upload */}
-              <div>
-                <label className="block text-xs font-semibold dark:text-[#F5EACA]/80 text-slate-700 mb-1">
-                  Foto Ulasan / Toko / Profil (Opsional)
-                </label>
+              <ReviewImageUploader
+                imagePreview={imagePreview}
+                onImageSelect={handleImageSelect}
+                onImageRemove={handleImageRemove}
+                onError={setError}
+              />
 
-                {imagePreview ? (
-                  <div className="relative inline-block mt-1">
-                    <img
-                      src={imagePreview}
-                      alt="Preview Foto Ulasan"
-                      className="w-24 h-24 object-cover rounded-xl border-2 dark:border-[#1DA9D0]/40 border-slate-300 shadow-md"
-                    />
-                    <button
-                      type="button"
-                      onClick={handleRemoveImage}
-                      className="absolute -top-2 -right-2 p-1 bg-rose-500 text-white rounded-full hover:bg-rose-600 shadow transition-colors"
-                      title="Hapus gambar"
-                    >
-                      <X className="w-3.5 h-3.5" />
-                    </button>
-                  </div>
-                ) : (
-                  <div
-                    onClick={() => fileInputRef.current?.click()}
-                    className="cursor-pointer border-2 border-dashed dark:border-[#1DA9D0]/30 border-slate-300 rounded-xl p-3 text-center hover:border-[#1DA9D0] dark:hover:border-[#43D5CC] transition-colors dark:bg-[#012040]/30 bg-slate-50"
-                  >
-                    <div className="flex items-center justify-center gap-2 text-xs dark:text-[#F5EACA]/70 text-slate-500">
-                      <ImageIcon className="w-4 h-4 text-[#1DA9D0]" />
-                      <span>Klik untuk upload foto (Maks. 5MB)</span>
-                    </div>
-                  </div>
-                )}
-
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  accept="image/jpeg,image/png,image/webp,image/jpg"
-                  onChange={handleImageChange}
-                  className="hidden"
-                />
-              </div>
-
-              {/* Submit Buttons */}
               <div className="pt-2 flex items-center justify-end gap-3">
                 <button
                   type="button"

@@ -21,6 +21,7 @@ const envSchema = z.object({
   SMTP_USER: z.string().optional(),
   SMTP_PASS: z.string().optional(),
   SMTP_FROM: z.string().optional(),
+  SMTP_SECURE: z.string().optional(),
   SUPERADMIN_WA_NUMBER: z.string().default('6285229925593'),
   APP_URL: z.string().default('http://localhost:3000'),
 });

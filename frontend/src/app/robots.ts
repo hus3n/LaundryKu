@@ -10,6 +10,8 @@ export default function robots(): MetadataRoute.Robots {
     '/api/',
     '/login',
     '/forgot-password',
+    '/reset-password',
+    '/reset-password/',
   ];
 
   const standardAllow = [

@@ -1,42 +1,23 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import Link from 'next/link';
-import { 
-  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer 
-} from 'recharts';
 import DashboardLayout from '@/components/layouts/DashboardLayout';
 import { useTheme } from '@/contexts/ThemeContext';
-import { motion } from 'framer-motion';
 import { api } from '@/lib/api';
-import { 
-  Shirt, 
-  TrendingUp, 
-  Clock, 
-  CheckCircle2, 
-  PlusCircle, 
-  ArrowUpRight, 
-  DollarSign
-} from 'lucide-react';
-import Card from '@/components/ui/Card';
-import { staggerContainer, slideUp, cardHover } from '@/lib/animations';
-
-import type { LaundryOrder } from '@/types';
-import { 
-  getOrderStatusBadgeClass, 
-  getOrderStatusLabel, 
-  getPaymentStatusBadgeClass, 
-  getPaymentStatusLabel 
-} from '@/lib/orderUtils';
-import DownloadAllDataButton from '@/components/ui/DownloadAllDataButton';
 import QuickAccessMenu from '@/components/dashboard/QuickAccessMenu';
+import type { LaundryOrder } from '@/types';
+import { FinanceChartItem, DashboardStats } from './types';
+import AdminDashboardHeader from './components/AdminDashboardHeader';
+import AdminDashboardMetrics from './components/AdminDashboardMetrics';
+import AdminFinancialChart from './components/AdminFinancialChart';
+import AdminRecentOrders from './components/AdminRecentOrders';
 
 export default function AdminDashboardPage() {
   const { isDark } = useTheme();
   const [orders, setOrders] = useState<LaundryOrder[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [chartData, setChartData] = useState<any[]>([]);
+  const [chartData, setChartData] = useState<FinanceChartItem[]>([]);
   const [chartYear, setChartYear] = useState(new Date().getFullYear());
 
   useEffect(() => {
@@ -61,7 +42,7 @@ export default function AdminDashboardPage() {
         const chartRes = await api.get(`/expenses/chart?year=${chartYear}`);
         if (chartRes.data.success) {
           const { labels, expenseData, incomeData } = chartRes.data.data;
-          const formatted = labels.map((label: string, index: number) => ({
+          const formatted: FinanceChartItem[] = labels.map((label: string, index: number) => ({
             name: label,
             Pemasukan: incomeData[index],
             Pengeluaran: expenseData[index],
@@ -75,293 +56,33 @@ export default function AdminDashboardPage() {
     fetchChart();
   }, [chartYear]);
 
-  const totalOrders = orders.length;
-  const totalRevenue = orders.reduce((sum, item) => sum + Number(item.totalPrice || 0), 0);
-  const todayOrders = orders.filter((item) => {
-    const today = new Date().toISOString().slice(0, 10);
-    return item.createdAt?.slice(0, 10) === today;
-  }).length;
-  const doneOrders = orders.filter((item) => item.status === 'DONE').length;
+  const stats: DashboardStats = {
+    totalOrders: orders.length,
+    totalRevenue: orders.reduce((sum, item) => sum + Number(item.totalPrice || 0), 0),
+    todayOrders: orders.filter((item) => {
+      const today = new Date().toISOString().slice(0, 10);
+      return item.createdAt?.slice(0, 10) === today;
+    }).length,
+    doneOrders: orders.filter((item) => item.status === 'DONE').length,
+  };
 
   return (
     <DashboardLayout>
       <div className="space-y-3 sm:space-y-5 md:space-y-6">
-        {/* Header Title */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-4">
-          <div>
-            <h1 className="text-base sm:text-xl md:text-2xl font-bold dark:text-[#F5EACA] text-slate-900">
-              Dashboard Utama Laundry
-            </h1>
-            <p className="text-[10px] sm:text-xs dark:text-[#F5EACA]/60 text-slate-500 mt-0.5">
-              Ringkasan transaksi, pendapatan, dan aktivitas cucian toko Anda
-            </p>
-          </div>
-          <div className="flex flex-wrap items-center gap-1.5 sm:gap-3">
-            <DownloadAllDataButton />
-            <Link
-              href="/admin/laundry/new"
-              className="px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-[#1DA9D0] dark:bg-gradient-to-r dark:from-[#1DA9D0] dark:to-[#43D5CC] hover:opacity-95 text-[#010E1C] font-bold text-xs shadow-sm shadow-[#1DA9D0]/20 transition-all inline-flex items-center gap-1.5"
-            >
-              <PlusCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-              Catat Cucian Baru
-            </Link>
-          </div>
-        </div>
-
-        {/* Summary Cards Grid */}
-        <motion.div 
-          variants={staggerContainer(0.06)}
-          initial="hidden"
-          animate="visible"
-          className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3.5 md:gap-4"
-        >
-          <motion.div 
-            variants={slideUp}
-            whileHover={cardHover.hover}
-            className="app-card p-2.5 sm:p-4 rounded-xl sm:rounded-2xl relative overflow-hidden shadow-sm"
-          >
-            <div className="flex justify-between items-start">
-              <div>
-                <p className="text-[10px] sm:text-xs dark:text-[#F5EACA]/60 text-slate-500 font-medium">
-                  Total Cucian Masuk
-                </p>
-                <h3 className="text-base sm:text-xl md:text-2xl font-bold dark:text-[#F5EACA] text-slate-900 mt-0.5 sm:mt-1.5">
-                  {totalOrders}
-                </h3>
-              </div>
-              <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-lg sm:rounded-xl dark:bg-[#1DA9D0]/20 bg-sky-50 border dark:border-[#1DA9D0]/30 border-sky-200 flex items-center justify-center dark:text-[#43D5CC] text-sky-600 shrink-0">
-                <Shirt className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-              </div>
-            </div>
-            <p className="text-[9px] sm:text-[11px] dark:text-[#43D5CC] text-sky-600 mt-1 sm:mt-2.5 flex items-center gap-1 font-medium">
-              <ArrowUpRight className="w-2.5 h-2.5 sm:w-3 sm:h-3" /> Terdaftar di sistem
-            </p>
-          </motion.div>
-
-          <motion.div 
-            variants={slideUp}
-            whileHover={cardHover.hover}
-            className="app-card p-2.5 sm:p-4 rounded-xl sm:rounded-2xl relative overflow-hidden shadow-sm"
-          >
-            <div className="flex justify-between items-start">
-              <div className="min-w-0 flex-1 mr-1">
-                <p className="text-[10px] sm:text-xs dark:text-[#F5EACA]/60 text-slate-500 font-medium">
-                  Total Pendapatan
-                </p>
-                <h3 className="text-sm sm:text-lg md:text-2xl font-bold dark:text-[#43D5CC] text-teal-600 mt-0.5 sm:mt-1.5 truncate">
-                  Rp {totalRevenue.toLocaleString('id-ID')}
-                </h3>
-              </div>
-              <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-lg sm:rounded-xl dark:bg-[#43D5CC]/20 bg-teal-50 border dark:border-[#43D5CC]/30 border-teal-200 flex items-center justify-center dark:text-[#43D5CC] text-teal-600 shrink-0">
-                <DollarSign className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-              </div>
-            </div>
-            <p className="text-[9px] sm:text-[11px] dark:text-[#43D5CC] text-teal-600 mt-1 sm:mt-2.5 flex items-center gap-1 font-medium">
-              <TrendingUp className="w-2.5 h-2.5 sm:w-3 sm:h-3" /> Akumulasi
-            </p>
-          </motion.div>
-
-          <motion.div 
-            variants={slideUp}
-            whileHover={cardHover.hover}
-            className="app-card p-2.5 sm:p-4 rounded-xl sm:rounded-2xl relative overflow-hidden shadow-sm"
-          >
-            <div className="flex justify-between items-start">
-              <div>
-                <p className="text-[10px] sm:text-xs dark:text-[#F5EACA]/60 text-slate-500 font-medium">
-                  Masuk Hari Ini
-                </p>
-                <h3 className="text-base sm:text-xl md:text-2xl font-bold text-[#EA8803] mt-0.5 sm:mt-1.5">
-                  {todayOrders}
-                </h3>
-              </div>
-              <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-lg sm:rounded-xl dark:bg-[#EA8803]/20 bg-amber-50 border dark:border-[#EA8803]/30 border-amber-200 flex items-center justify-center text-[#EA8803] shrink-0">
-                <Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-              </div>
-            </div>
-            <p className="text-[9px] sm:text-[11px] text-[#EA8803] mt-1 sm:mt-2.5 font-medium truncate">
-              Hari ini: {new Date().toLocaleDateString('id-ID')}
-            </p>
-          </motion.div>
-
-          <motion.div 
-            variants={slideUp}
-            whileHover={cardHover.hover}
-            className="app-card p-2.5 sm:p-4 rounded-xl sm:rounded-2xl relative overflow-hidden shadow-sm"
-          >
-            <div className="flex justify-between items-start">
-              <div>
-                <p className="text-[10px] sm:text-xs dark:text-[#F5EACA]/60 text-slate-500 font-medium">
-                  Siap Diambil
-                </p>
-                <h3 className="text-base sm:text-xl md:text-2xl font-bold text-[#1DA9D0] mt-0.5 sm:mt-1.5">
-                  {doneOrders}
-                </h3>
-              </div>
-              <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-lg sm:rounded-xl dark:bg-[#1DA9D0]/20 bg-sky-50 border dark:border-[#1DA9D0]/30 border-sky-200 flex items-center justify-center text-[#1DA9D0] shrink-0">
-                <CheckCircle2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-              </div>
-            </div>
-            <p className="text-[9px] sm:text-[11px] text-[#1DA9D0] mt-1 sm:mt-2.5 font-medium truncate">
-              Menunggu diambil
-            </p>
-          </motion.div>
-        </motion.div>
-
-        {/* Akses Cepat Menu Pintasan */}
+        <AdminDashboardHeader />
+        <AdminDashboardMetrics stats={stats} />
         <QuickAccessMenu role="ADMIN" />
-
-        {/* Chart Section */}
-        <Card className="p-2.5 sm:p-4 md:p-5">
-          <div className="flex items-center justify-between mb-2 sm:mb-4">
-            <h3 className="text-xs sm:text-sm md:text-base font-bold dark:text-[#F5EACA] text-slate-900">
-              Grafik Keuangan
-            </h3>
-            <select 
-              value={chartYear} 
-              onChange={(e) => setChartYear(parseInt(e.target.value))}
-              className="dark:bg-[#012040] bg-white border dark:border-[#1DA9D0]/25 border-slate-300 dark:text-[#F5EACA] text-slate-900 text-[11px] sm:text-xs rounded-lg px-2 py-0.5 sm:px-3 sm:py-1 focus:outline-none focus:border-[#1DA9D0]"
-            >
-              {[2024, 2025, 2026, 2027].map((y) => (
-                <option key={y} value={y} className="dark:bg-[#012040] dark:text-[#F5EACA] bg-white text-slate-900">
-                  {y}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="h-36 sm:h-52 md:h-64 w-full text-xs">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={chartData} margin={{ top: 6, right: 6, left: -20, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke={isDark ? '#013D66' : '#e2e8f0'} vertical={false} />
-                <XAxis dataKey="name" stroke={isDark ? '#1DA9D0' : '#64748b'} opacity={0.8} fontSize={9} tickLine={false} axisLine={false} />
-                <YAxis stroke={isDark ? '#1DA9D0' : '#64748b'} opacity={0.8} fontSize={9} tickLine={false} axisLine={false} width={45} tickFormatter={(val) => `${(val/1000)}k`} />
-                <Tooltip 
-                  cursor={{ fill: isDark ? 'rgba(29, 169, 208, 0.1)' : 'rgba(29, 169, 208, 0.05)' }} 
-                  contentStyle={{ 
-                    backgroundColor: isDark ? '#012040' : '#ffffff', 
-                    borderColor: isDark ? 'rgba(29, 169, 208, 0.3)' : '#cbd5e1', 
-                    borderRadius: '10px', 
-                    fontSize: '11px', 
-                    color: isDark ? '#F5EACA' : '#0f172a',
-                    boxShadow: '0 8px 12px -3px rgba(0, 0, 0, 0.1)'
-                  }} 
-                  formatter={(value: any) => new Intl.NumberFormat('id-ID').format(value)}
-                />
-                <Legend iconType="circle" wrapperStyle={{ fontSize: '9px', paddingTop: '4px' }} />
-                <Bar dataKey="Pemasukan" fill="#1DA9D0" radius={[3, 3, 0, 0]} barSize={14} />
-                <Bar dataKey="Pengeluaran" fill="#EA8803" radius={[3, 3, 0, 0]} barSize={14} />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-        </Card>
-
-        {/* Recent Orders Section */}
-        <Card className="p-2.5 sm:p-4 md:p-5">
-          <div className="flex items-center justify-between mb-2 sm:mb-4">
-            <h3 className="text-xs sm:text-sm md:text-base font-bold dark:text-[#F5EACA] text-slate-900">
-              Cucian Terbaru
-            </h3>
-            <Link href="/admin/laundry" className="text-[10px] sm:text-xs font-semibold dark:text-[#43D5CC] text-teal-600 hover:underline">
-              Lihat Semua Cucian →
-            </Link>
-          </div>
-
-          {error ? (
-            <div className="text-center py-6 text-xs text-rose-500">
-              ⚠️ {error}
-            </div>
-          ) : loading ? (
-            <div className="text-center py-6 text-xs dark:text-[#F5EACA]/60 text-slate-500">Memuat data cucian...</div>
-          ) : orders.length === 0 ? (
-            <div className="text-center py-8 text-xs dark:text-[#F5EACA]/60 text-slate-500 space-y-3">
-              <Shirt className="w-8 h-8 mx-auto dark:text-[#1DA9D0]/40 text-slate-300" />
-              <p>Belum ada cucian tercatat hari ini.</p>
-              <Link
-                href="/admin/laundry/new"
-                className="inline-block px-3.5 py-1.5 rounded-xl bg-[#1DA9D0] hover:bg-[#43D5CC] text-[#010E1C] font-bold text-xs transition-colors"
-              >
-                Catat Cucian Pertama
-              </Link>
-            </div>
-          ) : (
-            <>
-              {/* Mobile View: Compact list */}
-              <div className="md:hidden divide-y dark:divide-[#1DA9D0]/10 divide-slate-100">
-                {orders.slice(0, 5).map((order) => (
-                  <div key={order.id} className="py-2.5 flex items-center justify-between gap-2">
-                    <div className="min-w-0 flex-1">
-                      <div className="flex items-center gap-2">
-                        <span className="font-bold dark:text-[#43D5CC] text-sky-600 text-xs">#{order.orderNumber}</span>
-                        <span className="font-medium text-xs dark:text-[#F5EACA] text-slate-900 truncate">
-                          {order.customer?.name}
-                        </span>
-                      </div>
-                      <div className="flex items-center gap-2 mt-1">
-                        <span className={`px-2 py-0.5 rounded-full text-[9px] font-semibold border ${getOrderStatusBadgeClass(order.status)}`}>
-                          {getOrderStatusLabel(order.status)}
-                        </span>
-                        <span className={`px-2 py-0.5 rounded-full text-[9px] font-semibold border ${getPaymentStatusBadgeClass(order.paymentStatus)}`}>
-                          {getPaymentStatusLabel(order.paymentStatus)}
-                        </span>
-                      </div>
-                    </div>
-                    <div className="text-right shrink-0">
-                      <div className="font-bold text-xs dark:text-[#F5EACA] text-slate-900">
-                        Rp {Number(order.totalPrice).toLocaleString('id-ID')}
-                      </div>
-                      <div className="text-[10px] dark:text-[#F5EACA]/50 text-slate-400">
-                        {new Date(order.dateIn).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' })}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Desktop / Tablet View: Table */}
-              <div className="hidden md:block overflow-x-auto">
-                <table className="w-full text-left text-xs">
-                  <thead>
-                    <tr className="border-b dark:border-[#1DA9D0]/15 border-slate-200 dark:text-[#F5EACA]/60 text-slate-500 font-medium">
-                      <th className="py-2.5 px-3">No. Nota</th>
-                      <th className="py-2.5 px-3">Pelanggan</th>
-                      <th className="py-2.5 px-3">Tanggal Masuk</th>
-                      <th className="py-2.5 px-3">Status Cucian</th>
-                      <th className="py-2.5 px-3">Pembayaran</th>
-                      <th className="py-2.5 px-3 text-right">Total Harga</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y dark:divide-[#1DA9D0]/10 divide-slate-100">
-                    {orders.slice(0, 5).map((order) => (
-                      <tr key={order.id} className="dark:hover:bg-[#1DA9D0]/5 hover:bg-slate-50 transition-colors">
-                        <td className="py-2.5 px-3 font-bold dark:text-[#43D5CC] text-sky-600">#{order.orderNumber}</td>
-                        <td className="py-2.5 px-3">
-                          <div className="font-semibold dark:text-[#F5EACA] text-slate-900">{order.customer?.name}</div>
-                          <div className="text-[10px] dark:text-[#F5EACA]/60 text-slate-500">{order.customer?.phone}</div>
-                        </td>
-                        <td className="py-2.5 px-3 dark:text-[#F5EACA]/80 text-slate-600">
-                          {new Date(order.dateIn).toLocaleDateString('id-ID')}
-                        </td>
-                        <td className="py-2.5 px-3">
-                          <span className={`px-2 py-0.5 rounded-full text-[10px] font-semibold border ${getOrderStatusBadgeClass(order.status)}`}>
-                            {getOrderStatusLabel(order.status)}
-                          </span>
-                        </td>
-                        <td className="py-2.5 px-3">
-                          <span className={`px-2 py-0.5 rounded-full text-[10px] font-semibold border ${getPaymentStatusBadgeClass(order.paymentStatus)}`}>
-                            {getPaymentStatusLabel(order.paymentStatus)}
-                          </span>
-                        </td>
-                        <td className="py-2.5 px-3 text-right font-bold dark:text-[#F5EACA] text-slate-900">
-                          Rp {Number(order.totalPrice).toLocaleString('id-ID')}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </>
-          )}
-        </Card>
+        <AdminFinancialChart
+          chartData={chartData}
+          chartYear={chartYear}
+          onYearChange={setChartYear}
+          isDark={isDark}
+        />
+        <AdminRecentOrders
+          orders={orders}
+          loading={loading}
+          error={error}
+        />
       </div>
     </DashboardLayout>
   );

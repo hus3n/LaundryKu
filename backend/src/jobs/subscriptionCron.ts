@@ -10,6 +10,9 @@ export function initSubscriptionCronJob() {
       const now = new Date();
 
       const admins = await prisma.admin.findMany({
+        where: {
+          isTrial: false,
+        },
         include: {
           user: true,
         },

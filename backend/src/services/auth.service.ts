@@ -4,6 +4,7 @@ import { Role } from '@prisma/client';
 import { prisma } from '../config/database.js';
 import { env } from '../config/env.js';
 import { crypto } from '../utils/crypto.js';
+import { sendPasswordResetEmail } from './email.service.js';
 
 export async function loginService(email: string, pass: string) {
   const normalizedEmail = (email || '').trim().toLowerCase();
@@ -96,7 +97,16 @@ export async function registerAdminRequestService(data: {
 }
 
 export async function forgotPasswordService(email: string) {
-  const user = await prisma.user.findUnique({ where: { email } });
+  const normalizedEmail = (email || '').trim().toLowerCase();
+  const user = await prisma.user.findFirst({
+    where: {
+      email: {
+        equals: normalizedEmail,
+        mode: 'insensitive',
+      },
+    },
+  });
+
   if (!user) {
     // Return success to avoid email enumeration
     return true;
@@ -113,10 +123,12 @@ export async function forgotPasswordService(email: string) {
     },
   });
 
-  // TODO: Implementasi pengiriman email reset password via nodemailer atau service email
-  // Sementara, link disimpan di log dengan level WARN agar bisa difilter
-  console.warn('[AUTH] Password reset token generated for:', email);
-  // JANGAN log token atau URL lengkap ke production log
+  await sendPasswordResetEmail({
+    to: user.email,
+    name: user.name || 'Pengguna LaundryKu',
+    resetToken,
+  });
+
   return true;
 }
 

@@ -2,10 +2,11 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { Shirt, Mail, ArrowLeft, Send, CheckCircle2, AlertCircle } from 'lucide-react';
+import { Shirt, Mail, ArrowLeft, Send, CheckCircle2, AlertCircle, MessageSquare } from 'lucide-react';
 import { api } from '@/lib/api';
 import { getApiErrorMessage } from '@/lib/utils';
 import ThemeToggle from '@/components/ui/ThemeToggle';
+import { SUPERADMIN_WA_NUMBER } from '@/components/landing/landingData';
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState('');
@@ -59,16 +60,28 @@ export default function ForgotPasswordPage() {
               </div>
               <h3 className="text-lg font-bold dark:text-[#F5EACA] text-slate-900">Instruksi Terkirim</h3>
               <p className="text-xs dark:text-[#F5EACA]/80 text-slate-700 leading-relaxed">
-                Jika email <span className="text-[#1DA9D0] dark:text-[#43D5CC] font-semibold">{email}</span> terdaftar di LaundryKu, link reset password telah dikirimkan ke inbox Anda.
+                Jika email <span className="text-[#1DA9D0] dark:text-[#43D5CC] font-semibold">{email}</span> terdaftar di LaundryKu, tautan reset password telah dikirimkan ke kotak masuk Anda.
               </p>
-              <div className="pt-4">
+              <div className="p-3 rounded-xl bg-slate-100 dark:bg-[#012040] border border-slate-200 dark:border-[#1DA9D0]/20 text-[11px] text-slate-500 dark:text-[#F5EACA]/60 text-left">
+                💡 <strong>Tips:</strong> Periksa juga folder <em>Spam / Junk</em> jika pesan belum tiba dalam 2 menit. Tautan aktif selama 24 jam.
+              </div>
+              <div className="pt-2 flex flex-col gap-2.5">
                 <Link
                   href="/login"
-                  className="inline-flex items-center gap-2 text-xs font-semibold text-[#1DA9D0] dark:text-[#43D5CC] hover:underline"
+                  className="inline-flex items-center justify-center gap-2 text-xs font-semibold py-2.5 px-4 rounded-xl bg-[#1DA9D0] dark:bg-gradient-to-r dark:from-[#1DA9D0] dark:to-[#43D5CC] text-[#010E1C] hover:opacity-95 transition-all"
                 >
                   <ArrowLeft className="w-4 h-4" />
                   Kembali ke Halaman Login
                 </Link>
+                <a
+                  href={`https://wa.me/${SUPERADMIN_WA_NUMBER}?text=Halo%20Admin%20LaundryKu,%20saya%20sudah%20mengirim%20permintaan%20reset%20password%20untuk%20email%20${encodeURIComponent(email)}%20namun%20memerlukan%20bantuan`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-1.5 text-[11px] text-slate-600 dark:text-[#F5EACA]/70 hover:text-emerald-600 dark:hover:text-emerald-400 py-1.5 transition-colors"
+                >
+                  <MessageSquare className="w-3.5 h-3.5 text-emerald-500" />
+                  <span>Tidak menerima email? Hubungi Bantuan CS WhatsApp</span>
+                </a>
               </div>
             </div>
           ) : (
