@@ -52,6 +52,11 @@ const nextConfig = {
         destination: '/privacy',
         permanent: true,
       },
+      {
+        source: '/ulasan',
+        destination: '/reviews',
+        permanent: true,
+      },
     ];
   },
 };

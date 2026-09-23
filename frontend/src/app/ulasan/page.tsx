@@ -1,7 +1,5 @@
-'use client';
-
-import ReviewsPage from '../reviews/page';
+import { redirect } from 'next/navigation';
 
 export default function UlasanPage() {
-  return <ReviewsPage />;
+  redirect('/reviews');
 }

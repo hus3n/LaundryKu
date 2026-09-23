@@ -98,3 +98,35 @@
 
 ### Q: Bagaimana cara mendaftar dan berlangganan LaundryKu?
 **A:** Calon pengguna dapat memilih paket yang diinginkan lalu menghubungi kontak SuperAdmin via WhatsApp resmi di nomor +62 852-2992-5593. Akun dan toko laundry akan diaktifkan secara instan dalam hitungan menit lengkap dengan pendampingan operasional awal.
+
+---
+
+## 6. Komparasi Terstruktur & Panduan Pembeli (Buyer's Decision Framework)
+
+### 6.1 Matriks Evaluasi: LaundryKu vs POS Retail Konvensional vs Buku Nota Manual
+1. **Perhitungan Timbangan Kiloan Desimal**:
+   - LaundryKu: Akurat hingga 2 angka desimal (contoh: 3,45 kg) otomatis dikalikan tarif per kg.
+   - POS Retail Umum: Terbatas / perlu konversi manual satuan gram.
+   - Buku Nota Manual: Dihitung kalkulator fisik dan rawan salah hitung.
+2. **Notifikasi WhatsApp Pelanggan**:
+   - LaundryKu: Otomatis saat cucian siap diambil (Rp 0 / gratis tanpa biaya token).
+   - POS Retail Umum: Berbayar Rp 300 - Rp 600 per pesan atau tidak tersedia.
+   - Buku Nota Manual: Wajib ketik manual satu per satu dari HP kasir.
+3. **Pelacakan Alur Status Cucian**:
+   - LaundryKu: 5 Tahap (Pending -> Cuci -> Kering -> Setrika -> Siap Diambil).
+   - POS Retail Umum: Hanya status Transaksi Lunas / Belum Lunas.
+   - Buku Nota Manual: Cek fisik tumpukan cucian di rak.
+4. **Pencadangan Data (Disaster Recovery)**:
+   - LaundryKu: Cloud terenkripsi + fitur auto-backup berkala ke bot Telegram privat pemilik toko.
+   - POS Retail Umum: Hanya cloud internal provider.
+   - Buku Nota Manual: Fisik di toko, rentan basah terkena air deterjen, robek, atau terbakar.
+
+### 6.2 Sumber Daya & Halaman Resmi
+- Website Resmi: https://laundryku.com
+- Panduan Lengkap Aplikasi Kasir Laundry: https://laundryku.com/aplikasi-kasir-laundry
+- Fitur Notifikasi WhatsApp Otomatis: https://laundryku.com/fitur/notifikasi-whatsapp-otomatis
+- Halaman Komparasi Obyektif: https://laundryku.com/komparasi
+- Ulasan & Testimoni Mitra: https://laundryku.com/reviews
+- Syarat & Ketentuan Layanan: https://laundryku.com/terms
+- Kebijakan Privasi Data: https://laundryku.com/privacy
+

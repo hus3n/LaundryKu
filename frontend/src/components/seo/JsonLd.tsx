@@ -2,9 +2,15 @@ import React from 'react';
 
 export interface JsonLdProps {
   baseUrl?: string;
+  ratingValue?: string | number;
+  reviewCount?: string | number;
 }
 
-export default function JsonLd({ baseUrl }: JsonLdProps) {
+export default function JsonLd({
+  baseUrl,
+  ratingValue = '4.9',
+  reviewCount = '156',
+}: JsonLdProps) {
   const siteUrl = (baseUrl || process.env.NEXT_PUBLIC_APP_URL || 'https://laundryku.com').replace(/\/$/, '');
 
   const softwareAppSchema = {
@@ -76,8 +82,8 @@ export default function JsonLd({ baseUrl }: JsonLdProps) {
     },
     aggregateRating: {
       '@type': 'AggregateRating',
-      ratingValue: '4.9',
-      reviewCount: '156',
+      ratingValue: String(ratingValue),
+      reviewCount: String(reviewCount),
       bestRating: '5',
       worstRating: '1',
     },

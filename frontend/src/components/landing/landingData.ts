@@ -20,10 +20,13 @@ export interface FooterLink {
 }
 
 export const FOOTER_PAGE_LINKS: FooterLink[] = [
+  { label: 'Aplikasi Kasir Laundry', href: '/aplikasi-kasir-laundry' },
+  { label: 'Notifikasi WA Otomatis', href: '/fitur/notifikasi-whatsapp-otomatis' },
+  { label: 'Komparasi vs POS Retail', href: '/komparasi' },
   { label: 'Fitur Utama', href: '#features' },
   { label: 'Cara Kerja', href: '#how-it-works' },
-  { label: 'Keunggulan', href: '#advantages' },
   { label: 'Paket Harga', href: '#pricing' },
+  { label: 'Ulasan Mitra', href: '/reviews' },
   { label: 'Tanya Jawab (FAQ)', href: '#faq' },
 ];
 

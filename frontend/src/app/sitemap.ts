@@ -12,16 +12,40 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1.0,
     },
     {
+      url: `${baseUrl}/aplikasi-kasir-laundry`,
+      lastModified: currentDate,
+      changeFrequency: 'weekly',
+      priority: 0.95,
+    },
+    {
+      url: `${baseUrl}/komparasi`,
+      lastModified: currentDate,
+      changeFrequency: 'weekly',
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/fitur/notifikasi-whatsapp-otomatis`,
+      lastModified: currentDate,
+      changeFrequency: 'weekly',
+      priority: 0.85,
+    },
+    {
+      url: `${baseUrl}/reviews`,
+      lastModified: currentDate,
+      changeFrequency: 'daily',
+      priority: 0.8,
+    },
+    {
       url: `${baseUrl}/terms`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
-      priority: 0.5,
+      priority: 0.3,
     },
     {
       url: `${baseUrl}/privacy`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
-      priority: 0.5,
+      priority: 0.3,
     },
   ];
 }

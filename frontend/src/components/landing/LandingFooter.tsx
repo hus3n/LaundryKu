@@ -53,9 +53,12 @@ export default function LandingFooter() {
             <ul className="space-y-2.5">
               {FOOTER_PAGE_LINKS.map((link) => (
                 <li key={link.href}>
-                  <a href={link.href} className="hover:text-sky-600 dark:hover:text-[#43D5CC] transition-colors">
+                  <Link
+                    href={link.href.startsWith('/') ? link.href : `/${link.href}`}
+                    className="hover:text-sky-600 dark:hover:text-[#43D5CC] transition-colors"
+                  >
                     {link.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>

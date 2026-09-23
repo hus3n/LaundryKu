@@ -11,6 +11,7 @@ import ReviewsFilterBar from './components/ReviewsFilterBar';
 import ReviewCard from './components/ReviewCard';
 import ReviewsEmptyState from './components/ReviewsEmptyState';
 import ReviewImageLightbox from './components/ReviewImageLightbox';
+import ReviewsJsonLd from './components/ReviewsJsonLd';
 
 export default function ReviewsPage() {
   const [reviews, setReviews] = useState<Review[]>([]);
@@ -102,6 +103,12 @@ export default function ReviewsPage() {
       <ReviewImageLightbox
         imageUrl={selectedImage}
         onClose={() => setSelectedImage(null)}
+      />
+
+      <ReviewsJsonLd
+        reviews={reviews}
+        averageRating={averageRating}
+        totalCount={reviews.length}
       />
     </div>
   );

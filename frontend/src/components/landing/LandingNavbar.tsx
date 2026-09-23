@@ -34,6 +34,7 @@ export default function LandingNavbar() {
           <a href="#cara-kerja" className="hover:text-[#1DA9D0] dark:hover:text-[#43D5CC] transition-colors py-1">Cara Kerja</a>
           <a href="#keunggulan" className="hover:text-[#1DA9D0] dark:hover:text-[#43D5CC] transition-colors py-1">Keunggulan</a>
           <a href="#harga" className="hover:text-[#1DA9D0] dark:hover:text-[#43D5CC] transition-colors py-1">Paket Harga</a>
+          <Link href="/komparasi" className="hover:text-[#1DA9D0] dark:hover:text-[#43D5CC] transition-colors py-1">Komparasi</Link>
           <a href="#reviews" className="hover:text-[#1DA9D0] dark:hover:text-[#43D5CC] transition-colors py-1">Ulasan Mitra</a>
           <a href="#faq" className="hover:text-[#1DA9D0] dark:hover:text-[#43D5CC] transition-colors py-1">FAQ</a>
         </nav>
