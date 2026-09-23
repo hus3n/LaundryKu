@@ -73,6 +73,18 @@ export default function LandingPricing() {
               1 Tahun (Paling Hemat)
             </button>
           </div>
+
+          {/* Tombol Coba Gratis 30 Hari */}
+          <div className="pt-3">
+            <Link
+              href="/register?plan=trial"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-emerald-500/10 hover:bg-emerald-500/20 dark:bg-emerald-500/20 dark:hover:bg-emerald-500/30 border border-emerald-500/40 hover:border-emerald-500/60 text-emerald-800 dark:text-emerald-300 text-xs sm:text-sm font-extrabold shadow-sm transition-all hover:-translate-y-0.5 group"
+            >
+              <Zap className="w-4 h-4 text-emerald-600 dark:text-emerald-400 fill-emerald-500/30 shrink-0" />
+              <span>Coba Gratis 30 Hari (Akses Penuh Tanpa Syarat)</span>
+              <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
+            </Link>
+          </div>
         </div>
 
         <motion.div

@@ -70,6 +70,19 @@ export default function UnifiedAuthCard({
     if (paramMode === 'register' || paramMode === 'login') {
       setInternalMode(paramMode);
     }
+    const paramPlan = searchParams?.get('plan');
+    if (paramPlan === 'trial') {
+      setRegisterData((prev) => ({ ...prev, planType: 'TRIAL' }));
+    } else if (paramPlan) {
+      setRegisterData((prev) => ({ ...prev, planType: 'DIRECT_SUBSCRIPTION' }));
+    }
+    const paramMonths = searchParams?.get('months');
+    if (paramMonths) {
+      const parsedMonths = parseInt(paramMonths, 10);
+      if (!isNaN(parsedMonths) && parsedMonths > 0) {
+        setRegisterData((prev) => ({ ...prev, durationMonths: parsedMonths }));
+      }
+    }
   }, [searchParams]);
 
   useEffect(() => {
