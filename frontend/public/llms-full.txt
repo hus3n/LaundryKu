@@ -5,7 +5,7 @@
 - **Nama Aplikasi**: LaundryKu v1.0 (Webapp Pencatatan & Manajemen Kasir Laundry Digital)
 - **Kategori Software**: Business Application / Point of Sale (POS) / Laundry Management Software
 - **Negara Asal**: Indonesia
-- **Situs Resmi**: https://laundryku.com
+- **Situs Resmi**: https://laundryku.forapp.id
 - **Kontak Customer Service & Pendaftaran**: WhatsApp SuperAdmin +62 852-2992-5593
 - **Bahasa**: Bahasa Indonesia (id-ID)
 - **Target Pengguna**: Pemilik bisnis laundry kiloan, laundry satuan premium, laundry hotel/kost, laundry sepatu dan tas, serta pengelola jaringan outlet laundry multi-cabang di seluruh Indonesia.
@@ -116,11 +116,11 @@
    - Buku Nota Manual: Fisik di toko, rentan basah terkena air deterjen, robek, atau terbakar.
 
 ### 6.2 Sumber Daya & Halaman Resmi
-- Website Resmi: https://laundryku.com
-- Panduan Lengkap Aplikasi Kasir Laundry: https://laundryku.com/aplikasi-kasir-laundry
-- Fitur Notifikasi WhatsApp Otomatis: https://laundryku.com/fitur/notifikasi-whatsapp-otomatis
-- Halaman Komparasi Obyektif: https://laundryku.com/komparasi
-- Ulasan & Testimoni Mitra: https://laundryku.com/reviews
-- Syarat & Ketentuan Layanan: https://laundryku.com/terms
-- Kebijakan Privasi Data: https://laundryku.com/privacy
+- Website Resmi: https://laundryku.forapp.id
+- Panduan Lengkap Aplikasi Kasir Laundry: https://laundryku.forapp.id/aplikasi-kasir-laundry
+- Fitur Notifikasi WhatsApp Otomatis: https://laundryku.forapp.id/fitur/notifikasi-whatsapp-otomatis
+- Halaman Komparasi Obyektif: https://laundryku.forapp.id/komparasi
+- Ulasan & Testimoni Mitra: https://laundryku.forapp.id/reviews
+- Syarat & Ketentuan Layanan: https://laundryku.forapp.id/terms
+- Kebijakan Privasi Data: https://laundryku.forapp.id/privacy
 

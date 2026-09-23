@@ -2,7 +2,7 @@ import React from 'react';
 import { BUYER_FAQS } from '../komparasiData';
 
 export default function KomparasiJsonLd() {
-  const siteUrl = (process.env.NEXT_PUBLIC_APP_URL || 'https://laundryku.com').replace(/\/$/, '');
+  const siteUrl = (process.env.NEXT_PUBLIC_APP_URL || 'https://laundryku.forapp.id').replace(/\/$/, '');
 
   const breadcrumbSchema = {
     '@context': 'https://schema.org',

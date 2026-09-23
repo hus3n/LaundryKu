@@ -2,7 +2,7 @@ import React from 'react';
 import { PILLAR_FAQS } from '../aplikasiKasirLaundryData';
 
 export default function PillarJsonLd() {
-  const siteUrl = (process.env.NEXT_PUBLIC_APP_URL || 'https://laundryku.com').replace(/\/$/, '');
+  const siteUrl = (process.env.NEXT_PUBLIC_APP_URL || 'https://laundryku.forapp.id').replace(/\/$/, '');
 
   const breadcrumbSchema = {
     '@context': 'https://schema.org',

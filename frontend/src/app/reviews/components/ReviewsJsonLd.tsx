@@ -12,7 +12,7 @@ export default function ReviewsJsonLd({
   averageRating,
   totalCount,
 }: ReviewsJsonLdProps) {
-  const siteUrl = (process.env.NEXT_PUBLIC_APP_URL || 'https://laundryku.com').replace(/\/$/, '');
+  const siteUrl = (process.env.NEXT_PUBLIC_APP_URL || 'https://laundryku.forapp.id').replace(/\/$/, '');
 
   const breadcrumbSchema = {
     '@context': 'https://schema.org',

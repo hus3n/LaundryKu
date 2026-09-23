@@ -11,7 +11,7 @@ export default function JsonLd({
   ratingValue = '4.9',
   reviewCount = '156',
 }: JsonLdProps) {
-  const siteUrl = (baseUrl || process.env.NEXT_PUBLIC_APP_URL || 'https://laundryku.com').replace(/\/$/, '');
+  const siteUrl = (baseUrl || process.env.NEXT_PUBLIC_APP_URL || 'https://laundryku.forapp.id').replace(/\/$/, '');
 
   const softwareAppSchema = {
     '@context': 'https://schema.org',

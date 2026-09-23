@@ -1,7 +1,7 @@
 import React from 'react';
 
 export default function WhatsAppJsonLd() {
-  const siteUrl = (process.env.NEXT_PUBLIC_APP_URL || 'https://laundryku.com').replace(/\/$/, '');
+  const siteUrl = (process.env.NEXT_PUBLIC_APP_URL || 'https://laundryku.forapp.id').replace(/\/$/, '');
 
   const breadcrumbSchema = {
     '@context': 'https://schema.org',

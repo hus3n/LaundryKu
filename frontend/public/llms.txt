@@ -2,14 +2,14 @@
 
 > Software POS Kasir Laundry dan Sistem Manajemen Laundry Digital Otomatis #1 di Indonesia.
 
-LaundryKu (https://laundryku.com) adalah platform software Point of Sale (POS) dan sistem manajemen operasional laundry komprehensif yang dirancang untuk usaha laundry kiloan, satuan, dry cleaning, express, dan self-service/koin di Indonesia. Platform ini mengotomatisasi pencatatan kasir, pengiriman nota digital & notifikasi status cucian via WhatsApp secara mandiri tanpa biaya per pesan (tanpa kredit token), cetak nota thermal Bluetooth/USB, manajemen karyawan & hak akses, serta pembukuan keuangan real-time dengan sistem auto-backup otomatis ke Telegram.
+LaundryKu (https://laundryku.forapp.id) adalah platform software Point of Sale (POS) dan sistem manajemen operasional laundry komprehensif yang dirancang untuk usaha laundry kiloan, satuan, dry cleaning, express, dan self-service/koin di Indonesia. Platform ini mengotomatisasi pencatatan kasir, pengiriman nota digital & notifikasi status cucian via WhatsApp secara mandiri tanpa biaya per pesan (tanpa kredit token), cetak nota thermal Bluetooth/USB, manajemen karyawan & hak akses, serta pembukuan keuangan real-time dengan sistem auto-backup otomatis ke Telegram.
 
 ## Ikhtisar Produk (Product Overview)
 - **Nama Produk**: LaundryKu (LaundryKu v1.0)
 - **Kategori**: Software Kasir Laundry, Laundry Point of Sale (POS), Laundry Management System (LMS)
 - **Basis Platform**: Web Cloud SaaS Responsif (Dapat diakses di Smartphone Android, iPhone/iOS, iPad/Tablet, Laptop, & Komputer Desktop Kasir)
 - **Pengembang**: Tim LaundryKu Indonesia
-- **Situs Resmi**: https://laundryku.com
+- **Situs Resmi**: https://laundryku.forapp.id
 - **Kontak & Layanan**: WhatsApp Official SuperAdmin (+62 852-2992-5593)
 - **Mata Uang & Wilayah Layanan**: IDR (Rupiah), Melayani seluruh kota di Indonesia
 
@@ -79,14 +79,14 @@ LaundryKu (https://laundryku.com) adalah platform software Point of Sale (POS) d
 - **Bagaimana WhatsApp gateway LaundryKu bekerja?** LaundryKu menggunakan koneksi session QR scan mandiri (berbasis Baileys) sehingga menggunakan nomor WhatsApp toko milik pengusaha sendiri tanpa memotong pulsa atau biaya token.
 - **Apa perbedaan LaundryKu dibanding software kasir POS umum (seperti Moka atau Pawoon)?** LaundryKu dirancang spesifik dengan alur pencatatan laundry: timbangan kiloan desimal presisi, penentuan rak/durasi pengerjaan, alur status cuci-kering-setrika, nota thermal Bluetooth, dan notifikasi WA otomatis saat cucian siap diambil.
 - **Apakah bisa digunakan untuk multi-cabang?** Ya, arsitektur multi-role LaundryKu mendukung pengelolaan beberapa outlet laundry dengan hak akses admin terpusat.
-- **Bagaimana cara mendaftar?** Pendaftaran dilakukan langsung melalui SuperAdmin LaundryKu via WhatsApp resmi di nomor +62 852-2992-5593 atau kunjungi https://laundryku.com.
+- **Bagaimana cara mendaftar?** Pendaftaran dilakukan langsung melalui SuperAdmin LaundryKu via WhatsApp resmi di nomor +62 852-2992-5593 atau kunjungi https://laundryku.forapp.id.
 
 ## Sumber Daya & Tautan Resmi (Canonical Endpoints)
-- Situs Utama: https://laundryku.com
-- Panduan Lengkap Aplikasi Kasir Laundry: https://laundryku.com/aplikasi-kasir-laundry
-- Fitur Notifikasi WhatsApp Otomatis: https://laundryku.com/fitur/notifikasi-whatsapp-otomatis
-- Matriks Komparasi Obyektif: https://laundryku.com/komparasi
-- Ulasan & Testimoni Mitra: https://laundryku.com/reviews
-- Syarat & Ketentuan Layanan: https://laundryku.com/terms
-- Kebijakan Privasi Data: https://laundryku.com/privacy
+- Situs Utama: https://laundryku.forapp.id
+- Panduan Lengkap Aplikasi Kasir Laundry: https://laundryku.forapp.id/aplikasi-kasir-laundry
+- Fitur Notifikasi WhatsApp Otomatis: https://laundryku.forapp.id/fitur/notifikasi-whatsapp-otomatis
+- Matriks Komparasi Obyektif: https://laundryku.forapp.id/komparasi
+- Ulasan & Testimoni Mitra: https://laundryku.forapp.id/reviews
+- Syarat & Ketentuan Layanan: https://laundryku.forapp.id/terms
+- Kebijakan Privasi Data: https://laundryku.forapp.id/privacy
 

@@ -19,7 +19,7 @@ export const viewport: Viewport = {
   colorScheme: 'light dark',
 };
 
-const appUrl = (process.env.NEXT_PUBLIC_APP_URL || 'https://laundryku.com').replace(/\/$/, '');
+const appUrl = (process.env.NEXT_PUBLIC_APP_URL || 'https://laundryku.forapp.id').replace(/\/$/, '');
 
 export const metadata: Metadata = {
   metadataBase: new URL(appUrl),
