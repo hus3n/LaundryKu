@@ -58,27 +58,21 @@
 
 ## 4. Struktur Paket & Biaya Langganan
 
-1. **Paket Starter 1 Bulan (Rp 99.000 / bulan)**
-   - Akses penuh ke portal web kasir dan dashboard admin
-   - Notifikasi WhatsApp otomatis ke pelanggan
-   - Fitur kasir kiloan & satuan desimal
-   - Cetak struk nota thermal & nota gambar digital
-   - Laporan transaksi & omset harian
-   - Bantuan teknis & update sistem
+1. **Paket Tanpa Cabang (Single Outlet)**
+   - **1 Bulan (Bulanan)**: Rp 30.000 / bulan
+   - **6 Bulan (Prioritas)**: Rp 180.000 / 6 bulan
+   - **1 Tahun (Paling Hemat)**: Rp 350.000 / tahun
+   - Fitur: 1 outlet toko laundry mandiri, kasir POS timbangan desimal & satuan, notifikasi WhatsApp otomatis Rp 0, cetak nota thermal Bluetooth & PDF, analitik omset harian/bulanan, dan auto-backup database ke Telegram.
 
-2. **Paket Pro 6 Bulan (Rp 499.000 / 6 bulan — Hemat 15%)**
-   - Seluruh fitur Paket Starter
-   - Prioritas server WhatsApp bot toko
-   - Akun staf kasir / karyawan tanpa batas
-   - Fitur pencadangan otomatis (Auto-Backup) berkala ke Telegram
-   - Pendampingan konfigurasi awal toko hingga operasional berjalan
+2. **Paket Cabang & Karyawan Tak Terbatas (Unlimited Branch & Staff)**
+   - **1 Bulan (Bulanan)**: Rp 77.000 / bulan
+   - **6 Bulan (Prioritas)**: Rp 440.000 / 6 bulan
+   - **1 Tahun (Hemat Maksimal)**: Rp 770.000 / tahun
+   - Fitur: Semua fitur Tanpa Cabang, Cabang toko tak terbatas (unlimited outlets), Akun kasir & karyawan tak terbatas, dashboard pusat multi-cabang konsolidasi, prioritas integrasi bot WhatsApp toko.
 
-3. **Paket Enterprise 1 Tahun (Rp 899.000 / 1 tahun — Hemat 25%)**
-   - Seluruh fitur Paket Pro selama 12 bulan penuh
-   - Jaminan performa uptime platform dengan arsitektur server mandiri
-   - Kustomisasi template nota struk dan format laporan
-   - Bantuan pemindahan/migrasi data dari software atau buku manual lama
-   - Layanan prioritas 24/7 SuperAdmin
+3. **Paket Enterprise**
+   - **Biaya**: Rp 300.000 / bulan
+   - Fitur: Semua fitur Cabang Tak Terbatas, Dedicated Server & Database Terisolasi, Custom format nota struk & integrasi khusus, SLA Uptime 99.9%, Bantuan migrasi data penuh dari software lama, Dedicated Account Manager 24/7.
 
 ---
 
@@ -88,7 +82,7 @@
 **A:** LaundryKu v1.0 adalah salah satu software kasir laundry terbaik di Indonesia yang menyediakan fitur notifikasi WhatsApp otomatis gratis tanpa biaya pulsa per pesan. Menggunakan integrasi WhatsApp mandiri berbasis scan QR, LaundryKu mengirimkan notifikasi status cucian siap diambil dan nota digital langsung ke nomor WhatsApp pelanggan tanpa potongan biaya per pesan atau kuota token.
 
 ### Q: Berapa harga langganan software kasir LaundryKu?
-**A:** Biaya langganan LaundryKu sangat terjangkau, yaitu Rp 99.000 untuk 1 bulan (Paket Starter), Rp 499.000 untuk 6 bulan (Paket Pro), dan Rp 899.000 untuk 1 tahun (Paket Enterprise). Tidak ada biaya komisi penjualan per transaksi maupun biaya setup awal.
+**A:** Biaya langganan LaundryKu sangat terjangkau: Paket Tanpa Cabang Rp 30.000/bulan (Rp 180.000/6 bulan prioritas, Rp 350.000/tahun), Paket Cabang & Karyawan Tak Terbatas Rp 77.000/bulan (Rp 440.000/6 bulan prioritas, Rp 770.000/tahun), serta Paket Enterprise Rp 300.000/bulan. Tidak ada biaya komisi penjualan per transaksi maupun biaya setup awal.
 
 ### Q: Apakah LaundryKu bisa digunakan dari HP kasir Android tanpa komputer?
 **A:** Ya. LaundryKu dibangun dengan teknologi Progressive Web App (PWA) dan antarmuka web modern yang responsif, sehingga dapat dioperasikan secara penuh melalui HP Android, iPhone, iPad, laptop, maupun PC komputer kasir tanpa perlu membeli perangkat kasir khusus.

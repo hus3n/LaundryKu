@@ -159,7 +159,7 @@ export const PILLAR_FAQS: PillarFaqItem[] = [
   {
     question: 'Berapa biaya langganan aplikasi kasir LaundryKu?',
     answer:
-      'LaundryKu menawarkan sistem langganan transparan flat rate: mulai Rp 99.000 untuk 1 bulan (Starter), Rp 499.000 untuk 6 bulan (Pro), dan Rp 899.000 untuk 1 tahun (Enterprise). Tidak ada potongan komisi penjualan per nota dan tidak ada biaya per pesan WhatsApp.',
+      'LaundryKu menawarkan sistem langganan transparan flat rate: Paket Tanpa Cabang (Rp 30.000/bulan, Rp 180.000/6 bulan prioritas, Rp 350.000/tahun), Paket Cabang & Karyawan Tak Terbatas (Rp 77.000/bulan, Rp 440.000/6 bulan prioritas, Rp 770.000/tahun), serta Paket Enterprise (Rp 300.000/bulan). Bebas komisi per transaksi dan tanpa biaya token per pesan WhatsApp.',
   },
   {
     question: 'Apakah saya bisa mengelola beberapa cabang laundry (multi-outlet)?',

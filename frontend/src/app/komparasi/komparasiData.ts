@@ -119,10 +119,10 @@ export const COMPARISON_CATEGORIES: ComparisonCategory[] = [
       },
       {
         name: 'Biaya Langganan Bulanan',
-        laundryku: 'Mulai Rp 99.000 / bln',
+        laundryku: 'Mulai Rp 30.000 / bln',
         retailPos: 'Rp 150.000 - Rp 350.000 / bln',
         manualBook: 'Biaya cetak nota rangkap',
-        description: 'Harga terjangkau flat rate tanpa biaya tersembunyi.',
+        description: 'Harga terjangkau flat rate tanpa biaya tersembunyi (Rp 30k Single Outlet, Rp 77k Unlimited Branch).',
       },
     ],
   },

@@ -1,8 +1,19 @@
+export interface PricingDurationDetail {
+  price: string;
+  period: string;
+  badge?: string;
+}
+
 export interface PricingPlan {
   id: string;
   name: string;
   price: string;
   period: string;
+  durations: {
+    monthly: PricingDurationDetail;
+    sixMonths?: PricingDurationDetail;
+    yearly?: PricingDurationDetail;
+  };
   description: string;
   isPopular: boolean;
   badgeText: string;
@@ -39,51 +50,69 @@ export const SUPERADMIN_WA_NUMBER = '6285229925593';
 
 export const PRICING_PLANS: PricingPlan[] = [
   {
-    id: 'starter',
-    name: 'Paket Starter 1 Bulan',
-    price: 'Rp 99.000',
+    id: 'single_outlet',
+    name: 'Paket Tanpa Cabang',
+    price: 'Rp 30.000',
     period: '/ bulan',
-    description: 'Solusi hemat untuk mencoba operasional digital usaha laundry Anda.',
+    durations: {
+      monthly: { price: 'Rp 30.000', period: '/ bulan' },
+      sixMonths: { price: 'Rp 180.000', period: '/ 6 bulan', badge: 'Prioritas' },
+      yearly: { price: 'Rp 350.000', period: '/ tahun', badge: 'Paling Hemat' },
+    },
+    description: 'Solusi kasir hemat untuk 1 outlet toko laundry mandiri. Fitur kasir POS dan WhatsApp otomatis lengkap.',
     isPopular: false,
-    badgeText: 'Coba Dulu',
+    badgeText: 'Mulai 30rb',
     features: [
-      'Akses Full Dashboard Admin & Kasir',
-      'Notifikasi WhatsApp Otomatis ke Pelanggan',
-      'Pencatatan Transaksi & Cetak Struk Nota',
+      '1 Outlet Toko Laundry Mandiri',
+      'Kasir POS Timbangan Desimal & Satuan',
+      'Notifikasi WhatsApp Otomatis ke Pelanggan (Rp 0)',
+      'Pencatatan Transaksi & Cetak Struk Bluetooth / PDF',
       'Laporan Omset & Analitik Grafik Harian',
-      'Support Teknis & Update Sistem',
+      'Auto-Backup Database Rutin ke Telegram',
     ],
   },
   {
-    id: 'pro',
-    name: 'Paket Pro 6 Bulan',
-    price: 'Rp 499.000',
-    period: '/ 6 bulan',
-    description: 'Pilihan terfavorit pemilik laundry! Lebih hemat 15% dibanding bulanan.',
+    id: 'unlimited_branch',
+    name: 'Cabang & Karyawan Tak Terbatas',
+    price: 'Rp 77.000',
+    period: '/ bulan',
+    durations: {
+      monthly: { price: 'Rp 77.000', period: '/ bulan' },
+      sixMonths: { price: 'Rp 440.000', period: '/ 6 bulan', badge: 'Prioritas' },
+      yearly: { price: 'Rp 770.000', period: '/ tahun', badge: 'Hemat Maksimal' },
+    },
+    description: 'Pilihan terfavorit! Buka cabang dan tambah kasir/karyawan sebanyak apa pun tanpa biaya tambahan.',
     isPopular: true,
-    badgeText: 'Terpopuler (Hemat 15%)',
+    badgeText: 'Terpopuler (Best Value)',
     features: [
-      'Semua fitur Paket Starter',
-      'Prioritas Integrasi WhatsApp Bot Toko',
+      'Semua fitur Paket Tanpa Cabang',
+      'Cabang / Outlet Toko Tak Terbatas (Unlimited)',
       'Manajemen Karyawan & Kasir Tanpa Batas',
-      'Auto-Backup Data berkala ke Telegram',
+      'Dashboard Multi-Outlet Konsolidasi Terpusat',
+      'Prioritas Integrasi WhatsApp Bot Toko',
       'Dukungan Pendampingan Setup Awal Toko',
     ],
   },
   {
     id: 'enterprise',
-    name: 'Paket Enterprise 1 Tahun',
-    price: 'Rp 899.000',
-    period: '/ 1 tahun',
-    description: 'Hemat maksimal 25%! Performa penuh untuk usaha laundry berkembang.',
+    name: 'Paket Enterprise',
+    price: 'Rp 300.000',
+    period: '/ bulan',
+    durations: {
+      monthly: { price: 'Rp 300.000', period: '/ bulan', badge: 'Dedicated SLA' },
+      sixMonths: { price: 'Rp 1.800.000', period: '/ 6 bulan' },
+      yearly: { price: 'Rp 3.600.000', period: '/ tahun' },
+    },
+    description: 'Performa penuh untuk waralaba laundry besar dan korporasi dengan server khusus & VIP support.',
     isPopular: false,
-    badgeText: 'Hemat 25%',
+    badgeText: 'Dedicated & Prioritas',
     features: [
-      'Semua fitur Paket Pro (Full 12 Bulan)',
+      'Semua fitur Cabang & Karyawan Tak Terbatas',
+      'Dedicated Server & Database Terisolasi',
       'Konsultasi Operasional & Custom Nota Struk',
-      'Jaminan Uptime Platform & Server Terisolasi',
-      'Backup Otomatis Harian Database',
+      'Jaminan Uptime Platform SLA 99.9%',
       'Bantuan Migrasi Data dari Aplikasi Lama',
+      'VIP Priority Support 24/7 & Dedicated Manager',
     ],
   },
 ];

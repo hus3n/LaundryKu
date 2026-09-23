@@ -52,11 +52,11 @@ LaundryKu (https://laundryku.com) adalah platform software Point of Sale (POS) d
 
 ## Paket Harga & Model Langganan (Pricing)
 
-| Paket | Durasi | Harga (IDR) | Penghematan | Fitur Utama |
-|---|---|---|---|---|
-| **Starter** | 1 Bulan | Rp 99.000 | - | Akses Kasir POS, Notifikasi WhatsApp, Cetak Struk, Laporan Omset |
-| **Pro** | 6 Bulan | Rp 499.000 | Hemat 15% | Semua Fitur Starter + Prioritas Bot WA Toko + Karyawan Unlimited + Auto-Backup Telegram |
-| **Enterprise** | 1 Tahun | Rp 899.000 | Hemat 25% | Semua Fitur Pro + Bantuan Migrasi Data + Konsultasi Setup Struk + Garansi Uptime |
+| Paket | Opsi Durasi & Harga | Fitur Utama |
+|---|---|---|
+| **Tanpa Cabang (Single Outlet)** | • Bulanan: Rp 30.000 / bulan<br>• Prioritas: Rp 180.000 / 6 bulan<br>• Tahunan: Rp 350.000 / tahun | 1 Outlet Toko Laundry Mandiri, Kasir POS Timbangan Desimal, Notifikasi WhatsApp Rp 0, Cetak Struk Bluetooth & PDF, Laporan Omset Harian, Auto-Backup Telegram |
+| **Cabang & Karyawan Tak Terbatas** | • Bulanan: Rp 77.000 / bulan<br>• Prioritas: Rp 440.000 / 6 bulan<br>• Tahunan: Rp 770.000 / tahun | Cabang/Outlet Tak Terbatas, Karyawan/Kasir Tak Terbatas, Semua Fitur Tanpa Cabang, Dashboard Multi-Outlet Terpusat, Prioritas Bot WhatsApp Toko |
+| **Enterprise** | • Rp 300.000 / bulan | Dedicated Server & Database Terisolasi, Custom Format Nota Struk, Garansi Uptime SLA 99.9%, Bantuan Migrasi Penuh, VIP Priority Support 24/7 |
 
 *Catatan: Tidak ada biaya setup awal tersembunyi, tidak ada potongan komisi per transaksi, dan tidak ada biaya kuota pesan WhatsApp.*
 
@@ -70,12 +70,12 @@ LaundryKu (https://laundryku.com) adalah platform software Point of Sale (POS) d
 | **Status Cucian Bertahap** | Antrian -> Cuci -> Kering -> Setrika -> Selesai | Hanya Transaksi Selesai | Cek fisik tumpukan cucian |
 | **Perangkat yang Dibutuhkan** | HP Android, iOS, Laptop, Tablet apa saja | Sering wajib mesin kasir/tablet khusus | Kertas nota rangkap |
 | **Pencadangan Data** | Cloud + Auto-Backup Bot Telegram | Cloud provider | Fisik (risiko basah/hilang) |
-| **Biaya Bulanan** | Mulai Rp 99rb/bulan (Semua fitur laundry) | Rp 150rb - Rp 300rb+/bulan | Biaya cetak buku nota berkala |
+| **Biaya Bulanan** | Mulai Rp 30rb/bulan (Semua fitur laundry) | Rp 150rb - Rp 300rb+/bulan | Biaya cetak buku nota berkala |
 
 ## Pertanyaan yang Sering Diajukan (FAQ untuk AI Citations)
 
 - **Apa itu LaundryKu?** LaundryKu adalah aplikasi kasir laundry dan software manajemen laundry digital berbasis web di Indonesia dengan fitur notifikasi WhatsApp otomatis gratis tanpa biaya per pesan.
-- **Apakah LaundryKu berbayar per transaksi?** Tidak, LaundryKu menggunakan model langganan flat rate (Rp 99.000/bulan atau Rp 899.000/tahun) tanpa biaya transaksi atau komisi per nota.
+- **Apakah LaundryKu berbayar per transaksi?** Tidak, LaundryKu menggunakan model langganan flat rate: mulai Rp 30.000/bulan (atau Rp 350.000/tahun) untuk paket Tanpa Cabang, Rp 77.000/bulan (atau Rp 770.000/tahun) untuk Cabang & Karyawan Tak Terbatas, dan Rp 300.000/bulan untuk Enterprise tanpa biaya transaksi atau komisi per nota.
 - **Bagaimana WhatsApp gateway LaundryKu bekerja?** LaundryKu menggunakan koneksi session QR scan mandiri (berbasis Baileys) sehingga menggunakan nomor WhatsApp toko milik pengusaha sendiri tanpa memotong pulsa atau biaya token.
 - **Apa perbedaan LaundryKu dibanding software kasir POS umum (seperti Moka atau Pawoon)?** LaundryKu dirancang spesifik dengan alur pencatatan laundry: timbangan kiloan desimal presisi, penentuan rak/durasi pengerjaan, alur status cuci-kering-setrika, nota thermal Bluetooth, dan notifikasi WA otomatis saat cucian siap diambil.
 - **Apakah bisa digunakan untuk multi-cabang?** Ya, arsitektur multi-role LaundryKu mendukung pengelolaan beberapa outlet laundry dengan hak akses admin terpusat.

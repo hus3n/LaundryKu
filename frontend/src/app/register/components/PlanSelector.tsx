@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { CheckCircle2, Sparkles, Crown, Zap, ShieldCheck } from 'lucide-react';
 import { PlanType } from '../types';
@@ -13,10 +13,51 @@ interface PlanSelectorProps {
   onChangeDuration: (months: number) => void;
 }
 
-const DURATION_OPTIONS = [
-  { months: 1, label: '1 Bulan', price: 'Rp 99.000', discount: null },
-  { months: 6, label: '6 Bulan', price: 'Rp 499.000', discount: 'Hemat 15%' },
-  { months: 12, label: '1 Tahun', price: 'Rp 899.000', discount: 'Hemat 25%' },
+export type SubscriptionTier = 'single' | 'unlimited' | 'enterprise';
+
+interface TierPricing {
+  id: SubscriptionTier;
+  name: string;
+  badge?: string;
+  options: {
+    months: number;
+    label: string;
+    price: string;
+    discount?: string | null;
+  }[];
+}
+
+const SUBSCRIPTION_TIERS: TierPricing[] = [
+  {
+    id: 'single',
+    name: 'Tanpa Cabang',
+    badge: 'Mulai 30k',
+    options: [
+      { months: 1, label: '1 Bulan', price: 'Rp 30.000', discount: null },
+      { months: 6, label: '6 Bulan', price: 'Rp 180.000', discount: 'Prioritas' },
+      { months: 12, label: '1 Tahun', price: 'Rp 350.000', discount: 'Paling Hemat' },
+    ],
+  },
+  {
+    id: 'unlimited',
+    name: 'Cabang & Karyawan Tak Terbatas',
+    badge: 'Terpopuler',
+    options: [
+      { months: 1, label: '1 Bulan', price: 'Rp 77.000', discount: null },
+      { months: 6, label: '6 Bulan', price: 'Rp 440.000', discount: 'Prioritas' },
+      { months: 12, label: '1 Tahun', price: 'Rp 770.000', discount: 'Hemat Maksimal' },
+    ],
+  },
+  {
+    id: 'enterprise',
+    name: 'Enterprise',
+    badge: 'Dedicated',
+    options: [
+      { months: 1, label: '1 Bulan', price: 'Rp 300.000', discount: 'Dedicated SLA' },
+      { months: 6, label: '6 Bulan', price: 'Rp 1.800.000', discount: 'Dedicated SLA' },
+      { months: 12, label: '1 Tahun', price: 'Rp 3.600.000', discount: 'Dedicated SLA' },
+    ],
+  },
 ];
 
 export default function PlanSelector({
@@ -25,6 +66,10 @@ export default function PlanSelector({
   durationMonths,
   onChangeDuration,
 }: PlanSelectorProps) {
+  const [activeTier, setActiveTier] = useState<SubscriptionTier>('single');
+
+  const currentTierData = SUBSCRIPTION_TIERS.find((t) => t.id === activeTier) || SUBSCRIPTION_TIERS[0];
+
   return (
     <div className="space-y-3 sm:space-y-4">
       <div className="flex items-center justify-between">
@@ -86,11 +131,11 @@ export default function PlanSelector({
               </li>
               <li className="flex items-center gap-1.5">
                 <CheckCircle2 className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-emerald-500 shrink-0" />
-                <span>Kasir POS & Cetak Struk Nota</span>
+                <span>Kasir POS &amp; Cetak Struk Nota</span>
               </li>
               <li className="flex items-center gap-1.5">
                 <CheckCircle2 className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-emerald-500 shrink-0" />
-                <span>Laporan Omset & Pengeluaran</span>
+                <span>Laporan Omset &amp; Pengeluaran</span>
               </li>
             </ul>
           </div>
@@ -137,7 +182,7 @@ export default function PlanSelector({
 
             <div className="pt-1.5 sm:pt-2 border-t border-slate-200 dark:border-[#1DA9D0]/15">
               <div className="flex items-baseline gap-1">
-                <span className="text-lg sm:text-xl font-black text-slate-900 dark:text-[#F5EACA]">Mulai 99rb</span>
+                <span className="text-lg sm:text-xl font-black text-slate-900 dark:text-[#F5EACA]">Mulai 30rb</span>
                 <span className="text-[10px] sm:text-[11px] text-slate-500 dark:text-[#F5EACA]/60 font-medium">/ bulan</span>
               </div>
               <p className="text-[10px] sm:text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold mt-0.5">
@@ -214,7 +259,7 @@ export default function PlanSelector({
             <ul className="space-y-1 sm:space-y-1.5 pt-1 sm:pt-2 text-[10px] sm:text-[11px] text-slate-600 dark:text-[#F5EACA]/80">
               <li className="flex items-center gap-1.5">
                 <CheckCircle2 className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-emerald-500 shrink-0" />
-                <span>Kasir POS & Kelola Order</span>
+                <span>Kasir POS &amp; Kelola Order</span>
               </li>
               <li className="flex items-center gap-1.5">
                 <CheckCircle2 className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-emerald-500 shrink-0" />
@@ -222,7 +267,7 @@ export default function PlanSelector({
               </li>
               <li className="flex items-center gap-1.5">
                 <CheckCircle2 className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-emerald-500 shrink-0" />
-                <span>Kelola Pelanggan & Paket Cuci</span>
+                <span>Kelola Pelanggan &amp; Paket Cuci</span>
               </li>
               <li className="flex items-center gap-1.5 text-slate-400 dark:text-[#F5EACA]/40">
                 <span className="w-3 h-3 text-center font-bold">✕</span>
@@ -245,46 +290,81 @@ export default function PlanSelector({
         </motion.div>
       </div>
 
-      {/* If Direct Subscription is selected, show duration selector */}
+      {/* If Direct Subscription is selected, show Tier and Duration Selector */}
       {selectedPlan === 'DIRECT_SUBSCRIPTION' && (
         <motion.div
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: 'auto' }}
           exit={{ opacity: 0, height: 0 }}
-          className="p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-emerald-50/80 dark:bg-[#012040]/70 border border-emerald-300 dark:border-emerald-500/30 space-y-2 sm:space-y-3"
+          className="p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-emerald-50/80 dark:bg-[#012040]/70 border border-emerald-300 dark:border-emerald-500/30 space-y-3"
         >
-          <div className="flex items-center justify-between">
-            <span className="text-[11px] sm:text-xs font-bold text-emerald-800 dark:text-emerald-300">
-              Pilih Durasi Langganan:
-            </span>
-            <span className="text-[10px] sm:text-[11px] text-emerald-700 dark:text-emerald-400">
-              Aktivasi instan
-            </span>
+          {/* Tier Selector */}
+          <div>
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-[11px] sm:text-xs font-bold text-emerald-900 dark:text-emerald-300">
+                1. Pilih Skala Paket:
+              </span>
+            </div>
+            <div className="grid grid-cols-3 gap-1.5">
+              {SUBSCRIPTION_TIERS.map((tier) => (
+                <button
+                  key={tier.id}
+                  type="button"
+                  onClick={() => setActiveTier(tier.id)}
+                  className={`p-2 rounded-xl text-left border transition-all cursor-pointer ${
+                    activeTier === tier.id
+                      ? 'border-2 border-emerald-600 dark:border-emerald-400 bg-white dark:bg-[#013D66] shadow-sm'
+                      : 'border-slate-200 dark:border-[#1DA9D0]/20 bg-white/60 dark:bg-[#012040]/40 hover:border-slate-300'
+                  }`}
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-emerald-100 dark:bg-emerald-900/60 text-emerald-800 dark:text-emerald-300">
+                      {tier.badge}
+                    </span>
+                  </div>
+                  <div className="text-[10px] sm:text-xs font-extrabold text-slate-900 dark:text-[#F5EACA] mt-1 leading-snug">
+                    {tier.name}
+                  </div>
+                </button>
+              ))}
+            </div>
           </div>
 
-          <div className="grid grid-cols-3 gap-1.5 sm:gap-2.5">
-            {DURATION_OPTIONS.map((opt) => (
-              <button
-                key={opt.months}
-                type="button"
-                onClick={() => onChangeDuration(opt.months)}
-                className={`p-1.5 sm:p-2.5 rounded-lg sm:rounded-xl border text-center transition-all cursor-pointer ${
-                  durationMonths === opt.months
-                    ? 'border-2 border-emerald-600 dark:border-emerald-400 bg-white dark:bg-[#013D66] shadow-sm text-slate-900 dark:text-[#F5EACA]'
-                    : 'border-slate-200 dark:border-[#1DA9D0]/20 bg-white/70 dark:bg-[#012040]/50 text-slate-700 dark:text-[#F5EACA]/70 hover:border-slate-300'
-                }`}
-              >
-                <div className="text-[10px] sm:text-xs font-bold">{opt.label}</div>
-                <div className="text-[10px] sm:text-xs font-extrabold text-emerald-600 dark:text-emerald-400 mt-0.5">
-                  {opt.price}
-                </div>
-                {opt.discount && (
-                  <span className="inline-block mt-0.5 sm:mt-1 px-1 sm:px-1.5 py-0.5 rounded bg-emerald-100 dark:bg-emerald-900/50 text-[8px] sm:text-[9px] font-bold text-emerald-700 dark:text-emerald-300">
-                    {opt.discount}
-                  </span>
-                )}
-              </button>
-            ))}
+          {/* Duration Selector */}
+          <div>
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-[11px] sm:text-xs font-bold text-emerald-900 dark:text-emerald-300">
+                2. Pilih Periode Tagihan:
+              </span>
+              <span className="text-[10px] text-emerald-700 dark:text-emerald-400">
+                Aktivasi instan
+              </span>
+            </div>
+
+            <div className="grid grid-cols-3 gap-1.5 sm:gap-2.5">
+              {currentTierData.options.map((opt) => (
+                <button
+                  key={opt.months}
+                  type="button"
+                  onClick={() => onChangeDuration(opt.months)}
+                  className={`p-2 sm:p-2.5 rounded-lg sm:rounded-xl border text-center transition-all cursor-pointer ${
+                    durationMonths === opt.months
+                      ? 'border-2 border-emerald-600 dark:border-emerald-400 bg-white dark:bg-[#013D66] shadow-sm text-slate-900 dark:text-[#F5EACA]'
+                      : 'border-slate-200 dark:border-[#1DA9D0]/20 bg-white/70 dark:bg-[#012040]/50 text-slate-700 dark:text-[#F5EACA]/70 hover:border-slate-300'
+                  }`}
+                >
+                  <div className="text-[10px] sm:text-xs font-bold">{opt.label}</div>
+                  <div className="text-[10px] sm:text-xs font-extrabold text-emerald-600 dark:text-emerald-400 mt-0.5">
+                    {opt.price}
+                  </div>
+                  {opt.discount && (
+                    <span className="inline-block mt-0.5 sm:mt-1 px-1 sm:px-1.5 py-0.5 rounded bg-emerald-100 dark:bg-emerald-900/50 text-[8px] sm:text-[9px] font-bold text-emerald-700 dark:text-emerald-300">
+                      {opt.discount}
+                    </span>
+                  )}
+                </button>
+              ))}
+            </div>
           </div>
         </motion.div>
       )}
