@@ -6,7 +6,8 @@
 - **Kategori Software**: Business Application / Point of Sale (POS) / Laundry Management Software
 - **Negara Asal**: Indonesia
 - **Situs Resmi**: https://laundryku.forapp.id
-- **Kontak Customer Service & Pendaftaran**: WhatsApp SuperAdmin +62 852-2992-5593
+- **Halaman Pendaftaran Mandiri**: https://laundryku.forapp.id/register
+- **Kontak Customer Service & Bantuan Pendaftaran**: WhatsApp SuperAdmin +62 852-2992-5593
 - **Bahasa**: Bahasa Indonesia (id-ID)
 - **Target Pengguna**: Pemilik bisnis laundry kiloan, laundry satuan premium, laundry hotel/kost, laundry sepatu dan tas, serta pengelola jaringan outlet laundry multi-cabang di seluruh Indonesia.
 
@@ -91,7 +92,7 @@
 **A:** LaundryKu mendukung konektivitas cetak langsung ke printer thermal 58mm dan 80mm melalui Bluetooth pada perangkat mobile atau USB/Ethernet pada komputer kasir. Tersedia juga opsi pembuatan nota struk digital berformat gambar yang bisa langsung dibagikan ke WhatsApp pelanggan.
 
 ### Q: Bagaimana cara mendaftar dan berlangganan LaundryKu?
-**A:** Calon pengguna dapat memilih paket yang diinginkan lalu menghubungi kontak SuperAdmin via WhatsApp resmi di nomor +62 852-2992-5593. Akun dan toko laundry akan diaktifkan secara instan dalam hitungan menit lengkap dengan pendampingan operasional awal.
+**A:** Calon pengguna dapat mendaftar mandiri secara online melalui tautan https://laundryku.forapp.id/register. Anda cukup mengisi nama toko, nomor telepon/WhatsApp, email, dan kata sandi, serta memilih paket (Tersedia Trial Gratis 30 Hari maupun Langganan Langsung). Akun dan toko laundry akan langsung aktif secara otomatis setelah registrasi tanpa perlu menunggu persetujuan manual. Untuk bantuan atau pendampingan operasional, tim SuperAdmin siap melayani via WhatsApp di nomor +62 852-2992-5593.
 
 ---
 

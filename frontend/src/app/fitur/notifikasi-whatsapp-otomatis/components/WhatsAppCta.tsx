@@ -32,7 +32,7 @@ export default function WhatsAppCta() {
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-2xl bg-white/10 hover:bg-white/15 border border-white/20 text-white font-bold text-xs sm:text-sm transition-all"
             >
               <MessageCircle className="w-4 h-4 text-[#43D5CC]" />
-              <span>Tanya SuperAdmin WA</span>
+              <span>Konsultasi via WhatsApp</span>
             </a>
           </div>
 

@@ -28,7 +28,7 @@ export default function LandingCta() {
             Siap Modernisasi Toko Laundry Anda Sekarang?
           </h2>
           <p className="text-slate-600 dark:text-[#F5EACA]/80 text-base max-w-xl mx-auto mb-8">
-            Daftarkan toko Anda sekarang untuk mencoba <strong className="text-sky-600 dark:text-[#43D5CC] font-bold">Trial 30 Hari Akses Premium</strong> atau hubungi SuperAdmin via WhatsApp di <strong className="text-sky-600 dark:text-[#43D5CC] font-bold">+62 852-2992-5593</strong>.
+            Daftar mandiri langsung aktif dalam hitungan detik dengan <strong className="text-sky-600 dark:text-[#43D5CC] font-bold">Trial 30 Hari Gratis</strong>, atau hubungi tim bantuan via WhatsApp di <strong className="text-sky-600 dark:text-[#43D5CC] font-bold">+62 852-2992-5593</strong>.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link

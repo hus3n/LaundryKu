@@ -146,7 +146,7 @@ export const FAQS: FaqItem[] = [
   {
     question: 'Bagaimana cara mendaftar dan mulai menggunakan LaundryKu?',
     answer:
-      'Pilih salah satu paket di atas, lalu hubungi SuperAdmin melalui WhatsApp di 0852-2992-5593. Tim kami akan menyiapkan akun toko Anda dan memberikan panduan penggunaan hingga kasir Anda siap beroperasi dalam hitungan menit.',
+      'Anda bisa mendaftar mandiri secara online langsung melalui halaman /register. Cukup isi nama toko, nomor WhatsApp, email, dan pilih paket (Trial Gratis 30 Hari atau Langganan Langsung). Akun dan toko Anda akan aktif seketika! Jika membutuhkan pendampingan, tim SuperAdmin siap membantu via WhatsApp di 0852-2992-5593.',
   },
 ];
 

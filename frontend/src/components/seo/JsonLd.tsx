@@ -211,10 +211,10 @@ export default function JsonLd({
       },
       {
         '@type': 'Question',
-        name: 'Bagaimana cara berlangganan dan memulai menggunakan LaundryKu?',
+        name: 'Bagaimana cara mendaftar dan mulai menggunakan LaundryKu?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Pilih paket yang sesuai (Starter, Pro, atau Enterprise), lalu hubungi SuperAdmin melalui WhatsApp di +62 852-2992-5593. Tim kami akan mengaktivasi toko Anda dalam hitungan menit dan mendampingi hingga siap operasional.',
+          text: 'Anda dapat mendaftar mandiri secara instan melalui halaman registrasi web di https://laundryku.forapp.id/register. Cukup pilih paket (Trial Gratis 30 Hari atau Langganan Langsung), isi data toko Anda, dan akun langsung aktif tanpa menunggu aktivasi manual. Tim SuperAdmin juga siap membantu pendampingan via WhatsApp di +62 852-2992-5593.',
         },
       },
       {

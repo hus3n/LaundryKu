@@ -166,4 +166,9 @@ export const PILLAR_FAQS: PillarFaqItem[] = [
     answer:
       'Ya, LaundryKu mendukung manajemen multi-outlet. Anda dapat memantau pendapatan dan performa seluruh cabang toko laundry Anda dalam satu dashboard admin terpadu.',
   },
+  {
+    question: 'Bagaimana cara mendaftar dan mulai menggunakan LaundryKu?',
+    answer:
+      'Pendaftaran dapat dilakukan secara mandiri dan instan melalui menu Daftar (/register). Cukup lengkapi nama toko, nomor WhatsApp, email, dan pilih paket (tersedia opsi Free Trial 30 Hari). Toko Anda langsung aktif seketika tanpa perlu menunggu verifikasi manual.',
+  },
 ];
