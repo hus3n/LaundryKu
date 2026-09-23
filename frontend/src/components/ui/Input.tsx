@@ -15,9 +15,9 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     const inputId = id || (label ? label.toLowerCase().replace(/\s+/g, '-') : undefined);
 
     return (
-      <div className="w-full space-y-1">
+      <div className="w-full space-y-1 sm:space-y-1.5">
         {label && (
-          <label htmlFor={inputId} className="block text-[11px] sm:text-xs font-semibold dark:text-[#F5EACA]/80 text-slate-700">
+          <label htmlFor={inputId} className="block text-xs sm:text-sm font-semibold dark:text-[#F5EACA]/80 text-slate-700">
             {label} {required && <span className="text-rose-500">*</span>}
           </label>
         )}
@@ -33,7 +33,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             ref={ref}
             id={inputId}
             required={required}
-            className={`w-full py-1.5 sm:py-2 rounded-lg sm:rounded-xl dark:bg-[#012040] bg-white border dark:border-[#1DA9D0]/25 border-slate-300 text-xs dark:text-[#F5EACA] text-slate-900 dark:placeholder-[#1DA9D0]/40 placeholder-slate-400 focus:outline-none focus:border-[#1DA9D0] focus:ring-2 focus:ring-[#1DA9D0]/20 transition-all ${
+            className={`w-full py-2 sm:py-2.5 rounded-xl dark:bg-[#012040] bg-white border dark:border-[#1DA9D0]/25 border-slate-300 text-xs sm:text-sm dark:text-[#F5EACA] text-slate-900 dark:placeholder-[#1DA9D0]/40 placeholder-slate-400 focus:outline-none focus:border-[#1DA9D0] focus:ring-2 focus:ring-[#1DA9D0]/20 transition-all ${
               leftIcon ? 'pl-9 pr-3 sm:pl-10 sm:pr-4' : 'px-3 sm:px-3.5'
             } ${rightIcon ? 'pr-9 sm:pr-10' : ''} ${
               error ? 'border-rose-500 focus:border-rose-500 focus:ring-rose-500/20' : ''
@@ -49,9 +49,9 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         </div>
 
         {error ? (
-          <p className="text-[10px] text-rose-500 font-medium">{error}</p>
+          <p className="text-xs text-rose-500 font-medium">{error}</p>
         ) : helperText ? (
-          <p className="text-[10px] text-slate-500 dark:text-[#F5EACA]/50">{helperText}</p>
+          <p className="text-xs text-slate-500 dark:text-[#F5EACA]/50">{helperText}</p>
         ) : null}
       </div>
     );

@@ -62,11 +62,11 @@ export default function QuickAccessMenu({
           <div>
             <h2 className="text-sm sm:text-base font-bold text-slate-900 dark:text-[#F5EACA] flex items-center gap-1.5">
               {title}
-              <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-slate-100 dark:bg-[#013D66] text-slate-600 dark:text-[#43D5CC] border border-slate-200 dark:border-[#1DA9D0]/20">
+              <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-slate-100 dark:bg-[#013D66] text-slate-600 dark:text-[#43D5CC] border border-slate-200 dark:border-[#1DA9D0]/20">
                 {filteredItems.length} Pintasan
               </span>
             </h2>
-            <p className="text-[10px] sm:text-xs text-slate-500 dark:text-[#F5EACA]/60">
+            <p className="text-xs sm:text-sm text-slate-500 dark:text-[#F5EACA]/60">
               {subtitle}
             </p>
           </div>
@@ -74,14 +74,14 @@ export default function QuickAccessMenu({
 
         {/* Filter Input for fast searching */}
         {items.length > 4 && (
-          <div className="relative w-full sm:w-60">
-            <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-[#F5EACA]/40" />
+          <div className="relative w-full sm:w-64">
+            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-[#F5EACA]/40" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Cari pintasan menu..."
-              className="w-full pl-8.5 pr-3 py-1.5 rounded-xl text-xs bg-white dark:bg-[#012040] border border-slate-200 dark:border-[#1DA9D0]/20 text-slate-800 dark:text-[#F5EACA] placeholder:text-slate-400 dark:placeholder:text-[#F5EACA]/40 focus:outline-none focus:border-[#1DA9D0] focus:ring-1 focus:ring-[#1DA9D0]/30 transition-all shadow-xs"
+              className="w-full pl-9 pr-3 py-2 rounded-xl text-xs sm:text-sm bg-white dark:bg-[#012040] border border-slate-200 dark:border-[#1DA9D0]/20 text-slate-800 dark:text-[#F5EACA] placeholder:text-slate-400 dark:placeholder:text-[#F5EACA]/40 focus:outline-none focus:border-[#1DA9D0] focus:ring-1 focus:ring-[#1DA9D0]/30 transition-all shadow-xs"
             />
           </div>
         )}

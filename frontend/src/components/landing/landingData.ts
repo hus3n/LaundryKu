@@ -14,6 +14,24 @@ export interface FaqItem {
   answer: string;
 }
 
+export interface FooterLink {
+  label: string;
+  href: string;
+}
+
+export const FOOTER_PAGE_LINKS: FooterLink[] = [
+  { label: 'Fitur Utama', href: '#features' },
+  { label: 'Cara Kerja', href: '#how-it-works' },
+  { label: 'Keunggulan', href: '#advantages' },
+  { label: 'Paket Harga', href: '#pricing' },
+  { label: 'Tanya Jawab (FAQ)', href: '#faq' },
+];
+
+export const FOOTER_LEGAL_LINKS: FooterLink[] = [
+  { label: 'Syarat & Ketentuan Layanan', href: '/terms' },
+  { label: 'Kebijakan Privasi Data', href: '/privacy' },
+];
+
 export const SUPERADMIN_WA_NUMBER = '6285229925593';
 
 export const PRICING_PLANS: PricingPlan[] = [

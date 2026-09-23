@@ -26,13 +26,11 @@ export default function RegisterFormFields({
       <div className="grid sm:grid-cols-2 gap-2.5 sm:gap-4">
         {/* Store Name */}
         <div>
-          <label className="block text-[11px] sm:text-xs font-semibold text-slate-700 dark:text-[#F5EACA]/80 mb-1 sm:mb-1.5">
+          <label className="block text-xs sm:text-sm font-semibold text-slate-700 dark:text-[#F5EACA]/80 mb-1 sm:mb-1.5">
             Nama Toko Laundry <span className="text-rose-500">*</span>
           </label>
           <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 sm:pl-3.5 flex items-center pointer-events-none text-slate-400 dark:text-[#F5EACA]/40">
-              <Store className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-            </div>
+            <Store className="w-4 h-4 text-slate-400 dark:text-[#1DA9D0]/50 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none shrink-0" />
             <input
               type="text"
               required
@@ -40,27 +38,25 @@ export default function RegisterFormFields({
               value={formData.storeName}
               onChange={(e) => onChange('storeName', e.target.value)}
               placeholder="Contoh: Berkah Laundry"
-              className={`w-full pl-8.5 sm:pl-10 pr-3 sm:pr-4 py-2 sm:py-2.5 rounded-lg sm:rounded-xl border text-xs transition-colors dark:bg-[#013D66]/40 dark:text-[#F5EACA] text-slate-900 placeholder:text-slate-400 dark:placeholder:text-[#F5EACA]/30 ${
+              className={`w-full pl-10 sm:pl-10 pr-3.5 py-2 sm:py-2.5 rounded-xl border text-xs sm:text-sm transition-all bg-slate-50 dark:bg-[#012040] dark:text-[#F5EACA] text-slate-900 placeholder:text-slate-400 dark:placeholder:text-[#1DA9D0]/40 focus:outline-none focus:ring-2 ${
                 errors.storeName
                   ? 'border-rose-500 focus:ring-rose-500/20'
-                  : 'border-slate-300 dark:border-[#1DA9D0]/25 focus:border-[#1DA9D0] dark:focus:border-[#43D5CC]'
+                  : 'border-slate-300 dark:border-[#1DA9D0]/25 focus:border-[#1DA9D0] focus:ring-[#1DA9D0]/20'
               }`}
             />
           </div>
           {errors.storeName && (
-            <p className="text-[10px] sm:text-[11px] text-rose-500 mt-1">{errors.storeName}</p>
+            <p className="text-xs text-rose-500 mt-1 font-medium">{errors.storeName}</p>
           )}
         </div>
 
         {/* Owner Name */}
         <div>
-          <label className="block text-[11px] sm:text-xs font-semibold text-slate-700 dark:text-[#F5EACA]/80 mb-1 sm:mb-1.5">
+          <label className="block text-xs sm:text-sm font-semibold text-slate-700 dark:text-[#F5EACA]/80 mb-1 sm:mb-1.5">
             Nama Pengelola / Owner <span className="text-rose-500">*</span>
           </label>
           <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 sm:pl-3.5 flex items-center pointer-events-none text-slate-400 dark:text-[#F5EACA]/40">
-              <User className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-            </div>
+            <User className="w-4 h-4 text-slate-400 dark:text-[#1DA9D0]/50 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none shrink-0" />
             <input
               type="text"
               required
@@ -68,15 +64,15 @@ export default function RegisterFormFields({
               value={formData.name}
               onChange={(e) => onChange('name', e.target.value)}
               placeholder="Nama lengkap Anda"
-              className={`w-full pl-8.5 sm:pl-10 pr-3 sm:pr-4 py-2 sm:py-2.5 rounded-lg sm:rounded-xl border text-xs transition-colors dark:bg-[#013D66]/40 dark:text-[#F5EACA] text-slate-900 placeholder:text-slate-400 dark:placeholder:text-[#F5EACA]/30 ${
+              className={`w-full pl-10 sm:pl-10 pr-3.5 py-2 sm:py-2.5 rounded-xl border text-xs sm:text-sm transition-all bg-slate-50 dark:bg-[#012040] dark:text-[#F5EACA] text-slate-900 placeholder:text-slate-400 dark:placeholder:text-[#1DA9D0]/40 focus:outline-none focus:ring-2 ${
                 errors.name
                   ? 'border-rose-500 focus:ring-rose-500/20'
-                  : 'border-slate-300 dark:border-[#1DA9D0]/25 focus:border-[#1DA9D0] dark:focus:border-[#43D5CC]'
+                  : 'border-slate-300 dark:border-[#1DA9D0]/25 focus:border-[#1DA9D0] focus:ring-[#1DA9D0]/20'
               }`}
             />
           </div>
           {errors.name && (
-            <p className="text-[10px] sm:text-[11px] text-rose-500 mt-1">{errors.name}</p>
+            <p className="text-xs text-rose-500 mt-1 font-medium">{errors.name}</p>
           )}
         </div>
       </div>
@@ -85,13 +81,11 @@ export default function RegisterFormFields({
       <div className="grid sm:grid-cols-2 gap-2.5 sm:gap-4">
         {/* WhatsApp Phone */}
         <div>
-          <label className="block text-[11px] sm:text-xs font-semibold text-slate-700 dark:text-[#F5EACA]/80 mb-1 sm:mb-1.5">
+          <label className="block text-xs sm:text-sm font-semibold text-slate-700 dark:text-[#F5EACA]/80 mb-1 sm:mb-1.5">
             Nomor WhatsApp Toko <span className="text-rose-500">*</span>
           </label>
           <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 sm:pl-3.5 flex items-center pointer-events-none text-slate-400 dark:text-[#F5EACA]/40">
-              <Phone className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-            </div>
+            <Phone className="w-4 h-4 text-slate-400 dark:text-[#1DA9D0]/50 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none shrink-0" />
             <input
               type="tel"
               required
@@ -99,27 +93,25 @@ export default function RegisterFormFields({
               value={formData.phone}
               onChange={(e) => onChange('phone', e.target.value)}
               placeholder="Contoh: 081234567890"
-              className={`w-full pl-8.5 sm:pl-10 pr-3 sm:pr-4 py-2 sm:py-2.5 rounded-lg sm:rounded-xl border text-xs transition-colors dark:bg-[#013D66]/40 dark:text-[#F5EACA] text-slate-900 placeholder:text-slate-400 dark:placeholder:text-[#F5EACA]/30 ${
+              className={`w-full pl-10 sm:pl-10 pr-3.5 py-2 sm:py-2.5 rounded-xl border text-xs sm:text-sm transition-all bg-slate-50 dark:bg-[#012040] dark:text-[#F5EACA] text-slate-900 placeholder:text-slate-400 dark:placeholder:text-[#1DA9D0]/40 focus:outline-none focus:ring-2 ${
                 errors.phone
                   ? 'border-rose-500 focus:ring-rose-500/20'
-                  : 'border-slate-300 dark:border-[#1DA9D0]/25 focus:border-[#1DA9D0] dark:focus:border-[#43D5CC]'
+                  : 'border-slate-300 dark:border-[#1DA9D0]/25 focus:border-[#1DA9D0] focus:ring-[#1DA9D0]/20'
               }`}
             />
           </div>
           {errors.phone && (
-            <p className="text-[10px] sm:text-[11px] text-rose-500 mt-1">{errors.phone}</p>
+            <p className="text-xs text-rose-500 mt-1 font-medium">{errors.phone}</p>
           )}
         </div>
 
         {/* Email */}
         <div>
-          <label className="block text-[11px] sm:text-xs font-semibold text-slate-700 dark:text-[#F5EACA]/80 mb-1 sm:mb-1.5">
+          <label className="block text-xs sm:text-sm font-semibold text-slate-700 dark:text-[#F5EACA]/80 mb-1 sm:mb-1.5">
             Alamat Email (Akun Login) <span className="text-rose-500">*</span>
           </label>
           <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 sm:pl-3.5 flex items-center pointer-events-none text-slate-400 dark:text-[#F5EACA]/40">
-              <Mail className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-            </div>
+            <Mail className="w-4 h-4 text-slate-400 dark:text-[#1DA9D0]/50 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none shrink-0" />
             <input
               type="email"
               required
@@ -127,15 +119,15 @@ export default function RegisterFormFields({
               value={formData.email}
               onChange={(e) => onChange('email', e.target.value)}
               placeholder="owner@laundry.com"
-              className={`w-full pl-8.5 sm:pl-10 pr-3 sm:pr-4 py-2 sm:py-2.5 rounded-lg sm:rounded-xl border text-xs transition-colors dark:bg-[#013D66]/40 dark:text-[#F5EACA] text-slate-900 placeholder:text-slate-400 dark:placeholder:text-[#F5EACA]/30 ${
+              className={`w-full pl-10 sm:pl-10 pr-3.5 py-2 sm:py-2.5 rounded-xl border text-xs sm:text-sm transition-all bg-slate-50 dark:bg-[#012040] dark:text-[#F5EACA] text-slate-900 placeholder:text-slate-400 dark:placeholder:text-[#1DA9D0]/40 focus:outline-none focus:ring-2 ${
                 errors.email
                   ? 'border-rose-500 focus:ring-rose-500/20'
-                  : 'border-slate-300 dark:border-[#1DA9D0]/25 focus:border-[#1DA9D0] dark:focus:border-[#43D5CC]'
+                  : 'border-slate-300 dark:border-[#1DA9D0]/25 focus:border-[#1DA9D0] focus:ring-[#1DA9D0]/20'
               }`}
             />
           </div>
           {errors.email && (
-            <p className="text-[10px] sm:text-[11px] text-rose-500 mt-1">{errors.email}</p>
+            <p className="text-xs text-rose-500 mt-1 font-medium">{errors.email}</p>
           )}
         </div>
       </div>
@@ -144,13 +136,11 @@ export default function RegisterFormFields({
       <div className="grid sm:grid-cols-2 gap-2.5 sm:gap-4">
         {/* Password */}
         <div>
-          <label className="block text-[11px] sm:text-xs font-semibold text-slate-700 dark:text-[#F5EACA]/80 mb-1 sm:mb-1.5">
+          <label className="block text-xs sm:text-sm font-semibold text-slate-700 dark:text-[#F5EACA]/80 mb-1 sm:mb-1.5">
             Kata Sandi / Password <span className="text-rose-500">*</span>
           </label>
           <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 sm:pl-3.5 flex items-center pointer-events-none text-slate-400 dark:text-[#F5EACA]/40">
-              <Lock className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-            </div>
+            <Lock className="w-4 h-4 text-slate-400 dark:text-[#1DA9D0]/50 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none shrink-0" />
             <input
               type={showPassword ? 'text' : 'password'}
               required
@@ -158,35 +148,34 @@ export default function RegisterFormFields({
               value={formData.password}
               onChange={(e) => onChange('password', e.target.value)}
               placeholder="Minimal 6 karakter"
-              className={`w-full pl-8.5 sm:pl-10 pr-9 sm:pr-10 py-2 sm:py-2.5 rounded-lg sm:rounded-xl border text-xs transition-colors dark:bg-[#013D66]/40 dark:text-[#F5EACA] text-slate-900 placeholder:text-slate-400 dark:placeholder:text-[#F5EACA]/30 ${
+              className={`w-full pl-10 sm:pl-10 pr-10 py-2 sm:py-2.5 rounded-xl border text-xs sm:text-sm transition-all bg-slate-50 dark:bg-[#012040] dark:text-[#F5EACA] text-slate-900 placeholder:text-slate-400 dark:placeholder:text-[#1DA9D0]/40 focus:outline-none focus:ring-2 ${
                 errors.password
                   ? 'border-rose-500 focus:ring-rose-500/20'
-                  : 'border-slate-300 dark:border-[#1DA9D0]/25 focus:border-[#1DA9D0] dark:focus:border-[#43D5CC]'
+                  : 'border-slate-300 dark:border-[#1DA9D0]/25 focus:border-[#1DA9D0] focus:ring-[#1DA9D0]/20'
               }`}
             />
             <button
               type="button"
               tabIndex={-1}
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute inset-y-0 right-0 pr-2.5 sm:pr-3 flex items-center text-slate-400 dark:text-[#F5EACA]/40 hover:text-slate-600 dark:hover:text-[#F5EACA]"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-[#F5EACA]/40 hover:text-slate-600 dark:hover:text-[#F5EACA] p-1 cursor-pointer"
+              aria-label={showPassword ? 'Sembunyikan sandi' : 'Tampilkan sandi'}
             >
-              {showPassword ? <EyeOff className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> : <Eye className="w-3.5 h-3.5 sm:w-4 sm:h-4" />}
+              {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
             </button>
           </div>
           {errors.password && (
-            <p className="text-[10px] sm:text-[11px] text-rose-500 mt-1">{errors.password}</p>
+            <p className="text-xs text-rose-500 mt-1 font-medium">{errors.password}</p>
           )}
         </div>
 
         {/* Confirm Password */}
         <div>
-          <label className="block text-[11px] sm:text-xs font-semibold text-slate-700 dark:text-[#F5EACA]/80 mb-1 sm:mb-1.5">
+          <label className="block text-xs sm:text-sm font-semibold text-slate-700 dark:text-[#F5EACA]/80 mb-1 sm:mb-1.5">
             Ulangi Kata Sandi <span className="text-rose-500">*</span>
           </label>
           <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 sm:pl-3.5 flex items-center pointer-events-none text-slate-400 dark:text-[#F5EACA]/40">
-              <Lock className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-            </div>
+            <Lock className="w-4 h-4 text-slate-400 dark:text-[#1DA9D0]/50 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none shrink-0" />
             <input
               type={showConfirmPassword ? 'text' : 'password'}
               required
@@ -194,43 +183,42 @@ export default function RegisterFormFields({
               value={formData.confirmPassword}
               onChange={(e) => onChange('confirmPassword', e.target.value)}
               placeholder="Ketik ulang kata sandi"
-              className={`w-full pl-8.5 sm:pl-10 pr-9 sm:pr-10 py-2 sm:py-2.5 rounded-lg sm:rounded-xl border text-xs transition-colors dark:bg-[#013D66]/40 dark:text-[#F5EACA] text-slate-900 placeholder:text-slate-400 dark:placeholder:text-[#F5EACA]/30 ${
+              className={`w-full pl-10 sm:pl-10 pr-10 py-2 sm:py-2.5 rounded-xl border text-xs sm:text-sm transition-all bg-slate-50 dark:bg-[#012040] dark:text-[#F5EACA] text-slate-900 placeholder:text-slate-400 dark:placeholder:text-[#1DA9D0]/40 focus:outline-none focus:ring-2 ${
                 errors.confirmPassword
                   ? 'border-rose-500 focus:ring-rose-500/20'
-                  : 'border-slate-300 dark:border-[#1DA9D0]/25 focus:border-[#1DA9D0] dark:focus:border-[#43D5CC]'
+                  : 'border-slate-300 dark:border-[#1DA9D0]/25 focus:border-[#1DA9D0] focus:ring-[#1DA9D0]/20'
               }`}
             />
             <button
               type="button"
               tabIndex={-1}
               onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-              className="absolute inset-y-0 right-0 pr-2.5 sm:pr-3 flex items-center text-slate-400 dark:text-[#F5EACA]/40 hover:text-slate-600 dark:hover:text-[#F5EACA]"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-[#F5EACA]/40 hover:text-slate-600 dark:hover:text-[#F5EACA] p-1 cursor-pointer"
+              aria-label={showConfirmPassword ? 'Sembunyikan sandi' : 'Tampilkan sandi'}
             >
-              {showConfirmPassword ? <EyeOff className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> : <Eye className="w-3.5 h-3.5 sm:w-4 sm:h-4" />}
+              {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
             </button>
           </div>
           {errors.confirmPassword && (
-            <p className="text-[10px] sm:text-[11px] text-rose-500 mt-1">{errors.confirmPassword}</p>
+            <p className="text-xs text-rose-500 mt-1 font-medium">{errors.confirmPassword}</p>
           )}
         </div>
       </div>
 
       {/* Store Address (Optional) */}
       <div>
-        <label className="block text-[11px] sm:text-xs font-semibold text-slate-700 dark:text-[#F5EACA]/80 mb-1 sm:mb-1.5">
+        <label className="block text-xs sm:text-sm font-semibold text-slate-700 dark:text-[#F5EACA]/80 mb-1 sm:mb-1.5">
           Alamat Toko Laundry <span className="text-slate-400 font-normal">(Opsional)</span>
         </label>
         <div className="relative">
-          <div className="absolute top-2 left-0 pl-3 sm:pl-3.5 flex items-center pointer-events-none text-slate-400 dark:text-[#F5EACA]/40">
-            <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-          </div>
+          <MapPin className="w-4 h-4 text-slate-400 dark:text-[#1DA9D0]/50 absolute left-3.5 top-3 pointer-events-none shrink-0" />
           <textarea
             rows={2}
             disabled={isSubmitting}
             value={formData.storeAddress}
             onChange={(e) => onChange('storeAddress', e.target.value)}
             placeholder="Jalan, nomor ruko, kelurahan, kota..."
-            className="w-full pl-8.5 sm:pl-10 pr-3 sm:pr-4 py-1.5 sm:py-2 rounded-lg sm:rounded-xl border border-slate-300 dark:border-[#1DA9D0]/25 focus:border-[#1DA9D0] dark:focus:border-[#43D5CC] text-xs transition-colors dark:bg-[#013D66]/40 dark:text-[#F5EACA] text-slate-900 placeholder:text-slate-400 dark:placeholder:text-[#F5EACA]/30 resize-none"
+            className="w-full pl-10 sm:pl-10 pr-3.5 py-2 sm:py-2.5 rounded-xl border border-slate-300 dark:border-[#1DA9D0]/25 focus:border-[#1DA9D0] focus:ring-2 focus:ring-[#1DA9D0]/20 text-xs sm:text-sm transition-all bg-slate-50 dark:bg-[#012040] dark:text-[#F5EACA] text-slate-900 placeholder:text-slate-400 dark:placeholder:text-[#1DA9D0]/40 resize-none focus:outline-none"
           />
         </div>
       </div>

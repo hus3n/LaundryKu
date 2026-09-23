@@ -39,7 +39,7 @@ export default function QuickAccessCard({ item }: QuickAccessCardProps) {
 
           <div className="flex items-center gap-1">
             {item.badge && (
-              <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-md bg-[#1DA9D0]/15 dark:bg-[#1DA9D0]/25 text-sky-800 dark:text-[#43D5CC] border border-[#1DA9D0]/30 uppercase tracking-wider">
+              <span className="text-[10px] sm:text-xs font-bold px-1.5 py-0.5 rounded-md bg-[#1DA9D0]/15 dark:bg-[#1DA9D0]/25 text-sky-800 dark:text-[#43D5CC] border border-[#1DA9D0]/30 uppercase tracking-wider">
                 {item.badge}
               </span>
             )}
@@ -49,10 +49,10 @@ export default function QuickAccessCard({ item }: QuickAccessCardProps) {
 
         {/* Content */}
         <div className="space-y-0.5">
-          <h3 className="text-xs sm:text-[13px] font-bold text-slate-900 dark:text-[#F5EACA] leading-snug group-hover:text-[#1DA9D0] dark:group-hover:text-[#43D5CC] transition-colors">
+          <h3 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-[#F5EACA] leading-snug group-hover:text-[#1DA9D0] dark:group-hover:text-[#43D5CC] transition-colors">
             {item.title}
           </h3>
-          <p className="text-[10px] text-slate-500 dark:text-[#F5EACA]/60 line-clamp-2 leading-relaxed">
+          <p className="text-xs text-slate-500 dark:text-[#F5EACA]/60 line-clamp-2 leading-relaxed">
             {item.description}
           </p>
         </div>

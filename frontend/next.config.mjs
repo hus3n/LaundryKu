@@ -35,6 +35,25 @@ const nextConfig = {
       },
     ];
   },
+  async redirects() {
+    return [
+      {
+        source: '/syarat-ketentuan',
+        destination: '/terms',
+        permanent: true,
+      },
+      {
+        source: '/ketentuan',
+        destination: '/terms',
+        permanent: true,
+      },
+      {
+        source: '/kebijakan-privasi',
+        destination: '/privacy',
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

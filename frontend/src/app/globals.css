@@ -17,9 +17,48 @@
     --foreground: 44 76% 91%;
   }
 
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
   body {
     @apply bg-slate-50 text-slate-900 dark:bg-[#010E1C] dark:text-[#F5EACA] antialiased selection:bg-brand-500 selection:text-white min-h-screen transition-colors duration-150;
     font-feature-settings: "rlig" 1, "calt" 1;
+    font-size: 0.875rem;
+    line-height: 1.35rem;
+  }
+}
+
+/* Mobile Display Scaling & Optimization (< 640px) */
+@media (max-width: 639px) {
+  /* Prevent microscopic text and slightly boost mobile legibility */
+  .text-\[8px\] {
+    font-size: 0.6875rem !important; /* 11px */
+    line-height: 0.95rem !important;
+  }
+  .text-\[9px\] {
+    font-size: 0.6875rem !important; /* 11px */
+    line-height: 0.95rem !important;
+  }
+  .text-\[10px\] {
+    font-size: 0.75rem !important; /* 12px */
+    line-height: 1.05rem !important;
+  }
+  .text-\[11px\] {
+    font-size: 0.8125rem !important; /* 13px */
+    line-height: 1.15rem !important;
+  }
+  .text-xs {
+    font-size: 0.8125rem !important; /* 13px */
+    line-height: 1.15rem !important;
+  }
+
+  /* Form inputs and select elements comfortable font and touch */
+  input:not([type="checkbox"]):not([type="radio"]),
+  select,
+  textarea {
+    font-size: 0.875rem !important; /* 14px */
   }
 }
 
