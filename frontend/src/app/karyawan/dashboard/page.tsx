@@ -9,6 +9,7 @@ import type { LaundryOrder } from '@/types';
 import KaryawanHeader from './components/KaryawanHeader';
 import KaryawanMetrics from './components/KaryawanMetrics';
 import KaryawanRecentOrders from './components/KaryawanRecentOrders';
+import { DownloadAppButton } from '@/app/components/DownloadAppButton';
 
 export default function KaryawanDashboardPage() {
   const { user } = useAuth();
@@ -46,11 +47,18 @@ export default function KaryawanDashboardPage() {
     <DashboardLayout role="EMPLOYEE">
       <div className="space-y-4 sm:space-y-6">
         {/* Top Header */}
-        <KaryawanHeader
-          userName={user?.name}
-          loading={loading}
-          onRefresh={fetchOrders}
-        />
+        <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+          <div className="flex-1">
+            <KaryawanHeader
+              userName={user?.name}
+              loading={loading}
+              onRefresh={fetchOrders}
+            />
+          </div>
+          <div className="flex-shrink-0 mt-4 md:mt-0">
+            <DownloadAppButton />
+          </div>
+        </div>
 
         {/* Akses Cepat Menu Section */}
         <QuickAccessMenu

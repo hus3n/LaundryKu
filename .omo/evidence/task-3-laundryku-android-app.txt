@@ -1,0 +1,1 @@
+﻿getApiUrl logic modified for Capacitor to use absolute NEXT_PUBLIC_API_URL or fallback 'http://localhost:4001/api'. When isCapacitor is true, it overrides Next.js '/api' rewriting. Non-Capacitor browsers behavior maintained.

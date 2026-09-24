@@ -12,6 +12,7 @@ import LandingPricing from '@/components/landing/LandingPricing';
 import LandingFaq from '@/components/landing/LandingFaq';
 import LandingCta from '@/components/landing/LandingCta';
 import LandingFooter from '@/components/landing/LandingFooter';
+import { DownloadAppButton } from '@/app/components/DownloadAppButton';
 
 export default function LandingPage() {
   const { scrollYProgress } = useScroll();
@@ -45,6 +46,9 @@ export default function LandingPage() {
         <LandingReviews />
         <LandingPricing />
         <LandingFaq />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16 relative z-10">
+          <DownloadAppButton variant="banner" />
+        </div>
         <LandingCta />
       </main>
       <LandingFooter />

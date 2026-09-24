@@ -1,0 +1,18 @@
+Task: Create Dexie.js local database module for offline storage (LaundryKuDB)
+File Path: frontend/src/lib/db.ts
+
+Table Definitions:
+- karyawan_cache:
+  - Fields: id (string, PK), type (string), data (unknown), updatedAt (number)
+  - Indexes: id, type, updatedAt
+  - Methods: putCached(type, items), getCached(type)
+
+- sync_outbox:
+  - Fields: id (number, auto-increment PK), url (string), method (HttpMethod), payload (unknown), createdAt (number), status (SyncStatus), retryCount (number)
+  - Indexes: ++id, status, createdAt
+  - Methods: enqueue(entry), peekPending(limit=10), markSynced(id), markFailed(id)
+
+Status: 
+- File created successfully.
+- Implemented with strict TypeScript (using `unknown` instead of `any`).
+- Dependencies note: The `dexie` package is not yet in `package.json` as it is being installed by a parallel worker.

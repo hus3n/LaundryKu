@@ -4,6 +4,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import DashboardLayout from '@/components/layouts/DashboardLayout';
 import { api } from '@/lib/api';
+import { db } from '@/lib/db';
 import { AlertCircle } from 'lucide-react';
 import { useFormDraft, DraftStatus } from '@/hooks/useFormDraft';
 import {
@@ -162,8 +163,7 @@ export default function NewLaundryOrderPage() {
 
     try {
       const formattedItems = items.map((i) => ({ ...i, quantity: i.quantity }));
-
-      await api.post('/laundry', {
+      const payload = {
         customerName,
         customerPhone,
         customerAddress,
@@ -174,7 +174,21 @@ export default function NewLaundryOrderPage() {
         clothesCount,
         paymentStatus,
         paymentMethod: paymentStatus === 'PAID' ? paymentMethod : undefined,
-      });
+      };
+
+      if (!navigator.onLine) {
+        await db.enqueue({
+          url: '/laundry',
+          method: 'POST',
+          payload,
+        });
+        alert('Tersimpan Offline - Data akan dikirim otomatis saat internet aktif');
+        clearDraft();
+        router.push('/admin/laundry');
+        return;
+      }
+
+      await api.post('/laundry', payload);
 
       clearDraft();
       router.push('/admin/laundry');

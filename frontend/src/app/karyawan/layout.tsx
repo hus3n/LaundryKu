@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import SyncHandler from './SyncHandler';
 
 export const metadata: Metadata = {
   title: 'Kasir & Karyawan Portal',
@@ -14,5 +15,10 @@ export default function KaryawanLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <>{children}</>;
+  return (
+    <>
+      <SyncHandler />
+      {children}
+    </>
+  );
 }

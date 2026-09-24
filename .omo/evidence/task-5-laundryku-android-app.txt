@@ -1,0 +1,14 @@
+Edited Files:
+- frontend/src/app/karyawan/layout.tsx
+
+Created Files:
+- frontend/src/lib/sync.ts
+- frontend/src/app/karyawan/SyncHandler.tsx
+
+Changes:
+1. Created `syncQueue` function in `frontend/src/lib/sync.ts` that safely drains the Dexie background sync queue and interacts with the HTTP API using the configured interceptors.
+2. Created `SyncHandler.tsx` as a Client Component boundary to avoid breaking metadata in Next.js App Router layouts.
+3. Added the `SyncHandler` component to `frontend/src/app/karyawan/layout.tsx`.
+
+Verification:
+- Zero TS type errors (`npx tsc --noEmit` on frontend passes).

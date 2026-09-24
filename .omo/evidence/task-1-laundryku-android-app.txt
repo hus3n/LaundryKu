@@ -1,0 +1,10 @@
+Commands run and exit codes:
+1. `npm install @capacitor/core @capacitor/cli @capacitor/android dexie dexie-react-hooks` (in frontend) - Exit code 0
+2. `npx cap init LaundryKu com.laundryku.app --web-dir out` (in frontend) - Exit code 0
+3. `New-Item -ItemType Directory -Force -Path out; Set-Content -Path out\index.html -Value '<!DOCTYPE html><html><head><title>LaundryKu</title></head><body><div id="root"></div></body></html>'` (in frontend) - Exit code 0
+4. `npx cap add android` (in frontend) - Exit code 0
+5. `npx cap sync` (in frontend) - Exit code 0
+
+Verification:
+- frontend/capacitor.config.ts exists and has appId com.laundryku.app and webDir out.
+- frontend/android/ is present and contains Gradle settings.

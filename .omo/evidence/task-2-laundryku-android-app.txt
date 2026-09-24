@@ -1,0 +1,8 @@
+MOBILE_BUILD=true npm run build: Exit code 0, generated out/index.html.
+npx cap sync: Exit code 0, Copied web assets from out to android.
+npm run build: Exit code 0, successful fallback to web build without export.
+Edited:
+- frontend/next.config.mjs: Added MOBILE_BUILD env check to configure export mode, disable rewrites, and unoptimize images.
+- frontend/src/app/reset-password/[token]/page.tsx: Separated into a Server Component with generateStaticParams() returning a dummy token to allow Next.js static export.
+- frontend/src/app/reset-password/[token]/ResetPasswordClient.tsx: Created this file to hold the original Client Component content of the reset-password page.
+

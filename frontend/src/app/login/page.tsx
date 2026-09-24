@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import ThemeToggle from '@/components/ui/ThemeToggle';
 import UnifiedAuthCard from '@/components/auth/UnifiedAuthCard';
+import { DownloadAppButton } from '@/app/components/DownloadAppButton';
 
 export default function LoginPage() {
   return (
@@ -29,9 +30,15 @@ export default function LoginPage() {
       <div className="absolute -top-32 -left-32 w-96 h-96 bg-[#1DA9D0]/15 rounded-full blur-[100px] pointer-events-none dark:opacity-100 opacity-50" />
       <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-[#015383]/20 rounded-full blur-[100px] pointer-events-none dark:opacity-100 opacity-50" />
 
-      <Suspense fallback={<div className="text-xs dark:text-[#F5EACA]/60 text-slate-500">Memuat halaman masuk...</div>}>
-        <UnifiedAuthCard initialMode="login" />
-      </Suspense>
+      <div className="relative z-10 w-full max-w-5xl flex flex-col items-center">
+        <Suspense fallback={<div className="text-xs dark:text-[#F5EACA]/60 text-slate-500">Memuat halaman masuk...</div>}>
+          <UnifiedAuthCard initialMode="login" />
+        </Suspense>
+        
+        <div className="mt-8">
+          <DownloadAppButton variant="outline" className="bg-white/80 dark:bg-[#012040]/80 backdrop-blur-sm shadow-sm" />
+        </div>
+      </div>
     </div>
   );
 }

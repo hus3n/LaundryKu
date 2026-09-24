@@ -2,8 +2,14 @@ import axios from 'axios';
 
 export const getApiUrl = (): string => {
   if (typeof window !== 'undefined') {
-    // If NEXT_PUBLIC_API_URL is an external custom URL (not localhost), use it
+    const isCapacitor = !!(window as unknown as { Capacitor?: { isNativePlatform?: () => boolean } }).Capacitor?.isNativePlatform?.();
     const envUrl = process.env.NEXT_PUBLIC_API_URL;
+
+    if (isCapacitor) {
+      return envUrl || 'http://localhost:4001/api';
+    }
+
+    // If NEXT_PUBLIC_API_URL is an external custom URL (not localhost), use it
     if (envUrl && !envUrl.includes('localhost') && !envUrl.startsWith('/')) {
       return envUrl;
     }

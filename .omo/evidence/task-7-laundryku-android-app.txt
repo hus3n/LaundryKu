@@ -1,0 +1,6 @@
+- Component: rontend/src/app/components/DownloadAppButton.tsx (using Lucide icons Smartphone and Download).
+- Landing page (rontend/src/app/page.tsx): placed a "banner" variant between LandingFaq and LandingCta within a styled wrapper for maximum prominence.
+- Login page (rontend/src/app/login/page.tsx): placed an "outline" variant beneath the UnifiedAuthCard using an isolated flex column layout.
+- Karyawan Dashboard (rontend/src/app/karyawan/dashboard/page.tsx): placed a "primary" variant next to the KaryawanHeader in a flex container (stacked on mobile, side-by-side on desktop).
+- No CSS or global layout files modified. Build is fully passing (Next.js 14.2.35 
+pm run build success).

@@ -7,6 +7,7 @@ import ReceiptModal from '@/components/ui/ReceiptModal';
 import OrderLogModal from '@/components/ui/OrderLogModal';
 import { AnimatePresence } from 'framer-motion';
 import { api } from '@/lib/api';
+import { db } from '@/lib/db';
 import { Shirt, PlusCircle } from 'lucide-react';
 import type { LaundryOrder, StoreSettings } from '@/types';
 import { getApiErrorMessage } from '@/lib/utils';
@@ -63,6 +64,16 @@ export default function GlobalLaundryListPage() {
 
   const handleUpdateStatus = async (orderId: string, newStatus: string) => {
     try {
+      if (!navigator.onLine) {
+        await db.enqueue({
+          url: `/laundry/${orderId}/status`,
+          method: 'PATCH',
+          payload: { status: newStatus }
+        });
+        alert('Tersimpan Offline - Status akan diupdate saat internet aktif');
+        loadOrders();
+        return;
+      }
       await api.patch(`/laundry/${orderId}/status`, { status: newStatus });
       loadOrders();
     } catch (err: unknown) {
@@ -78,6 +89,16 @@ export default function GlobalLaundryListPage() {
   const handleUpdatePayment = async (orderId: string, currentStatus: string) => {
     const newPayment = currentStatus === 'PAID' ? 'UNPAID' : 'PAID';
     try {
+      if (!navigator.onLine) {
+        await db.enqueue({
+          url: `/laundry/${orderId}/payment`,
+          method: 'PATCH',
+          payload: { paymentStatus: newPayment }
+        });
+        alert('Tersimpan Offline - Pembayaran akan diupdate saat internet aktif');
+        loadOrders();
+        return;
+      }
       await api.patch(`/laundry/${orderId}/payment`, { paymentStatus: newPayment });
       loadOrders();
     } catch (err: unknown) {

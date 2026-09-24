@@ -1,0 +1,8 @@
+Form modified for offline fallback:
+- frontend/src/app/admin/laundry/new/page.tsx (new order submission)
+- frontend/src/app/admin/laundry/page.tsx (order status and payment status update)
+
+Fallback UI:
+- Alert: 'Tersimpan Offline - Data akan dikirim otomatis saat internet aktif' for new orders
+- Alert: 'Tersimpan Offline - Status akan diupdate saat internet aktif' for status updates
+- Alert: 'Tersimpan Offline - Pembayaran akan diupdate saat internet aktif' for payment updates
