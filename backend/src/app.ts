@@ -9,6 +9,7 @@ import { apiLimiter } from './middleware/rateLimiter.js';
 import { initSubscriptionCronJob } from './jobs/subscriptionCron.js';
 import { startBackupCron } from './jobs/backupCron.js';
 import { initTrialCronJobs } from './jobs/trialExpiry.job.js';
+import { initKeepAliveCronJob } from './jobs/keepAliveCron.js';
 
 import authRoutes from './routes/auth.routes.js';
 import packageRoutes from './routes/package.routes.js';
@@ -78,6 +79,7 @@ async function startServer() {
   initSubscriptionCronJob();
   startBackupCron();
   initTrialCronJobs();
+  initKeepAliveCronJob();
   initAllSavedWASessions();
 
   app.listen(env.PORT, () => {

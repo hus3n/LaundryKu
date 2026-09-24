@@ -1,6 +1,9 @@
+"use client";
+
 import React from 'react';
 import Link from 'next/link';
-import { Smartphone, Download } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Smartphone, Download, Sparkles } from 'lucide-react';
 
 interface DownloadAppButtonProps {
   href?: string;
@@ -13,48 +16,83 @@ export function DownloadAppButton({
   className = '',
   variant = 'primary',
 }: DownloadAppButtonProps) {
-  const baseClasses = 'inline-flex items-center justify-center gap-2 font-medium transition-colors rounded-md focus:outline-none focus:ring-2 focus:ring-[#1DA9D0] focus:ring-offset-2';
+  const baseClasses = 'inline-flex items-center justify-center gap-2 font-medium transition-colors rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1DA9D0] focus:ring-offset-2 overflow-hidden relative';
   
-  const variants = {
-    primary: 'bg-[#1DA9D0] text-white hover:bg-[#158cae] px-4 py-2 shadow-sm',
-    outline: 'border border-[#1DA9D0] text-[#1DA9D0] hover:bg-[#F5EACA] px-4 py-2',
-    banner: 'bg-gradient-to-r from-[#012040] to-[#013D66] text-white p-4 sm:p-6 rounded-xl shadow-lg w-full flex-col sm:flex-row justify-between items-start sm:items-center',
-  };
-
   if (variant === 'banner') {
     return (
-      <div className={`${variants.banner} ${className}`}>
-        <div className="flex items-center gap-4 mb-4 sm:mb-0">
-          <div className="bg-[#1DA9D0]/20 p-3 rounded-full text-[#43D5CC]">
-            <Smartphone size={32} />
-          </div>
+      <motion.div 
+        className={`relative overflow-hidden bg-gradient-to-br from-[#010E1C] via-[#012040] to-[#013D66] border border-[#1DA9D0]/20 text-white p-6 sm:p-8 rounded-2xl shadow-2xl w-full flex-col sm:flex-row justify-between items-start sm:items-center group backdrop-blur-sm flex ${className}`}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, ease: 'easeOut' }}
+      >
+        {/* Decorative background elements for Glassmorphism/modern look */}
+        <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 bg-[#1DA9D0]/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 left-0 -ml-16 -mb-16 w-48 h-48 bg-[#43D5CC]/10 rounded-full blur-2xl pointer-events-none" />
+        
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5 mb-6 sm:mb-0 relative z-10 w-full sm:w-auto">
+          <motion.div 
+            className="bg-gradient-to-br from-[#1DA9D0]/20 to-[#013D66]/40 p-4 rounded-2xl border border-[#1DA9D0]/30 text-[#43D5CC] shadow-[0_0_15px_rgba(29,169,208,0.2)] shrink-0"
+            whileHover={{ scale: 1.05, rotate: -5 }}
+            transition={{ type: 'spring', stiffness: 300 }}
+          >
+            <Smartphone size={36} strokeWidth={1.5} />
+          </motion.div>
           <div>
-            <h3 className="text-lg sm:text-xl font-bold text-white mb-1">Download Aplikasi LaundryKu</h3>
-            <p className="text-sm text-[#F5EACA]/80">Kelola laundry lebih mudah dari genggaman Anda (Android).</p>
+            <h3 className="text-xl sm:text-2xl font-bold text-white mb-1.5 flex items-center gap-2">
+              Aplikasi LaundryKu
+              <Sparkles size={16} className="text-[#EA8803]" />
+            </h3>
+            <p className="text-sm sm:text-base text-[#F5EACA]/70 max-w-md leading-relaxed">
+              Kelola pesanan, pantau status, dan atur bisnis laundry lebih mudah dari genggaman Anda.
+            </p>
           </div>
         </div>
-        <Link 
-          href={href} 
-          prefetch={false}
-          className={`${baseClasses} bg-[#EA8803] hover:bg-[#c97402] text-white px-6 py-3 whitespace-nowrap`}
-          aria-label="Download Aplikasi Android LaundryKu"
+        
+        <motion.div
+          whileHover={{ scale: 1.03 }}
+          whileTap={{ scale: 0.97 }}
+          className="relative z-10 w-full sm:w-auto mt-2 sm:mt-0"
         >
-          <Download size={20} />
-          <span>Download APK</span>
-        </Link>
-      </div>
+          <Link 
+            href={href} 
+            prefetch={false}
+            className={`w-full sm:w-auto inline-flex items-center justify-center gap-3 font-semibold rounded-xl bg-gradient-to-r from-[#EA8803] to-[#d67b02] text-white px-8 py-3.5 shadow-lg hover:shadow-xl hover:shadow-[#EA8803]/20 transition-all focus:outline-none focus:ring-2 focus:ring-[#EA8803] focus:ring-offset-2 focus:ring-offset-[#010E1C] group/btn`}
+            aria-label="Download Aplikasi Android LaundryKu"
+          >
+            <motion.div
+              animate={{ y: [0, -3, 0] }}
+              transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+            >
+              <Download size={22} className="group-hover/btn:text-white" />
+            </motion.div>
+            <span>Download APK</span>
+          </Link>
+        </motion.div>
+      </motion.div>
     );
   }
 
+  const variants = {
+    primary: 'bg-gradient-to-r from-[#1DA9D0] to-[#158cae] text-white shadow-md hover:shadow-lg hover:shadow-[#1DA9D0]/20 px-5 py-2.5',
+    outline: 'border-2 border-[#1DA9D0]/50 text-[#1DA9D0] hover:bg-[#1DA9D0]/10 hover:border-[#1DA9D0] px-5 py-2.5 backdrop-blur-sm',
+  };
+
   return (
-    <Link 
-      href={href} 
-      prefetch={false}
-      className={`${baseClasses} ${variants[variant]} ${className}`}
-      aria-label="Download Aplikasi Android LaundryKu"
+    <motion.div
+      whileHover={{ scale: 1.03 }}
+      whileTap={{ scale: 0.97 }}
+      className="inline-block w-full sm:w-auto"
     >
-      <Smartphone size={18} />
-      <span>Download Android App</span>
-    </Link>
+      <Link 
+        href={href} 
+        prefetch={false}
+        className={`${baseClasses} w-full sm:w-auto ${variants[variant as 'primary' | 'outline']} ${className}`}
+        aria-label="Download Aplikasi Android LaundryKu"
+      >
+        <Smartphone size={18} className="opacity-90" />
+        <span>Download Android App</span>
+      </Link>
+    </motion.div>
   );
 }
